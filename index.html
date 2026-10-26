@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Baby or Bust｜我們這一班</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Huninn&family=LXGW+WenKai+TC&display=swap" rel="stylesheet">
+<style>
+:root{--pink:#E8A9B0;--fade:#D9B8B8;--paper:#F3ECE9;--grey:#9C9898;--ink:#3A3434;--night:#2F3B52;--sat:1}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:linear-gradient(#2F3B52 0 22%,#3d4760 22%);color:var(--ink);font-family:"Huninn",system-ui,sans-serif;display:flex;justify-content:center;overflow:hidden;-webkit-user-select:none;user-select:none}
+#app{width:100%;max-width:440px;height:100%;display:flex;flex-direction:column;padding:14px 14px 18px;gap:10px;filter:saturate(var(--sat))}
+.hand{font-family:"LXGW WenKai TC",serif}
+header{display:flex;justify-content:space-between;align-items:center;color:var(--paper);font-size:14px}
+#year{font-size:28px;letter-spacing:2px}
+#news{background:var(--paper);border-radius:6px;padding:10px 12px;font-size:15px;line-height:1.5;min-height:62px;box-shadow:0 2px 0 #0003}
+#news small{display:block;color:var(--grey);font-size:12px;margin-top:2px}
+#photo{position:relative;flex:1;min-height:260px;background:var(--paper);border-radius:4px;overflow:hidden;touch-action:none;box-shadow:0 6px 18px #0006}
+.half{position:absolute;top:0;bottom:0;width:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px;text-align:center;transition:filter .25s,background .25s}
+.half.L{left:0}.half.R{right:0}
+.half .who{font-size:20px;margin-top:6px}
+.half .cap{font-size:14px;line-height:1.45;margin-top:4px;color:#5a5050}
+.half svg{width:70%;max-width:130px;height:auto}
+.half.color{background:var(--pink)}
+.half.gray{filter:grayscale(1) contrast(.9);background:#e4e0de}
+#fold{position:absolute;top:0;bottom:0;left:50%;width:2px;background:repeating-linear-gradient(#0002 0 6px,transparent 6px 12px);transform:translateX(-1px)}
+#slogan{position:absolute;left:8%;right:8%;bottom:12px;background:#fffd;border-radius:20px;padding:8px 12px;text-align:center;font-size:17px;opacity:0;transition:opacity .2s}
+#slogan.on{opacity:1}
+#aside{position:absolute;left:10px;right:10px;top:10px;font-size:15px;color:var(--ink);background:#fff9;border-radius:6px;padding:6px 8px;display:none}
+#hint{position:absolute;left:50%;top:46%;font-size:34px;transform:translateX(-50%);animation:wig 1.4s ease-in-out infinite;pointer-events:none}
+@keyframes wig{0%,100%{transform:translateX(-90%)}50%{transform:translateX(-10%)}}
+#desk{display:flex;gap:10px;align-items:stretch;min-height:92px}
+#frame{flex:1.2;background:#fff;border:6px solid #c9b9a8;border-radius:3px;padding:6px;font-size:13px;line-height:1.5;position:relative}
+#frame.gray{filter:grayscale(1)}
+#frame b{font-weight:normal;color:var(--grey);font-size:11px;display:block}
+#files{flex:.8;display:flex;flex-direction:column-reverse;align-items:center;justify-content:flex-start;color:var(--paper);font-size:11px}
+.file{width:80%;height:6px;background:#e9dcc6;border:1px solid #b9a98f;margin-top:1px;border-radius:1px}
+#feed{min-height:58px;display:flex;flex-direction:column;gap:4px}
+.bub{background:#fff;border-radius:12px;padding:6px 10px;font-size:14px;align-self:flex-start;max-width:90%;animation:pop .25s}
+.bub i{font-style:normal;color:var(--grey);font-size:12px;margin-right:4px}
+@keyframes pop{from{transform:scale(.8);opacity:0}}
+button{font-family:inherit;font-size:18px;border:0;border-radius:24px;padding:12px;background:var(--ink);color:var(--paper);width:100%}
+button:disabled{opacity:.35}
+#screen{position:fixed;inset:0;background:var(--night);color:var(--paper);display:flex;justify-content:center;overflow:auto;z-index:5}
+#screen .in{max-width:440px;width:100%;padding:28px 20px 40px;display:flex;flex-direction:column;gap:14px;line-height:1.6}
+#screen h1{font-size:26px;font-weight:normal}
+.row{display:flex;gap:8px;align-items:flex-start;background:#ffffff12;border-radius:8px;padding:10px}
+.row .nm{min-width:4em;color:var(--pink)}
+.row.gone{filter:grayscale(1);opacity:.75}
+a{color:var(--fade)}
+.src{font-size:12px;color:#c9c2c0}
+.todo{color:#c77}
+</style>
+</head>
+<body>
+<div id="app">
+  <header><span id="year">2018</span><span id="role">老顏・政策規劃師</span></header>
+  <div id="news"></div>
+  <div id="photo">
+    <div class="half L"></div><div class="half R"></div><div id="fold"></div>
+    <div id="aside" class="hand"></div>
+    <div id="slogan"></div>
+    <div id="hint">👆</div>
+  </div>
+  <div id="feed"></div>
+  <div id="desk">
+    <div id="frame" class="hand"></div>
+    <div id="files"><span>卷宗</span></div>
+  </div>
+  <button id="go" disabled>左右滑動選一半</button>
+</div>
+<div id="screen"></div>
+<script>
+// Baby or Bust — prop7 minimal playable build. Written from scratch on 2026-10-27.
+// 【待改】 = placeholder copy; final insider copy is written by the author.
+const T='【待改】';
+const PERSON='<svg viewBox="0 0 100 120" fill="none" stroke="#3A3434" stroke-width="3" stroke-linecap="round"><circle cx="50" cy="28" r="16"/><path d="M50 44v40M50 56l-22 16M50 56l22 16M50 84l-16 30M50 84l16 30"/></svg>';
+const NODES={
+ y2018:{year:2018,news:'準公共幼兒園上路，家長月付不超過 4,500；沒送托每月育兒津貼 2,500。',src:'ETtoday 2020-01-02；全教總 2019-03-21',
+  L:{who:'阿芳',cap:'拿著準公共招生單',slogan:T+'左標語'},R:{who:'家豪',cap:'私幼門口，空教室',id:'家豪',aside:T+'家豪私事一句',slogan:T+'右標語'},
+  boss:{L:'主管：很好，就這張。',R:'主管：退件。今晚重做。'},chat:{L:[['家豪',T+'被裁掉後的一句']],R:[['阿芳',T+'被裁掉後的一句']]},
+  next:{L:'y2019a',R:'y2019b'}},
+ y2019a:{year:2019,news:'私幼加入準公共，收費上限壓住；全教總調查約 3 成準公共教保員月薪未達 29,000。',src:'中央社 2019-03-21',
+  L:{who:'家豪',cap:'園門口掛上準公共招牌',slogan:T+'左標語'},R:{who:'小芸老師',cap:'家豪園裡的老師看薪資單',id:'小芸老師',aside:T+'老師私事一句',slogan:T+'右標語'},
+  boss:{L:'主管：準公共成效亮眼。',R:'主管：薪水的事不是我們的業務。重做。'},chat:{L:[['家豪',T]],R:[['家豪',T]]},next:{L:'y2021',R:'y2021'}},
+ y2019b:{year:2019,news:'公幼抽籤季：台北 3 歲一般生全數備取；各地公幼中籤率約 4%–47%。',src:'TVBS 2019-05-26；台灣醒報 2019-10-15',
+  L:{who:'抽中的家長',cap:'在抽籤會場歡呼',slogan:T+'左標語'},R:{who:'阿芳',cap:'備取 30 幾號，轉身去私幼',id:'阿芳',aside:T+'阿芳私事一句',slogan:T+'右標語'},
+  boss:{L:'主管：公幼擴大，好。',R:'主管：誰要看備取？重做。'},chat:{L:[['阿芳',T]],R:[['宜君',T]]},next:{L:'y2021',R:'y2021'}},
+ y2021:{year:2021,news:'全國停課。防疫照顧假准假，但雇主不必給薪。',src:'勞動部 2021-05-17',
+  L:{who:'阿芳',cap:'在家陪小孩上線上課',slogan:'政府會當爸媽的神隊友'},R:{who:'志豪',cap:'扛兩人份的班',id:'志豪',aside:T+'志豪私事一句',slogan:T+'右標語'},
+  boss:{L:'主管：溫馨，就這張。',R:'主管：現在不是講這個的時候。重做。'},chat:{L:[['志豪',T]],R:[['阿芳',T]]},next:{L:'y2022c',R:'y2022d'}},
+ y2022c:{year:2022,news:T+'租金補貼擴大（年份與數字待查）',src:'待查',
+  L:{who:'志豪',cap:'拿到租金補貼',slogan:T+'左標語'},R:{who:'志豪',cap:'還在加班，桌上兩人份的工作',id:'志豪',aside:T+'志豪私事一句',slogan:T+'右標語'},
+  boss:{L:'主管：青年安居，好。',R:'主管：加班不是政策。重做。'},chat:{L:[['志豪',T]],R:[['志豪',T]]},next:{L:'y2024',R:'y2024'}},
+ y2022d:{year:2022,news:'育兒津貼加到每月 5,000。',src:'教育部 2021-02-04',
+  L:{who:'阿芳',cap:'領津貼在家顧小孩',slogan:T+'左標語'},R:{who:'阿芳',cap:'離職單和空的工作證',id:'阿芳',aside:T+'阿芳私事一句',slogan:T+'右標語'},
+  boss:{L:'主管：加碼有感。',R:'主管：她自己選的。重做。'},chat:{L:[['阿芳',T]],R:[['阿芳',T]]},next:{L:'y2024',R:'y2024'}},
+ y2024:{year:2024,news:'國家一起養 2.0：公幼延托每小時 35 元，寒暑假每月補助 2,000。',src:'行政院；全教產 2024-05-03；聯合報 2024-07-08',
+  L:{who:'阿芳',cap:'六點才來接，不用趕',slogan:T+'左標語'},R:{who:'宜君',cap:'六點還牽著三個孩子',id:'宜君',aside:T+'宜君私事一句',slogan:T+'右標語'},
+  boss:{L:'主管：家長滿意度破表。',R:'主管：老師本來就辛苦。重做。'},chat:{L:[['宜君',T]],R:[['阿芳',T]]},next:{L:'y2025e',R:'y2025f'}},
+ y2025e:{year:2025,news:'地方公幼要求老師寒暑假到園。',src:'立法院研析',
+  L:{who:'家長們',cap:'寒暑假照常開的公幼',slogan:T+'左標語'},R:{who:'宜君',cap:'請假單被退回',id:'宜君',aside:T+'宜君私事一句',slogan:T+'右標語'},
+  boss:{L:'主管：全年無休的照顧。',R:'主管：別人都能，她不能？重做。'},chat:{L:[['宜君',T]],R:[['宜君',T]]},next:{L:'y2026',R:'y2026'}},
+ y2025f:{year:2025,news:'婚育宅加碼：新婚、育兒家庭優先（2026-01 上路）。',src:'內政部 2025-09-04',
+  L:{who:'新婚夫妻',cap:'拿到新家鑰匙',slogan:'只要民眾敢婚、敢生，政府一定全力給予支持'},R:{who:'志豪',cap:'單身，排在後面',id:'志豪',aside:T+'志豪私事一句',slogan:T+'右標語'},
+  boss:{L:'主管：這張可以上首頁。',R:'主管：單身的不是我們的對象。重做。'},chat:{L:[['志豪',T]],R:[['志豪',T]]},next:{L:'y2026',R:'y2026'}},
+ y2026:{year:2026,final:true,news:'育嬰留職停薪可以按日請。',src:'勞動部 2025-09-04',
+  L:{who:'同事',cap:'請半天去陪小孩',slogan:T+'左標語'},R:{who:'老顏',cap:'兩疊卷宗，中間夾著一份影本',id:'同事',aside:'主管：這張你自己裁。',slogan:T+'右標語'},
+  boss:{L:'',R:''},chat:{L:[['阿芳',T]],R:[['阿芳',T]]},next:{L:null,R:null}}
+};
+const FIXED_2019='桌曆上 5/24 被圈起來。框裡多了兩只戒指。';
+const S={node:'y2018',pick:null,self:0,gone:[],rings:false,laoyanGray:false,path:[],step:0};
+const $=id=>document.getElementById(id);
+const sats=[1,.9,.8,.7,.62,.55,.5,.45,.4];
+
+function frame(){
+  const f=$('frame');let t=['<b>生活框</b>'];
+  t.push(S.self===0?'她傳的照片，還是彩色的。':S.self===1?'「晚餐還等你嗎？」（未讀）':S.self===2?'冰箱上的凍卵回診單，過期了。':'框裡只剩一隻手。');
+  if(S.rings)t.push('兩只一樣的戒指。');
+  if(S.node==='y2026')t.push('卷宗中間夾著《人工生殖法修正草案》影本。');
+  f.innerHTML=t.join('<br>');f.classList.toggle('gray',S.laoyanGray);
+  const files=$('files');files.querySelectorAll('.file').forEach(e=>e.remove());
+  for(let i=0;i<S.step*2+S.self*2;i++){const d=document.createElement('div');d.className='file';files.appendChild(d)}
+}
+function render(){
+  const n=NODES[S.node];S.pick=null;
+  document.documentElement.style.setProperty('--sat',sats[Math.min(S.step,sats.length-1)]);
+  $('year').textContent=n.year;
+  $('news').innerHTML=n.news+'<small>新聞・'+n.year+'</small>';
+  for(const k of['L','R']){const h=document.querySelector('.half.'+k),d=n[k];
+    h.className='half '+k;h.innerHTML=PERSON+'<div class="who">'+d.who+'</div><div class="cap hand">'+d.cap+'</div>';}
+  const a=$('aside');
+  a.style.display=n.R.aside?'block':'none';a.textContent=n.R.aside||'';
+  $('slogan').className='';$('hint').style.display=S.step===0?'block':'none';
+  $('go').disabled=true;$('go').textContent='左右滑動選一半';
+  frame();
+}
+function preview(side){
+  const n=NODES[S.node];S.pick=side;
+  document.querySelector('.half.L').className='half L '+(side==='L'?'color':'gray');
+  document.querySelector('.half.R').className='half R '+(side==='R'?'color':'gray');
+  const s=$('slogan');s.textContent=n[side].slogan;s.className='on';
+  $('hint').style.display='none';$('go').disabled=false;$('go').textContent='發布'+(side==='L'?'左半':'右半');
+}
+// drag with resistance at the fold
+let x0=null;
+const ph=$('photo');
+ph.addEventListener('pointerdown',e=>{x0=e.clientX});
+ph.addEventListener('pointerup',e=>{
+  if(x0===null)return;const dx=e.clientX-x0;x0=null;
+  if(Math.abs(dx)>40)preview(dx<0?'L':'R');            // swipe toward a side keeps that side
+  else{const r=ph.getBoundingClientRect();preview(e.clientX-r.left<r.width/2?'L':'R')} // tap a half
+});
+function say(list){const f=$('feed');f.innerHTML='';list.forEach((m,i)=>setTimeout(()=>{const b=document.createElement('div');b.className='bub';b.innerHTML='<i>'+m[0]+'</i>'+m[1];f.appendChild(b)},i*500))}
+$('go').onclick=()=>{
+  const n=NODES[S.node],side=S.pick;if(!side)return;
+  S.path.push({year:n.year,node:S.node,side,kept:n[side].who,cut:n[side==='L'?'R':'L'].who});
+  if(n.final){
+    if(side==='L')S.laoyanGray=true; else if(!S.gone.includes('同事'))S.gone.push('同事');
+    return ending();
+  }
+  if(side==='L'){if(!S.gone.includes(n.R.id))S.gone.push(n.R.id)} else S.self++;
+  const msgs=[];if(n.boss[side])msgs.push(['主管',n.boss[side]]);msgs.push(...n.chat[side]);say(msgs);
+  S.node=n.next[side];S.step++;
+  if(NODES[S.node].year===2019)S.rings=true;
+  setTimeout(()=>{render();if(NODES[S.node].year===2019)say([['老顏',FIXED_2019]])},1100);
+};
+function ending(){
+  const kids=2+Math.floor(Math.random()*5);
+  const rows=S.gone.map(p=>'<div class="row gone"><span class="nm">'+p+'</span><span class="hand">站起來，走出合照。<br><span class="todo">【AI 生成位置】依這局路徑寫一句代價，數字只在這裡出現。</span></span></div>').join('');
+  const self=S.laoyanGray?'<div class="row gone"><span class="nm">老顏</span><span class="hand">拿相機的人走不了。她留在畫面裡，黑白的。</span></div>':'';
+  const path=S.path.map(p=>'<div class="src">'+p.year+'｜留下：'+p.kept+'｜裁掉：'+p.cut+'</div>').join('');
+  const srcs=[...new Set(S.path.map(p=>p.year+'　'+NODES[p.node].src))].map(s=>'<div class="src">'+s+'</div>').join('');
+  $('screen').innerHTML='<div class="in"><h1>2026　同學會</h1>'+
+   '<div class="src">2026-05　職務代理津貼每日 800 元。</div>'+
+   (rows||'<div class="row"><span class="hand">這次沒有人走出去。</span></div>')+self+
+   '<div class="row"><span class="nm">阿芳</span><span class="hand">本班一共 '+kids+' 個小朋友。你都是我們的好同學。</span></div>'+
+   '<div class="row"><span class="hand">生活框黑白 '+S.self+' 格。</span></div>'+
+   '<div><div class="src">你的路徑</div>'+path+'</div><div><div class="src">出處（真實政策與標語）</div>'+srcs+'</div>'+
+   '<button onclick="location.reload()">再玩一次</button></div>';
+  $('screen').style.display='flex';
+}
+function start(){
+  $('screen').innerHTML='<div class="in"><h1>我們這一班</h1><p class="hand">2018 年，老顏 26 歲，進了少子女化對策辦公室。<br>每年政策上路，她要把現場照片做成宣傳照——只能留一半。</p><p class="src">先做可玩的最小版本。標【待改】的文字之後會換成正式文案。</p><button id="st">開始</button></div>';
+  $('st').onclick=()=>{$('screen').style.display='none'};
+  render();
+}
+start();
+</script>
+</body>
+</html>
