@@ -7,73 +7,60 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Huninn&family=LXGW+WenKai+TC&display=swap" rel="stylesheet">
 <style>
-:root{--pink:#E8A9B0;--fade:#D9B8B8;--paper:#F3ECE9;--grey:#9C9898;--ink:#3A3434;--night:#2F3B52;--sat:1}
+:root{--pink:#E8A9B0;--fade:#D9B8B8;--paper:#F3ECE9;--grey:#9C9898;--ink:#3A3434;--night:#2F3B52}
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{background:linear-gradient(#2F3B52 0 22%,#3d4760 22%);color:var(--ink);font-family:"Huninn",system-ui,sans-serif;display:flex;justify-content:center;overflow:hidden;-webkit-user-select:none;user-select:none}
-#app{width:100%;max-width:440px;height:100%;display:flex;flex-direction:column;padding:14px 14px 18px;gap:10px;filter:saturate(var(--sat))}
+html,body{height:100%;background:var(--night)}
+body{color:var(--ink);font-family:"Huninn",system-ui,sans-serif;-webkit-user-select:none;user-select:none}
+#feed{max-width:440px;margin:0 auto;padding:0 14px 40vh;display:flex;flex-direction:column;gap:14px}
 .hand{font-family:"LXGW WenKai TC",serif}
-header{display:flex;justify-content:space-between;align-items:center;color:var(--paper);font-size:14px}
-#year{font-size:28px;letter-spacing:2px}
-#news{background:var(--paper);border-radius:6px;padding:10px 12px;font-size:15px;line-height:1.5;min-height:62px;box-shadow:0 2px 0 #0003}
-#news small{display:block;color:var(--grey);font-size:12px;margin-top:2px}
-#photo{position:relative;flex:1;min-height:260px;background:var(--paper);border-radius:4px;overflow:hidden;touch-action:none;box-shadow:0 6px 18px #0006}
-.half{position:absolute;top:0;bottom:0;width:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px;text-align:center;transition:filter .25s,background .25s}
+.yr{color:var(--paper);font-size:30px;letter-spacing:3px;padding:36px 0 0;opacity:.9}
+.news{background:var(--paper);border-radius:4px;padding:10px 12px;font-size:15px;line-height:1.55;box-shadow:0 2px 0 #0003;transform:rotate(-.4deg)}
+.wall{position:relative;height:72vh;max-height:560px;min-height:340px;background:var(--paper);border-radius:3px;overflow:hidden;touch-action:pan-y;box-shadow:0 8px 20px #0007}
+.half{position:absolute;top:0;bottom:0;width:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px;text-align:center;transition:filter .35s,background .35s,opacity .35s}
 .half.L{left:0}.half.R{right:0}
-.half .who{font-size:20px;margin-top:6px}
-.half .cap{font-size:14px;line-height:1.45;margin-top:4px;color:#5a5050}
-.half svg{width:70%;max-width:130px;height:auto}
-.half.color{background:var(--pink)}
-.half.gray{filter:grayscale(1) contrast(.9);background:#e4e0de}
-#fold{position:absolute;top:0;bottom:0;left:50%;width:2px;background:repeating-linear-gradient(#0002 0 6px,transparent 6px 12px);transform:translateX(-1px)}
-#slogan{position:absolute;left:8%;right:8%;bottom:12px;background:#fffd;border-radius:20px;padding:8px 12px;text-align:center;font-size:17px;opacity:0;transition:opacity .2s}
-#slogan.on{opacity:1}
-#aside{position:absolute;left:10px;right:10px;top:10px;font-size:15px;color:var(--ink);background:#fff9;border-radius:6px;padding:6px 8px;display:none}
-#hint{position:absolute;left:50%;top:46%;font-size:34px;transform:translateX(-50%);animation:wig 1.4s ease-in-out infinite;pointer-events:none}
+.half svg{width:68%;max-width:130px}
+.who{font-size:20px;margin-top:6px}
+.cap{font-size:14px;line-height:1.45;margin-top:4px;color:#5a5050}
+.on{background:var(--pink)}
+.off{filter:grayscale(1);background:#e2dedc}
+.cut{filter:grayscale(1);background:#d6d2d0;opacity:.55}
+.fold{position:absolute;top:0;bottom:0;left:50%;width:2px;transform:translateX(-1px);background:repeating-linear-gradient(#0002 0 6px,transparent 6px 12px)}
+.wall.done .fold{background:repeating-linear-gradient(#3A3434aa 0 8px,transparent 8px 14px)}
+.aside{position:absolute;right:8px;top:8px;width:46%;font-size:14px;line-height:1.45;color:var(--ink);transform:rotate(1.5deg)}
+.slogan{position:absolute;bottom:14px;width:46%;background:#fffe;border-radius:18px;padding:7px 10px;text-align:center;font-size:16px;line-height:1.35;opacity:0;transition:opacity .25s}
+.slogan.show{opacity:1}
+.pub{position:absolute;left:50%;bottom:-60px;transform:translateX(-50%);border:0;border-radius:22px;padding:10px 26px;font:inherit;font-size:17px;background:var(--ink);color:var(--paper);transition:bottom .25s}
+.pub.show{bottom:70px}
+.hint{position:absolute;left:50%;top:44%;font-size:34px;animation:wig 1.4s ease-in-out infinite;pointer-events:none}
 @keyframes wig{0%,100%{transform:translateX(-90%)}50%{transform:translateX(-10%)}}
-#desk{display:flex;gap:10px;align-items:stretch;min-height:92px}
-#frame{flex:1.2;background:#fff;border:6px solid #c9b9a8;border-radius:3px;padding:6px;font-size:13px;line-height:1.5;position:relative}
-#frame.gray{filter:grayscale(1)}
-#frame b{font-weight:normal;color:var(--grey);font-size:11px;display:block}
-#files{flex:.8;display:flex;flex-direction:column-reverse;align-items:center;justify-content:flex-start;color:var(--paper);font-size:11px}
-.file{width:80%;height:6px;background:#e9dcc6;border:1px solid #b9a98f;margin-top:1px;border-radius:1px}
-#feed{min-height:58px;display:flex;flex-direction:column;gap:4px}
-.bub{background:#fff;border-radius:12px;padding:6px 10px;font-size:14px;align-self:flex-start;max-width:90%;animation:pop .25s}
-.bub i{font-style:normal;color:var(--grey);font-size:12px;margin-right:4px}
-@keyframes pop{from{transform:scale(.8);opacity:0}}
-button{font-family:inherit;font-size:18px;border:0;border-radius:24px;padding:12px;background:var(--ink);color:var(--paper);width:100%}
-button:disabled{opacity:.35}
-#screen{position:fixed;inset:0;background:var(--night);color:var(--paper);display:flex;justify-content:center;overflow:auto;z-index:5}
-#screen .in{max-width:440px;width:100%;padding:28px 20px 40px;display:flex;flex-direction:column;gap:14px;line-height:1.6}
-#screen h1{font-size:26px;font-weight:normal}
-.row{display:flex;gap:8px;align-items:flex-start;background:#ffffff12;border-radius:8px;padding:10px}
-.row .nm{min-width:4em;color:var(--pink)}
-.row.gone{filter:grayscale(1);opacity:.75}
-a{color:var(--fade)}
-.src{font-size:12px;color:#c9c2c0}
-.todo{color:#c77}
+.note{align-self:flex-end;background:#f6e27a;padding:8px 12px;font-size:15px;transform:rotate(2deg);box-shadow:0 2px 4px #0004;max-width:75%}
+.bub{align-self:flex-start;background:#fff;border-radius:14px;padding:7px 11px;font-size:15px;max-width:85%}
+.bub i{display:block;font-style:normal;font-size:12px;color:var(--grey)}
+.bub.gone{filter:grayscale(1);opacity:.6}
+.obj{align-self:center;width:62%;background:#fff;padding:10px 10px 14px;font-size:15px;line-height:1.5;text-align:center;box-shadow:0 3px 8px #0005;transform:rotate(-1.5deg)}
+.obj.gray{filter:grayscale(1);background:#ddd}
+.in{animation:in .4s both}
+@keyframes in{from{opacity:0;transform:translateY(14px)}}
+#files{position:fixed;top:10px;right:max(10px,calc(50% - 210px));display:flex;flex-direction:column-reverse;width:34px;z-index:3;pointer-events:none}
+#files div{height:4px;margin-top:1px;background:#e9dcc6;border:1px solid #b9a98f}
+.class{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;background:var(--paper);padding:16px 8px;border-radius:3px}
+.mate{width:22%;text-align:center;font-size:13px;transition:transform 1.6s ease-in,opacity 1.6s ease-in}
+.mate svg{width:70%}
+.mate.g{filter:grayscale(1);opacity:.55}
+.mate.walk{transform:translateX(160px);opacity:0}
+.src{color:#b9b2b0;font-size:12px;line-height:1.7}
+.again{align-self:center;border:0;border-radius:22px;padding:10px 26px;font:inherit;font-size:17px;background:var(--paper);color:var(--ink)}
+.title{color:var(--paper);text-align:center;padding:30vh 0 0}
+.title h1{font-weight:normal;font-size:30px}
+.title p{margin-top:14px;line-height:1.7;opacity:.85}
+.title button{margin-top:28px}
 </style>
 </head>
 <body>
-<div id="app">
-  <header><span id="year">2018</span><span id="role">老顏・政策規劃師</span></header>
-  <div id="news"></div>
-  <div id="photo">
-    <div class="half L"></div><div class="half R"></div><div id="fold"></div>
-    <div id="aside" class="hand"></div>
-    <div id="slogan"></div>
-    <div id="hint">👆</div>
-  </div>
-  <div id="feed"></div>
-  <div id="desk">
-    <div id="frame" class="hand"></div>
-    <div id="files"><span>卷宗</span></div>
-  </div>
-  <button id="go" disabled>左右滑動選一半</button>
-</div>
-<div id="screen"></div>
+<div id="files"></div>
+<div id="feed"></div>
 <script>
-// Baby or Bust — prop7 minimal playable build. Written from scratch on 2026-10-27.
+// Baby or Bust — prop7. Written from scratch during the hackathon (2026-10-27).
 // 【待改】 = placeholder copy; final insider copy is written by the author.
 const T='【待改】';
 const PERSON='<svg viewBox="0 0 100 120" fill="none" stroke="#3A3434" stroke-width="3" stroke-linecap="round"><circle cx="50" cy="28" r="16"/><path d="M50 44v40M50 56l-22 16M50 56l22 16M50 84l-16 30M50 84l16 30"/></svg>';
@@ -110,84 +97,101 @@ const NODES={
   L:{who:'同事',cap:'請半天去陪小孩',slogan:T+'左標語'},R:{who:'老顏',cap:'兩疊卷宗，中間夾著一份影本',id:'同事',aside:'主管：這張你自己裁。',slogan:T+'右標語'},
   boss:{L:'',R:''},chat:{L:[['阿芳',T]],R:[['阿芳',T]]},next:{L:null,R:null}}
 };
-const FIXED_2019='桌曆上 5/24 被圈起來。框裡多了兩只戒指。';
-const S={node:'y2018',pick:null,self:0,gone:[],rings:false,laoyanGray:false,path:[],step:0};
-const $=id=>document.getElementById(id);
-const sats=[1,.9,.8,.7,.62,.55,.5,.45,.4];
 
-function frame(){
-  const f=$('frame');let t=['<b>生活框</b>'];
-  t.push(S.self===0?'她傳的照片，還是彩色的。':S.self===1?'「晚餐還等你嗎？」（未讀）':S.self===2?'冰箱上的凍卵回診單，過期了。':'框裡只剩一隻手。');
-  if(S.rings)t.push('兩只一樣的戒指。');
-  if(S.node==='y2026')t.push('卷宗中間夾著《人工生殖法修正草案》影本。');
-  f.innerHTML=t.join('<br>');f.classList.toggle('gray',S.laoyanGray);
-  const files=$('files');files.querySelectorAll('.file').forEach(e=>e.remove());
-  for(let i=0;i<S.step*2+S.self*2;i++){const d=document.createElement('div');d.className='file';files.appendChild(d)}
+const S={node:'y2018',self:0,gone:[],seen:[],laoyanGray:false,path:[],step:0,busy:false};
+const feed=document.getElementById('feed');
+const SAT=[1,.88,.78,.68,.6,.52,.46];
+const LIFE=['她傳來的照片，還是彩色的。','「晚餐還等妳嗎？」　未讀','冰箱上的凍卵回診單，過期了。','框裡只剩一隻手。'];
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+function add(cls,html,sat){const d=document.createElement('div');d.className=cls+' in';d.innerHTML=html;if(sat!=null)d.style.filter='saturate('+sat+')';feed.appendChild(d);return d}
+function down(el){el.scrollIntoView({behavior:'smooth',block:el.classList.contains('wall')?'center':'end'})}
+function files(){const f=document.getElementById('files');f.innerHTML='<div></div>'.repeat(1+S.step*2+S.self*3)}
+function lifeLine(){return LIFE[Math.min(S.self,3)]}
+
+async function year(){
+  const n=NODES[S.node],sat=SAT[Math.min(S.step,SAT.length-1)];
+  add('yr',n.year,sat);
+  if(n.year===2019){await wait(250);down(add('obj hand','5/24 被圈了起來。<br>兩只一樣的戒指。',sat))}
+  await wait(300);
+  add('news',n.news,sat);
+  await wait(400);
+  const R=Object.assign({},n.R);
+  if(n.final) R.cap=R.cap+'<br>'+lifeLine();
+  const firstTime=n.R.aside&&!S.seen.includes(n.R.id);
+  const w=add('wall',
+   '<div class="half L">'+PERSON+'<div class="who">'+n.L.who+'</div><div class="cap hand">'+n.L.cap+'</div></div>'+
+   '<div class="half R">'+PERSON+'<div class="who">'+R.who+'</div><div class="cap hand">'+R.cap+'</div></div>'+
+   '<div class="fold"></div>'+
+   (n.final?'<div class="aside hand">'+n.R.aside+'</div>':firstTime?'<div class="aside hand">'+n.R.aside+'</div>':'')+
+   '<div class="slogan"></div>'+(S.step===0?'<div class="hint">👆</div>':'')+
+   '<button class="pub">發布</button>',sat);
+  if(n.R.id)S.seen.push(n.R.id);
+  bindWall(w);down(w);
 }
-function render(){
-  const n=NODES[S.node];S.pick=null;
-  document.documentElement.style.setProperty('--sat',sats[Math.min(S.step,sats.length-1)]);
-  $('year').textContent=n.year;
-  $('news').innerHTML=n.news+'<small>新聞・'+n.year+'</small>';
-  for(const k of['L','R']){const h=document.querySelector('.half.'+k),d=n[k];
-    h.className='half '+k;h.innerHTML=PERSON+'<div class="who">'+d.who+'</div><div class="cap hand">'+d.cap+'</div>';}
-  const a=$('aside');
-  a.style.display=n.R.aside?'block':'none';a.textContent=n.R.aside||'';
-  $('slogan').className='';$('hint').style.display=S.step===0?'block':'none';
-  $('go').disabled=true;$('go').textContent='左右滑動選一半';
-  frame();
+function bindWall(w){
+  let x0=null,y0=null,pick=null;
+  const set=side=>{pick=side;
+    w.querySelector('.half.L').className='half L '+(side==='L'?'on':'off');
+    w.querySelector('.half.R').className='half R '+(side==='R'?'on':'off');
+    const s=w.querySelector('.slogan');s.textContent=NODES[S.node][side].slogan;s.style.left=side==='L'?'2%':'52%';s.classList.add('show');
+    const h=w.querySelector('.hint');if(h)h.remove();
+    w.querySelector('.pub').classList.add('show');};
+  w.preview=set;
+  w.addEventListener('pointerdown',e=>{if(w.classList.contains('done'))return;x0=e.clientX;y0=e.clientY});
+  w.addEventListener('pointerup',e=>{
+    if(x0===null||e.target.classList.contains('pub'))return;
+    const dx=e.clientX-x0,dy=e.clientY-y0;x0=null;
+    if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy))set(dx<0?'L':'R');
+    else if(Math.abs(dx)<10&&Math.abs(dy)<10){const r=w.getBoundingClientRect();set(e.clientX-r.left<r.width/2?'L':'R')}
+  });
+  w.querySelector('.pub').onclick=()=>{if(pick&&!S.busy)publish(w,pick)};
 }
-function preview(side){
-  const n=NODES[S.node];S.pick=side;
-  document.querySelector('.half.L').className='half L '+(side==='L'?'color':'gray');
-  document.querySelector('.half.R').className='half R '+(side==='R'?'color':'gray');
-  const s=$('slogan');s.textContent=n[side].slogan;s.className='on';
-  $('hint').style.display='none';$('go').disabled=false;$('go').textContent='發布'+(side==='L'?'左半':'右半');
-}
-// drag with resistance at the fold
-let x0=null;
-const ph=$('photo');
-ph.addEventListener('pointerdown',e=>{x0=e.clientX});
-ph.addEventListener('pointerup',e=>{
-  if(x0===null)return;const dx=e.clientX-x0;x0=null;
-  if(Math.abs(dx)>40)preview(dx<0?'L':'R');            // swipe toward a side keeps that side
-  else{const r=ph.getBoundingClientRect();preview(e.clientX-r.left<r.width/2?'L':'R')} // tap a half
-});
-function say(list){const f=$('feed');f.innerHTML='';list.forEach((m,i)=>setTimeout(()=>{const b=document.createElement('div');b.className='bub';b.innerHTML='<i>'+m[0]+'</i>'+m[1];f.appendChild(b)},i*500))}
-$('go').onclick=()=>{
-  const n=NODES[S.node],side=S.pick;if(!side)return;
-  S.path.push({year:n.year,node:S.node,side,kept:n[side].who,cut:n[side==='L'?'R':'L'].who});
+async function publish(w,side){
+  S.busy=true;const n=NODES[S.node],sat=SAT[Math.min(S.step,SAT.length-1)],other=side==='L'?'R':'L';
+  w.classList.add('done');w.querySelector('.pub').remove();
+  w.querySelector('.half.'+other).className='half '+other+' cut';
+  const a=w.querySelector('.aside');if(a)a.remove();
+  S.path.push({year:n.year,node:S.node,side,kept:n[side].who,cut:n[other].who});
+  await wait(500);
   if(n.final){
-    if(side==='L')S.laoyanGray=true; else if(!S.gone.includes('同事'))S.gone.push('同事');
-    return ending();
+    if(side==='L')S.laoyanGray=true;else if(!S.gone.includes('同事'))S.gone.push('同事');
+    files();S.busy=false;return reunion();
   }
-  if(side==='L'){if(!S.gone.includes(n.R.id))S.gone.push(n.R.id)} else S.self++;
-  const msgs=[];if(n.boss[side])msgs.push(['主管',n.boss[side]]);msgs.push(...n.chat[side]);say(msgs);
-  S.node=n.next[side];S.step++;
-  if(NODES[S.node].year===2019)S.rings=true;
-  setTimeout(()=>{render();if(NODES[S.node].year===2019)say([['老顏',FIXED_2019]])},1100);
-};
-function ending(){
+  if(side==='L'){if(!S.gone.includes(n.R.id))S.gone.push(n.R.id)}else S.self++;
+  files();
+  down(add('note hand',n.boss[side].replace(/^主管：/,''),sat));await wait(700);
+  for(const [who,t] of n.chat[side]){down(add('bub'+(S.gone.includes(who)?' gone':''),'<i>'+who+'</i>'+t,sat));await wait(700)}
+  if(side==='R'){down(add('obj hand gray',lifeLine(),sat));await wait(800)}
+  S.node=n.next[side];S.step++;S.busy=false;
+  await year();
+}
+async function reunion(){
+  await wait(400);
+  add('yr','2026');
+  add('news','職務代理津貼每日 800 元。');
+  await wait(400);
+  const mates=['阿芳','家豪','宜君','志豪','小芸老師','同事','佩珊','冠宇'];
+  const ph=add('class',mates.map(m=>'<div class="mate'+(S.gone.includes(m)?' g':'')+'" data-m="'+m+'">'+PERSON+'<div>'+m+'</div></div>').join('')+
+    '<div class="mate'+(S.laoyanGray?' g':'')+'">📷<div>老顏</div></div>');
+  down(ph);await wait(1400);
+  for(const m of S.gone){
+    const el=ph.querySelector('[data-m="'+m+'"]');if(el)el.classList.add('walk');
+    await wait(900);
+    down(add('bub gone','<i>'+m+'</i>【AI 生成位置】依這局寫一句代價，數字只出現在這裡。'));
+    await wait(900);
+  }
   const kids=2+Math.floor(Math.random()*5);
-  const rows=S.gone.map(p=>'<div class="row gone"><span class="nm">'+p+'</span><span class="hand">站起來，走出合照。<br><span class="todo">【AI 生成位置】依這局路徑寫一句代價，數字只在這裡出現。</span></span></div>').join('');
-  const self=S.laoyanGray?'<div class="row gone"><span class="nm">老顏</span><span class="hand">拿相機的人走不了。她留在畫面裡，黑白的。</span></div>':'';
-  const path=S.path.map(p=>'<div class="src">'+p.year+'｜留下：'+p.kept+'｜裁掉：'+p.cut+'</div>').join('');
-  const srcs=[...new Set(S.path.map(p=>p.year+'　'+NODES[p.node].src))].map(s=>'<div class="src">'+s+'</div>').join('');
-  $('screen').innerHTML='<div class="in"><h1>2026　同學會</h1>'+
-   '<div class="src">2026-05　職務代理津貼每日 800 元。</div>'+
-   (rows||'<div class="row"><span class="hand">這次沒有人走出去。</span></div>')+self+
-   '<div class="row"><span class="nm">阿芳</span><span class="hand">本班一共 '+kids+' 個小朋友。你都是我們的好同學。</span></div>'+
-   '<div class="row"><span class="hand">生活框黑白 '+S.self+' 格。</span></div>'+
-   '<div><div class="src">你的路徑</div>'+path+'</div><div><div class="src">出處（真實政策與標語）</div>'+srcs+'</div>'+
-   '<button onclick="location.reload()">再玩一次</button></div>';
-  $('screen').style.display='flex';
+  down(add('bub','<i>阿芳</i>本班一共 '+kids+' 個小朋友。你都是我們的好同學。'));
+  await wait(900);
+  const srcs=[...new Set(S.path.map(p=>p.year+'　'+NODES[p.node].src))];
+  add('src',srcs.join('<br>')+'<br>2026　行政院 2026-05');
+  const b=add('again','再拍一次');b.outerHTML;feed.lastChild.onclick=()=>location.reload();
+  feed.lastChild.setAttribute('role','button');down(feed.lastChild);
+  S.ended=true;
 }
-function start(){
-  $('screen').innerHTML='<div class="in"><h1>我們這一班</h1><p class="hand">2018 年，老顏 26 歲，進了少子女化對策辦公室。<br>每年政策上路，她要把現場照片做成宣傳照——只能留一半。</p><p class="src">先做可玩的最小版本。標【待改】的文字之後會換成正式文案。</p><button id="st">開始</button></div>';
-  $('st').onclick=()=>{$('screen').style.display='none'};
-  render();
+function title(){
+  const t=add('title','<h1>我們這一班</h1><p class="hand">2018，老顏 26 歲。<br>少子女化對策辦公室。</p><button class="again">上班</button>');
+  t.querySelector('button').onclick=()=>{t.remove();files();year()};
 }
-start();
-</script>
-</body>
-</html>
+title();
+</script></body></html>
