@@ -5,7 +5,7 @@ A narrative policy-trade-off game about family care in Taiwan, built for the Met
 **Built from scratch during the hackathon.** This repository was created on 2026-10-27 (Asia/Taipei), after the event opened (2026-10-26 12:00 PM ET). Every file here is new work made during the event period (Oct 27 – Nov 4, 2026). No earlier codebase is reused; earlier prototypes by the same author served only as inspiration.
 
 ## Status
-- Day 1 (2026-10-27): repository created, project plan written. Playable build coming next.
+- Day 1 (2026-10-27): repository created; first minimal playable build (`index.html`, single file, no dependencies). Copy marked 【待改】 is placeholder text. The AI reunion lines are not wired yet.
 
 ## Concept (short)
 You play a junior policy researcher in a government office. Each year you swipe between two family-care policies: one helps a classmate, the other lands the cost on someone else — often yourself. At the class reunion, an AI (Meta model) writes what each choice cost, and you can ask follow-up questions.
