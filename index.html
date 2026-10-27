@@ -79,13 +79,10 @@ body{color:var(--ink);font-family:"Huninn","Noto Sans CJK TC",system-ui,sans-ser
 .title h1{font-family:"Poster",sans-serif;font-size:40px;-webkit-text-stroke:4px var(--hot);paint-order:stroke fill;color:#fff}
 .title button{margin-top:28px}
 .lang{position:fixed;top:10px;left:max(10px,calc(50% - 210px));z-index:5;border:0;border-radius:14px;padding:4px 10px;font:inherit;font-size:13px;background:#F3ECE9cc}
-#files{position:fixed;top:10px;right:max(10px,calc(50% - 210px));display:flex;flex-direction:column-reverse;width:34px;z-index:5;pointer-events:none}
-#files div{height:4px;margin-top:1px;background:#e9dcc6;border:1px solid #b9a98f}
 </style>
 </head>
 <body>
 <button id="lang" class="lang">EN</button>
-<div id="files"></div>
 <div id="feed"></div>
 <script src="data.js"></script>
 <script>
@@ -100,7 +97,7 @@ const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const sat=()=>SAT[Math.min(S.step,SAT.length-1)];
 function add(cls,html,s){const d=document.createElement('div');d.className=cls+' in';d.innerHTML=html;if(s!=null&&s<1)d.style.filter='saturate('+s+')';feed.appendChild(d);return d}
 function down(el,c){el.scrollIntoView({behavior:'smooth',block:c?'center':'end'})}
-function files(){document.getElementById('files').innerHTML='<div></div>'.repeat(1+S.step*2+S.self*3)}
+function files(){}
 function tagOf(w){const t=S.tags[w]||DATA.tag[w];return t?nm(w)+(L?' (':'（')+tx(t)+(L?')':'）'):nm(w)}
 function bub(w,t,s,gone){return down(add('bub'+(gone?' gone':''),'<i>'+tagOf(w)+'</i>'+tx(t),s))}
 // ---------- opening (C9) ----------
