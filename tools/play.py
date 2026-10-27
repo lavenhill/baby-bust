@@ -1,19 +1,20 @@
 """Headless playtest for the one-screen-per-beat build.
-usage: python3 tools/play.py PATH(7 x U/D) OUTPREFIX [zh|en] [WxH] [shots]
+usage: python3 tools/play.py PATH(7 x U/D) OUTPREFIX [zh|en] [WxH] [shots] [kb] [rm]
+ rm = prefers-reduced-motion. kb = pick with keys (1/2 and ↑/↓ alternating) + Enter instead of mouse. Wall checks: tap-only (no ⇅), hint only in 2018, pick lands before 發布.
 Checks every screen for overflow (content taller than the screen) and page errors."""
 from playwright.sync_api import sync_playwright
 import time,sys,os,json
 seq=sys.argv[1];out=sys.argv[2];lang=sys.argv[3] if len(sys.argv)>3 else 'zh'
-W,Hh=map(int,(sys.argv[4] if len(sys.argv)>4 else '390x780').split('x'));shots=len(sys.argv)>5
+W,Hh=map(int,(sys.argv[4] if len(sys.argv)>4 else '390x780').split('x'));extra=sys.argv[5:];kb='kb' in extra;rm='rm' in extra;shots=any(a not in('kb','rm') for a in extra)
 url="file://"+os.path.abspath(os.path.join(os.path.dirname(__file__),"..","index.html"))
 OVER="""()=>{const s=H.list[H.i];if(!s)return null;const bad=[];
  if(s.scrollHeight>s.clientHeight+2)bad.push('screen '+s.scrollHeight+'>'+s.clientHeight);
  s.querySelectorAll('.chat').forEach(c=>{if(c.scrollHeight>c.clientHeight+2&&!s.classList.contains('wall'))bad.push('chat clipped '+c.scrollHeight+'>'+c.clientHeight)});
- s.querySelectorAll('.h1,.sub,.tag,.aside,.bar').forEach(e=>{const r=e.getBoundingClientRect(),p=s.getBoundingClientRect();if(r.right>p.right+1||r.left<p.left-1)bad.push(e.className+' wide')});
+ s.querySelectorAll('.h1,.sub,.tag,.aside,.bar,.hint').forEach(e=>{if(!e.getClientRects().length)return;const r=e.getBoundingClientRect(),p=s.getBoundingClientRect();if(r.right>p.right+1||r.left<p.left-1)bad.push(e.className+' wide')});
  return bad}"""
 with sync_playwright() as p:
     b=p.chromium.launch(executable_path="/usr/bin/chromium")
-    pg=b.new_page(viewport={"width":W,"height":Hh},locale="zh-TW",has_touch=False)
+    pg=b.new_page(viewport={"width":W,"height":Hh},locale="zh-TW",has_touch=False,reduced_motion="reduce" if rm else "no-preference")
     errs=[];pg.on("pageerror",lambda e:errs.append(str(e)))
     pg.route("**/fonts.*/**",lambda r:r.abort())
     pg.goto(url,wait_until="domcontentloaded");time.sleep(.6)
@@ -30,9 +31,18 @@ with sync_playwright() as p:
             bad=pg.evaluate(OVER);report.append(('lanterns',bad));shot('lan');continue
         if info['wall']:
             time.sleep(.7);bad=pg.evaluate(OVER);report.append((pg.evaluate("S.node")+' wall',bad));shot('wall')
-            box=pg.locator('#stage').bounding_box();y=box['y']+box['height']*(.25 if seq[i]=='U' else .75)
-            pg.mouse.click(box['x']+box['width']/2,y);time.sleep(.5);shot('pick')
-            pg.locator('.scr.wall:not(.done) .bar button').click();i+=1;n+=1;time.sleep(.9);continue
+            nd,ht,glyph=pg.evaluate("()=>{const s=H.list[H.i],h=s.querySelector('.hint');return [S.node,h?h.textContent.trim():null,[...s.querySelectorAll('.hint,.bar')].some(e=>e.textContent.includes('⇅'))]}")
+            want={'zh':'點一張留下','en':'Tap one to keep'}[lang] if nd=='y2018' else None
+            if ht!=want or glyph: report.append((nd+' hint',[f'hint={ht!r} want={want!r} glyph={glyph}']))
+            if kb: pg.keyboard.press(('1' if seq[i]=='U' else '2') if i%2==0 else ('ArrowUp' if seq[i]=='U' else 'ArrowDown'))
+            else:
+                box=pg.locator('#stage').bounding_box();y=box['y']+box['height']*(.25 if seq[i]=='U' else .75)
+                pg.mouse.click(box['x']+box['width']/2,y)
+            time.sleep(.5);shot('pick')
+            if not pg.evaluate(f"()=>!!H.list[H.i].querySelector('.half.{seq[i]}.on')"): report.append((nd+' pick',['pick did not select '+seq[i]]))
+            if kb: pg.keyboard.press('Enter')
+            else: pg.locator('.scr.wall:not(.done) .bar button').click()
+            time.sleep(.3);shot('snip');i+=1;n+=1;time.sleep(.9);continue
         if info['btn']:
             time.sleep(.4);pg.locator('.scr:not(.below):not(.above) .btn').last.click();n+=1;time.sleep(.9);continue
         if info['tap']:
