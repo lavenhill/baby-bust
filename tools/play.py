@@ -21,11 +21,11 @@ with sync_playwright() as p:
     report=[];i=0;n=0;last=None
     def shot(tag):
         if shots: pg.screenshot(path=f"{out}_{n:02d}_{tag}.png")
-    for guard in range(160):
+    for guard in range(500):
         if pg.evaluate("S.ended===true"):
             time.sleep(.6);bad=pg.evaluate(OVER);report.append(('end',bad));shot('end');break
         info=pg.evaluate("()=>{const s=H.list[H.i];return {k:H.i,wall:s.classList.contains('wall')&&!s.classList.contains('done'),btn:!!s.querySelector(':scope>.btn, .title .btn'),tap:!!s.querySelector('.tapnext'),qs:!!s.querySelector('.qs button:not(:disabled)')}}")
-        if pg.evaluate("()=>!!H.list[H.i].querySelector('.lan:not(.fly) .mate:not(.seen)')"):
+        if pg.evaluate("()=>!!H.list[H.i].querySelector('.lan:not(.fly) .mate:not(.seen)')&&!H.list[H.i].querySelector('.l26')"):
             for m in pg.locator('.scr:not(.below):not(.above) .lan .mate').all(): m.click();time.sleep(.25)
             bad=pg.evaluate(OVER);report.append(('lanterns',bad));shot('lan');continue
         if info['wall']:
