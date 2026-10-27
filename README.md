@@ -46,3 +46,6 @@ All generation runs at build time through `tools/meta.py` (Meta Model API, `http
 - Portrait-first: each policy photo is split top/bottom; push away the half you don't keep (swipe up keeps the bottom). The kept half becomes a government-style campaign poster; the other stays a grey real-life photo.
 - Six classmates, an opening promise photo and a reunion at the same building.
 - Tools: `tools/` (Meta Muse Image / Muse Spark generation scripts, `play.py` headless playtest).
+
+## 檔案狀態
+見 [docs/FILES.md](docs/FILES.md)：哪些是當前文件、參考、歷史。
