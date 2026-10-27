@@ -136,10 +136,10 @@ body{color:var(--ink);font-family:"Huninn","Noto Sans CJK TC",system-ui,sans-ser
 <body>
 <div id="bd"></div>
 <div id="stage"><button id="lang" class="lang">EN</button><div id="deck"></div></div>
-<script>document.write('<script src="data.js?v=20261027e&t='+Date.now()+'"><\/script>')</script>
+<script>document.write('<script src="data.js?v=20261027f&t='+Date.now()+'"><\/script>')</script>
 <script>
 // Baby or Bust — 我們這一班. One screen per beat; written during the Meta hackathon (2026-10-27). Spec: docs/spec/.
-const V='20261027e';if(!DATA.group&&!/reload=/.test(location.search))location.replace(location.pathname+'?reload='+Date.now());
+const V='20261027f';if(!DATA.group&&!/reload=/.test(location.search))location.replace(location.pathname+'?reload='+Date.now());
 const bust=h=>h.replace(/(img\/\w+\.webp)/g,'$1?v='+V);
 const N=DATA.nodes,U=DATA.ui;let L=0;
 const tx=a=>Array.isArray(a)?(a[L]||a[0]):(a||'');
@@ -209,11 +209,11 @@ function row(hit){return '<div class="row">'+DATA.class_.map(m=>{let st='';if(m=
 async function year(){
   const n=N[S.node],s=sat();
   for(const h of 'UD'){if(n[h].named&&n[h].tag)S.tags[n[h].who]=n[h].tag}
-  const a=screen('',row()+'<div class="yr">'+n.year+'</div><div class="gh">'+tx(DATA.v5.grp)+'（'+(6-S.gone.length)+'）</div>'+
+  const a=screen('',row()+'<div class="yr">'+n.year+'</div><div class="gh">'+tx(DATA.v5.grp)+(L?' (':'（')+(6-S.gone.length)+(L?')':'）')+'</div>'+
     '<div class="chat grp"></div><div class="memo fmemo"><i>'+nm('主管')+'</i><p>'+tx(n.ask[0])+'</p></div>',{sat:s});
   const box=a.querySelector('.chat');H.locked=true;
-  if(S.pendingBaby){const b=S.pendingBaby;S.pendingBaby=null;box.insertAdjacentHTML('beforeend','<div class="bub babyb"><i>'+nm(b.z)+'</i><img src="img/baby_'+b.bw+'.webp" alt="">'+tx(U.baby).replace('{n}',b.n).replace('{who}',nm(b.z))+'</div>');await wait(900)}
-  const lines=(DATA.group[S.node]||[]).filter(([w,t,d])=>!S.gone.includes(w)&&!d.some(x=>S.gone.includes(x))).map(([w,t])=>[w,t]);
+  if(S.pendingBaby){const b=S.pendingBaby;S.pendingBaby=null;box.insertAdjacentHTML('beforeend','<div class="bub babyb"><i>'+nm(b.z)+'</i><img src="img/baby_'+b.bw+'.webp" alt="">'+tx(DATA.v5.baby1).replace('{n}',b.n)+'</div>');await wait(800);const cg=DATA.class_.find(q=>q!==b.z&&q!=='老顏'&&!S.gone.includes(q));if(cg){box.insertAdjacentHTML('beforeend',bubHTML(cg,DATA.v5.baby2).replace('{who}',nm(b.z)));await wait(700)}}
+  const lines=(DATA.group[S.node]||[]).filter(([w,t,d])=>!S.gone.includes(w)&&d.every(x=>x[0]==='!'?S.gone.includes(x.slice(1)):!S.gone.includes(x))).map(([w,t])=>[w,t]);
   await stream(box,lines,n.flood?380:700);await wait(400);a.querySelector('.fmemo').classList.add('in');await wait(600);H.locked=false;
   await tapNext(a);choice(n,s);
 }
@@ -246,7 +246,7 @@ async function publish(w,n,h,s){
   w.querySelector('.half.'+o).style.filter='grayscale(1)';w.querySelector('.half.'+o).style.opacity=.5;
   S.path.push({node:S.node,side:h});
   if(n.final){w.querySelector('.bar').innerHTML='';await wait(600);if(h==='U')S.laoyanGray=true;else S.peishanGray=true;return reunion()}
-  w.querySelector('.bar').innerHTML='<i>'+nm('主管')+'</i><span>'+tx(h==='U'?DATA.v5.boss_ok:n.boss.D)+'</span>';
+  w.querySelector('.bar').innerHTML='<i>'+nm('主管')+'</i><span>'+(h==='U'?tx(DATA.v5.boss_ok):(L?'Rejected.':'退件。'))+'</span>';
   await wait(500);w.querySelector('.bar').insertAdjacentHTML('beforeend','<i class="tn">'+(L?'tap ›':'點一下 ›')+'</i>');await tapNext(w);
   let k=0,who=null;
   if(h==='U'){if(n.D.named&&!S.gone.includes(n.D.who)){who=n.D.who;k=hurt(who,S.node)}}else S.self++;
@@ -259,15 +259,14 @@ async function publish(w,n,h,s){
     ph.insertAdjacentHTML('beforeend','<div class="bub">'+tx(c[1])+'</div>');await wait(1100);
     if(k===1)tail.innerHTML='<div class="reply"><img src="img/fb_'+DATA.slug[who]+'.webp" alt=""><span><b>'+nm(who)+'</b><br>'+tx(c[2])+'</span></div>';
     else if(k===2)tail.innerHTML='<div class="sys">'+tx(DATA.open2.left).replace('{who}',nm(who))+'</div>';
-    else if(n.D.named)tail.innerHTML='<div class="sys">'+tx(DATA.open2.left).replace('{who}',nm(n.D.who))+'</div>';
-  }else{
+      }else{
     ph.innerHTML='<div class="ph">'+nm('主管')+'</div>';await wait(500);
     ph.insertAdjacentHTML('beforeend','<div class="bub">'+tx(n.boss.D)+'</div>');await wait(1100);
     tail.innerHTML='<div class="life hand">'+(S.self===3?tx(DATA.ring_off):S.self<=4&&DATA.life[S.self-1][0]?tx(DATA.life[S.self-1]):tx(U.again_night))+'</div>';
   }
   H.locked=false;await tapNext(f);
   S.step++;
-  if(S.babies.includes(S.step)){S.baby++;const bw=DATA.babies[(S.baby-2)%DATA.babies.length];S.pendingBaby={n:S.baby,bw,z:Object.keys(DATA.slug).find(q=>DATA.slug[q]===bw)}}
+  if(S.babies.includes(S.step)){S.baby++;let j=S.baby-2,bw,z;for(let t=0;t<DATA.babies.length;t++){bw=DATA.babies[(j+t)%DATA.babies.length];z=Object.keys(DATA.slug).find(q=>DATA.slug[q]===bw);if(!S.gone.includes(z))break}S.pendingBaby={n:S.baby,bw,z}}
   S.node=n.next[h];year();
 }
 // ---------- reunion ----------
@@ -279,12 +278,12 @@ async function reunion(){
   const wb=ph.querySelector('.wish');H.locked=true;await wait(1200);
   for(const m of DATA.class_){const el=ph.querySelector('[data-m="'+m+'"]');let t;
     if(S.gone.includes(m)){wb.style.filter='grayscale(1)';wb.style.opacity=.7;wb.innerHTML='<i>'+nm(m)+'　'+tx(V.left26)+'</i>'+tx(DATA.wish[m]);await wait(1500);wb.style.filter='';wb.style.opacity='';continue}
-    if(m==='老顏'){const i=(S.self>=3||S.laoyanGray)?2:S.self>=1?1:0;t=DATA.lao26[i][0]?tx(DATA.lao26[i]):tx(V.blank)}
+    if(m==='老顏'){const i=S.self>=3?2:(S.self+(S.laoyanGray?1:0))>=1?1:0;t=DATA.lao26[i][0]?tx(DATA.lao26[i]):tx(V.blank)}
     else t=tx(DATA.wish26[m][(m==='佩珊'?S.peishanGray:(S.hurt[m]||0)>0)?1:0]);
     el.classList.add('seen');wb.innerHTML='<i>'+nm(m)+'</i>'+t;await wait(2300)}
   ph.querySelector('.lan').classList.add('fly');await wait(2200);
-  const v=S.self>=3?'self':(S.gone.length>=2?'gone':'mix');
-  wb.innerHTML='<b>'+tx(DATA.verdict[v])+'</b><br><small>'+tx(V.kids26).replace('{n}',S.baby)+'　'+tx(V.redo).replace('{n}',S.self)+'</small>';
+  const g=S.gone.length,v=g>=2?'gone':(S.self>=3&&!g?'self':'mix');
+  wb.innerHTML='<b>'+tx(DATA.verdict[v])+'</b><br><small>'+tx(V.kids26).replace('{n}',S.baby)+(S.self?'　'+tx(V.redo).replace('{n}',S.self):'')+'</small>';
   H.locked=false;await tapNext(ph);
   for(const m of S.gone){const r=DATA.reunion[rkey(m)];if(!r)continue;
     const p=screen('','<div class="who"><img src="img/fb_'+DATA.slug[m]+'.webp" alt=""><b>'+tagOf(m)+'</b></div><div class="chat" style="-webkit-mask:none;mask:none;justify-content:flex-start">'+bubHTML(m,r.line,true)+'</div><div class="qs">'+U.q.map((q,i)=>'<button data-i="'+i+'">'+tx(q)+'</button>').join('')+'</div>');
@@ -293,7 +292,7 @@ async function reunion(){
       box.innerHTML=bubHTML(m,r.line,true)+'<div class="bub" style="align-self:flex-end;background:#F3ECE9">'+tx(U.q[+b.dataset.i])+'</div>'+bubHTML(m,r.qa[+b.dataset.i],true)});
     await tapNext(p)}
   const srcs=[...new Set(S.path.map(p=>N[p.node].year+'　'+N[p.node].src))];
-  const z=screen('','<div class="yr" style="font-size:calc(3*var(--u))">'+tx(U.src)+'</div><div class="src">'+srcs.join('<br>')+'<br>2026　行政院 2026-05</div><div class="credit">'+tx(U.credit)+'</div><button class="btn">'+tx(U.again)+'</button>');
+  const z=screen('','<div class="yr" style="font-size:calc(3*var(--u))">'+tx(U.src)+'</div><div class="src">'+srcs.join('<br>')+'</div><div class="credit">'+tx(U.credit)+'</div><button class="btn">'+tx(U.again)+'</button>');
   z.querySelector('button').onclick=()=>location.reload();S.ended=true;
 }
 function title(){
