@@ -39,3 +39,10 @@ All generation runs at build time through `tools/meta.py` (Meta Model API, `http
 家庭照顧政策取捨敘事遊戲，為 Meta AI Developer Hackathon 2026 製作。你是少子女化對策辦公室的小編老顏，每年一張現場照，只能留一半：留受惠者，另一半的同學變黑白、在同學會走出合照；留買單的人，主管退件、你加班重做，自己的生活一格格褪色。文字初稿、英文翻譯、同學會台詞由 Meta Muse Spark 1.3 生成，插畫由 Muse Image 1.0 生成，作者審稿。
 
 本 repo 於 2026-10-27（台北時間）活動開始後新建，所有檔案皆為活動期間的新作，未沿用任何舊 codebase；作者先前的試作僅作為靈感參考。
+
+## v2 (2026-10-27)
+- Design principles (author's rules): `docs/spec/05-design-principles.md`
+- Requirements → spec → narrative → UI → defects: `docs/spec/00`–`04`
+- Portrait-first: each policy photo is split top/bottom; push away the half you don't keep (swipe up keeps the bottom). The kept half becomes a government-style campaign poster; the other stays a grey real-life photo.
+- Six classmates, an opening promise photo and a reunion at the same building.
+- Tools: `tools/` (Meta Muse Image / Muse Spark generation scripts, `play.py` headless playtest).
