@@ -103,44 +103,91 @@
    "U_hurts": "家豪",
    "group": [
     {
+     "id": "y2018.g1",
      "who": "阿芳",
      "zh": "中了！月付四千五，婆婆叫我快回去上班",
      "en": "Got in! 4,500 a month, MIL says get back to work now",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "阿芳"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2018.g2",
      "who": "家豪",
      "zh": "恭喜啦，但那間就在我對面欸",
      "en": "Congrats, but that one's right across from mine lol",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "家豪"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2018.g3",
      "who": "阿芳",
      "zh": "欸你這樣講我很難開心欸",
      "en": "Hey, hard to be happy when you put it like that",
-     "deps": [
-      "家豪"
-     ]
+     "visible_if": {
+      "present": [
+       "阿芳",
+       "家豪"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2018.g4",
      "who": "家豪",
      "zh": "家長拿傳單問我憑什麼收一萬",
      "en": "Parent waved the flyer at me: why charge 10k?",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "家豪"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2018.g5",
      "who": "宜君",
      "zh": "別吵啦，我兩萬六誰來幫我QQ",
      "en": "Stop fighting, who's gonna help me on 26k QQ",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "宜君"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2018.g6",
      "who": "志豪",
      "zh": "我還在加班，你們先別吵啦",
      "en": "Still on OT, you guys stop fighting pls",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "志豪"
+      ],
+      "absent": []
+     }
     }
    ],
+   "choices": {
+    "U": {
+     "promotes": "阿芳",
+     "harm": "家豪",
+     "effect": "hurt[harm]+=1",
+     "next": "y2019a"
+    },
+    "D": {
+     "effect": "self+=1",
+     "next": "y2019b"
+    }
+   },
    "cons_U": [
     {
      "zh": "小太陽家長群・家長",
@@ -221,53 +268,96 @@
    "U_hurts": "宜君",
    "group": [
     {
+     "id": "y2019a.g1",
      "who": "家豪",
      "zh": "我家新招牌掛上了，超亮快來拍",
      "en": "Our new sign is up, super bright come take pics",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "家豪"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2019a.g2",
      "who": "宜君",
      "zh": "園長大人，說好的兩萬九呢？",
      "en": "Mr. Director, where’s the 29k you promised?",
-     "deps": [
-      "家豪"
-     ]
+     "visible_if": {
+      "present": [
+       "宜君",
+       "家豪"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2019a.g3",
      "who": "家豪",
      "zh": "那是平均啦，獎金都算進去我也沒辦法",
      "en": "That's the average, bonuses included, can't help it",
-     "deps": [
-      "宜君"
-     ]
+     "visible_if": {
+      "present": [
+       "家豪",
+       "宜君"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2019a.g4",
      "who": "宜君",
      "zh": "笑死，我實拿兩萬六",
      "en": "lol, I actually take home 26k",
-     "deps": [
-      "家豪"
-     ]
+     "visible_if": {
+      "present": [
+       "宜君",
+       "家豪"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2019a.g5",
      "who": "阿芳",
      "zh": "私訊吵啦，我還在等公幼欸",
      "en": "Take it to DMs, I'm still waiting on public preschool",
-     "deps": [
-      "家豪",
-      "宜君"
-     ]
+     "visible_if": {
+      "present": [
+       "阿芳",
+       "家豪",
+       "宜君"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2019a.g6",
      "who": "志豪",
      "zh": "家豪請吃飯啦，我加班先閃",
      "en": "Jiahao's treating, I'm on OT gotta run",
-     "deps": [
-      "家豪"
-     ]
+     "visible_if": {
+      "present": [
+       "志豪",
+       "家豪"
+      ],
+      "absent": []
+     }
     }
    ],
+   "choices": {
+    "U": {
+     "promotes": "家豪",
+     "harm": "宜君",
+     "effect": "hurt[harm]+=1",
+     "next": "y2021"
+    },
+    "D": {
+     "effect": "self+=1",
+     "next": "y2021"
+    }
+   },
    "cons_U": [
     {
      "zh": "小太陽老師群・園長家豪",
@@ -349,52 +439,95 @@
    "U_hurts": "阿芳",
    "group": [
     {
+     "id": "y2019b.g1",
      "who": "佩珊",
      "zh": "我姊備取三年，今年終於中了！",
      "en": "My sis waitlisted 3 years, finally got in this year!",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "佩珊"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2019b.g2",
      "who": "阿芳",
      "zh": "恭喜。我備取 87",
      "en": "Congrats. I'm waitlist #87",
-     "deps": [
-      "佩珊"
-     ]
+     "visible_if": {
+      "present": [
+       "阿芳",
+       "佩珊"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2019b.g3",
      "who": "佩珊",
      "zh": "啊……對不起我不知道",
      "en": "Ah... sorry I didn't know",
-     "deps": [
-      "阿芳"
-     ]
+     "visible_if": {
+      "present": [
+       "佩珊",
+       "阿芳"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2019b.g4",
      "who": "阿芳",
      "zh": "沒事，小芋頭再等一年而已",
      "en": "It's fine, Little Taro just waits one more year",
-     "deps": [
-      "佩珊"
-     ]
+     "visible_if": {
+      "present": [
+       "阿芳",
+       "佩珊"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2019b.g5",
      "who": "家豪",
      "zh": "來我這啦，我還缺五個欸",
      "en": "Come to mine, I'm still short 5 kids",
-     "deps": [
-      "阿芳"
-     ]
+     "visible_if": {
+      "present": [
+       "家豪",
+       "阿芳"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2019b.g6",
      "who": "宜君",
      "zh": "阿芳抱一個🫂",
      "en": "Hug for A-Fang 🫂",
-     "deps": [
-      "阿芳"
-     ]
+     "visible_if": {
+      "present": [
+       "宜君",
+       "阿芳"
+      ],
+      "absent": []
+     }
     }
    ],
+   "choices": {
+    "U": {
+     "promotes": "佩珊的姊姊",
+     "harm": "阿芳",
+     "effect": "hurt[harm]+=1",
+     "next": "y2021"
+    },
+    "D": {
+     "effect": "self+=1",
+     "next": "y2021"
+    }
+   },
    "cons_U": [
     {
      "zh": "家族群組・阿芳的婆婆",
@@ -475,46 +608,92 @@
    "U_hurts": "志豪",
    "group": [
     {
+     "id": "y2021.g1",
      "who": "阿芳",
      "zh": "停課了，明天只能請無薪假",
      "en": "Class suspended, gotta take unpaid leave tomorrow",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "阿芳"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2021.g2",
      "who": "志豪",
      "zh": "妳請假，妳的班就丟我這了",
      "en": "You take leave, your class dumps on me",
-     "deps": [
-      "阿芳"
-     ]
+     "visible_if": {
+      "present": [
+       "志豪",
+       "阿芳"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2021.g3",
      "who": "阿芳",
      "zh": "那我請你喝飲料（外送）",
      "en": "I'll buy you drinks (delivery)",
-     "deps": [
-      "志豪"
-     ]
+     "visible_if": {
+      "present": [
+       "阿芳",
+       "志豪"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2021.g4",
      "who": "志豪",
      "zh": "九點前下班？我現在連飯都在電腦前吃",
      "en": "Off before 9? I eat in front of my computer now",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "志豪"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2021.g5",
      "who": "佩珊",
      "zh": "都辛苦啦，我備孕也先暫停了",
      "en": "We're all beat, I paused trying for a baby too",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "佩珊"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2021.g6",
      "who": "家豪",
      "zh": "我園也停課，學費都快退光了",
      "en": "My center closed too, almost refunded all tuition",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "家豪"
+      ],
+      "absent": []
+     }
     }
    ],
+   "choices": {
+    "U": {
+     "promotes": "阿芳",
+     "harm": "志豪",
+     "effect": "hurt[harm]+=1",
+     "next": "y2022c"
+    },
+    "D": {
+     "effect": "self+=1",
+     "next": "y2022d"
+    }
+   },
    "cons_U": [
     {
      "zh": "茶水間公告・志豪的經理",
@@ -595,48 +774,93 @@
    "U_hurts": "志豪",
    "group": [
     {
+     "id": "y2022c.g1",
      "who": "阿芳",
      "zh": "有補貼，終於敢去看兩房了！",
      "en": "With the subsidy, finally dare to look at 2-bedrooms!",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "阿芳"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2022c.g2",
      "who": "志豪",
      "zh": "房東說大家都有領，下期漲五百剛好",
      "en": "Landlord says everyone's getting it, +500 next term",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "志豪"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2022c.g3",
      "who": "阿芳",
      "zh": "你快結婚啦，也來領嘛😝",
      "en": "You're getting married soon, come claim it too 😝",
-     "deps": [
-      "志豪"
-     ]
+     "visible_if": {
+      "present": [
+       "阿芳",
+       "志豪"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2022c.g4",
      "who": "志豪",
      "zh": "對啊，所以我 80 萬又遠了",
      "en": "Yeah, so my 800k is even farther away",
-     "deps": [
-      "阿芳"
-     ]
+     "visible_if": {
+      "present": [
+       "志豪",
+       "阿芳"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2022c.g5",
      "who": "宜君",
      "zh": "好啦，我沖繩基金也掰了",
      "en": "Fine, bye bye my Okinawa fund",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "宜君"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2022c.g6",
      "who": "佩珊",
      "zh": "志豪去抽社宅，我也想抽了啦",
      "en": "Zhihao's applying for social housing, I wanna too",
-     "deps": [
-      "志豪"
-     ]
+     "visible_if": {
+      "present": [
+       "佩珊",
+       "志豪"
+      ],
+      "absent": []
+     }
     }
    ],
+   "choices": {
+    "U": {
+     "promotes": "阿芳",
+     "harm": "志豪",
+     "effect": "hurt[harm]+=1",
+     "next": "y2024"
+    },
+    "D": {
+     "effect": "self+=1",
+     "next": "y2024"
+    }
+   },
    "cons_U": [
     {
      "zh": "房東",
@@ -717,48 +941,93 @@
    "U_hurts": "阿芳",
    "group": [
     {
+     "id": "y2022d.g1",
      "who": "阿芳",
      "zh": "五千入帳了，在家帶也好",
      "en": "5k received, staying home to raise them is fine",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "阿芳"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2022d.g2",
      "who": "佩珊",
      "zh": "真的嗎？妳之前不是說要升主任",
      "en": "Really? Didn't you say you wanted to be director?",
-     "deps": [
-      "阿芳"
-     ]
+     "visible_if": {
+      "present": [
+       "佩珊",
+       "阿芳"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2022d.g3",
      "who": "阿芳",
      "zh": "留停快到了，公司在問了欸。孩子誰顧？",
      "en": "Parental leave ending soon, company's asking. Who watches the kid?",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "阿芳"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2022d.g4",
      "who": "志豪",
      "zh": "懂欸，我加班也不知道在拚什麼",
      "en": "Feel you, I do OT and don't even know why",
-     "deps": [
-      "阿芳"
-     ]
+     "visible_if": {
+      "present": [
+       "志豪",
+       "阿芳"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2022d.g5",
      "who": "阿芳",
      "zh": "我也不知道啊！",
      "en": "I don't know either!",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "阿芳"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2022d.g6",
      "who": "宜君",
      "zh": "都行啦，妳不欠誰",
      "en": "Either's fine, you don't owe anyone",
-     "deps": [
-      "阿芳"
-     ]
+     "visible_if": {
+      "present": [
+       "宜君",
+       "阿芳"
+      ],
+      "absent": []
+     }
     }
    ],
+   "choices": {
+    "U": {
+     "promotes": "阿芳",
+     "harm": "阿芳",
+     "effect": "hurt[harm]+=1",
+     "next": "y2024"
+    },
+    "D": {
+     "effect": "self+=1",
+     "next": "y2024"
+    }
+   },
    "cons_U": [
     {
      "zh": "面試・人資",
@@ -839,46 +1108,92 @@
    "U_hurts": "宜君",
    "group": [
     {
+     "id": "y2024.g1",
      "who": "阿芳",
      "zh": "延托到六點，我終於接得到！謝謝宜君老師🙏",
      "en": "Extended care til 6, I can finally pick up! Thanks Teacher Yijun 🙏",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "阿芳"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2024.g2",
      "who": "宜君",
      "zh": "嗚我顧到六點半，水都沒喝到",
      "en": "Wuu I watched them til 6:30, didn't even get water",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "宜君"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2024.g3",
      "who": "阿芳",
      "zh": "欸那我晚點去接？",
      "en": "Uh so should I come pick up later?",
-     "deps": [
-      "宜君"
-     ]
+     "visible_if": {
+      "present": [
+       "阿芳",
+       "宜君"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2024.g4",
      "who": "宜君",
      "zh": "……妳試試看",
      "en": "...Try it and see",
-     "deps": [
-      "阿芳"
-     ]
+     "visible_if": {
+      "present": [
+       "宜君",
+       "阿芳"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2024.g5",
      "who": "家豪",
      "zh": "老師辛苦了，我招生還差十個",
      "en": "Thanks teachers, I'm still 10 kids short on enrollment",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "家豪"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2024.g6",
      "who": "志豪",
      "zh": "我六點半還在公司，羨慕啦",
      "en": "I'm still at the office at 6:30, jealous",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "志豪"
+      ],
+      "absent": []
+     }
     }
    ],
+   "choices": {
+    "U": {
+     "promotes": "阿芳",
+     "harm": "宜君",
+     "effect": "hurt[harm]+=1",
+     "next": "y2025e"
+    },
+    "D": {
+     "effect": "self+=1",
+     "next": "y2025f"
+    }
+   },
    "cons_U": [
     {
      "zh": "家長 LINE・家長",
@@ -959,64 +1274,120 @@
    "U_hurts": "宜君",
    "group": [
     {
+     "id": "y2025e.g1",
      "who": "阿芳",
      "zh": "暑假也有地方送了！",
      "en": "Summer care sorted too!",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "阿芳"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2025e.g2",
      "who": "阿芳",
      "zh": "宜君好久沒講話了……",
      "en": "Yijun hasn’t said anything in ages…",
-     "deps": [
-      "!宜君"
-     ]
+     "visible_if": {
+      "present": [
+       "阿芳"
+      ],
+      "absent": [
+       "宜君"
+      ]
+     }
     },
     {
+     "id": "y2025e.g3",
      "who": "阿芳",
      "zh": "宜君妳們園也有開嗎",
      "en": "Yijun, is your school open too?",
-     "deps": [
-      "宜君"
-     ]
+     "visible_if": {
+      "present": [
+       "阿芳",
+       "宜君"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2025e.g4",
      "who": "宜君",
      "zh": "有。班表出來了，沖繩的機票我退了",
      "en": "Yeah. Schedule's out, refunded my Okinawa tickets",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "宜君"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2025e.g5",
      "who": "阿芳",
      "zh": "……我收回剛剛的開心",
      "en": "...Taking back my happy",
-     "deps": [
-      "宜君"
-     ]
+     "visible_if": {
+      "present": [
+       "阿芳",
+       "宜君"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2025e.g6",
      "who": "宜君",
      "zh": "沒事啦，我媽說明年再去",
      "en": "It's ok, my mom says go next year",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "宜君"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2025e.g7",
      "who": "佩珊",
      "zh": "明年一起去，我請假不道歉了",
      "en": "Let's go next year together, no more apologizing for leave",
-     "deps": [
-      "宜君"
-     ]
+     "visible_if": {
+      "present": [
+       "佩珊",
+       "宜君"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2025e.g8",
      "who": "家豪",
      "zh": "伴手禮記我帳，招生幫推啦",
      "en": "Souvenirs on me, help push enrollment pls",
-     "deps": [
-      "宜君"
-     ]
+     "visible_if": {
+      "present": [
+       "家豪",
+       "宜君"
+      ],
+      "absent": []
+     }
     }
    ],
+   "choices": {
+    "U": {
+     "promotes": "阿芳",
+     "harm": "宜君",
+     "effect": "hurt[harm]+=1",
+     "next": "y2026"
+    },
+    "D": {
+     "effect": "self+=1",
+     "next": "y2026"
+    }
+   },
    "cons_U": [
     {
      "zh": "園務會議・主任",
@@ -1098,50 +1469,94 @@
    "U_hurts": "志豪",
    "group": [
     {
+     "id": "y2025f.g1",
      "who": "佩珊",
      "zh": "我們中了！三十三了，終於敢生",
      "en": "We got in! I'm 33, finally dare to have one",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "佩珊"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2025f.g2",
      "who": "志豪",
      "zh": "恭喜。單身排最後，戒指還在抽屜",
      "en": "Congrats. Singles last in line, ring's still in the drawer",
-     "deps": [
-      "佩珊"
-     ]
+     "visible_if": {
+      "present": [
+       "志豪",
+       "佩珊"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2025f.g3",
      "who": "佩珊",
      "zh": "快求婚啦，有抽有希望嘛",
      "en": "Propose already, gotta draw to have hope",
-     "deps": [
-      "志豪"
-     ]
+     "visible_if": {
+      "present": [
+       "佩珊",
+       "志豪"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2025f.g4",
      "who": "志豪",
      "zh": "求了也要有地方住啊",
      "en": "Even if I propose we need a place to live",
-     "deps": [
-      "佩珊"
-     ]
+     "visible_if": {
+      "present": [
+       "志豪",
+       "佩珊"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2025f.g5",
      "who": "阿芳",
      "zh": "加油啦，小雯會等你的啦",
      "en": "Jiayou, Xiaowen will wait for you",
-     "deps": [
-      "志豪"
-     ]
+     "visible_if": {
+      "present": [
+       "阿芳",
+       "志豪"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2025f.g6",
      "who": "宜君",
      "zh": "群組改名抽籤人生好了，我媽還在等我帶她飛",
      "en": "Let's rename this Lottery Life, my mom's still waiting for me to take her flying",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "宜君"
+      ],
+      "absent": []
+     }
     }
    ],
+   "choices": {
+    "U": {
+     "promotes": "佩珊夫妻",
+     "harm": "志豪",
+     "effect": "hurt[harm]+=1",
+     "next": "y2026"
+    },
+    "D": {
+     "effect": "self+=1",
+     "next": "y2026"
+    }
+   },
    "cons_U": [
     {
      "zh": "小雯的媽媽",
@@ -1223,36 +1638,74 @@
    "U_hurts": null,
    "group": [
     {
+     "id": "y2026.g1",
      "who": "佩珊",
      "zh": "明天下午請半天，孩子打疫苗",
      "en": "Taking tomorrow afternoon off, kid's vaccination",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "佩珊"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2026.g2",
      "who": "佩珊",
      "zh": "顏座，我的案子先放妳那🙏",
      "en": "Yan, holding my case with you pls 🙏",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "佩珊"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2026.g3",
      "who": "阿芳",
      "zh": "真好，我當年只能一次請完",
      "en": "Nice, back then I had to take it all at once",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "阿芳"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2026.g4",
      "who": "志豪",
      "zh": "老顏又要加班了吧",
      "en": "Lao Yan's on OT again huh",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "志豪"
+      ],
+      "absent": []
+     }
     },
     {
+     "id": "y2026.g5",
      "who": "宜君",
      "zh": "老顏妳也要請假啊",
      "en": "Lao Yan you should take leave too",
-     "deps": []
+     "visible_if": {
+      "present": [
+       "宜君"
+      ],
+      "absent": []
+     }
     }
    ],
+   "choices": {
+    "U": {
+     "effect": "laoyanGray=true"
+    },
+    "D": {
+     "effect": "peishanGray=true"
+    }
+   },
    "cons_U": [],
    "boss_D": null
   }
