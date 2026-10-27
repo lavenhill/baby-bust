@@ -1,0 +1,87 @@
+import json,re,subprocess
+from collections import Counter
+from openpyxl import Workbook
+from openpyxl.styles import Font,PatternFill,Alignment
+from openpyxl.utils import get_column_letter
+import os;B=os.path.dirname(os.path.abspath(__file__))+'/../'
+D=json.loads(subprocess.check_output(['node','-e',"eval(require('fs').readFileSync('data.js','utf8').replace(/^const DATA/m,'global.DATA'));process.stdout.write(JSON.stringify(DATA))"],cwd=B))
+cjk=re.compile(r'[\u4e00-\u9fff]')
+rows=[]
+def walk(v,p):
+    if isinstance(v,list):
+        if len(v)==2 and all(isinstance(x,str) for x in v) and cjk.search(v[0]) and not cjk.search(v[1]):
+            rows.append((p,v[0],v[1]));return
+        for i,x in enumerate(v): walk(x,f'{p}[{i}]')
+    elif isinstance(v,dict):
+        for k,x in v.items(): walk(x,f'{p}.{k}' if p else k)
+    elif isinstance(v,str) and cjk.search(v): rows.append((p,v,''))
+walk(D,'')
+legacy=[r'^nodes\.\w+\.(setup|chat|boss\.U)',r'^call\.',r'^callN\.',r'^self\.',r'^open2\.(reu|calling)',r'^open\[',r'^ui\.(reu|promise|intro|obj19|end|kids|baby)$',r'^nodes\.\w+\.src$']
+SEC={'wish':'2018 天燈願望','wish2':'新願望','wish26':'2026 願望','lao26':'老顏 2026 燈','v5':'介面','ui':'介面','open2':'開場','life':'老顏生活框','ring_off':'老顏生活框','verdict':'結局判詞','tag':'標籤','names':'人名','call':'電話（舊）','callN':'電話（舊）','self':'老顏（舊）','open':'開場（舊）','class_':'人名','babies':'其他','slug':'其他'}
+ORDER=['開場','2018 天燈願望','同學群組','逐年節點','選圖牆','後果三拍（選上）','老顏生活框','新願望','2026 願望','老顏 2026 燈','結局判詞','結局私訊（缺席者）','介面','標籤','人名']
+def classify(p):
+    m=re.match(r'nodes\.y(\w+)\.(.*)',p)
+    if m:
+        y,rest=m.groups()
+        f={'ask[0]':'主管交辦第1行','ask[1]':'主管交辦第2行（命題）','boss.U':'主管回饋（選上）','boss.D':'主管退件（選下，後果屏）'}
+        if rest in f: return '逐年節點',y,f[rest],'主管'
+        mm=re.match(r'([UD])\.(\w+)',rest)
+        if mm:
+            side='上半・文宣' if mm.group(1)=='U' else '下半・現場'
+            ff={'who':'被拍的人','tag':'身分標籤','h1':'海報標題','sub':'海報副標','aside':'現場照旁註'}.get(mm.group(2),mm.group(2))
+            return '選圖牆',y,side+'・'+ff,''
+        ms=re.match(r'setup\[(\d+)\]',rest)
+        if ms: return '逐年節點',y,'舊前置對話',D['nodes']['y'+y]['setup'][int(ms.group(1))][0]
+        return '逐年節點',y,rest,''
+    m=re.match(r'group\.y(\w+)\[(\d+)\]',p)
+    if m:
+        g=D['group']['y'+m.group(1)][int(m.group(2))]
+        return '同學群組',m.group(1),'第%d句'%(int(m.group(2))+1),g[0]
+    m=re.match(r'cons\.y(\w+)\[(\d)\]',p)
+    if m: return '後果三拍（選上）',m.group(1),['轉傳來源','施壓句（拿海報堵嘴）','被堵同學回應'][int(m.group(2))],''
+    m=re.match(r'reunion\.([^|]+)\|([^.]+)\.(.*)',p)
+    if m:
+        f=m.group(3); f={'line':'私訊','off':'已讀不回／離線'}.get(f,f.replace('qa','追問'))
+        return '結局私訊（缺席者）',m.group(2).replace('y',''),f,m.group(1)
+    k=re.split(r'[.\[]',p)[0]
+    rest=p[len(k):].lstrip('.')
+    spk=''
+    m=re.match(r'^([^.\[|]+)',rest)
+    if k in('wish','wish2','wish26','call','self','names','tag') and m: spk=m.group(1)
+    if k=='callN': spk=''
+    return SEC.get(k,k),'',rest,spk
+out=[]
+for p,zh,en in rows:
+    sec,y,field,spk=classify(p)
+    dep=''
+    m=re.match(r'group\.y(\w+)\[(\d+)\]',p)
+    if m: dep='、'.join(D['group']['y'+m.group(1)][int(m.group(2))][2])
+    status='舊版未使用' if any(re.search(r,p) for r in legacy) else '使用中'
+    if p.startswith('class_') or p.startswith('slug') or p.startswith('babies'): continue
+    out.append([sec,y,field,spk,zh,en,dep,status,p])
+yr=lambda y:(y or '0000')
+out.sort(key=lambda r:(r[7]!='使用中',ORDER.index(r[0]) if r[0] in ORDER else 99,yr(r[1])))
+wb=Workbook();ws=wb.active;ws.title='全部文案'
+hdr=['編號','區塊','年份/節點','欄位','說話者','中文','English','依賴（此人退群就不出現）','狀態','資料路徑']
+ws.append(hdr)
+for i,r in enumerate(out,1): ws.append([i]+r)
+for i,w in enumerate([6,16,10,22,8,46,46,14,10,30],1): ws.column_dimensions[get_column_letter(i)].width=w
+for c in ws[1]: c.font=Font(bold=True,color='FFFFFF');c.fill=PatternFill('solid',fgColor='C2185B')
+for r in ws.iter_rows(min_row=2):
+    for c in r: c.alignment=Alignment(wrap_text=True,vertical='top')
+    if r[8].value!='使用中':
+        for c in r: c.font=Font(color='999999')
+ws.freeze_panes='F2';ws.auto_filter.ref=ws.dimensions
+s2=wb.create_sheet('政策出處');s2.append(['節點','年份','出處'])
+for k,v in D['nodes'].items(): s2.append([k[1:],v['year'],v['src']])
+s2.column_dimensions['C'].width=90
+s3=wb.create_sheet('說明')
+for l in ['《我們這一班》Baby or Bust 全部文案與台詞對照（data.js，V=20261027f，2026-10-28 匯出）',
+ '區塊依遊戲順序排列：開場 → 每年（同學群組 → 主管交辦 → 選圖牆 → 後果）→ 結局 → 介面。',
+ '狀態「舊版未使用」＝資料檔還留著、遊戲不會顯示（灰字，排在最後）。',
+ '依賴：列出的同學退出群組時，這句不出現；「!宜君」＝宜君退群後才出現。',
+ '年份 2019a／2019b 等＝分支節點；結局私訊的年份欄＝該同學被犧牲的年份組合。',
+ '要改文案：直接在表上改或加註解，告訴 Hark，由 Hark 回寫原始檔並重建。']: s3.append([l])
+s3.column_dimensions['A'].width=110
+wb.save(B+'qa/我們這一班_文案台詞對照.xlsx')
+print(len(out),Counter(r[0] for r in out),Counter(r[7] for r in out))
