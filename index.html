@@ -115,9 +115,11 @@ body{color:var(--ink);font-family:"Huninn","Noto Sans CJK TC",system-ui,sans-ser
 <body>
 <div id="bd"></div>
 <div id="stage"><button id="lang" class="lang">EN</button><div id="deck"></div></div>
-<script src="data.js"></script>
+<script>document.write('<script src="data.js?v=20261027c&t='+Date.now()+'"><\/script>')</script>
 <script>
 // Baby or Bust — 我們這一班. One screen per beat; written during the Meta hackathon (2026-10-27). Spec: docs/spec/.
+const V='20261027c';if(!DATA.open2&&!/reload=/.test(location.search))location.replace(location.pathname+'?reload='+Date.now());
+const bust=h=>h.replace(/(img\/\w+\.webp)/g,'$1?v='+V);
 const N=DATA.nodes,U=DATA.ui;let L=0;
 const tx=a=>Array.isArray(a)?(a[L]||a[0]):(a||'');
 const nm=w=>L?(DATA.names[w]||w):w;
@@ -129,10 +131,10 @@ const sat=()=>SAT[Math.min(S.step,SAT.length-1)];
 // ---------- deck: one screen at a time; back = review only ----------
 const H={list:[],i:-1,next:null,locked:false};
 function screen(cls,html,opt={}){
-  const d=document.createElement('div');d.className='scr '+cls+' below';d.innerHTML=html;
+  const d=document.createElement('div');d.className='scr '+cls+' below';d.innerHTML=bust(html);
   if(opt.sat&&opt.sat<1)d.style.filter='saturate('+opt.sat+')';
   deck.appendChild(d);H.list.push(d);go(H.list.length-1);
-  if(opt.bg)bd.style.backgroundImage='url('+opt.bg+')';
+  if(opt.bg)bd.style.backgroundImage='url('+bust(opt.bg)+')';
   return d}
 function go(i){H.list.forEach((s,k)=>{s.classList.toggle('below',k>i);s.classList.toggle('above',k<i)});H.i=i}
 function tapNext(scr,label){const t=document.createElement('div');t.className='tapnext';t.textContent=label||(L?'tap to continue':'點一下繼續');scr.appendChild(t);
