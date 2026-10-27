@@ -56,9 +56,16 @@ body{color:var(--ink);font-family:"Huninn","Noto Sans CJK TC",system-ui,sans-ser
 .bar{position:absolute;left:0;right:0;top:calc(50% - 26px);height:52px;display:flex;align-items:center;justify-content:center;gap:10px;background:var(--memo);padding:0 12px;z-index:3;font-weight:bold;font-size:clamp(13px,calc(2.3*var(--u)),17px);line-height:1.25;text-align:center}
 .bar i{font-style:normal;font-weight:normal;font-size:.8em;color:#8a7a40}
 .bar button{border:0;border-radius:20px;padding:8px 22px;font:inherit;background:var(--ink);color:var(--paper)}
-.hint{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:4;background:#1E2638ee;color:var(--paper);border-radius:18px;padding:12px 18px;font-size:15px;text-align:center;line-height:1.6;pointer-events:none}
-.hint b{display:block;font-size:26px;animation:wig 1.4s ease-in-out infinite}
-@keyframes wig{0%,100%{transform:translateY(-6px)}50%{transform:translateY(6px)}}
+.hint{position:absolute;left:50%;top:calc(50% + 40px);transform:translateX(-50%);white-space:nowrap;max-width:calc(100% - 24px);overflow:hidden;text-overflow:ellipsis;z-index:4;background:#1E2638ee;color:var(--paper);border-radius:18px;padding:12px 18px;font-size:15px;text-align:center;line-height:1.6;pointer-events:none}
+.snip{position:absolute;left:-44px;z-index:5;font-size:40px;line-height:1;color:#1E2638;text-shadow:0 0 3px #fff,0 0 6px #fff;pointer-events:none;margin-top:-21px;animation:snip .6s cubic-bezier(.4,0,.6,1) forwards}
+.slit{position:absolute;left:0;width:0;height:3px;margin-top:-1px;background:#1E2638;z-index:4;pointer-events:none;animation:slit .6s cubic-bezier(.4,0,.6,1) forwards}
+@keyframes slit{to{width:100%}}
+.snip b{display:inline-block;font-weight:normal;animation:chomp .15s steps(2) infinite}
+@keyframes snip{to{left:calc(100% + 6px)}}
+@keyframes chomp{50%{transform:scaleY(.6)}}
+.half.drop{filter:grayscale(1);z-index:1;transition:transform .5s cubic-bezier(.5,0,.9,.6),opacity .5s,filter .2s}
+.half.U.drop{transform:translateY(-115%) rotate(-4deg);opacity:.6}.half.D.drop{transform:translateY(115%) rotate(4deg);opacity:.6}
+@media (prefers-reduced-motion:reduce){.snip,.slit{display:none}.half.U.drop,.half.D.drop{transform:none;opacity:0;transition:opacity .3s}}
 .keys{display:none;font-size:12px;color:#8a7a40;font-weight:normal}
 @media (hover:hover) and (pointer:fine){.keys{display:inline}}
 /* feedback */
@@ -136,10 +143,10 @@ body{color:var(--ink);font-family:"Huninn","Noto Sans CJK TC",system-ui,sans-ser
 <body>
 <div id="bd"></div>
 <div id="stage"><button id="lang" class="lang">EN</button><div id="deck"></div></div>
-<script>document.write('<script src="data.js?v=20261027f&t='+Date.now()+'"><\/script>')</script>
+<script>document.write('<script src="data.js?v=20261028a&t='+Date.now()+'"><\/script>')</script>
 <script>
 // Baby or Bust — 我們這一班. One screen per beat; written during the Meta hackathon (2026-10-27). Spec: docs/spec/.
-const V='20261027f';if(!DATA.group&&!/reload=/.test(location.search))location.replace(location.pathname+'?reload='+Date.now());
+const V='20261028a';if(!DATA.group&&!/reload=/.test(location.search))location.replace(location.pathname+'?reload='+Date.now());
 const bust=h=>h.replace(/(img\/\w+\.webp)/g,'$1?v='+V);
 const N=DATA.nodes,U=DATA.ui;let L=0;
 const tx=a=>Array.isArray(a)?(a[L]||a[0]):(a||'');
@@ -168,10 +175,10 @@ let ty=null;deck.addEventListener('pointerdown',e=>{ty=e.clientY});
 deck.addEventListener('pointerup',e=>{if(ty===null)return;const dy=e.clientY-ty;ty=null;if(cur()&&cur().classList.contains('wall')&&!cur().classList.contains('done'))return;
   if(dy>50)back();else if(dy<-50)forward()});
 let wheelT=0;addEventListener('wheel',e=>{const now=Date.now();if(now-wheelT<600||Math.abs(e.deltaY)<20)return;wheelT=now;
-  const c=cur();if(c&&c.classList.contains('wall')&&!c.classList.contains('done')){c.pick(e.deltaY>0?'D':'U');return}
+  const c=cur();if(c&&c.classList.contains('wall')&&!c.classList.contains('done'))return;
   e.deltaY>0?forward():back()},{passive:true});
 addEventListener('keydown',e=>{const c=cur();const live=c&&c.classList.contains('wall')&&!c.classList.contains('done');
-  if(live){if(e.key==='ArrowUp')c.pick('D');else if(e.key==='ArrowDown')c.pick('U');else if(e.key==='Enter'||e.key===' ')c.commit&&c.commit();return}
+  if(live){if(e.key==='ArrowUp'||e.key==='1')c.pick('U');else if(e.key==='ArrowDown'||e.key==='2')c.pick('D');else if(e.key==='Enter'||e.key===' '){e.preventDefault();c.commit&&c.commit()}return}
   if(['ArrowDown','PageDown',' ','Enter','ArrowRight'].includes(e.key)){e.preventDefault();forward()}else if(['ArrowUp','PageUp','ArrowLeft'].includes(e.key))back()});
 // ---------- helpers ----------
 function tagOf(w){const t=S.tags[w]||DATA.tag[w];return t?nm(w)+(L?' (':'（')+tx(t)+(L?')':'）'):nm(w)}
@@ -225,25 +232,25 @@ function choice(n,s){
     return '<div class="half '+h+'"><img class="re" src="img/'+S.node+'_'+h+'_real.webp" alt=""><img class="po" src="img/'+S.node+'_'+h+'_poster.webp" alt="">'+
      '<div class="h1">'+tx(x.h1)+'</div><div class="sub">'+tx(x.sub)+'</div><div class="tag">'+who+'</div>'+(show?'<div class="aside hand">'+tx(x.aside_ring&&S.self<3?x.aside_ring:x.aside)+'</div>':'')+'</div>'};
   const askBar='<span class="cut">✂</span><span>'+tx(n.ask[1])+'</span>';
-  const w=screen('wall',half('U')+half('D')+'<div class="bar">'+askBar+'</div>'+(S.step===0?'<div class="hint"><b>⇅</b>'+tx(U.hint)+'<br><small>'+tx(U.hint_up)+'　'+tx(U.hint_down)+'</small></div>':''),{sat:s,bg:'img/'+S.node+'_U_poster.webp'});
+  const w=screen('wall',half('U')+half('D')+'<div class="bar">'+askBar+'</div>'+(S.node==='y2018'?'<div class="hint">'+tx(U.hint)+'</div>':''),{sat:s,bg:'img/'+S.node+'_U_poster.webp'});
   S.seenAside.push(n.D.who);requestAnimationFrame(()=>fitH1(w));
-  let y0=null,x0=null,pick=null;
+  let pick=null;
   w.pick=h=>{if(w.classList.contains('done'))return;pick=h;const o=h==='U'?'D':'U';
     w.querySelector('.half.'+h).className='half '+h+' on';w.querySelector('.half.'+o).className='half '+o+' off';
     w.querySelectorAll('.hint').forEach(e=>e.remove());
-    w.querySelector('.bar').innerHTML='<span class="cut">✂</span><i>'+tx(h==='D'?U.hint_up:U.hint_down)+'</i><button>'+tx(U.pub)+'</button><span class="keys">Enter</span>';
+    w.querySelector('.bar').innerHTML='<span class="cut">✂</span><button>'+tx(U.pub)+'</button><span class="keys">Enter</span>';
     w.querySelector('.bar button').onclick=e=>{e.stopPropagation();w.commit()};bd.style.backgroundImage='url(img/'+S.node+'_'+h+'_poster.webp)'};
   w.commit=()=>{if(pick&&!w.classList.contains('done'))publish(w,n,pick,s)};
-  w.addEventListener('pointerdown',e=>{y0=e.clientY;x0=e.clientX});
-  w.addEventListener('pointerup',e=>{if(y0===null||e.target.closest('button'))return;const dy=e.clientY-y0,dx=e.clientX-x0;y0=null;
-    if(Math.abs(dy)>36&&Math.abs(dy)>Math.abs(dx))w.pick(dy<0?'D':'U'); // push away the half you don't keep
-    else if(Math.abs(dy)<10&&Math.abs(dx)<10){const r=w.getBoundingClientRect();w.pick(e.clientY-r.top<r.height/2?'U':'D')}});
-  w.addEventListener('pointercancel',()=>{y0=null});
+  w.addEventListener('click',e=>{const hf=e.target.closest('.half');if(hf)w.pick(hf.classList.contains('U')?'U':'D')}); // tap = select; 發布 = commit
 }
+async function snip(w,o){const RM=matchMedia('(prefers-reduced-motion: reduce)');const bar=w.querySelector('.bar');bar.querySelectorAll('button,.keys,.cut').forEach(e=>e.remove());
+  if(!RM.matches){const y='calc(50% '+(o==='U'?'- 27px':'+ 27px')+')',sl=document.createElement('div'),sc=document.createElement('div');
+    sl.className='slit';sc.className='snip';sc.innerHTML='<b>✂</b>';sl.style.top=sc.style.top=y;w.append(sl,sc);await wait(600);sc.remove()}
+  const dr=w.querySelector('.half.'+o);dr.classList.add('drop');await wait(RM.matches?300:520);dr.style.display='none';w.querySelectorAll('.slit').forEach(e=>e.remove())}
 function hurt(id,node){S.hurt[id]=(S.hurt[id]||0)+1;(S.cutIn[id]=S.cutIn[id]||[]).push(node);if(S.hurt[id]===2)S.gone.push(id);return S.hurt[id]}
 async function publish(w,n,h,s){
   w.classList.add('done');const o=h==='U'?'D':'U';
-  w.querySelector('.half.'+o).style.filter='grayscale(1)';w.querySelector('.half.'+o).style.opacity=.5;
+  await snip(w,o);
   S.path.push({node:S.node,side:h});
   if(n.final){w.querySelector('.bar').innerHTML='';await wait(600);if(h==='U')S.laoyanGray=true;else S.peishanGray=true;return reunion()}
   w.querySelector('.bar').innerHTML='<i>'+nm('主管')+'</i><span>'+(h==='U'?tx(DATA.v5.boss_ok):(L?'Rejected.':'退件。'))+'</span>';
