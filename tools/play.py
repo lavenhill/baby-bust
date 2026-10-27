@@ -25,6 +25,9 @@ with sync_playwright() as p:
         if pg.evaluate("S.ended===true"):
             time.sleep(.6);bad=pg.evaluate(OVER);report.append(('end',bad));shot('end');break
         info=pg.evaluate("()=>{const s=H.list[H.i];return {k:H.i,wall:s.classList.contains('wall')&&!s.classList.contains('done'),btn:!!s.querySelector(':scope>.btn, .title .btn'),tap:!!s.querySelector('.tapnext'),qs:!!s.querySelector('.qs button:not(:disabled)')}}")
+        if pg.evaluate("()=>!!H.list[H.i].querySelector('.lan:not(.fly) .mate:not(.seen)')"):
+            for m in pg.locator('.scr:not(.below):not(.above) .lan .mate').all(): m.click();time.sleep(.25)
+            bad=pg.evaluate(OVER);report.append(('lanterns',bad));shot('lan');continue
         if info['wall']:
             time.sleep(.7);bad=pg.evaluate(OVER);report.append((pg.evaluate("S.node")+' wall',bad));shot('wall')
             box=pg.locator('#stage').bounding_box();y=box['y']+box['height']*(.25 if seq[i]=='U' else .75)
