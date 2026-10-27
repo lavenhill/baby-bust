@@ -26,11 +26,11 @@ body{color:var(--ink);font-family:"Huninn",system-ui,sans-serif;-webkit-user-sel
 .cut{filter:grayscale(1);background:#d6d2d0;opacity:.55}
 .fold{position:absolute;top:0;bottom:0;left:50%;width:2px;transform:translateX(-1px);background:repeating-linear-gradient(#0002 0 6px,transparent 6px 12px)}
 .wall.done .fold{background:repeating-linear-gradient(#3A3434aa 0 8px,transparent 8px 14px)}
-.aside{position:absolute;right:8px;top:8px;width:46%;font-size:14px;line-height:1.45;color:var(--ink);transform:rotate(1.5deg)}
-.slogan{position:absolute;bottom:14px;width:46%;background:#fffe;border-radius:18px;padding:7px 10px;text-align:center;font-size:16px;line-height:1.35;opacity:0;transition:opacity .25s}
+.aside{position:absolute;right:8px;top:30%;z-index:2;background:#F3ECE9dd;padding:4px 6px;width:46%;font-size:14px;line-height:1.45;color:var(--ink);transform:rotate(1.5deg)}
+.slogan{position:absolute;top:14px;z-index:2;width:46%;background:#fffe;border-radius:18px;padding:7px 10px;text-align:center;font-size:16px;line-height:1.35;opacity:0;transition:opacity .25s}
 .slogan.show{opacity:1}
 .pub{position:absolute;left:50%;bottom:-60px;transform:translateX(-50%);border:0;border-radius:22px;padding:10px 26px;font:inherit;font-size:17px;background:var(--ink);color:var(--paper);transition:bottom .25s}
-.pub.show{bottom:70px}
+.pub.show{bottom:12px}
 .hint{position:absolute;left:50%;top:44%;font-size:34px;animation:wig 1.4s ease-in-out infinite;pointer-events:none}
 @keyframes wig{0%,100%{transform:translateX(-90%)}50%{transform:translateX(-10%)}}
 .note{align-self:flex-end;background:#f6e27a;padding:8px 12px;font-size:15px;transform:rotate(2deg);box-shadow:0 2px 4px #0004;max-width:75%}
@@ -54,88 +54,68 @@ body{color:var(--ink);font-family:"Huninn",system-ui,sans-serif;-webkit-user-sel
 .title h1{font-weight:normal;font-size:30px}
 .title p{margin-top:14px;line-height:1.7;opacity:.85}
 .title button{margin-top:28px}
+
+.half{padding:0;justify-content:flex-end}
+.half .pic{position:absolute;inset:0;background-size:cover;background-position:center 30%}
+.half .lab{position:relative;width:100%;background:linear-gradient(transparent,#F3ECE9ee 35%);padding:26px 8px 62px}
+.half .who{font-size:18px;margin:0}
+.obj img,.objimg{width:100%;display:block;margin-bottom:6px}
+.mate img{width:70%;display:block;margin:0 auto;mix-blend-mode:multiply}
+.lang{position:fixed;top:10px;left:max(10px,calc(50% - 210px));z-index:3;border:0;border-radius:14px;padding:4px 10px;font:inherit;font-size:13px;background:#F3ECE9cc;color:var(--ink)}
+.qs{align-self:flex-start;display:flex;gap:6px;flex-wrap:wrap;max-width:92%}
+.qs button{border:1px solid #b9b2b0;background:transparent;color:var(--paper);border-radius:14px;padding:4px 10px;font:inherit;font-size:13px}
+.qs button:disabled{opacity:.35}
+.ans{align-self:flex-start;background:#e9e5e3;border-radius:14px;padding:7px 11px;font-size:15px;max-width:85%;filter:grayscale(1)}
+.ans i{display:block;font-style:normal;font-size:12px;color:var(--grey)}
+.self{align-self:center;color:var(--paper);font-size:16px;line-height:1.6;text-align:center;max-width:90%;opacity:.9}
+.credit{color:#8f8a88;font-size:11px;line-height:1.6;text-align:center}
 </style>
 </head>
 <body>
+<button id="lang" class="lang">EN</button>
 <div id="files"></div>
 <div id="feed"></div>
+<script src="data.js"></script>
 <script>
 // Baby or Bust — prop7. Written from scratch during the hackathon (2026-10-27).
-// 【待改】 = placeholder copy; final insider copy is written by the author.
-const T='【待改】';
-const PERSON='<svg viewBox="0 0 100 120" fill="none" stroke="#3A3434" stroke-width="3" stroke-linecap="round"><circle cx="50" cy="28" r="16"/><path d="M50 44v40M50 56l-22 16M50 56l22 16M50 84l-16 30M50 84l16 30"/></svg>';
-const NODES={
- y2018:{year:2018,news:'準公共幼兒園上路，家長月付不超過 4,500；沒送托每月育兒津貼 2,500。',src:'ETtoday 2020-01-02；全教總 2019-03-21',
-  L:{who:'阿芳',cap:'拿著準公共招生單',slogan:T+'左標語'},R:{who:'家豪',cap:'私幼門口，空教室',id:'家豪',aside:T+'家豪私事一句',slogan:T+'右標語'},
-  boss:{L:'主管：很好，就這張。',R:'主管：退件。今晚重做。'},chat:{L:[['家豪',T+'被裁掉後的一句']],R:[['阿芳',T+'被裁掉後的一句']]},
-  next:{L:'y2019a',R:'y2019b'}},
- y2019a:{year:2019,news:'私幼加入準公共，收費上限壓住；全教總調查約 3 成準公共教保員月薪未達 29,000。',src:'中央社 2019-03-21',
-  L:{who:'家豪',cap:'園門口掛上準公共招牌',slogan:T+'左標語'},R:{who:'小芸老師',cap:'家豪園裡的老師看薪資單',id:'小芸老師',aside:T+'老師私事一句',slogan:T+'右標語'},
-  boss:{L:'主管：準公共成效亮眼。',R:'主管：薪水的事不是我們的業務。重做。'},chat:{L:[['家豪',T]],R:[['家豪',T]]},next:{L:'y2021',R:'y2021'}},
- y2019b:{year:2019,news:'公幼抽籤季：台北 3 歲一般生全數備取；各地公幼中籤率約 4%–47%。',src:'TVBS 2019-05-26；台灣醒報 2019-10-15',
-  L:{who:'抽中的家長',cap:'在抽籤會場歡呼',slogan:T+'左標語'},R:{who:'阿芳',cap:'備取 30 幾號，轉身去私幼',id:'阿芳',aside:T+'阿芳私事一句',slogan:T+'右標語'},
-  boss:{L:'主管：公幼擴大，好。',R:'主管：誰要看備取？重做。'},chat:{L:[['阿芳',T]],R:[['宜君',T]]},next:{L:'y2021',R:'y2021'}},
- y2021:{year:2021,news:'全國停課。防疫照顧假准假，但雇主不必給薪。',src:'勞動部 2021-05-17',
-  L:{who:'阿芳',cap:'在家陪小孩上線上課',slogan:'政府會當爸媽的神隊友'},R:{who:'志豪',cap:'扛兩人份的班',id:'志豪',aside:T+'志豪私事一句',slogan:T+'右標語'},
-  boss:{L:'主管：溫馨，就這張。',R:'主管：現在不是講這個的時候。重做。'},chat:{L:[['志豪',T]],R:[['阿芳',T]]},next:{L:'y2022c',R:'y2022d'}},
- y2022c:{year:2022,news:T+'租金補貼擴大（年份與數字待查）',src:'待查',
-  L:{who:'志豪',cap:'拿到租金補貼',slogan:T+'左標語'},R:{who:'志豪',cap:'還在加班，桌上兩人份的工作',id:'志豪',aside:T+'志豪私事一句',slogan:T+'右標語'},
-  boss:{L:'主管：青年安居，好。',R:'主管：加班不是政策。重做。'},chat:{L:[['志豪',T]],R:[['志豪',T]]},next:{L:'y2024',R:'y2024'}},
- y2022d:{year:2022,news:'育兒津貼加到每月 5,000。',src:'教育部 2021-02-04',
-  L:{who:'阿芳',cap:'領津貼在家顧小孩',slogan:T+'左標語'},R:{who:'阿芳',cap:'離職單和空的工作證',id:'阿芳',aside:T+'阿芳私事一句',slogan:T+'右標語'},
-  boss:{L:'主管：加碼有感。',R:'主管：她自己選的。重做。'},chat:{L:[['阿芳',T]],R:[['阿芳',T]]},next:{L:'y2024',R:'y2024'}},
- y2024:{year:2024,news:'國家一起養 2.0：公幼延托每小時 35 元，寒暑假每月補助 2,000。',src:'行政院；全教產 2024-05-03；聯合報 2024-07-08',
-  L:{who:'阿芳',cap:'六點才來接，不用趕',slogan:T+'左標語'},R:{who:'宜君',cap:'六點還牽著三個孩子',id:'宜君',aside:T+'宜君私事一句',slogan:T+'右標語'},
-  boss:{L:'主管：家長滿意度破表。',R:'主管：老師本來就辛苦。重做。'},chat:{L:[['宜君',T]],R:[['阿芳',T]]},next:{L:'y2025e',R:'y2025f'}},
- y2025e:{year:2025,news:'地方公幼要求老師寒暑假到園。',src:'立法院研析',
-  L:{who:'家長們',cap:'寒暑假照常開的公幼',slogan:T+'左標語'},R:{who:'宜君',cap:'請假單被退回',id:'宜君',aside:T+'宜君私事一句',slogan:T+'右標語'},
-  boss:{L:'主管：全年無休的照顧。',R:'主管：別人都能，她不能？重做。'},chat:{L:[['宜君',T]],R:[['宜君',T]]},next:{L:'y2026',R:'y2026'}},
- y2025f:{year:2025,news:'婚育宅加碼：新婚、育兒家庭優先（2026-01 上路）。',src:'內政部 2025-09-04',
-  L:{who:'新婚夫妻',cap:'拿到新家鑰匙',slogan:'只要民眾敢婚、敢生，政府一定全力給予支持'},R:{who:'志豪',cap:'單身，排在後面',id:'志豪',aside:T+'志豪私事一句',slogan:T+'右標語'},
-  boss:{L:'主管：這張可以上首頁。',R:'主管：單身的不是我們的對象。重做。'},chat:{L:[['志豪',T]],R:[['志豪',T]]},next:{L:'y2026',R:'y2026'}},
- y2026:{year:2026,final:true,news:'育嬰留職停薪可以按日請。',src:'勞動部 2025-09-04',
-  L:{who:'同事',cap:'請半天去陪小孩',slogan:T+'左標語'},R:{who:'老顏',cap:'兩疊卷宗，中間夾著一份影本',id:'同事',aside:'主管：這張你自己裁。',slogan:T+'右標語'},
-  boss:{L:'',R:''},chat:{L:[['阿芳',T]],R:[['阿芳',T]]},next:{L:null,R:null}}
-};
-
-const S={node:'y2018',self:0,gone:[],seen:[],laoyanGray:false,path:[],step:0,busy:false};
+// Text drafted with Meta Muse Spark 1.3, art by Meta Muse Image 1.0 (see data.js). Final insider copy by the author.
+const N=DATA.nodes;let L=0; // 0=zh 1=en
+const tx=a=>Array.isArray(a)?(a[L]||a[0]):a;
+const nm=w=>L?(DATA.names[w]||w):w;
+const S={node:'y2018',self:0,gone:[],cutIn:{},seen:[],laoyanGray:false,path:[],step:0,busy:false};
 const feed=document.getElementById('feed');
 const SAT=[1,.88,.78,.68,.6,.52,.46];
-const LIFE=['她傳來的照片，還是彩色的。','「晚餐還等妳嗎？」　未讀','冰箱上的凍卵回診單，過期了。','框裡只剩一隻手。'];
+const LIFE=[['她傳來的照片，還是彩色的。','Her photo still comes in color.'],['「晚餐還等妳嗎？」　未讀','"Still waiting for you for dinner?"  Unread'],['冰箱上的凍卵回診單，過期了。','The egg-freezing follow-up slip on the fridge. Expired.'],['框裡只剩一隻手。','Only one hand left in the frame.']];
+const UI={start:['上班','Clock in'],pub:['發布','Publish'],again:['再拍一次','Shoot again'],intro:['2018，老顏 26 歲。<br>少子女化對策辦公室。','2018. Lao Yan is 26.<br>Office of Birth-Rate Countermeasures.'],
+ obj19:['5/24 被圈了起來。<br>兩只一樣的戒指。','May 24, circled.<br>Two identical rings.'],end:['職務代理津貼每日 800 元。','Cover-duty allowance: NT$800 per day.'],
+ q:[['後來呢？','And then?'],['妳怪我嗎？','Do you blame me?'],['那時候你需要的是什麼？','What did you need back then?']],
+ kids:['本班一共 {n} 個小朋友。你都是我們的好同學。','Our class has {n} kids in total. You are all our good classmates.'],
+ credit:['文字初稿與翻譯：Meta Muse Spark 1.3　插畫：Meta Muse Image 1.0　政策與數字皆有出處','Draft copy & translation: Meta Muse Spark 1.3 · Illustrations: Meta Muse Image 1.0 · Every policy and number is sourced']};
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 function add(cls,html,sat){const d=document.createElement('div');d.className=cls+' in';d.innerHTML=html;if(sat!=null)d.style.filter='saturate('+sat+')';feed.appendChild(d);return d}
 function down(el){el.scrollIntoView({behavior:'smooth',block:el.classList.contains('wall')?'center':'end'})}
 function files(){const f=document.getElementById('files');f.innerHTML='<div></div>'.repeat(1+S.step*2+S.self*3)}
-function lifeLine(){return LIFE[Math.min(S.self,3)]}
-
+function lifeIdx(){return Math.min(S.self,3)}
 async function year(){
-  const n=NODES[S.node],sat=SAT[Math.min(S.step,SAT.length-1)];
+  const n=N[S.node],sat=SAT[Math.min(S.step,SAT.length-1)];
   add('yr',n.year,sat);
-  if(n.year===2019){await wait(250);down(add('obj hand','5/24 被圈了起來。<br>兩只一樣的戒指。',sat))}
-  await wait(300);
-  add('news',n.news,sat);
-  await wait(400);
-  const R=Object.assign({},n.R);
-  if(n.final) R.cap=R.cap+'<br>'+lifeLine();
-  const firstTime=n.R.aside&&!S.seen.includes(n.R.id);
-  const w=add('wall',
-   '<div class="half L">'+PERSON+'<div class="who">'+n.L.who+'</div><div class="cap hand">'+n.L.cap+'</div></div>'+
-   '<div class="half R">'+PERSON+'<div class="who">'+R.who+'</div><div class="cap hand">'+R.cap+'</div></div>'+
-   '<div class="fold"></div>'+
-   (n.final?'<div class="aside hand">'+n.R.aside+'</div>':firstTime?'<div class="aside hand">'+n.R.aside+'</div>':'')+
-   '<div class="slogan"></div>'+(S.step===0?'<div class="hint">👆</div>':'')+
-   '<button class="pub">發布</button>',sat);
-  if(n.R.id)S.seen.push(n.R.id);
-  bindWall(w);down(w);
+  if(n.year===2019){await wait(250);down(add('obj hand','<img src="img/obj_2019.webp" alt="">'+tx(UI.obj19),sat))}
+  await wait(300);add('news',tx(n.news),sat);await wait(400);
+  let rcap=tx(n.R.cap);if(n.final&&S.self>0)rcap+='<br>'+tx(LIFE[lifeIdx()]);
+  const firstTime=!S.seen.includes(n.R.id);
+  const half=(s,who,cap)=>'<div class="half '+s+'"><div class="pic" style="background-image:url(img/'+S.node+'_'+s+'.webp)"></div><div class="lab"><div class="who">'+nm(who)+'</div><div class="cap hand">'+cap+'</div></div></div>';
+  const w=add('wall',half('L',n.L.who,tx(n.L.cap))+half('R',n.R.who,rcap)+'<div class="fold"></div>'+
+   ((n.final||firstTime)?'<div class="aside hand">'+tx(n.R.aside)+'</div>':'')+
+   '<div class="slogan"></div>'+(S.step===0?'<div class="hint">👆</div>':'')+'<button class="pub">'+tx(UI.pub)+'</button>',sat);
+  S.seen.push(n.R.id);bindWall(w);down(w);
 }
 function bindWall(w){
   let x0=null,y0=null,pick=null;
   const set=side=>{pick=side;
     w.querySelector('.half.L').className='half L '+(side==='L'?'on':'off');
     w.querySelector('.half.R').className='half R '+(side==='R'?'on':'off');
-    const s=w.querySelector('.slogan');s.textContent=NODES[S.node][side].slogan;s.style.left=side==='L'?'2%':'52%';s.classList.add('show');
-    const h=w.querySelector('.hint');if(h)h.remove();
-    w.querySelector('.pub').classList.add('show');};
+    const s=w.querySelector('.slogan');s.textContent=tx(N[S.node][side].slogan);s.style.left=side==='L'?'2%':'52%';s.classList.add('show');
+    const h=w.querySelector('.hint');if(h)h.remove();w.querySelector('.pub').classList.add('show');};
   w.preview=set;
   w.addEventListener('pointerdown',e=>{if(w.classList.contains('done'))return;x0=e.clientX;y0=e.clientY});
   w.addEventListener('pointerup',e=>{
@@ -146,52 +126,53 @@ function bindWall(w){
   });
   w.querySelector('.pub').onclick=()=>{if(pick&&!S.busy)publish(w,pick)};
 }
+function cut(id,node){if(!S.gone.includes(id))S.gone.push(id);(S.cutIn[id]=S.cutIn[id]||[]).push(node)}
 async function publish(w,side){
-  S.busy=true;const n=NODES[S.node],sat=SAT[Math.min(S.step,SAT.length-1)],other=side==='L'?'R':'L';
+  S.busy=true;const n=N[S.node],sat=SAT[Math.min(S.step,SAT.length-1)],other=side==='L'?'R':'L';
   w.classList.add('done');w.querySelector('.pub').remove();
   w.querySelector('.half.'+other).className='half '+other+' cut';
   const a=w.querySelector('.aside');if(a)a.remove();
-  S.path.push({year:n.year,node:S.node,side,kept:n[side].who,cut:n[other].who});
+  S.path.push({year:n.year,node:S.node,side});
   await wait(500);
-  if(n.final){
-    if(side==='L')S.laoyanGray=true;else if(!S.gone.includes('同事'))S.gone.push('同事');
-    files();S.busy=false;return reunion();
-  }
-  if(side==='L'){if(!S.gone.includes(n.R.id))S.gone.push(n.R.id)}else S.self++;
+  if(n.final){if(side==='L')S.laoyanGray=true;else cut('同事',S.node);files();S.busy=false;return reunion()}
+  if(side==='L')cut(n.R.id,S.node);else S.self++;
   files();
-  down(add('note hand',n.boss[side].replace(/^主管：/,''),sat));await wait(700);
-  for(const [who,t] of n.chat[side]){down(add('bub'+(S.gone.includes(who)?' gone':''),'<i>'+who+'</i>'+t,sat));await wait(700)}
-  if(side==='R'){down(add('obj hand gray',lifeLine(),sat));await wait(800)}
-  S.node=n.next[side];S.step++;S.busy=false;
-  await year();
+  down(add('note hand',tx(n.boss[side]),sat));await wait(700);
+  const c=n.chat[side];down(add('bub'+(S.gone.includes(c[0])?' gone':''),'<i>'+nm(c[0])+'</i>'+(L?c[2]:c[1]),sat));await wait(700);
+  if(side==='R'){down(add('obj hand gray','<img src="img/life_'+lifeIdx()+'.webp" alt="">'+tx(LIFE[lifeIdx()]),sat));await wait(800)}
+  S.node=n.next[side];S.step++;S.busy=false;await year();
 }
+function rkey(m){return m+'|'+S.cutIn[m].slice().sort().join(',')}
 async function reunion(){
-  await wait(400);
-  add('yr','2026');
-  add('news','職務代理津貼每日 800 元。');
-  await wait(400);
-  const mates=['阿芳','家豪','宜君','志豪','小芸老師','同事','佩珊','冠宇'];
-  const ph=add('class',mates.map(m=>'<div class="mate'+(S.gone.includes(m)?' g':'')+'" data-m="'+m+'">'+PERSON+'<div>'+m+'</div></div>').join('')+
-    '<div class="mate'+(S.laoyanGray?' g':'')+'">📷<div>老顏</div></div>');
+  await wait(400);add('yr','2026');add('news',tx(UI.end));await wait(400);
+  const mates=['阿芳','家豪','宜君','志豪','小芸老師','同事','佩珊','冠宇','老顏'];
+  const ph=add('class',mates.map(m=>'<div class="mate'+((S.gone.includes(m)||(m==='老顏'&&S.laoyanGray))?' g':'')+'" data-m="'+m+'"><img src="img/p_'+DATA.slug[m]+'.webp" alt=""><div>'+nm(m)+'</div></div>').join(''));
   down(ph);await wait(1400);
   for(const m of S.gone){
     const el=ph.querySelector('[data-m="'+m+'"]');if(el)el.classList.add('walk');
     await wait(900);
-    down(add('bub gone','<i>'+m+'</i>【AI 生成位置】依這局寫一句代價，數字只出現在這裡。'));
+    const r=DATA.reunion[rkey(m)];if(!r)continue;
+    down(add('bub gone','<i>'+nm(m)+'</i>'+(L?r.line_en:r.line)));
+    const qs=add('qs',UI.q.map((q,i)=>'<button data-i="'+i+'">'+tx(q)+'</button>').join(''));
+    let last=qs;qs.querySelectorAll('button').forEach(b=>b.onclick=()=>{b.disabled=true;const q=r.qa[+b.dataset.i];const d=add('ans','<i>'+nm(m)+'</i>'+(L?q.a_en:q.a));last.after(d);last=d;});
     await wait(900);
   }
+  const tier=S.self>=3?'3+':String(S.self);const me=DATA.reunion['老顏|'+tier+(S.laoyanGray?'|gray':'')];
+  if(me){await wait(600);down(add('self hand',L?me.line_en:me.line))}
   const kids=2+Math.floor(Math.random()*5);
-  down(add('bub','<i>阿芳</i>本班一共 '+kids+' 個小朋友。你都是我們的好同學。'));
+  await wait(900);down(add('bub','<i>'+nm('阿芳')+'</i>'+tx(UI.kids).replace('{n}',kids)));
   await wait(900);
-  const srcs=[...new Set(S.path.map(p=>p.year+'　'+NODES[p.node].src))];
+  const srcs=[...new Set(S.path.map(p=>p.year+'　'+N[p.node].src))];
   add('src',srcs.join('<br>')+'<br>2026　行政院 2026-05');
-  const b=add('again','再拍一次');b.outerHTML;feed.lastChild.onclick=()=>location.reload();
-  feed.lastChild.setAttribute('role','button');down(feed.lastChild);
+  add('credit',tx(UI.credit));
+  const b=add('again',tx(UI.again));b.setAttribute('role','button');b.onclick=()=>location.reload();down(b);
   S.ended=true;
 }
 function title(){
-  const t=add('title','<h1>我們這一班</h1><p class="hand">2018，老顏 26 歲。<br>少子女化對策辦公室。</p><button class="again">上班</button>');
-  t.querySelector('button').onclick=()=>{t.remove();files();year()};
+  const t=add('title','<h1>'+(L?'Our Class':'我們這一班')+'</h1><p class="hand">'+tx(UI.intro)+'</p><button class="again">'+tx(UI.start)+'</button>');
+  t.querySelector('button').onclick=()=>{t.remove();document.getElementById('lang').remove();files();year()};
 }
+document.getElementById('lang').onclick=()=>{L=1-L;document.getElementById('lang').textContent=L?'中文':'EN';feed.innerHTML='';title()};
+if(/en/i.test(navigator.language)&&!/zh/i.test(navigator.language)){L=1;document.getElementById('lang').textContent='中文'}
 title();
 </script></body></html>
