@@ -165,7 +165,7 @@ async function opening(){
   await new Promise(r=>a.querySelectorAll('.lan .mate').forEach(el=>el.onclick=e=>{e.stopPropagation();const m=el.dataset.m;seen.add(m);el.classList.add('seen');
     wb.innerHTML='<i>'+nm(m)+'</i>'+tx(DATA.wish[m]);
     if(seen.size===6&&!a.querySelector('.btn')){a.insertAdjacentHTML('beforeend','<button class="btn" style="position:absolute;bottom:3%;left:50%;transform:translateX(-50%)">'+tx(O.fly)+'</button>');a.querySelector('.btn').onclick=e2=>{e2.stopPropagation();r()}}}));
-  a.querySelector('.btn').remove();a.querySelector('.lan').classList.add('fly');await wait(2200);
+  a.querySelector('.btn').remove();a.querySelectorAll('.lan .mate').forEach(el=>{el.onclick=null;el.style.pointerEvents='none'});a.querySelector('.lan').classList.add('fly');await wait(2200);
   wb.innerHTML=tx(O.promise);H.locked=false;await tapNext(a);
   const c=screen('','<img class="full" src="img/desk_day1.webp" alt=""><div class="ttl hand">'+tx(O.day1)+'</div><div class="memo" style="position:relative"><i>'+nm('主管')+'</i><p>'+tx(O.boss1)+'</p><p>'+tx(O.boss2)+'</p></div><div class="spacer"></div><div class="note hand" style="position:relative">'+tx(O.ledger)+'</div><button class="btn">'+tx(U.start)+'</button>',{bg:'img/desk_day1.webp'});
   await new Promise(r=>c.querySelector('button').onclick=e=>{e.stopPropagation();r()});
