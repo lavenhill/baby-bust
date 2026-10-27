@@ -26,11 +26,12 @@ body{color:var(--ink);font-family:"Huninn",system-ui,sans-serif;-webkit-user-sel
 .cut{filter:grayscale(1);background:#d6d2d0;opacity:.55}
 .fold{position:absolute;top:0;bottom:0;left:50%;width:2px;transform:translateX(-1px);background:repeating-linear-gradient(#0002 0 6px,transparent 6px 12px)}
 .wall.done .fold{background:repeating-linear-gradient(#3A3434aa 0 8px,transparent 8px 14px)}
-.aside{position:absolute;right:8px;top:30%;z-index:2;background:#F3ECE9dd;padding:4px 6px;width:46%;font-size:14px;line-height:1.45;color:var(--ink);transform:rotate(1.5deg)}
+.aside{position:absolute;right:8px;top:14px;z-index:2;background:#F3ECE9dd;padding:4px 6px;width:46%;font-size:14px;line-height:1.45;color:var(--ink);transform:rotate(1.5deg)}
 .slogan{position:absolute;top:14px;z-index:2;width:46%;background:#fffe;border-radius:18px;padding:7px 10px;text-align:center;font-size:16px;line-height:1.35;opacity:0;transition:opacity .25s}
 .slogan.show{opacity:1}
 .pub{position:absolute;left:50%;bottom:-60px;transform:translateX(-50%);border:0;border-radius:22px;padding:10px 26px;font:inherit;font-size:17px;background:var(--ink);color:var(--paper);transition:bottom .25s}
 .pub.show{bottom:12px}
+.hinttx{position:absolute;left:50%;top:calc(44% + 48px);transform:translateX(-50%);background:#3A3434dd;color:#F3ECE9;border-radius:14px;padding:5px 12px;font-size:14px;white-space:nowrap;pointer-events:none;z-index:2}
 .hint{position:absolute;left:50%;top:44%;font-size:34px;animation:wig 1.4s ease-in-out infinite;pointer-events:none}
 @keyframes wig{0%,100%{transform:translateX(-90%)}50%{transform:translateX(-10%)}}
 .note{align-self:flex-end;background:#f6e27a;padding:8px 12px;font-size:15px;transform:rotate(2deg);box-shadow:0 2px 4px #0004;max-width:75%}
@@ -85,8 +86,8 @@ const nm=w=>L?(DATA.names[w]||w):w;
 const S={node:'y2018',self:0,gone:[],cutIn:{},seen:[],laoyanGray:false,path:[],step:0,busy:false};
 const feed=document.getElementById('feed');
 const SAT=[1,.88,.78,.68,.6,.52,.46];
-const LIFE=[['她傳來的照片，還是彩色的。','Her photo still comes in color.'],['「晚餐還等妳嗎？」　未讀','"Still waiting for you for dinner?"  Unread'],['冰箱上的凍卵回診單，過期了。','The egg-freezing follow-up slip on the fridge. Expired.'],['框裡只剩一隻手。','Only one hand left in the frame.']];
-const UI={start:['上班','Clock in'],pub:['發布','Publish'],again:['再拍一次','Shoot again'],intro:['2018，老顏 26 歲。<br>少子女化對策辦公室。','2018. Lao Yan is 26.<br>Office of Birth-Rate Countermeasures.'],
+const LIFE=[['她傳來的照片，還是彩色的。','Her photo still comes in color.'],['老顏的手機：「晚餐還等妳嗎？」未讀','Lao Yan\'s phone: "Still waiting for you for dinner?" Unread'],['老顏家冰箱上，她的凍卵回診單過期了。','On Lao Yan\'s fridge: her egg-freezing follow-up slip. Expired.'],['老顏桌上的相框，只剩一隻手。','The frame on Lao Yan\'s desk. Only one hand left.']];
+const UI={hint:['滑向你要留的那一半','Swipe toward the half you keep'],start:['上班','Clock in'],pub:['發布','Publish'],again:['再拍一次','Shoot again'],intro:['2018，老顏 26 歲。<br>少子女化對策辦公室。','2018. Lao Yan is 26.<br>Office of Birth-Rate Countermeasures.'],
  obj19:['5/24 被圈了起來。<br>兩只一樣的戒指。','May 24, circled.<br>Two identical rings.'],end:['職務代理津貼每日 800 元。','Cover-duty allowance: NT$800 per day.'],
  q:[['後來呢？','And then?'],['妳怪我嗎？','Do you blame me?'],['那時候你需要的是什麼？','What did you need back then?']],
  kids:['本班一共 {n} 個小朋友。你都是我們的好同學。','Our class has {n} kids in total. You are all our good classmates.'],
@@ -106,7 +107,7 @@ async function year(){
   const half=(s,who,cap)=>'<div class="half '+s+'"><div class="pic" style="background-image:url(img/'+S.node+'_'+s+'.webp)"></div><div class="lab"><div class="who">'+nm(who)+'</div><div class="cap hand">'+cap+'</div></div></div>';
   const w=add('wall',half('L',n.L.who,tx(n.L.cap))+half('R',n.R.who,rcap)+'<div class="fold"></div>'+
    ((n.final||firstTime)?'<div class="aside hand">'+tx(n.R.aside)+'</div>':'')+
-   '<div class="slogan"></div>'+(S.step===0?'<div class="hint">👆</div>':'')+'<button class="pub">'+tx(UI.pub)+'</button>',sat);
+   '<div class="slogan"></div>'+(S.step===0?'<div class="hint">👆</div><div class="hinttx">'+tx(UI.hint)+'</div>':'')+'<button class="pub">'+tx(UI.pub)+'</button>',sat);
   S.seen.push(n.R.id);bindWall(w);down(w);
 }
 function bindWall(w){
@@ -115,7 +116,7 @@ function bindWall(w){
     w.querySelector('.half.L').className='half L '+(side==='L'?'on':'off');
     w.querySelector('.half.R').className='half R '+(side==='R'?'on':'off');
     const s=w.querySelector('.slogan');s.textContent=tx(N[S.node][side].slogan);s.style.left=side==='L'?'2%':'52%';s.classList.add('show');
-    const h=w.querySelector('.hint');if(h)h.remove();w.querySelector('.pub').classList.add('show');};
+    w.querySelectorAll('.hint,.hinttx').forEach(h=>h.remove());const as=w.querySelector('.aside');if(as)as.style.opacity=side==='R'?0:1;w.querySelector('.pub').classList.add('show');};
   w.preview=set;
   w.addEventListener('pointerdown',e=>{if(w.classList.contains('done'))return;x0=e.clientX;y0=e.clientY});
   w.addEventListener('pointerup',e=>{
