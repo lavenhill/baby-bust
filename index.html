@@ -115,10 +115,10 @@ body{color:var(--ink);font-family:"Huninn","Noto Sans CJK TC",system-ui,sans-ser
 <body>
 <div id="bd"></div>
 <div id="stage"><button id="lang" class="lang">EN</button><div id="deck"></div></div>
-<script>document.write('<script src="data.js?v=20261027c&t='+Date.now()+'"><\/script>')</script>
+<script>document.write('<script src="data.js?v=20261027d&t='+Date.now()+'"><\/script>')</script>
 <script>
 // Baby or Bust — 我們這一班. One screen per beat; written during the Meta hackathon (2026-10-27). Spec: docs/spec/.
-const V='20261027c';if(!DATA.open2&&!/reload=/.test(location.search))location.replace(location.pathname+'?reload='+Date.now());
+const V='20261027d';if(!DATA.callN&&!/reload=/.test(location.search))location.replace(location.pathname+'?reload='+Date.now());
 const bust=h=>h.replace(/(img\/\w+\.webp)/g,'$1?v='+V);
 const N=DATA.nodes,U=DATA.ui;let L=0;
 const tx=a=>Array.isArray(a)?(a[L]||a[0]):(a||'');
@@ -175,7 +175,7 @@ async function opening(){
 async function phoneCall(m){
   const p=screen('call','<img src="img/fb_'+DATA.slug[m]+'.webp" alt=""><b style="font-size:calc(3.2*var(--u))">'+nm(m)+'</b><div class="ring">'+tx(DATA.open2.calling)+'</div><div class="lines" style="display:flex;flex-direction:column;gap:calc(1.2*var(--u));min-height:calc(18*var(--u))"></div>');
   await tapNext(p,L?'tap to answer':'點一下接聽');p.querySelector('.ring').remove();
-  H.locked=true;const box=p.querySelector('.lines');for(const l of DATA.call[m]){box.insertAdjacentHTML('beforeend','<div class="sub2 hand">'+tx(l)+'</div>');await wait(1500)}
+  H.locked=true;const box=p.querySelector('.lines');for(const l of ((DATA.callN&&DATA.callN[S.node])||DATA.call[m])){box.insertAdjacentHTML('beforeend','<div class="sub2 hand">'+tx(l)+'</div>');await wait(1500)}
   H.locked=false;await tapNext(p);
 }
 async function leftGroup(m){
