@@ -62,7 +62,8 @@ graph={'version':'v5 (V=20261027f)','generated_from':'data.js + engine rules in 
    'ask':[{'zh':a[0],'en':a[1]} for a in n['ask']],
    'U':side(n,'U'),'D':side(n,'D'),
    'U_hurts':(n['D']['who'] if n['D']['named'] and not n['final'] else None),
-   'group':[{'who':g[0],'zh':g[1][0],'en':g[1][1],'deps':g[2]} for g in D['group'].get(k,[])],
+   'group':[{'id':f'{k}.g{i+1}','who':g[0],'zh':g[1][0],'en':g[1][1],'visible_if':{'present':[g[0]]+[d for d in g[2] if d[0]!='!'],'absent':[d[1:] for d in g[2] if d[0]=='!']}} for i,g in enumerate(D['group'].get(k,[]))],
+   'choices':({'U':{'promotes':n['U']['who'],'harm':n['D']['who'] if n['D']['named'] else None,'effect':'hurt[harm]+=1','next':n['next'].get('U')},'D':{'effect':'self+=1','next':n['next'].get('D')}} if not n['final'] else {'U':{'effect':'laoyanGray=true'},'D':{'effect':'peishanGray=true'}}),
    'cons_U':[{'zh':c[0],'en':c[1]} for c in D['cons'].get(k,[])],
    'boss_D':({'zh':n['boss']['D'][0],'en':n['boss']['D'][1]} if isinstance(n.get('boss',{}).get('D'),list) else None)} for k,n in N.items()},
  'endings':{'verdict':{k:{'zh':v[0],'en':v[1]} for k,v in D['verdict'].items()},'lao26':D['lao26'],'wish26':D['wish26'],'wish2018':D['wish'],
@@ -83,6 +84,20 @@ a('| gone | 退群名單 | hurt 到 2 | 「已退出群組」、之後群組不�
 a('| self | 老顏重做晚數 | 選下半 +1 | 頭像半灰（1–2）、劃線（≥3）；生活框四階 |')
 a('| laoyanGray／peishanGray | 2026 最後一刀 | 2026 選上→老顏灰；選下→佩珊灰 | 平溪燈 |')
 a('| baby | 本班小朋友數 | 隨機步數，與選擇無關 | 下一年群組貼照片 |\n')
+a('**群組台詞的依賴標記**：〔依賴 A〕＝A 還在群組才出現；〔依賴 A、B〕＝兩人都在才出現；〔依賴 !A〕＝A 已退群才出現。說話者本人退群，他的句子全部不出現。\n')
+a('**2026 是獨立的最後一刀**：不計入 hurt／gone／self，只決定誰的燈變灰（選上→老顏、選下→佩珊，佩珊願望換第二版），判詞不受影響。\n')
+a('## 2.1 真相表（每年選上／選下的直接後果）\n')
+a('| 年 | 選上（文宣） | 選下（現場） |\n|---|---|---|')
+for k,n in N.items():
+    if n['final']:a(f"| {n['year']}{k[5:]} | 捧佩珊 → 老顏的燈灰 | 留老顏 → 佩珊的燈灰 |");continue
+    pro=n['U']['who'] if n['U']['named'] else Z(n['U'].get('whoE',n['U']['who']))
+    a(f"| {n['year']}{k[5:]} | 捧{pro}；{n['D']['who']} hurt+1（被拿海報堵嘴）→ {n['next']['U'][1:]} | 老顏 self+1 → {n['next']['D'][1:]} |")
+a('')
+a('## 2.2 角色生死簿（退群要被犧牲 2 次）\n')
+for m in CL:
+    if m=='老顏':continue
+    a(f"- {m}：機會在 {'、'.join(x[1:] for x in hurtable.get(m,[])) or '無（只在 2026 受影響）'}；實際退群 {leaveC.get(m,0)}/{P} 條路徑")
+a('')
 a('**老顏生活框（選下半後）**')
 for i,l in enumerate(D['life']):
     a(f"- 第 {i+1} 晚：{Z(l) or Z(D['ring_off'])}")
@@ -96,8 +111,11 @@ for k,n in N.items():
     if n['final']:a(f'  {k}["{lab} 平溪"]');continue
     a(f'  {k}["{lab}"]')
     for h,t in n['next'].items():
-        hit=n['D']['who'] if (h=='U' and n['D']['named']) else ('老顏' if h=='D' else '—')
-        a(f'  {k} -- "{"上" if h=="U" else "下"}：{hit}" --> {t}')
+        if h=='U':
+            pro=n['U']['who'] if n['U']['named'] else Z(n['U'].get('whoE',n['U']['who']))
+            lab2=f"上：捧{pro}／傷{n['D']['who']}"
+        else: lab2='下：老顏重做'
+        a(f'  {k} -- "{lab2}" --> {t}')
 a('```\n')
 a('## 4. 角色線\n')
 a('| 角色 | 2018 願望 | 頭像標 | 可能被犧牲的年份 | 退群機率 | 2026 願望（沒事／受過傷） |\n|---|---|---|---|---|---|')
@@ -138,3 +156,18 @@ a('- 佩珊只在 2026 受影響，不進 hurt／gone，故 `佩珊|y2026` 私�
 a('- 生活框第 3 晚為空，由「兩只戒指」頂替（設計如此）。')
 open(B+'docs/spec/06-story-causality.md','w').write('\n'.join(L))
 print(P,verdicts,goneC,lao,leaveC,dead)
+# ---------- hand-written: pending decisions (edit here, not in the .md) ----------
+open(B+'docs/spec/06-story-causality.md','a').write('''
+
+## 8. 待決（Muse 審稿 R1＋經理判斷，2026-10-28）
+已直接改（文件層）：分支圖改「捧誰／傷誰」、加真相表與生死簿、定義依賴標記、2026 獨立規則、JSON 加 visible_if／choices。
+待作者定（劇情層）：
+1. 家豪只有 2018 一次機會，永不退群 → 建議 2024 或 2025 加一次以家豪為下半的機會。
+2. 10 封私訊永遠看不到（單次受傷版、三次版、佩珊 2026）→ 建議：受傷 1 次未退群的人，結局也收到「安慰版」私訊；三次版刪除。
+3. 判詞 gone 只有 12/128 → 建議 gone≥2 優先，或 self 門檻提高到 4。
+4. 分支讓「選下」決定下一年犧牲誰（例：2021 選下進 2022d 只剩阿芳可傷）→ 保留為設計，或在文件／主管句點破。
+5. 數字不一致：私訊寫備取 72 號、28K，群組是 87、26K → 統一為 87、26K（私訊另外整批改寫「連上十二天」等舊句）。
+6. 2026 群組佩珊叫老顏「顏座」、把案子交給她 → 需交代同部會或改口吻。
+7. 老顏生活框第 3 晚只有道具（兩只戒指）→ 是否補事件。
+8. 2022d 上下都是阿芳：使用者 10-27 已定保留，不改。
+''')
