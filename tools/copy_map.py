@@ -97,12 +97,12 @@ s4=wb.create_sheet('誰在倡議');s4.append(['節點','面','倡議者','摘要
 for a in _SZ.ADV: s4.append([a[1][1:],{'U':'上半・文宣','D':'下半・現場'}[a[2]],a[3],a[6],D['sources']['cards'][a[0]]['f'][0][1],a[4],a[5]])
 for c,w in zip('ABCDEFG',[8,10,26,60,60,30,50]): s4.column_dimensions[c].width=w
 s3=wb.create_sheet('說明')
-for l in ['《我們這一班》Baby or Bust 全部文案與台詞對照（data.js，V=20261028f，出處頁＋誰在倡議，2026-10-28 匯出）',
+for l in ['《我們與孩子的距離》Baby or Bust 全部文案與台詞對照（data.js，V=20261028h，2025e 宜君版＋新標題，2026-10-28 匯出）',
  '區塊依遊戲順序排列：開場 → 每年（同學群組 → 主管交辦 → 選圖牆 → 後果）→ 結局 → 介面。',
  '狀態「舊版未使用」＝資料檔還留著、遊戲不會顯示（灰字，排在最後）。',
  '依賴：列出的同學退出群組時，這句不出現；「!宜君」＝宜君退群後才出現。',
  '年份 2019a／2019b 等＝分支節點；結局私訊的年份欄＝該同學被犧牲的年份組合。',
  '要改文案：直接在表上改或加註解，告訴 Hark，由 Hark 回寫原始檔並重建。']: s3.append([l])
 s3.column_dimensions['A'].width=110
-wb.save(B+'qa/我們這一班_文案台詞對照.xlsx')
+wb.save(B+'qa/我們與孩子的距離_文案台詞對照.xlsx')
 print(len(out),Counter(r[0] for r in out),Counter(r[7] for r in out))
