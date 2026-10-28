@@ -430,8 +430,8 @@
    "policy_src": "TVBS 2019-05-26；台灣醒報 2019-10-15",
    "ask": [
     {
-     "zh": "公幼抽籤放榜。增班是今年的政績，議員要看抽中的人。",
-     "en": "Public preschool lottery results out. New classes are this year's win, councilors want to see winners."
+     "zh": "公幼抽籤的放榜日。政院說四年增 2,247 班，今年要拍抽中的笑臉。",
+     "en": "Public preschool lottery day. The Cabinet promised 2,247 new classes in four years. This year we shoot the winners’ smiles."
     },
     {
      "zh": "畫抽中的家長，還是沒抽到的？",
@@ -578,8 +578,8 @@
      {
       "who": "阿芳",
       "time": "",
-      "zh": "婆婆把那張丟到家族群組啦",
-      "en": "My mother-in-law dropped that poster in the family group chat",
+      "zh": "有人把那張丟進小芋頭的家長群組啦",
+      "en": "Someone dropped that poster into Little Taro’s parents’ group chat",
       "visible_if": {
        "present": []
       }
@@ -587,8 +587,8 @@
      {
       "who": "阿芳",
       "time": "",
-      "zh": "說別人家都抽中名額了，妳咧，😝",
-      "en": "Said everyone else got a spot, what about you 😝",
+      "zh": "大家互問抽籤結果，我只能回一個備取😝",
+      "en": "Everyone’s asking about the lottery results, all I can say is waitlist 😝",
       "visible_if": {
        "present": []
       }
@@ -606,8 +606,8 @@
    },
    "news_after_U": null,
    "boss_D": {
-    "zh": "議員要看的是抽中的。誰要看備取？重做。",
-    "en": "Councilor wants to see winners. Who wants waitlist? Redo."
+    "zh": "要的是增班的成果，備取不是重點。重做一張。",
+    "en": "We want the new classes, not the waitlist. Make another one."
    }
   },
   "y2021": {
@@ -796,8 +796,8 @@
    },
    "news_after_U": null,
    "boss_D": {
-    "zh": "現在不是講這個的時候。妳也不想考績吃乙吧？",
-    "en": "Not the time for this. You don't want a B performance grade, do you?"
+    "zh": "現在不是講這個的時候。年底考核，關係到妳明年的約。",
+    "en": "Not the time for this. The year-end review decides your contract next year."
    }
   },
   "y2022c": {
@@ -1397,8 +1397,8 @@
    },
    "news_after_U": null,
    "boss_D": {
-    "zh": "老師的事另案處理。考績要打了，別在這時候。",
-    "en": "Teachers' issue handled separately. Reviews are coming, not now."
+    "zh": "老師的事是另一案。年終考核就在下個月，別在這時候。",
+    "en": "Teachers are a separate file. Your year-end review is next month. Not now."
    }
   },
   "y2025e": {
@@ -1411,8 +1411,8 @@
    "policy_src": "中央社 2024-01-26，刊於聯合新聞網（公幼寒暑假加托改定額，每月最多 2,000 元）；國教署 2025-05-27（公幼寒暑期加托每月 2,000 元，開辦率 95%）",
    "ask": [
     {
-     "zh": "寒暑假托育缺口要補，議員點名要「全年有開」。",
-     "en": "Need to fill the summer/winter care gap, councilor wants \"open all year.\""
+     "zh": "台南教育局長在全國會議提案：公幼寒暑假，家長月付最多兩千。",
+     "en": "At the national meeting, Tainan’s education chief proposed it: public preschool over the breaks, NT$2,000 a month at most for parents."
     },
     {
      "zh": "畫放心的家長，還是招不到暑期班的私幼？",
@@ -1646,8 +1646,8 @@
    },
    "news_after_U": null,
    "boss_D": {
-    "zh": "私幼的暑期班不是議員要的。重做。",
-    "en": "A private preschool’s summer program isn’t what the councilor wants. Redo it."
+    "zh": "私幼的暑期班不是這次的主角。重做一張。",
+    "en": "A private preschool’s summer program isn’t the story this time. Make another one."
    }
   },
   "y2025f": {
@@ -1927,8 +1927,8 @@
     {
      "id": "y2026.g1",
      "who": "佩珊",
-     "zh": "明天下午請半天，孩子打疫苗",
-     "en": "Taking tomorrow afternoon off, kid's vaccination",
+     "zh": "明天請育嬰留停一天，孩子打疫苗，不好意思",
+     "en": "Sorry, taking one day of parental leave tomorrow for my kid’s vaccination",
      "visible_if": {
       "present": [
        "佩珊"
@@ -2007,8 +2007,8 @@
      {
       "who": "佩珊",
       "time": "",
-      "zh": "半天假被記在考績上了啦，真的不好意思",
-      "en": "Half a day off got marked on my performance review, really sorry",
+      "zh": "一天的育嬰留停被記在考績上了啦，真的不好意思",
+      "en": "That one day of parental leave got marked on my performance review, really sorry",
       "visible_if": {
        "present": []
       }
@@ -2070,8 +2070,8 @@
     ],
     [
      "doc",
-     "回診|醫生|醫院|身體|健康|看病|掛號",
-     "doctor|clinic|hospital|health|check-?up|appointment",
+     "回診|醫生|醫院|身體|健康|看病|掛號|取卵|凍卵|打針|排卵",
+     "doctor|clinic|hospital|health|check-?up|appointment|\\begg|ivf",
      [
       "宜君",
       "佩珊"
