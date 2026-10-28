@@ -65,7 +65,11 @@ quiz={k:dict(c=se('quiz.'+k+'.claim',q['claim']),who=q.get('who',''),kind=q['kin
 rec=[]
 for i,c in enumerate(SZ.CHIPS):
     r=SREC[c];assert all(p in ids for p in r['picks']),c;rec.append(dict(type=r['type'],picks=r['picks']))
-D['sources']=dict(N=len(ids),order=[c['id'] for c in SZ.CARDS],cards=cards,ncard=SZ.NODE_CARD,quiz=quiz,
+# L（2026-10-28 19:44）：nadv＝每個選項（牆的上下兩半）的倡議者卡（A01–A57），展開海報時列「誰在倡議這一張」與「沒留下的另一張」
+for k,d in SZ.NODE_ADV.items():
+    assert k in C.NODES and set(d)<={'U','D'},k
+    for h,v in d.items(): assert 1<=len(v)<=3 and all(cards[a]['kind']=='adv' and cards[a]['url'].startswith('http') for a in v),(k,h)
+D['sources']=dict(N=len(ids),order=[c['id'] for c in SZ.CARDS],cards=cards,ncard=SZ.NODE_CARD,nadv=SZ.NODE_ADV,quiz=quiz,
   prog=[[p,se('prog.'+st,st)] for p,st in SZ.PROGRESS],chips=[se(f'chip.{i}',c) for i,c in enumerate(SZ.CHIPS)],rec=rec,
   ui={k:se('ui.'+k,v) for k,v in SZ.UI.items()})
 for p,_ in SZ.PROGRESS: assert p in ids,p
@@ -73,7 +77,7 @@ import os
 HP='/workspace/work/bb2/tools/heads.json'  # R4-4a: YuNet head boxes (tools/heads.py)
 if os.path.exists(HP): D['heads']=json.load(open(HP))
 if getattr(C,'POSTER_TEXT',None): D['posterText']={k:{kk:vv for kk,vv in v.items() if kk!='note'} for k,v in C.POSTER_TEXT.items()}
-open('/workspace/work/bb2/data.js','w').write('// Copy drafted with Meta Muse Spark 1.3 (translations, reunion lines); insider slogans are drafts for the author to replace. Illustrations: Meta Muse Image 1.0. Built 2026-10-28 (S7 sources page).\nconst DATA='+json.dumps(D,ensure_ascii=False)+';\n')
+open('/workspace/work/bb2/data.js','w').write('// Copy drafted with Meta Muse Spark 1.3 (translations, reunion lines); insider slogans are drafts for the author to replace. Illustrations: Meta Muse Image 1.0. Built 2026-10-28 (L advocates on sources page).\nconst DATA='+json.dumps(D,ensure_ascii=False)+';\n')
 chars=set(json.dumps(D,ensure_ascii=False))
 open('chars.txt','w').write(''.join(sorted(chars))+'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz–—…·・，。？！：「」（）')
 print('ok',len(chars))
