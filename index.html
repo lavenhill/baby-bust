@@ -4,7 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
 <meta name="theme-color" content="#2F3B52">
-<title>Baby or Bust｜我們這一班</title>
+<title>Baby or Bust｜我們與孩子的距離｜Between Us and the Kids</title>
+<meta name="description" content="我們與孩子的距離：每年一張宣傳照，留下政府文宣還是同學的真實處境。Between Us and the Kids: a short story game about who pays for Taiwan’s childcare policies.">
+<meta property="og:title" content="Baby or Bust｜我們與孩子的距離｜Between Us and the Kids">
+<meta property="og:description" content="Between Us and the Kids: each year you keep one photo, the government poster or your classmate’s real life. A short game about who pays for Taiwan’s childcare policies.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Huninn&family=LXGW+WenKai+TC&display=swap" rel="stylesheet">
 <style>
@@ -101,7 +104,7 @@ body{color:var(--ink);font-family:"Huninn","Noto Sans CJK TC",system-ui,sans-ser
 .src{color:#b9b4b2;font-size:clamp(11px,calc(1.75*var(--u)),13px);line-height:1.65;overflow:auto;flex:1;min-height:0}
 .credit{color:#8f8a88;font-size:11px;line-height:1.6;text-align:center}
 .title{justify-content:center;align-items:center;color:var(--paper);text-align:center}
-.title h1{font-family:"Poster",sans-serif;font-size:calc(6.4*var(--u));-webkit-text-stroke:5px var(--hot);paint-order:stroke fill;color:#fff}
+.title h1{font-family:"Poster",sans-serif;font-size:min(calc(6.4*var(--u)),calc(var(--sw)*.095));text-wrap:balance;word-break:keep-all;padding:0 3%;-webkit-text-stroke:5px var(--hot);paint-order:stroke fill;color:#fff}
 .lang{position:absolute;top:calc(env(safe-area-inset-top) + 10px);right:12px;z-index:9;border:0;border-radius:14px;padding:4px 10px;font:inherit;font-size:13px;background:#F3ECE9cc}
 .spacer{flex:1}
 .lan{position:absolute;left:0;right:0;bottom:10%;height:52%;display:flex;justify-content:center;align-items:flex-end;gap:1%}
@@ -220,10 +223,10 @@ a.splink{display:inline-block;font-size:12.5px;line-height:1.5;color:#3d5ea8;tex
 <body>
 <div id="bd"></div>
 <div id="stage"><button id="lang" class="lang">EN</button><div id="deck"></div></div>
-<script>document.write('<script src="data.js?v=20261028g&t='+Date.now()+'"><\/script>')</script>
+<script>document.write('<script src="data.js?v=20261028h&t='+Date.now()+'"><\/script>')</script>
 <script>
-// Baby or Bust — 我們這一班. One screen per beat; written during the Meta hackathon (2026-10-27). Spec: docs/spec/.
-const V='20261028g';
+// Baby or Bust — 我們與孩子的距離. One screen per beat; written during the Meta hackathon (2026-10-27). Spec: docs/spec/.
+const V='20261028h';
 // S7: 「還想查什麼？」即時查詢開關。設成 Cloudflare Worker 網址（tools/ask_worker.js，見 docs/ask-worker.md）就切成即時 Muse；空字串＝只用錄好的答案（預設關）。
 const ASK_URL=window.BB_ASK_URL||'';if(!(DATA.group&&DATA.lantern&&DATA.sources)&&!/reload=/.test(location.search))location.replace(location.pathname+'?reload='+Date.now());
 const bust=h=>h.replace(/(img\/\w+\.webp)/g,'$1?v='+V);
