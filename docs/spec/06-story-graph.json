@@ -1,5 +1,5 @@
 {
- "version": "lines-r3 (V=20261028b)",
+ "version": "r4 (V=20261028c)",
  "generated_from": "data.js + engine rules in index.html",
  "state": {
   "hurt[m]": "同學 m 被犧牲次數；選上半（文宣）時 +1 給 D.who（下半照片上的人）",
@@ -79,7 +79,8 @@
     "aside": {
      "zh": "註冊費要先付一整學期",
      "en": "Registration has to be paid for the whole semester up front"
-    }
+    },
+    "h1s": "We Help Raise Them"
    },
    "D": {
     "who": "家豪",
@@ -99,7 +100,8 @@
     "aside": {
      "zh": "下個月房租還沒著落",
      "en": "Next month's rent still isn't covered"
-    }
+    },
+    "h1s": "A Teacher per Class"
    },
    "U_hurts": "家豪",
    "group": [
@@ -262,7 +264,8 @@
     "aside": {
      "zh": "表格填到半夜兩點",
      "en": "Filling out forms till 2am"
-    }
+    },
+    "h1s": "Quasi-Public, No Worries"
    },
    "D": {
     "who": "宜君",
@@ -282,7 +285,8 @@
     "aside": {
      "zh": "媽媽問我要不要轉行",
      "en": "Mom asks if I want to change careers"
-    }
+    },
+    "h1s": "Secure Teacher Pay"
    },
    "U_hurts": "宜君",
    "group": [
@@ -453,7 +457,8 @@
     "whoE": {
      "zh": "佩珊的姊姊",
      "en": "Peishan's sister"
-    }
+    },
+    "h1s": "More Public Seats"
    },
    "D": {
     "who": "阿芳",
@@ -473,7 +478,8 @@
     "aside": {
      "zh": "私幼註冊單先放包包",
      "en": "Tucked the private preschool registration form into my bag"
-    }
+    },
+    "h1s": "Every Child a Seat"
    },
    "U_hurts": "阿芳",
    "group": [
@@ -640,7 +646,8 @@
     "aside": {
      "zh": "白天開視訊，晚上補工作",
      "en": "Video calls by day, catch up on work at night"
-    }
+    },
+    "h1s": "Parents' Teammate"
    },
    "D": {
     "who": "志豪",
@@ -660,7 +667,8 @@
     "aside": {
      "zh": "便當冰了，還沒吃完",
      "en": "My bento's gone cold, still unfinished"
-    }
+    },
+    "h1s": "Thanks for Stepping In"
    },
    "U_hurts": "志豪",
    "group": [
@@ -828,7 +836,8 @@
     "aside": {
      "zh": "新家只比舊家大一點",
      "en": "New place is only a little bigger than the old one"
-    }
+    },
+    "h1s": "Rent Help for Families"
    },
    "D": {
     "who": "志豪",
@@ -848,7 +857,8 @@
     "aside": {
      "zh": "房東說下期要漲五百",
      "en": "Landlord says rent's going up NT$500 next term"
-    }
+    },
+    "h1s": "Youth Rent Support"
    },
    "U_hurts": "志豪",
    "group": [
@@ -1010,7 +1020,8 @@
     "aside": {
      "zh": "一天只睡四小時",
      "en": "Only four hours of sleep a day"
-    }
+    },
+    "h1s": "NT$5,000 Childcare"
    },
    "D": {
     "who": "阿芳",
@@ -1030,7 +1041,8 @@
     "aside": {
      "zh": "工作證先收進抽屜",
      "en": "Tucked the staff badge into the drawer for now"
-    }
+    },
+    "h1s": "Kids and Career"
    },
    "U_hurts": "阿芳",
    "group": [
@@ -1217,7 +1229,8 @@
     "aside": {
      "zh": "還是要先衝出公司",
      "en": "Still have to dash out of the office first"
-    }
+    },
+    "h1s": "0–6 Together 2.0"
    },
    "D": {
     "who": "宜君",
@@ -1237,7 +1250,8 @@
     "aside": {
      "zh": "水壺整天沒空去裝",
      "en": "Didn't get a chance to refill my water bottle all day"
-    }
+    },
+    "h1s": "Teachers Off on Time"
    },
    "U_hurts": "宜君",
    "group": [
@@ -1394,7 +1408,7 @@
     "D": "y2026"
    },
    "final": false,
-   "policy_src": "聯合報 2025-08-05（宜蘭頭城鎮立幼兒園寒暑假要求教師到園）；國教署 2025-05-27",
+   "policy_src": "中央社 2024-01-26，刊於聯合新聞網（公幼寒暑假加托改定額，每月最多 2,000 元）；國教署 2025-05-27（公幼寒暑期加托每月 2,000 元，開辦率 95%）",
    "ask": [
     {
      "zh": "寒暑假托育缺口要補，議員點名要「全年有開」。",
@@ -1423,7 +1437,8 @@
     "aside": {
      "zh": "暑假一樣要上班",
      "en": "Still have to work through summer break"
-    }
+    },
+    "h1s": "Open During Breaks"
    },
    "D": {
     "who": "家豪",
@@ -1443,18 +1458,19 @@
     "aside": {
      "zh": "暑期班傳單印一百張，報名三個",
      "en": "Printed 100 summer program flyers. 3 sign-ups"
-    }
+    },
+    "h1s": "Private Schools Help"
    },
    "U_hurts": "家豪",
    "group": [
     {
      "id": "y2025e.g1",
-     "who": "阿芳",
-     "zh": "暑假也有地方送了！",
-     "en": "Summer care sorted too!",
+     "who": "佩珊",
+     "zh": "剛看到公幼暑假也收托的消息欸",
+     "en": "Just saw the news: public preschools are staying open over the summer too",
      "visible_if": {
       "present": [
-       "阿芳"
+       "佩珊"
       ],
       "absent": []
      }
@@ -1462,51 +1478,51 @@
     {
      "id": "y2025e.g2",
      "who": "阿芳",
-     "zh": "宜君好久沒講話了……",
-     "en": "Yijun hasn’t said anything in ages…",
+     "zh": "老二有著落了，我終於能喘一口氣🙏",
+     "en": "My youngest is sorted, I can finally breathe 🙏",
      "visible_if": {
       "present": [
+       "阿芳",
        "阿芳"
       ],
-      "absent": [
-       "宜君"
-      ]
+      "absent": []
      }
     },
     {
      "id": "y2025e.g3",
-     "who": "阿芳",
-     "zh": "宜君妳們園也有開嗎",
-     "en": "Yijun, is your school open too?",
+     "who": "家豪",
+     "zh": "哈哈哈恭喜阿芳的老二，小太陽暑期班有好位置啦",
+     "en": "Hahaha congrats on your youngest, A-Fang! Little Sun’s summer program still has good spots",
      "visible_if": {
       "present": [
-       "阿芳",
-       "宜君"
+       "家豪",
+       "阿芳"
       ],
       "absent": []
      }
     },
     {
      "id": "y2025e.g4",
-     "who": "宜君",
-     "zh": "有。班表出來了，沖繩的機票我退了",
-     "en": "Yeah. Schedule's out, refunded my Okinawa tickets",
+     "who": "家豪",
+     "zh": "哈哈哈好消息啊，小太陽暑期班還有好位置啦",
+     "en": "Hahaha good news! Little Sun’s summer program still has good spots",
      "visible_if": {
       "present": [
-       "宜君"
+       "家豪"
       ],
-      "absent": []
+      "absent": [
+       "阿芳"
+      ]
      }
     },
     {
      "id": "y2025e.g5",
-     "who": "阿芳",
-     "zh": "……我收回剛剛的開心",
-     "en": "...Taking back my happy",
+     "who": "家豪",
+     "zh": "剛印好一百張傳單，兩個老師是最強陣容啦",
+     "en": "Just printed a hundred flyers, and my two teachers are a dream team",
      "visible_if": {
       "present": [
-       "阿芳",
-       "宜君"
+       "家豪"
       ],
       "absent": []
      }
@@ -1514,10 +1530,11 @@
     {
      "id": "y2025e.g6",
      "who": "宜君",
-     "zh": "沒事啦，我媽說明年再去",
-     "en": "It's ok, my mom says go next year",
+     "zh": "笑死又看到輪班表，我的沖繩又是白日夢QQ",
+     "en": "lol just saw the rotation schedule, Okinawa’s a daydream again QQ",
      "visible_if": {
       "present": [
+       "宜君",
        "宜君"
       ],
       "absent": []
@@ -1525,28 +1542,29 @@
     },
     {
      "id": "y2025e.g7",
-     "who": "佩珊",
-     "zh": "明年一起去，我請假不道歉了",
-     "en": "Let's go next year together, no more apologizing for leave",
+     "who": "志豪",
+     "zh": "小太陽的暑期班一定超搶手啦",
+     "en": "Little Sun’s summer program must be packed",
      "visible_if": {
       "present": [
-       "佩珊",
-       "宜君"
+       "志豪",
+       "志豪"
       ],
       "absent": []
      }
     },
     {
      "id": "y2025e.g8",
-     "who": "家豪",
-     "zh": "伴手禮記我帳，招生幫推啦",
-     "en": "Souvenirs on me, help push enrollment pls",
+     "who": "佩珊",
+     "zh": "我幫家豪把傳單轉給同學們啦",
+     "en": "I’ll pass Jiahao’s flyers on to our classmates",
      "visible_if": {
       "present": [
-       "家豪",
-       "宜君"
+       "佩珊"
       ],
-      "absent": []
+      "absent": [
+       "阿芳"
+      ]
      }
     }
    ],
@@ -1669,7 +1687,8 @@
     "whoE": {
      "zh": "佩珊夫妻",
      "en": "Peishan and her husband"
-    }
+    },
+    "h1s": "We Back Families"
    },
    "D": {
     "who": "志豪",
@@ -1689,7 +1708,8 @@
     "aside": {
      "zh": "租約還有十一個月",
      "en": "Eleven months left on the lease"
-    }
+    },
+    "h1s": "A Home for All"
    },
    "U_hurts": "志豪",
    "group": [
@@ -1874,7 +1894,8 @@
     "aside": {
      "zh": "走之前又道歉了一次",
      "en": "Apologized once more before leaving"
-    }
+    },
+    "h1s": "Leave by the Day"
    },
    "D": {
     "who": "老顏",
@@ -1898,7 +1919,8 @@
     "aside_ring": {
      "zh": "她在樓下等，車沒熄火",
      "en": "She’s waiting downstairs, engine running"
-    }
+    },
+    "h1s": "Thanks for Stepping In"
    },
    "U_hurts": null,
    "group": [
