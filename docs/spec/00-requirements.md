@@ -155,6 +155,7 @@
 - 21:43「英文版全面用英文名」
 - 21:45「英譯台詞務必要顧慮到外國人不熟悉台灣的幼托制度，盡可能簡單明瞭」
 - 21:50「全文應該都要按照同樣的翻譯原則」
+- 22:4x 文案對照表：使用者要在表上手動小修中文台詞與文本，「英文就不要動了」
 
 | ID | 需求 | 來源 | 狀態 |
 |---|---|---|---|
@@ -170,3 +171,4 @@
 | M10 | 英文版角色用英文名：阿芳 Amy、家豪 Kevin、宜君 Jessica、志豪 Jason、佩珊 Penny、老顏 Vivian、小雯 Wendy；小芋頭維持 Little Taro、小太陽 Little Sun；「顏座」＝Boss Vivian（2026 佩珊選上後改叫 Vivian，保留由客套變熟）。中文版不動；真實人物姓名不改；play.py 檢查英文畫面不得出現舊拼音名 | 使用者 10-28 21:43 | 已實作 |
 | M11 | 英文術語白話化：公幼 public preschool（首次出現補 cheap／lottery）、私幼 private preschool、準公共 subsidized private preschool（不用 quasi-public）、抽籤／備取 lottery／waitlist #87、育嬰留停 unpaid parental leave (by the day)、教保員 preschool teacher、延托 after-hours care、寒暑假加托 care during summer and winter break（短句 break-time care）、社宅 public housing、約聘 contract worker、年終考核 year-end review、防疫照顧假 pandemic childcare leave、職務代理 covering for a coworker。出處卡只改用詞不改事實；play.py 檢查英文畫面不得出現 quasi、kindergarten lottery 與拼音術語 | 使用者 10-28 21:45 | 已實作 |
 | M12 | M11 的白話翻譯原則套用到所有英文文字：便條、海報主副標、旁註、後果屏、判詞與私訊、依據卡與出處頁（含倡議者原話英譯）、UI、<title>／meta／og 描述（新增）、圖片 alt（目前皆為空的裝飾圖）、英文 README；英文出處頁不得殘留中文（play.py 檢查） | 使用者 10-28 21:50 | 已實作 |
+| M13 | 文案對照表（Google 試算表 1vKymUCH…）由使用者手改中文：回寫源碼時只改中文，英文不重譯、不動（除非使用者另外要求）。覆蓋表之前必須先讀回表上的中文差異並回寫，不可蓋掉使用者的修改。工具 tools/sheet_sync.py：pull（比對表上中文 vs 本機）→ apply（只換完整引號字串；en.json 以中文為鍵者只改鍵、英文值不變；重建 data.js 後驗證：英文 0 變動、別列中文 0 變動、data.js 只出現表上那幾組 舊→新；任一不符整批還原；同句多列只改一部分、程式組字者列人工）→ push（表上有未回寫中文、表上多出列、英文欄不同時拒絕覆蓋；上傳後回讀中英兩欄比對）。表新增「介面（程式內建）」區塊：index.html 的 L?'英':'中' 介面字 | 使用者 10-28 22:4x | 已實作（V=20261028i） |
