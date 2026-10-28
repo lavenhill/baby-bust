@@ -1,7 +1,9 @@
 """Headless playtest for the one-screen-per-beat build.
 usage: python3 tools/play.py PATH(7 x U/D) OUTPREFIX [zh|en] [WxH] [shots] [kb] [rm]
  rm = prefers-reduced-motion. kb = pick with keys (1/2 and ↑/↓ alternating) + Enter instead of mouse. Wall checks: tap-only (no ⇅), hint only in 2018, pick lands before 發布.
-Checks every screen for overflow (content taller than the screen) and page errors."""
+Checks every screen for overflow (content taller than the screen) and page errors.
+R4 (2026-10-28): "tap to continue" pill must not overlap other elements or leave the screen (incident: 退群提示蓋到點一下繼續);
+poster text over head boxes: cover >=0.05 WARN, >=0.15 fail; poster placement time per wall reported (ms); pages after paging must each fit."""
 from playwright.sync_api import sync_playwright
 import time,sys,os,json
 seq=sys.argv[1];out=sys.argv[2];lang=sys.argv[3] if len(sys.argv)>3 else 'zh'
@@ -11,6 +13,9 @@ OVER="""()=>{const s=H.list[H.i];if(!s)return null;const bad=[];
  if(s.scrollHeight>s.clientHeight+2)bad.push('screen '+s.scrollHeight+'>'+s.clientHeight);
  s.querySelectorAll('.chat').forEach(c=>{if(c.scrollHeight>c.clientHeight+2&&!s.classList.contains('wall'))bad.push('chat clipped '+c.scrollHeight+'>'+c.clientHeight)});
  s.querySelectorAll('.h1,.sub,.tag,.aside,.bar,.hint').forEach(e=>{if(!e.getClientRects().length)return;const r=e.getBoundingClientRect(),p=s.getBoundingClientRect();if(r.right>p.right+1||r.left<p.left-1)bad.push(e.className+' wide')});
+ const tp=s.querySelector('.tapnext');if(tp&&tp.getClientRects().length){const a=tp.getBoundingClientRect(),p=s.getBoundingClientRect();if(a.bottom>p.bottom+1||a.top<p.top-1)bad.push('tapnext offscreen');
+  s.querySelectorAll('.sys,.sysin,.phone,.life,.note,.cap,.btn,.wish,.qs,.bub,.memo:not(.fmemo)').forEach(e=>{if(e.contains(tp)||!e.getClientRects().length)return;const b=e.getBoundingClientRect();if(Math.min(a.right,b.right)-Math.max(a.left,b.left)>2&&Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)>2)bad.push('tapnext overlaps '+e.className)})}
+ if(s.classList.contains('wall'))s.querySelectorAll('.half').forEach(h=>{const c=+(h.dataset.cover||0);if(c>=.15)bad.push('poster text on head '+h.className+' '+c);else if(c>=.05)bad.push('WARN poster '+h.className+' '+c)});
  return bad}"""
 with sync_playwright() as p:
     b=p.chromium.launch(executable_path="/usr/bin/chromium")
@@ -19,18 +24,19 @@ with sync_playwright() as p:
     pg.route("**/fonts.*/**",lambda r:r.abort())
     pg.goto(url,wait_until="domcontentloaded");time.sleep(.6)
     if lang=='en': pg.click("#lang");time.sleep(.3)
-    report=[];i=0;n=0;last=None
+    report=[];i=0;n=0;last=None;ms=[]
     def shot(tag):
         if shots: pg.screenshot(path=f"{out}_{n:02d}_{tag}.png")
     for guard in range(500):
         if pg.evaluate("S.ended===true"):
             time.sleep(.6);bad=pg.evaluate(OVER);report.append(('end',bad));shot('end');break
-        info=pg.evaluate("()=>{const s=H.list[H.i];return {k:H.i,wall:s.classList.contains('wall')&&!s.classList.contains('done'),btn:!!s.querySelector(':scope>.btn, .title .btn'),tap:!!s.querySelector('.tapnext'),qs:!!s.querySelector('.qs button:not(:disabled)')}}")
+        info=pg.evaluate("()=>{const s=H.list[H.i];return {k:H.i,wall:s.classList.contains('wall')&&!s.classList.contains('done'),btn:!!s.querySelector(':scope>.btn, .title .btn'),tap:!!s.querySelector('.tapnext'),qs:!!s.querySelector('.qs button:not(:disabled)')&&getComputedStyle(s.querySelector('.qs')).visibility!=='hidden'}}")
         if pg.evaluate("()=>!!H.list[H.i].querySelector('.lan:not(.fly) .mate:not(.seen)')&&!H.list[H.i].querySelector('.l26')"):
             for m in pg.locator('.scr:not(.below):not(.above) .lan .mate').all(): m.click();time.sleep(.25)
             bad=pg.evaluate(OVER);report.append(('lanterns',bad));shot('lan');continue
         if info['wall']:
             time.sleep(.7);bad=pg.evaluate(OVER);report.append((pg.evaluate("S.node")+' wall',bad));shot('wall')
+            ms.append(pg.evaluate("()=>Math.max(0,...[...H.list[H.i].querySelectorAll('.half')].map(h=>+(h.dataset.ms||0)))"))
             nd,ht,glyph=pg.evaluate("()=>{const s=H.list[H.i],h=s.querySelector('.hint');return [S.node,h?h.textContent.trim():null,[...s.querySelectorAll('.hint,.bar')].some(e=>e.textContent.includes('⇅'))]}")
             want={'zh':'點一張留下','en':'Tap one to keep'}[lang] if nd=='y2018' else None
             if ht!=want or glyph: report.append((nd+' hint',[f'hint={ht!r} want={want!r} glyph={glyph}']))
@@ -47,17 +53,22 @@ with sync_playwright() as p:
             time.sleep(.4);pg.locator('.scr:not(.below):not(.above) .btn').last.click();n+=1;time.sleep(.9);continue
         if info['tap']:
             if info['qs'] and not pg.evaluate("()=>!!H.list[H.i].querySelector('.qs button:disabled')"): shot('dm')
-            if info['qs']: pg.locator('.scr:not(.below):not(.above) .qs button').first.click();time.sleep(.3)
+            if info['qs']:  # R4: every follow-up answer must fit at the larger DM type, not just the first
+                qb=pg.locator('.scr:not(.below):not(.above) .qs button')
+                for qi in range(qb.count()-1,-1,-1):
+                    qb.nth(qi).click();time.sleep(.3);bq=pg.evaluate(OVER)
+                    if bq: report.append((f"screen {info['k']} q{qi}",bq))
             bad=pg.evaluate(OVER);report.append((f"screen {info['k']}",bad));shot('s')
             pg.mouse.click(pg.locator('#stage').bounding_box()['x']+20,60);n+=1;time.sleep(.7);continue
         time.sleep(.4)
     # lines-r3 checks: ending DMs (gone = cold, hurt once = warm), no blank bubbles, no outsider forward screens
     dm=pg.evaluate("""()=>H.list.filter(s=>s.querySelector('.who')).map(s=>{const b=s.querySelector('.chat .bub');return {who:s.querySelector('.who b').textContent,cold:!!(b&&b.classList.contains('gone')),len:b?b.textContent.length:0}})""")
     exp=pg.evaluate("()=>({gone:S.gone.slice(),once:Object.keys(S.hurt).filter(m=>S.hurt[m]===1&&!S.gone.includes(m))})")
-    blank=pg.evaluate("()=>H.list.flatMap(s=>[...s.querySelectorAll('.bub')]).filter(b=>{const c=b.cloneNode(true);c.querySelectorAll('i').forEach(i=>i.remove());return !c.textContent.trim()&&!b.querySelector('img')}).length")
+    blank=pg.evaluate("()=>H.list.flatMap(s=>[...s.querySelectorAll('.bub,.sysin')]).filter(b=>{const c=b.cloneNode(true);c.querySelectorAll('i').forEach(i=>i.remove());return !c.textContent.trim()&&!b.querySelector('img')}).length")
     fw=pg.evaluate("()=>H.list.filter(s=>s.querySelector('.fw')).length")
     if blank: report.append(('blank bubbles',[blank]))
     if fw: report.append(('outsider forward screens',[fw]))
     if len(dm)!=len(exp['gone'])+len(exp['once']) or any(d['len']<20 for d in dm): report.append(('dm mismatch',[dm,exp]))
-    fails=[r for r in report if r[1]]
-    print(json.dumps({"vp":f"{W}x{Hh}","lang":lang,"path":seq,"screens":len(report),"ended":pg.evaluate("S.ended===true"),"errors":errs,"overflow":fails,"dms":dm,"hurt":exp},ensure_ascii=False))
+    isw=lambda r:all(str(x).startswith('WARN') for x in r[1])
+    warns=[r for r in report if r[1] and isw(r)];fails=[r for r in report if r[1] and not isw(r)]
+    print(json.dumps({"vp":f"{W}x{Hh}","lang":lang,"path":seq,"screens":len(report),"ended":pg.evaluate("S.ended===true"),"errors":errs,"overflow":fails,"warn":warns,"place_ms":max(ms or [0]),"dms":dm,"hurt":exp},ensure_ascii=False))
