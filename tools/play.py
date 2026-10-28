@@ -1,8 +1,9 @@
 """Headless playtest for the one-screen-per-beat build.
-usage: python3 tools/play.py PATH(7 x U/D) OUTPREFIX [zh|en] [WxH] [shots] [kb] [rm] [wish=TEXT] [expect=同學]
+usage: python3 tools/play.py PATH(7 x U/D) OUTPREFIX [zh|en] [WxH] [shots] [kb] [rm] [spam] [wish=TEXT] [expect=同學]
  L1 (2026-10-28): types wish on Lao Yan's lantern (empty allowed: wish=), checks 5 s beat, one reply from a classmate still in the group,
  contrast 燈上/海報上 = masked wish / kept 2026 headline, dark lamps == gone, profanity never on screen.
- rm = prefers-reduced-motion. kb = pick with keys (1/2 and ↑/↓ alternating) + Enter instead of mouse. Wall checks: tap-only (no ⇅), hint only in 2018, pick lands before 發布.
+ rm = prefers-reduced-motion. spam = 連點 (5 quick taps on the 平溪 reveal, 4 after 放！, double tap on every tap screen).
+ 2026-10-28i (iPhone stuck at 平溪 before 老顏): a tap must advance the 2026 reveal; 放！ must work with a composition that never ends. kb = pick with keys (1/2 and ↑/↓ alternating) + Enter instead of mouse. Wall checks: tap-only (no ⇅), hint only in 2018, pick lands before 發布.
 Checks every screen for overflow (content taller than the screen) and page errors.
 R4 (2026-10-28): "tap to continue" pill must not overlap other elements or leave the screen (incident: 退群提示蓋到點一下繼續);
 poster text over head boxes: cover >=0.05 WARN, >=0.15 fail; poster placement time per wall reported (ms); pages after paging must each fit.
@@ -14,7 +15,7 @@ import time,sys,os,json
 seq=sys.argv[1];out=sys.argv[2];lang=sys.argv[3] if len(sys.argv)>3 else 'zh'
 W,Hh=map(int,(sys.argv[4] if len(sys.argv)>4 else '390x780').split('x'));extra=sys.argv[5:]
 opt={a.split('=',1)[0]:a.split('=',1)[1] for a in extra if '=' in a};extra=[a for a in extra if '=' not in a]
-kb='kb' in extra;rm='rm' in extra;shots=any(a not in('kb','rm') for a in extra)
+kb='kb' in extra;rm='rm' in extra;spam='spam' in extra;shots=any(a not in('kb','rm','spam') for a in extra);rv_done=False
 WISH=opt.get('wish',{'zh':'想睡一整晚','en':'sleep all night'}[lang]);EXPECT=opt.get('expect')  # L1: text typed on Lao Yan's lantern; expect = responder
 url="file://"+os.path.abspath(os.path.join(os.path.dirname(__file__),"..","index.html"))
 OVER="""()=>{const s=H.list[H.i];if(!s)return null;const bad=[];
@@ -60,19 +61,34 @@ with sync_playwright() as p:
         if pg.evaluate("()=>!!H.list[H.i].querySelector('.lan:not(.fly) .mate:not(.seen)')&&!H.list[H.i].querySelector('.l26')"):
             for m in pg.locator('.scr:not(.below):not(.above) .lan .mate').all(): m.click();time.sleep(.25)
             bad=pg.evaluate(OVER);report.append(('lanterns',bad));shot('lan');continue
+        # 2026-10-28i incident (iPhone): 平溪 2026 reveal ignored every tap for ~10 s; a tap must now cut the current beat short
+        rv=pg.evaluate("()=>{const s=H.list[H.i];const w=s.querySelector('.l26');return w&&!s.querySelector('.wish input')&&w.querySelector('i')&&!H.next?w.innerText:null}")
+        if rv is not None and not rv_done:
+            box=pg.locator('#stage').bounding_box();t_rv=time.time()
+            for _ in range(5 if spam else 1): pg.mouse.click(box['x']+box['width']/2,box['y']+box['height']*.45);time.sleep(.04 if spam else 0)
+            time.sleep(.25);rv2=pg.evaluate("()=>{const w=H.list[H.i].querySelector('.wish');return w?w.innerText:null}")
+            if rv2==rv: report.append(('pingxi reveal',['tap did not advance the reveal']))
+            rv_done=True;continue
         if pg.evaluate("()=>!!H.list[H.i].querySelector('.wish input:not(:disabled)')"):
             time.sleep(.3);bad=pg.evaluate(OVER);report.append(('lantern input',bad))
             pg.locator('.scr:not(.below):not(.above) .wish input').click()
+            # 2026-10-28i incident: iOS 注音 can start a composition and never send compositionend; 放！ must still go through
+            pg.evaluate("()=>H.list[H.i].querySelector('.wish input').dispatchEvent(new CompositionEvent('compositionstart',{data:''}))")
             if WISH: pg.keyboard.type(WISH,delay=20)
             time.sleep(.2);shot('lin');lin_val=pg.evaluate("()=>H.list[H.i].querySelector('.wish input').value")
             pg.locator('.scr:not(.below):not(.above) .wish button').click();t_sub=time.time();n+=1
-            time.sleep(2.4);shot('lmid');time.sleep(.2);continue
+            if spam:
+                for _ in range(4): pg.mouse.click(pg.locator('#stage').bounding_box()['x']+20,60);time.sleep(.05)
+            time.sleep(1.2)
+            if not pg.evaluate("()=>H.list[H.i].classList.contains('lt')"): report.append(('lantern submit',['放！ did not start the lantern beat (stuck composition?)']));break
+            time.sleep(1.2);shot('lmid');time.sleep(.2);continue
         if info['wall']:
             time.sleep(.7);bad=pg.evaluate(OVER);report.append((pg.evaluate("S.node")+' wall',bad));shot('wall')
             ms.append(pg.evaluate("()=>Math.max(0,...[...H.list[H.i].querySelectorAll('.half')].map(h=>+(h.dataset.ms||0)))"))
             nd,ht,glyph=pg.evaluate("()=>{const s=H.list[H.i],h=s.querySelector('.hint');return [S.node,h?h.textContent.trim():null,[...s.querySelectorAll('.hint,.bar')].some(e=>e.textContent.includes('⇅'))]}")
             want={'zh':'點一張留下','en':'Tap one to keep'}[lang] if nd=='y2018' else None
-            if ht!=want or glyph: report.append((nd+' hint',[f'hint={ht!r} want={want!r} glyph={glyph}']))
+            picked=pg.evaluate("()=>!!H.list[H.i].querySelector('.half.on')")  # spam: the 2nd tap of a double tap may already have picked, which hides the hint by design
+            if (ht!=want and not (spam and picked)) or glyph: report.append((nd+' hint',[f'hint={ht!r} want={want!r} glyph={glyph}']))
             if kb: pg.keyboard.press(('1' if seq[i]=='U' else '2') if i%2==0 else ('ArrowUp' if seq[i]=='U' else 'ArrowDown'))
             else:
                 box=pg.locator('#stage').bounding_box();y=box['y']+box['height']*(.25 if seq[i]=='U' else .75)
@@ -92,7 +108,9 @@ with sync_playwright() as p:
                     qb.nth(qi).click();time.sleep(.3);bq=pg.evaluate(OVER)
                     if bq: report.append((f"screen {info['k']} q{qi}",bq))
             bad=pg.evaluate(OVER);report.append((f"screen {info['k']}",bad));shot('s')
-            pg.mouse.click(pg.locator('#stage').bounding_box()['x']+20,60);n+=1;time.sleep(.7);continue
+            pg.mouse.click(pg.locator('#stage').bounding_box()['x']+20,60)
+            if spam: time.sleep(.05);pg.mouse.click(pg.locator('#stage').bounding_box()['x']+20,60)  # 連點
+            n+=1;time.sleep(.7);continue
         time.sleep(.4)
     # lines-r3 checks: ending DMs (gone = cold, hurt once = warm), no blank bubbles, no outsider forward screens
     dm=pg.evaluate("""()=>H.list.filter(s=>s.querySelector('.who')).map(s=>{const b=s.querySelector('.chat .bub');return {who:s.querySelector('.who b').textContent,cold:!!(b&&b.classList.contains('gone')),len:b?b.textContent.length:0}})""")
