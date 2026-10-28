@@ -10,6 +10,7 @@ for k,n in C.NODES.items():
         x=n[h]; o[h]={'who':x['who'],'named':x['who'] in C.TAG,'tag':E(x.get('tag') or C.TAG.get(x['who'],'')),'h1':E(x['h1']),'sub':E(x['sub']),'aside':E(x['aside'])}
         if not o[h]['named']: o[h]['whoE']=E(x['who'])
         if x.get('aside_ring'): o[h]['aside_ring']=[x['aside_ring'],'She’s waiting downstairs, engine running']
+        if getattr(C,'H1S_EN',{}).get(k+'_'+h): o[h]['h1s']=C.H1S_EN[k+'_'+h]
     nodes[k]=o
 fix=lambda s:s.replace('Old Yan','Lao Yan')
 reu={k:{'line':[v['line'],fix(v.get('line_en',''))],'qa':[[q.get('a',''),fix(q.get('a_en',''))] for q in v.get('qa',[])][:3],'off':[v.get('offtopic',''),fix(v.get('offtopic_en',''))],'kind':v.get('kind','')} for k,v in R['reunion'].items()}
@@ -47,7 +48,11 @@ D=dict(nodes=nodes,wish={k:E3(v) for k,v in C.WISH.items()},call={k:[E3(x) for x
  slug={'老顏':'laoyan','阿芳':'afang','家豪':'jiahao','宜君':'yijun','志豪':'zhihao','佩珊':'peishan'},
  group={k:[[w,E(t),d] for w,t,d in v] for k,v in C.GROUP.items()},gcons={k:{str(n):[[w,t,E(x),d] for w,t,x,d in ls] for n,ls in v.items()} for k,v in C.GCONS.items()},news={k:[E(h),E(src)] for k,(h,src) in C.NEWS.items()},wish2={k:E(v) for k,v in C.WISH2.items()},wish26={k:[E(x) for x in v] for k,v in C.WISH26.items()},lao26=[E(x) if x else ['',''] for x in C.LAO26],v5={k:E(v) for k,v in C.V5UI.items()},
  class_=['阿芳','家豪','宜君','志豪','佩珊','老顏'],babies=['afang','jiahao','yijun','peishan'])
-open('/workspace/work/bb2/data.js','w').write('// Copy drafted with Meta Muse Spark 1.3 (translations, reunion lines); insider slogans are drafts for the author to replace. Illustrations: Meta Muse Image 1.0. Built 2026-10-28 (lines-r3).\nconst DATA='+json.dumps(D,ensure_ascii=False)+';\n')
+import os
+HP='/workspace/work/bb2/tools/heads.json'  # R4-4a: YuNet head boxes (tools/heads.py)
+if os.path.exists(HP): D['heads']=json.load(open(HP))
+if getattr(C,'POSTER_TEXT',None): D['posterText']={k:{kk:vv for kk,vv in v.items() if kk!='note'} for k,v in C.POSTER_TEXT.items()}
+open('/workspace/work/bb2/data.js','w').write('// Copy drafted with Meta Muse Spark 1.3 (translations, reunion lines); insider slogans are drafts for the author to replace. Illustrations: Meta Muse Image 1.0. Built 2026-10-28 (r4).\nconst DATA='+json.dumps(D,ensure_ascii=False)+';\n')
 chars=set(json.dumps(D,ensure_ascii=False))
 open('chars.txt','w').write(''.join(sorted(chars))+'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz–—…·・，。？！：「」（）')
 print('ok',len(chars))
