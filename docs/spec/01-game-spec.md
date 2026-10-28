@@ -120,3 +120,9 @@ TITLE → OPENING → [YEAR ×7: NEWS → SETUP → WALL → (PUBLISH) → REACT
 - 退路：DATA.sources 不存在（CDN 上 data.js 比 index.html 舊）→ 先自動重載一次，仍沒有就顯示舊的單頁出處列表。
 - 驗收（tools/play.py 自動）：F00 在最上；每題猜猜看三個選項都點過且判定正確；8 個建議問題都點過，句數＝錄製、灰字含「預先錄製」、連結 https＋另開新分頁＋沒被蓋住；留下的海報＝本局路徑且都能展開；進度標籤正確且無「跳票、破局、卡著、還沒上路、仍在等」；無橫向溢出、無 {x}／undefined；斷網（context offline）後建議問題照常；`live=mock|down|slow` 測即時開關。
 
+
+## §12 出處頁「誰在倡議」（L1–L6，2026-10-28 19:44 使用者決定；V=20261028f）
+- 資料：tools/sources_zh.py 的 CARDS 新增 A01–A57（A43 空號，共 56 張；kind="adv"，每張＝一位倡議者：title＝具名、src＝出處與日期、url、facts＝1 句原文摘要），NODE_ADV[node][U|D]＝該選項的卡片編號（≤3）。F07（總統府「神隊友」）放回 NODE_CARD.y2021。
+- 介面：「這七年留下的海報」每張展開 → 原有出處卡 → 小標「誰在倡議這一張」＋倡議句（左框紫）＋連結 → 小標「沒留下的另一張：〈另一面主標〉」＋該面倡議句與連結；沒有資料時顯示「未找到公開倡議」。
+- 出處庫：fact 編號格式擴為 F\d\d-n 或 A\d\d-n；Worker 白名單同步。建議問題 8 題重錄（每題 3 次挑 1 次，理由記在 sources_rec.json）。
+- QA（play.py）：展開全部海報後，每張至少 1 個「誰在倡議」連結與「另一張」區塊；所有倡議連結為 https；中英 0 溢出。
