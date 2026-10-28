@@ -188,7 +188,7 @@ body{color:var(--ink);font-family:"Huninn","Noto Sans CJK TC",system-ui,sans-ser
 .sprev{display:none;margin-top:8px}.spq.done .sprev{display:block;animation:in .3s both}
 .spv{font-weight:bold;font-size:14px;line-height:1.5;margin-bottom:2px}
 .spfact{font-size:clamp(14px,calc(2.2*var(--u)),16px);line-height:1.55;margin:5px 0 1px;padding-left:10px;border-left:3px solid var(--pink);word-break:break-word}
-.spfact.cost{border-left-color:var(--hot)}.spfact.update{border-left-color:#4b7bd6}.spfact.meta{border-left-color:#9a9090}
+.spfact.cost{border-left-color:var(--hot)}.spfact.update{border-left-color:#4b7bd6}.spfact.meta{border-left-color:#9a9090}.spfact.adv{border-left-color:#8a5cc7}.spadv{margin-top:10px;padding-top:2px;border-top:1px dashed rgba(0,0,0,.18)}.spnone{font-size:13px;color:#8a8080;margin:4px 0 2px}
 a.splink{display:inline-block;font-size:12.5px;line-height:1.5;color:#3d5ea8;text-decoration:underline;margin:2px 0 3px;padding:2px 0;word-break:break-word;-webkit-user-select:none;user-select:none}
 .spask{background:#ffffff10;border:1px solid #ffffff26;border-radius:14px;padding:10px}
 .spchips{display:flex;flex-wrap:wrap;gap:6px}
@@ -220,10 +220,10 @@ a.splink{display:inline-block;font-size:12.5px;line-height:1.5;color:#3d5ea8;tex
 <body>
 <div id="bd"></div>
 <div id="stage"><button id="lang" class="lang">EN</button><div id="deck"></div></div>
-<script>document.write('<script src="data.js?v=20261028e&t='+Date.now()+'"><\/script>')</script>
+<script>document.write('<script src="data.js?v=20261028f&t='+Date.now()+'"><\/script>')</script>
 <script>
 // Baby or Bust — 我們這一班. One screen per beat; written during the Meta hackathon (2026-10-27). Spec: docs/spec/.
-const V='20261028e';
+const V='20261028f';
 // S7: 「還想查什麼？」即時查詢開關。設成 Cloudflare Worker 網址（tools/ask_worker.js，見 docs/ask-worker.md）就切成即時 Muse；空字串＝只用錄好的答案（預設關）。
 const ASK_URL=window.BB_ASK_URL||'';if(!(DATA.group&&DATA.lantern&&DATA.sources)&&!/reload=/.test(location.search))location.replace(location.pathname+'?reload='+Date.now());
 const bust=h=>h.replace(/(img\/\w+\.webp)/g,'$1?v='+V);
@@ -478,7 +478,7 @@ async function reunion(){
 function sourcesPage(){
   const SD=DATA.sources,SU=SD.ui,C=SD.cards,DBG=/[?&]dbg=/.test(location.search);
   const u=(k,o={})=>{let t=tx(SU[k]);for(const x in o)t=t.split('{'+x+'}').join(o[x]);return esc(t)};
-  const fact=p=>{const m=/^(F\d\d)-(\d+)$/.exec(p);const c=m&&C[m[1]];const f=c&&c.f[+m[2]-1];return f?{c,t:tx(f)}:null};
+  const fact=p=>{const m=/^([FA]\d\d)-(\d+)$/.exec(p);const c=m&&C[m[1]];const f=c&&c.f[+m[2]-1];return f?{c,t:tx(f)}:null};
   const link=(href,label)=>href?'<a class="splink" href="'+esc(href)+'" target="_blank" rel="noopener noreferrer">'+esc(label)+' ↗</a>':'';
   const links=c=>c.url2?link(c.url,tx(c.src).split(/[；;]/)[0])+'<br>'+link(c.url2,tx(c.src2)):link(c.url,tx(c.src));
   const factH=p=>{const f=fact(p);return f?'<div class="spfact '+f.c.kind+'">'+esc(f.t)+'</div>'+links(f.c):''};
@@ -492,8 +492,11 @@ function sourcesPage(){
     '<div class="spqb">'+['real','adapt','fiction'].map(k=>'<button type="button" data-k="'+k+'">'+u(k)+'</button>').join('')+'</div>'+
     '<div class="sprev"><div class="spv">'+u(z.kind)+(L?'. ':'。')+esc(tx(z.note))+'</div>'+z.picks.map(factH).join('')+'</div></div>'}).join('');
   // 這七年留下的海報（玩家實際留下的那一面）
+  // L：誰在倡議這一張＋沒留下的另一張（中性陳列，只放具名＋原文摘要＋連結）
+  const advL=(node,side)=>{const a=((SD.nadv||{})[node]||{})[side]||[];return a.length?a.map(id=>{const c=C[id];return c?'<div class="spfact adv">'+esc(tx(c.f[0]))+'</div>'+links(c):''}).join(''):'<div class="spnone">'+u('advNone')+'</div>'};
+  const advH=(node,side)=>{if(!SD.nadv)return '';const o=side==='U'?'D':'U';return '<div class="spadv"><div class="spct">'+u('advH')+'</div>'+advL(node,side)+'<div class="spct">'+u('advOther',{h:(L?'“':'「')+tx(N[node][o].h1)+(L?'”':'」')})+'</div>'+advL(node,o)+'</div>'};
   const keptH=S.path.map(({node,side},i)=>{const n=N[node];return '<div class="spbox spk" data-i="'+i+'"><button type="button" aria-expanded="false"><span class="spy">'+n.year+'</span><span class="spt">'+esc(tx(n[side].h1))+'</span><span class="splab '+side+'">'+u(side)+'</span><span class="spch">›</span></button>'+
-    '<div class="spkb">'+(SD.ncard[node]||[]).map(id=>{const c=C[id];return '<div class="spct">'+esc(tx(c.t))+'</div>'+c.f.map(f=>'<div class="spfact '+c.kind+'">'+esc(tx(f))+'</div>').join('')+links(c)}).join('')+'</div></div>'}).join('');
+    '<div class="spkb">'+(SD.ncard[node]||[]).map(id=>{const c=C[id];return '<div class="spct">'+esc(tx(c.t))+'</div>'+c.f.map(f=>'<div class="spfact '+c.kind+'">'+esc(tx(f))+'</div>').join('')+links(c)}).join('')+advH(node,side)+'</div></div>'}).join('');
   const progH=SD.prog.map(([p,st])=>{const f=fact(p);return '<div class="spbox spp"><div class="spct" style="margin-top:0"><span class="splab P">'+esc(tx(st))+'</span> '+esc(tx(f.c.t))+'</div>'+factH(p)+'</div>'}).join('');
   const live=!!ASK_URL;
   const z=screen('sp','<div class="spb" tabindex="-1"><h2>'+u('title')+'</h2><div class="splead">'+u('lead')+'</div>'+
