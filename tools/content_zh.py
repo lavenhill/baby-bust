@@ -123,6 +123,8 @@ for k,v in V41.items():
     if v.get('chatU'): n['chat']['U']=(n['chat']['U'][0],v['chatU'])
     CALLN[k]=v['call']
 NODES['y2019a']['src']='全教總 2019-03-21（中央社、ETtoday）；準公共作業要點薪資下限 29,000'
+# S7 (2026-10-28) 出處說明更正：全教產那篇講延托到傍晚與助理員時薪 183 元；「膀胱炎」出自聯合報那篇（兩條都列）
+NODES['y2024']['src']='行政院；全教產 2024-05-03（公幼延托到下午 6 時、有的到晚上 7 時；特教學生助理員時薪 183 元，常常找不到人）；聯合報 2024-07-08（偏鄉公幼教師一人顧全班，不敢喝水，「遲早得膀胱炎」）'
 
 # ---- v5 (2026-10-27 18:45 user-approved: groupchat-v5-r2.md, structure-v5-draft.md, text-v5-new-r1 + Muse) ----
 # GROUP[node]=[(who,text,deps)] deps: line skipped if any dep has left the group
