@@ -81,7 +81,7 @@ UI=dict(again_night='老顏又重做了一晚。',reu='2026　同學會',hint='�
  start='上班',pub='發布',again='再拍一次',promise='約好八年後，再來這裡拍一張。',intro='2018，老顏 26 歲。少子女化對策辦公室，約聘小編。',
  obj19='5/24 被圈了起來。兩只一樣的戒指。',end='職務代理津貼，每日 800 元。',baby='本班第 {n} 位小朋友！恭喜{who}',
  q=['後來呢？','你怪我嗎？','那時候你需要的是什麼？'],kids='這八年來，本班一共 {n} 個小朋友。不管大家對妳的感想怎麼樣，妳都是我們的好同學。',
- src='出處',credit='文字初稿與翻譯：Meta Muse Spark 1.3　插畫：Meta Muse Image 1.0　政策與數字皆有出處',title='我們這一班')
+ src='出處',credit='文字初稿與翻譯：Meta Muse Spark 1.3　插畫：Meta Muse Image 1.0　政策與數字皆有出處',title='我們與孩子的距離')
 
 # ---- v4.1 (2026-10-27, user-approved: notes/text-v4.1-r2.md) ----
 # ask[0]=boss memo (policy + pressure); setup=[upper person, lower person]; CALLN=first call per node (who used the poster on whom)
@@ -107,9 +107,9 @@ V41={
 'y2024':dict(ask0='國家一起養 2.0，公幼延托到傍晚。這是今年的主軸。',ask1='畫準時接孩子的家長，還是留到六點半的老師？',
  setup=[('阿芳','延托到六點，我終於接得到。'),('宜君','考上公幼了。顧到六點半，一整天沒空喝水。')],
  bossD='老師的事是另一案。年終考核就在下個月，別在這時候。',call=['家長拿妳的海報說，延托本來就該老師做。','薪水是漲了，我每天站十一個小時。','妳畫的老師在笑。我已經不太會笑了。']),
-'y2025e':dict(ask0='台南教育局長在全國會議提案：公幼寒暑假，家長月付最多兩千。',ask1='畫放心的家長，還是請不到假的老師？',src='中央社 2024-01-26，刊於聯合新聞網（公幼寒暑假加托改定額，每月最多 2,000 元）；國教署 2025-05-27（公幼寒暑期加托每月 2,000 元，開辦率 95%）',
- setup=[('阿芳','暑假有地方送了！'),('宜君','班表出來了。沖繩的機票，我退了。')],Uwho='阿芳',
- bossD='老師休假不是亮點。重做一張。',call=['主任拿妳的海報說全年服務是政策，假單先收回。','我媽說沒關係，明年再去。','她明年七十了。']),
+'y2025e':dict(ask0='台南教育局長在全國會議提案：公幼寒暑假，家長月付最多兩千。',ask1='畫放心的家長，還是沒有暑假的老師？',src='中央社 2024-01-26，刊於聯合新聞網（公幼寒暑假加托改定額，每月最多 2,000 元）；國教署 2025-05-27（公幼寒暑期加托每月 2,000 元，開辦率 95%）',
+ setup=[('阿芳','公幼暑假也有加托班了，老二有著落啦'),('宜君','加托班表排到八月底，沖繩又是明年的事')],Uwho='阿芳',
+ bossD='老師休假不是亮點。重做一張。',call=['主任拿妳那張海報講今年的重點：暑假加托班。','八週的班表，沖繩只剩一張退票單。','我媽說沒關係，明年的事。']),
 'y2025f':dict(ask0='社宅婚育優先加碼。名單要見報。',ask1='畫拿到鑰匙的夫妻，還是排在最後的人？',
  setup=[('佩珊','我們中了！三十三了，終於敢生。'),('志豪','單身排最後。戒指還在抽屜。')],Uwho='佩珊夫妻',
  bossD='要的是拿鑰匙的照片，單身不是對象。重做。',call=['小雯媽媽把妳的海報傳給她。','她問：人家有房才敢生，你呢？','我什麼都沒說，把戒指放回去。']),
@@ -178,14 +178,13 @@ y2024
 家豪|老師辛苦了，我招生還差十個|
 志豪|我六點半還在公司，羨慕啦|
 y2025e
-佩珊|剛看到公幼暑假也收托的消息欸|
-阿芳|老二有著落了，我終於能喘一口氣🙏|阿芳
-家豪|哈哈哈恭喜阿芳的老二，小太陽暑期班有好位置啦|阿芳
-家豪|哈哈哈好消息啊，小太陽暑期班還有好位置啦|!阿芳
-家豪|剛印好一百張傳單，兩個老師是最強陣容啦|
-宜君|笑死又看到輪班表，我的沖繩又是白日夢QQ|宜君
-志豪|小太陽的暑期班一定超搶手啦|志豪
-佩珊|我幫家豪把傳單轉給同學們啦|!阿芳
+阿芳|公幼暑假也有加托班了，老二有著落啦🙏|
+阿芳|群組裡好久沒有宜君的訊息了……|!宜君
+宜君|笑死，我們園的加托班表排到八月底QQ|宜君
+阿芳|欸……那妳的沖繩呢🙏|宜君
+宜君|沖繩的機票，變成一張退票單啦|宜君
+佩珊|明年一起去沖繩，算我一份啦|宜君
+志豪|暑假？上班族沒有這兩個字啦|志豪
 y2025f
 佩珊|我們中了！三十三了，終於敢生|
 志豪|恭喜。單身排最後，戒指還在抽屜|佩珊
@@ -210,7 +209,7 @@ WISH26={'阿芳':('升主任了。小芋頭下午有人接，不是我。','回�
 '志豪':('還沒存到八十萬，下個月先求婚。戒指拿出抽屜了。','還在存。小雯說她不急，我急。'),
 '佩珊':('孩子會叫媽媽了。請假單還是先寫不好意思。','請假還是會道歉。孩子很好。')}
 LAO26=['5/24，這次不會再改期。','回診，下週一定去。','']
-V5UI=dict(reu26='2026 元宵・平溪',left26='已退出群組',lamp26='放！',redo='老顏重做了 {n} 晚',kids26='本班 {n} 位小朋友',grp='我們這一班',
+V5UI=dict(reu26='2026 元宵・平溪',left26='已退出群組',lamp26='放！',redo='老顏重做了 {n} 晚',kids26='本班 {n} 位小朋友',grp='高中同學群',
  dm='傳訊息給{who}',boss_ok='很好，就這張。',blank='（燈上什麼都沒寫）',baby1='本班第 {n} 位小朋友！',baby2='恭喜{who}！')
 
 # ---- lines-r3 (2026-10-28 user-approved: notes/lines-muse-r3.md; verbatim) ----
@@ -273,16 +272,11 @@ GCONS={
    ('宜君','','嗯，顧到六點是應該的，站十一小時而已',[]),
   ],
  },
- 'y2025e':{
-  1:[
-   ('家豪','','有家長拿公幼暑假也收那張來問暑期班的事啦',[]),
-   ('家豪','','說那我暑期班幹嘛收那麼貴，哈哈哈',[]),
-   ('家豪','','報名剩三個，兩個老師我先請她們回家休息到開學了',[]),
-  ],
+ 'y2025e':{  # 2026-10-28 21:32 方案 A：下半＝宜君。到 2025e 一定已因 2024 受傷一次，所以只有 k=2（說完就退群）
   2:[
-   ('阿芳','','暑假公幼也收，老二有地方可以去上課了🙏',['阿芳']),
-   ('佩珊','','家長拿那張問暑期班幹嘛那麼貴齁',['佩珊']),
-   ('家豪','','嗯，只剩三個，開不成，我先請兩個老師回家休息到開學了',[]),
+   ('阿芳','','公幼暑假有班，老二整個夏天都有著落🙏',['阿芳']),
+   ('佩珊','','宜君好久沒傳訊息到群組了……',['佩珊']),
+   ('宜君','23:48','嗯，主任拿那張說暑假加托是今年的重點，沖繩只剩一張退票單',[]),
   ],
  },
  'y2025f':{
@@ -306,10 +300,8 @@ GCONS={
 }
 # 2022c news card (real reports: tenants applying for the NT$30bn rent subsidy, landlord raised rent)
 NEWS={'y2022c':('房客申請租補，房東漲全棟房租','TVBS 2022-07-20、2022-09-28')}
-# 2025e lower half = 家豪 (character-bible-v1 §2025e 新稿; final r3 makes 家豪 the 2025e victim)
-NODES['y2025e']['ask'][1]='畫放心的家長，還是招不到暑期班的私幼？'
-NODES['y2025e']['D']=dict(who='家豪',h1='私幼一起顧',sub='暑假不打烊',aside='暑期班傳單印一百張，報名三個')
-NODES['y2025e']['boss']['D']='私幼的暑期班不是這次的主角。重做一張。'
+# 2025e lower half = 宜君（2026-10-28 21:32 使用者選方案 A，取代 r3 的家豪暑期班；依據：聯合報 2025-09-24、聯合新聞網 2025-08-05，見 sources_zh.py F30、A60–A62）
+NODES['y2025e']['D']=dict(who='宜君',tag='公幼老師',h1='老師也有寒暑假',sub='休息充電 才能照顧更好',aside='桌上那張，是沖繩的退票單')
 UI['q']=['後來呢？','你怪我嗎？','那時候你需要什麼？']
 NODES['y2022c']['src']+='；TVBS 2022-07-20、2022-09-28（房客申請租補，房東漲租）'
 # questions Lao Yan asks in the ending DMs: 妳 for women (定稿 wording), 你 for 家豪/志豪
@@ -318,9 +310,9 @@ UI_QF=['後來呢？','妳怪我嗎？','那時候妳需要什麼？']
 # FX（2026-10-28 20:45 使用者決定）：老顏改為約聘小編（不是考試入行），考績句改約聘年終考核；議員句改政院／台南局長；佩珊請半天改育嬰留停一天；2019b 婆婆家族群組改家長群組；凍卵回診單改取卵。依據卡見 sources_zh.py F23–F33。
 # ---- R4-4 (2026-10-28, user-approved plan-r4): poster text placement ----
 # POSTER_TEXT[node_side]: manual overrides on top of the YuNet head boxes (tools/heads.json). avoid = extra boxes (0..1 of the 960x640 poster); top = preferred headline top (fraction of the half).
-POSTER_TEXT={'y2025f_U':{'avoid':[[0.458,0.617,0.135,0.172]],'note':'劇情道具：鑰匙'},'y2025e_D':{'top':0.06,'note':'主標放在圖上空白布條'}}
+POSTER_TEXT={'y2025f_U':{'avoid':[[0.458,0.617,0.135,0.172]],'note':'劇情道具：鑰匙'}}
 # H1S_EN[node_side]: short English headline, used only when the half-screen is under 280px tall (Muse Spark draft, edited for naturalness).
-H1S_EN={"y2018_U": "We Help Raise Them", "y2018_D": "A Teacher per Class", "y2019a_U": "Quasi-Public, No Worries", "y2019a_D": "Secure Teacher Pay", "y2019b_U": "More Public Seats", "y2019b_D": "Every Child a Seat", "y2021_U": "Parents' Teammate", "y2021_D": "Thanks for Stepping In", "y2022c_U": "Rent Help for Families", "y2022c_D": "Youth Rent Support", "y2022d_U": "NT$5,000 Childcare", "y2022d_D": "Kids and Career", "y2024_U": "0–6 Together 2.0", "y2024_D": "Teachers Off on Time", "y2025e_U": "Open During Breaks", "y2025e_D": "Private Schools Help", "y2025f_U": "We Back Families", "y2025f_D": "A Home for All", "y2026_U": "Leave by the Day", "y2026_D": "Thanks for Stepping In"}
+H1S_EN={"y2018_U": "We Help Raise Them", "y2018_D": "A Teacher per Class", "y2019a_U": "Subsidized, No Worries", "y2019a_D": "Secure Teacher Pay", "y2019b_U": "More Public Seats", "y2019b_D": "Every Child a Seat", "y2021_U": "Parents' Teammate", "y2021_D": "Thanks for Stepping In", "y2022c_U": "Rent Help for Families", "y2022c_D": "Youth Rent Support", "y2022d_U": "NT$5,000 Childcare", "y2022d_D": "Kids and Career", "y2024_U": "0–6 Together 2.0", "y2024_D": "Teachers Off on Time", "y2025e_U": "Open During Breaks", "y2025e_D": "Teachers Need Breaks", "y2025f_U": "We Back Families", "y2025f_D": "A Home for All", "y2026_U": "Leave by the Day", "y2026_D": "Thanks for Stepping In"}
 
 # ---- L1 結局天燈拍 (2026-10-28 17:03 user-approved; replaces LAO26 auto lamp) ----
 # Player writes Lao Yan's lantern (<=12 width: CJK=1, other=0.5). Rules are tried in order; responder = first in `who` still in the group.
@@ -334,11 +326,11 @@ LANTERN_RULES=[
  ('doc','回診|醫生|醫院|身體|健康|看病|掛號|取卵|凍卵|打針|排卵',r'doctor|clinic|hospital|health|check-?up|appointment|\begg|ivf',['宜君','佩珊']),
  ('sleep','睡|休息|累|放假|假期|休假',r'sleep|\brest|tired|vacation|holiday|day off|\bnap',['家豪','佩珊']),
  ('sorry','對不起|原諒|抱歉|欠|道歉',r'sorry|forgive|apolog|\bowe',['志豪','家豪','佩珊']),
- ('class','阿芳|家豪|宜君|志豪|佩珊|大家|同學|群組|回來',r'a-?fang|jiahao|yijun|zhihao|peishan|everyone|classmate|group|come back',['佩珊']),
+ ('class','阿芳|家豪|宜君|志豪|佩珊|大家|同學|群組|回來',r'amy|kevin|jessica|jason|penny|a-?fang|jiahao|yijun|zhihao|peishan|everyone|classmate|group|come back',['佩珊']),
  ('work','辭職|離職|不做|海報|換工作|升|科長|考績|上班|加班|主管',r'quit|resign|\bjob|poster|promot|\bboss|overtime|\bwork',['家豪','佩珊']),
  ('other','','',['佩珊']),
 ]
-LANTERN_NAMES_EN={'阿芳':'a-?fang','家豪':'jiahao','宜君':'yijun','志豪':'zhihao','佩珊':'peishan'}
+LANTERN_NAMES_EN={'阿芳':'amy|a-?fang','家豪':'kevin|jiahao','宜君':'jessica|yijun','志豪':'jason|zhihao','佩珊':'penny|peishan'}  # 英文版用英文名（2026-10-28 21:43）；舊拼音仍可觸發
 # profanity: masked to ▇ per character on the lantern and in the contrast. 幹 alone is skipped after 能/才/骨/主/樹 or before 嘛/部/活/練/勁/事/麼/線 (幹嘛、幹部…).
 LANTERN_PROF_ZH='幹|靠北|靠杯|白癡|白痴|去死|機掰|雞掰|智障|垃圾|廢物|操你|操他|腦殘|三小|淦|王八蛋|他媽的|媽的'
 LANTERN_PROF_EN=r'\b(fuck\w*|shit\w*|damn\w*|bitch\w*|asshole\w*|bastard\w*|crap\w*|wtf|dick\w*|piss\w*)\b'
@@ -348,7 +340,7 @@ LANTERN_LINES={
  'name_阿芳':('燈上有我的名字，照片留給小芋頭啦😝','My name\'s on the lantern! Saving the photo for Little Taro 😝'),
  'name_家豪':('我的名字在燈上，比小太陽的招牌還亮，哈哈哈','My name\'s on the lantern, brighter than Little Sun\'s sign, hahaha'),
  'name_宜君':('看到我的名字，這張留給我媽，QQ','Saw my name. Saving this one for my mom QQ'),
- 'name_志豪':('燈上有我的名字，照片我留給小雯。','My name\'s on the lantern. The photo goes to Xiaowen.'),
+ 'name_志豪':('燈上有我的名字，照片我留給小雯。','My name\'s on the lantern. The photo goes to Wendy.'),
  'name_佩珊':('燈上有我的名字，這次妳的案子放我這邊，不好意思','My name\'s on the lantern. This time your cases are on me, sorry'),
  'date_佩珊':('「{w}」那天的案子放我這邊，不好意思','"{w}": that day, I\'ve got your cases, sorry'),
  'doc_宜君':('「{w}」喔，那天換我盯妳的掛號單，QQ','"{w}", that day I\'m watching your appointment slip QQ'),
@@ -361,6 +353,6 @@ LANTERN_LINES={
  'class_佩珊':('「{w}」這盞，我拍下來傳到群組，不好意思','"{w}": I took a photo of this one for the group chat, sorry'),
  'work_家豪':('「{w}」喔，這盞燈飛得比招牌還高，哈哈哈','"{w}", this lantern\'s flying higher than my sign, hahaha'),
  'work_佩珊':('工作的心願最大，妳的案子交給我，不好意思','Work wishes come first. Leave your cases to me, sorry'),
- 'other_佩珊':('老顏的燈飛最高，不好意思','Lao Yan\'s lantern is flying the highest, sorry'),
+ 'other_佩珊':('老顏的燈飛最高，不好意思','Vivian\'s lantern is flying the highest, sorry'),
 }
-LANTERN_UI={'ph':('寫在老顏的燈上','Write on Lao Yan\'s lantern'),'go':('放！','Let go!'),'on':('燈上','On the lantern'),'poster':('海報上','On the poster'),'blank':('（什麼都沒寫）','(nothing written)')}
+LANTERN_UI={'ph':('寫在老顏的燈上','Write on Vivian\'s lantern'),'go':('放！','Let go!'),'on':('燈上','On the lantern'),'poster':('海報上','On the poster'),'blank':('（什麼都沒寫）','(nothing written)')}
