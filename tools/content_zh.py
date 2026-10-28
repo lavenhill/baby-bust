@@ -318,3 +318,46 @@ UI_QF=['後來呢？','妳怪我嗎？','那時候妳需要什麼？']
 POSTER_TEXT={'y2025f_U':{'avoid':[[0.458,0.617,0.135,0.172]],'note':'劇情道具：鑰匙'},'y2025e_D':{'top':0.06,'note':'主標放在圖上空白布條'}}
 # H1S_EN[node_side]: short English headline, used only when the half-screen is under 280px tall (Muse Spark draft, edited for naturalness).
 H1S_EN={"y2018_U": "We Help Raise Them", "y2018_D": "A Teacher per Class", "y2019a_U": "Quasi-Public, No Worries", "y2019a_D": "Secure Teacher Pay", "y2019b_U": "More Public Seats", "y2019b_D": "Every Child a Seat", "y2021_U": "Parents' Teammate", "y2021_D": "Thanks for Stepping In", "y2022c_U": "Rent Help for Families", "y2022c_D": "Youth Rent Support", "y2022d_U": "NT$5,000 Childcare", "y2022d_D": "Kids and Career", "y2024_U": "0–6 Together 2.0", "y2024_D": "Teachers Off on Time", "y2025e_U": "Open During Breaks", "y2025e_D": "Private Schools Help", "y2025f_U": "We Back Families", "y2025f_D": "A Home for All", "y2026_U": "Leave by the Day", "y2026_D": "Thanks for Stepping In"}
+
+# ---- L1 結局天燈拍 (2026-10-28 17:03 user-approved; replaces LAO26 auto lamp) ----
+# Player writes Lao Yan's lantern (<=12 width: CJK=1, other=0.5). Rules are tried in order; responder = first in `who` still in the group.
+# 'name' rule: the classmate named on the lantern (still in the group) answers with LANTERN_LINES['name_<who>'].
+# zh lines: lantern_lib.json (approved 10-28) + Muse r2 (named classmate / Peishan stand-ins when Jiahao left), Hark-reviewed. EN: Muse translation, Hark-edited.
+# {w} = the lantern text (profanity masked, never quoted).
+LANTERN_RULES=[
+ ('prof',None,None,['家豪','佩珊']),
+ ('name',None,None,[]),
+ ('date','5/24|524|5月24|她|結婚|婚|戒指|登記|約會|改期|在一起|伴侶|求婚',r'5/24|may 24|marr|wedding|\bring|\bshe\b|\bher\b|\bdate|partner|together|propos',['佩珊']),
+ ('doc','回診|醫生|醫院|身體|健康|看病|掛號',r'doctor|clinic|hospital|health|check-?up|appointment',['宜君','佩珊']),
+ ('sleep','睡|休息|累|放假|假期|休假',r'sleep|\brest|tired|vacation|holiday|day off|\bnap',['家豪','佩珊']),
+ ('sorry','對不起|原諒|抱歉|欠|道歉',r'sorry|forgive|apolog|\bowe',['志豪','家豪','佩珊']),
+ ('class','阿芳|家豪|宜君|志豪|佩珊|大家|同學|群組|回來',r'a-?fang|jiahao|yijun|zhihao|peishan|everyone|classmate|group|come back',['佩珊']),
+ ('work','辭職|離職|不做|海報|換工作|升|科長|考績|上班|加班|主管',r'quit|resign|\bjob|poster|promot|\bboss|overtime|\bwork',['家豪','佩珊']),
+ ('other','','',['佩珊']),
+]
+LANTERN_NAMES_EN={'阿芳':'a-?fang','家豪':'jiahao','宜君':'yijun','志豪':'zhihao','佩珊':'peishan'}
+# profanity: masked to ▇ per character on the lantern and in the contrast. 幹 alone is skipped after 能/才/骨/主/樹 or before 嘛/部/活/練/勁/事/麼/線 (幹嘛、幹部…).
+LANTERN_PROF_ZH='幹|靠北|靠杯|白癡|白痴|去死|機掰|雞掰|智障|垃圾|廢物|操你|操他|腦殘|三小|淦|王八蛋|他媽的|媽的'
+LANTERN_PROF_EN=r'\b(fuck\w*|shit\w*|damn\w*|bitch\w*|asshole\w*|bastard\w*|crap\w*|wtf|dick\w*|piss\w*)\b'
+LANTERN_LINES={
+ 'prof_家豪':('這盞燈寫得最真心，哈哈哈','This lantern\'s the most honest one, hahaha'),
+ 'prof_佩珊':('這盞的照片先放我這裡，不好意思','I\'ll hold on to the photo of this one, sorry'),
+ 'name_阿芳':('燈上有我的名字，照片留給小芋頭啦😝','My name\'s on the lantern! Saving the photo for Little Taro 😝'),
+ 'name_家豪':('我的名字在燈上，比小太陽的招牌還亮，哈哈哈','My name\'s on the lantern, brighter than Little Sun\'s sign, hahaha'),
+ 'name_宜君':('看到我的名字，這張留給我媽，QQ','Saw my name. Saving this one for my mom QQ'),
+ 'name_志豪':('燈上有我的名字，照片我留給小雯。','My name\'s on the lantern. The photo goes to Xiaowen.'),
+ 'name_佩珊':('燈上有我的名字，這次妳的案子放我這邊，不好意思','My name\'s on the lantern. This time your cases are on me, sorry'),
+ 'date_佩珊':('「{w}」那天的案子放我這邊，不好意思','"{w}": that day, I\'ve got your cases, sorry'),
+ 'doc_宜君':('「{w}」喔，那天換我盯妳的掛號單，QQ','"{w}", that day I\'m watching your appointment slip QQ'),
+ 'doc_佩珊':('「{w}」那天，桌上的案子放我這邊，不好意思','"{w}": that day, I\'ve got the cases on your desk, sorry'),
+ 'sleep_家豪':('「{w}」這個願，我也要一份，哈哈哈','"{w}", I want that wish too, hahaha'),
+ 'sleep_佩珊':('多睡一點，請假單我幫妳放桌上，不好意思','Get some more sleep. I\'ll put your leave form on your desk, sorry'),
+ 'sorry_志豪':('沒有誰欠誰。','No one owes anyone.'),
+ 'sorry_家豪':('燈上那句，群組裡的人都還在這邊，哈哈哈','That line on the lantern: everyone in the chat is still here, hahaha'),
+ 'sorry_佩珊':('這句心意在我這邊，往後的案子放我桌上就好，不好意思','Got your message. From now on, just leave the cases on my desk, sorry'),
+ 'class_佩珊':('「{w}」這盞，我拍下來傳到群組，不好意思','"{w}": I took a photo of this one for the group chat, sorry'),
+ 'work_家豪':('「{w}」喔，這盞燈飛得比招牌還高，哈哈哈','"{w}", this lantern\'s flying higher than my sign, hahaha'),
+ 'work_佩珊':('工作的心願最大，妳的案子交給我，不好意思','Work wishes come first. Leave your cases to me, sorry'),
+ 'other_佩珊':('老顏的燈飛最高，不好意思','Lao Yan\'s lantern is flying the highest, sorry'),
+}
+LANTERN_UI={'ph':('寫在老顏的燈上','Write on Lao Yan\'s lantern'),'go':('放！','Let go!'),'on':('燈上','On the lantern'),'poster':('海報上','On the poster'),'blank':('（什麼都沒寫）','(nothing written)')}
