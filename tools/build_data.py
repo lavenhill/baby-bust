@@ -46,13 +46,14 @@ E3=lambda s:[s,EN3.get(s) or en.get(s,s)]
 D=dict(nodes=nodes,wish={k:E3(v) for k,v in C.WISH.items()},call={k:[E3(x) for x in v] for k,v in C.CALL.items()},callN={k:[E(x) for x in v] for k,v in C.CALLN.items()},open2={k:E3(v) for k,v in C.OPEN2.items()},ring_off=E3(C.RING_OFF),open=[[w,E(t)] for w,t in C.OPEN],life=[E3(x) for x in C.LIFE],ui=ui,reunion=reu,self=SELF,verdict=VERDICT,
  tag={k:E(v) for k,v in C.TAG.items()},names={'老顏':'Lao Yan','阿芳':'A-Fang','家豪':'Jiahao','宜君':'Yijun','志豪':'Zhihao','佩珊':'Peishan','主管':'Boss'},
  slug={'老顏':'laoyan','阿芳':'afang','家豪':'jiahao','宜君':'yijun','志豪':'zhihao','佩珊':'peishan'},
- group={k:[[w,E(t),d] for w,t,d in v] for k,v in C.GROUP.items()},gcons={k:{str(n):[[w,t,E(x),d] for w,t,x,d in ls] for n,ls in v.items()} for k,v in C.GCONS.items()},news={k:[E(h),E(src)] for k,(h,src) in C.NEWS.items()},wish2={k:E(v) for k,v in C.WISH2.items()},wish26={k:[E(x) for x in v] for k,v in C.WISH26.items()},lao26=[E(x) if x else ['',''] for x in C.LAO26],v5={k:E(v) for k,v in C.V5UI.items()},
+ group={k:[[w,E(t),d] for w,t,d in v] for k,v in C.GROUP.items()},gcons={k:{str(n):[[w,t,E(x),d] for w,t,x,d in ls] for n,ls in v.items()} for k,v in C.GCONS.items()},news={k:[E(h),E(src)] for k,(h,src) in C.NEWS.items()},wish2={k:E(v) for k,v in C.WISH2.items()},wish26={k:[E(x) for x in v] for k,v in C.WISH26.items()},v5={k:E(v) for k,v in C.V5UI.items()},
+ lantern=dict(rules=[[k,zh,en,who] for k,zh,en,who in C.LANTERN_RULES],names_en=C.LANTERN_NAMES_EN,prof_zh=C.LANTERN_PROF_ZH,prof_en=C.LANTERN_PROF_EN,lines={k:list(v) for k,v in C.LANTERN_LINES.items()},ui={k:list(v) for k,v in C.LANTERN_UI.items()}),
  class_=['阿芳','家豪','宜君','志豪','佩珊','老顏'],babies=['afang','jiahao','yijun','peishan'])
 import os
 HP='/workspace/work/bb2/tools/heads.json'  # R4-4a: YuNet head boxes (tools/heads.py)
 if os.path.exists(HP): D['heads']=json.load(open(HP))
 if getattr(C,'POSTER_TEXT',None): D['posterText']={k:{kk:vv for kk,vv in v.items() if kk!='note'} for k,v in C.POSTER_TEXT.items()}
-open('/workspace/work/bb2/data.js','w').write('// Copy drafted with Meta Muse Spark 1.3 (translations, reunion lines); insider slogans are drafts for the author to replace. Illustrations: Meta Muse Image 1.0. Built 2026-10-28 (r4).\nconst DATA='+json.dumps(D,ensure_ascii=False)+';\n')
+open('/workspace/work/bb2/data.js','w').write('// Copy drafted with Meta Muse Spark 1.3 (translations, reunion lines); insider slogans are drafts for the author to replace. Illustrations: Meta Muse Image 1.0. Built 2026-10-28 (L1 lantern).\nconst DATA='+json.dumps(D,ensure_ascii=False)+';\n')
 chars=set(json.dumps(D,ensure_ascii=False))
 open('chars.txt','w').write(''.join(sorted(chars))+'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz–—…·・，。？！：「」（）')
 print('ok',len(chars))
