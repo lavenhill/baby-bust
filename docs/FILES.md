@@ -1,4 +1,4 @@
-# 檔案狀態索引（2026-10-28，情節依據卡＋老顏約聘，V=20261028g）
+# 檔案狀態索引（2026-10-28，2025e 宜君方案 A＋新標題＋英文名與白話英譯，V=20261028h）
 
 - **當前**：遊戲正在用、或正在維護的文件。有衝突以當前為準。
 - **參考**：設計理由或舊版規格，可查，不以它為準。
@@ -27,10 +27,11 @@
 | tools/build_data.py | 當前 | content_zh＋en.json＋reunion → data.js |
 | tools/story_doc.py | 當前 | 從 data.js 生成 06 文件與 JSON |
 | tools/copy_map.py | 當前 | 從 data.js 生成文案台詞對照表（xlsx） |
-| tools/play.py | 當前 | 自動試玩＋溢出／錯誤檢查＋截圖；`wish=` 輸入老顏的燈、`expect=` 檢查回應者；FX 起檢查情節依據卡（.spfact.basis）與遊戲正文禁用說法（議員、考上中央、考績乙等、請半天、凍卵回診、婆婆把…）；S7 起逐項驗出處頁（猜猜看全選項、建議問題全點、連結、斷網），`live=mock|down|slow` 測即時開關 |
-| tools/sources_zh.py | 當前 | 出處頁：出處庫 22 張政策卡（含放回的 F07）＋11 張情節依據卡（F23–F33，kind=basis，多連結 refs；FX 2026-10-28）＋58 張倡議者卡（A01–A59，A43 空號），共 152 句，每句開過原文核對；NODE_ADV＝每個選項的倡議者；猜猜看、9 個建議問題、公開進度、介面字 |
+| tools/play.py | 當前 | 自動試玩＋溢出／錯誤檢查＋截圖；2026-10-28 h 版起另查：標題頁（中文一行、不溢出）、正文禁「暑期班」「我們這一班」、2025e 下半必須是宜君、英文畫面禁舊拼音名／quasi／拼音術語、英文出處頁不得殘留中文；`wish=` 輸入老顏的燈、`expect=` 檢查回應者；FX 起檢查情節依據卡（.spfact.basis）與遊戲正文禁用說法（議員、考上中央、考績乙等、請半天、凍卵回診、婆婆把…）；S7 起逐項驗出處頁（猜猜看全選項、建議問題全點、連結、斷網），`live=mock|down|slow` 測即時開關 |
+| tools/sources_zh.py | 當前 | 出處頁：出處庫 22 張政策卡（含放回的 F07）＋11 張情節依據卡（F23–F33，kind=basis，多連結 refs；FX 2026-10-28）＋61 張倡議者卡（A01–A62，A43 空號），共 152 句，每句開過原文核對；NODE_ADV＝每個選項的倡議者；猜猜看、9 個建議問題、公開進度、介面字 |
 | tools/sources_en.json | 當前 | 出處頁英文（Muse 初譯、Hark 審） |
 | tools/sources_rec.json | 當前 | 建議問題的錄製答案（Muse 只挑句子編號；每題 3 次挑 1 次，理由在 why；2026-10-28 出處庫擴充後重錄，挑選腳本 qa/adv/pick_rec.py） |
+| qa/yj/ | 當前 | 2025e 方案 A＋標題＋英文名／白話英譯（2026-10-28 21:3x–22:xx）：原文摘錄 pages.json、Muse 初稿 muse_r1.json、審譯 muse_r2.json、英文白話掃描 en_r1.json／en_r2.json、套用腳本 apply*.py、names.py、試玩結果 run/、標題檢查 title_check.py、推前備份 bak/*.ypre.bak |
 | qa/fx/ | 當前 | FX 情節依據與約聘改寫（2026-10-28）：原文快取 pages.json＋cand.json、Muse 台詞初稿 muse_lines_r1.json／審稿 muse_rev_r2.json、英譯 en_basis_muse.json、diff 審稿 muse_diff_r1/r2.json、試玩 run/、推版前備份 bak/*.fpre.bak |
 | qa/adv/ | 當前 | 誰在倡議的研究與 QA：原文快取 pages.json、Muse 摘要初稿 muse_sum.json、英譯 en_muse.json、重錄與成本實測 jsonl、審稿 review_r1/r2＋review_disposition.md、試玩結果 run/、推版前備份 bak/*.apre.bak |
 | tools/sources_muse.py | 當前 | Muse 檢索：錄製（record）、成本實測（cost）、產生 Worker（worker） |
