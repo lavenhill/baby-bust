@@ -25,18 +25,18 @@ body{color:var(--ink);font-family:"Huninn","Noto Sans CJK TC",system-ui,sans-ser
  transition:transform .45s cubic-bezier(.3,.7,.2,1),opacity .45s;background:var(--night)}
 .scr.below{transform:translateY(100%)}.scr.above{transform:translateY(-30%);opacity:0;pointer-events:none}
 .yr{color:var(--paper);font-size:calc(4.6*var(--u));letter-spacing:3px;font-weight:bold;text-align:center}
-.bub{align-self:flex-start;background:#fff;border-radius:14px;padding:calc(.9*var(--u)) 12px;font-size:clamp(13px,calc(2.25*var(--u)),17px);line-height:1.4;max-width:88%;animation:in .35s both}
+.bub{align-self:flex-start;background:#fff;border-radius:14px;padding:calc(.9*var(--u)) 12px;font-size:clamp(15px,calc(2.5*var(--u)),19px);line-height:1.4;max-width:88%;animation:in .35s both}
 .bub i{display:block;font-style:normal;font-size:.78em;color:#8a8080}
 .bub.gone{filter:grayscale(1);opacity:.62}
 @keyframes in{from{opacity:0;transform:translateY(10px)}}
 .memo{background:var(--memo);border-radius:12px;padding:calc(1.4*var(--u)) 16px;box-shadow:0 3px 0 #0003}
-.memo i{display:block;font-style:normal;font-size:clamp(11px,calc(1.8*var(--u)),14px);color:#8a7a40;margin-bottom:2px}
-.memo p{font-size:clamp(15px,calc(2.6*var(--u)),20px);line-height:1.45;font-weight:bold}
+.memo i{display:block;font-style:normal;font-size:clamp(13px,calc(2.1*var(--u)),16px);color:#8a7a40;margin-bottom:2px}
+.memo p{font-size:clamp(17px,calc(2.9*var(--u)),22px);line-height:1.45;font-weight:bold}
 .memo p+p{font-weight:normal}
 .chat.calm{justify-content:flex-start;-webkit-mask:none;mask:none}
 .chat{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:flex-end;gap:calc(1.1*var(--u));overflow:hidden;-webkit-mask:linear-gradient(transparent,#000 22%);mask:linear-gradient(transparent,#000 22%)}
 .tapnext{align-self:center;flex:none;position:relative;z-index:3;color:#F3ECE9;background:#1E2638d9;border-radius:14px;padding:3px 14px;font-size:13px;animation:breathe 1.6s infinite}
-.phone .sysin{align-self:center;text-align:center;color:#6f6767;background:#0000000f;border-radius:10px;padding:2px 10px;font-size:clamp(13px,calc(2.1*var(--u)),16px);animation:in .4s both}
+.phone .sysin{align-self:center;text-align:center;color:#6f6767;background:#0000000f;border-radius:10px;padding:2px 10px;font-size:clamp(15px,calc(2.37*var(--u)),18px);animation:in .4s both}
 .scr.wall>.tapnext{display:none} /* the wall bar already shows 點一下 › */
 @keyframes blink{50%{opacity:.35}}@keyframes breathe{50%{opacity:.85}}
 @media (prefers-reduced-motion:reduce){.tapnext{animation:none}}
@@ -94,7 +94,7 @@ body{color:var(--ink);font-family:"Huninn","Noto Sans CJK TC",system-ui,sans-ser
 .who{display:flex;align-items:center;gap:10px;color:var(--paper)}
 .who img{height:calc(14*var(--u));filter:grayscale(1);background:#e2dedc;border-radius:12px}
 .qs{display:flex;gap:6px;flex-wrap:wrap}
-.qs button{border:1px solid #b9b2b0;background:transparent;color:var(--paper);border-radius:14px;padding:5px 11px;font:inherit;font-size:clamp(12px,calc(2*var(--u)),15px)}
+.qs button{border:1px solid #b9b2b0;background:transparent;color:var(--paper);border-radius:14px;padding:5px 11px;font:inherit;font-size:clamp(14px,calc(2.24*var(--u)),17px)}
 .qs button:disabled{opacity:.35}
 .line{color:var(--paper);font-size:clamp(15px,calc(2.5*var(--u)),19px);line-height:1.6;text-align:center}
 .verdict{color:var(--paper);font-size:clamp(20px,calc(3.6*var(--u)),30px);font-weight:bold;text-align:center;line-height:1.4}
@@ -116,7 +116,7 @@ body{color:var(--ink);font-family:"Huninn","Noto Sans CJK TC",system-ui,sans-ser
 .call img{height:calc(22*var(--u));border-radius:50%;background:#e2dedc;object-fit:cover;object-position:top;aspect-ratio:1}
 .call .ring{font-size:clamp(14px,calc(2.3*var(--u)),18px);color:#9ae6b4;animation:blink 1s infinite}
 .call .sub2{font-size:clamp(16px,calc(2.7*var(--u)),21px);line-height:1.6;animation:in .4s both}
-.sys{align-self:center;color:#b9b4b2;font-size:clamp(13px,calc(2.1*var(--u)),16px);background:#0005;border-radius:12px;padding:4px 12px}
+.sys{align-self:center;color:#b9b4b2;font-size:clamp(15px,calc(2.37*var(--u)),18px);background:#0005;border-radius:12px;padding:4px 12px}
 .mate .float{position:absolute;bottom:30%;left:-30%;right:-30%;font-size:clamp(9px,calc(1.45*var(--u)),12px);line-height:1.35;color:#fff;text-shadow:0 1px 3px #000;text-align:center}
 .mate .glow{width:60%;aspect-ratio:3/4;border-radius:40% 40% 18% 18%;background:linear-gradient(#fffbe8,#ffcf6b);box-shadow:0 0 16px #ffd27a;margin-bottom:4px;animation:rise 3s ease-out both}
 @keyframes rise{from{transform:translateY(40px);opacity:0}}
@@ -139,11 +139,11 @@ body{color:var(--ink);font-family:"Huninn","Noto Sans CJK TC",system-ui,sans-ser
 .phone .fw img{width:100%;display:block}.phone .fw span{position:absolute;left:4px;top:4px;background:#0009;color:#fff;font-size:10px;border-radius:6px;padding:0 5px}
 .phone .bub{background:#fff;box-shadow:0 1px 2px #0002}
 .phone .news{background:#fff;border-left:4px solid var(--hot);border-radius:8px;padding:6px 10px;display:flex;flex-direction:column;gap:2px;animation:in .4s both;box-shadow:0 1px 2px #0002}
-.phone .news span{font-size:10px;color:#8a8080;letter-spacing:.1em}.phone .news b{font-size:clamp(13px,calc(2.25*var(--u)),17px);line-height:1.35}.phone .news small{font-size:10px;color:#8a8080}
+.phone .news span{font-size:10px;color:#8a8080;letter-spacing:.1em}.phone .news b{font-size:clamp(15px,calc(2.5*var(--u)),19px);line-height:1.35}.phone .news small{font-size:10px;color:#8a8080}
 .reply{display:flex;align-items:center;gap:10px;color:var(--paper);font-size:clamp(15px,calc(2.5*var(--u)),19px);line-height:1.5;animation:in .4s both}
 .reply img{width:calc(10*var(--u));aspect-ratio:1;border-radius:50%;object-fit:cover;object-position:top;background:#e2dedc;flex:none}
-.dmc .bub{font-size:clamp(12px,calc(2.1*var(--u)),16px);line-height:1.38}.dmc .clamp{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.grp{gap:calc(.7*var(--u))}.grp .bub{font-size:clamp(12px,calc(2.05*var(--u)),16px);padding:calc(.6*var(--u)) 10px;line-height:1.3}.l26{min-height:calc(12*var(--u))}
+.dmc .bub{font-size:clamp(14px,calc(2.37*var(--u)),18px);line-height:1.38;max-width:100%}.dmc .clamp{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.grp{gap:calc(.7*var(--u))}.grp{-webkit-mask:none;mask:none}.grp .bub{font-size:clamp(14px,calc(2.37*var(--u)),18px);padding:calc(.6*var(--u)) 10px;line-height:1.3}.l26{min-height:calc(12*var(--u))}
 </style>
 </head>
 <body>
@@ -188,8 +188,14 @@ addEventListener('keydown',e=>{const c=cur();const live=c&&c.classList.contains(
   if(['ArrowDown','PageDown',' ','Enter','ArrowRight'].includes(e.key)){e.preventDefault();forward()}else if(['ArrowUp','PageUp','ArrowLeft'].includes(e.key))back()});
 // ---------- helpers ----------
 function tagOf(w){const t=S.tags[w]||DATA.tag[w];return t?nm(w)+(L?' (':'（')+tx(t)+(L?')':'）'):nm(w)}
-function bubHTML(w,t,gone){return '<div class="bub'+(gone?' gone':'')+'"><i>'+tagOf(w)+'</i>'+tx(t)+'</div>'}
-async function stream(box,items,gap){for(const [w,t] of items){box.insertAdjacentHTML('beforeend',bubHTML(w,t,S.gone.includes(w)));await wait(gap)}}
+function bubHTML(w,t,gone){return '<div data-w="'+w+'" class="bub'+(gone?' gone':'')+'"><i>'+tagOf(w)+'</i>'+tx(t)+'</div>'}
+const fullH=b=>{const g=parseFloat(getComputedStyle(b).rowGap)||0;return [...b.children].reduce((t,c)=>t+c.offsetHeight,0)+g*(b.children.length-1)}; // layout height, ignores the slide-in transform
+// R4-3: a bubble that does not fit starts a new page ("tap for more"); a speaker's consecutive lines move together; never scroll
+async function stream(box,items,gap){for(const [w,t] of items){box.insertAdjacentHTML('beforeend',bubHTML(w,t,S.gone.includes(w)));
+  if(box.children.length>1&&fullH(box)>box.clientHeight){const carry=[box.lastElementChild];carry[0].remove();
+    while(box.children.length>1&&box.lastElementChild.dataset.w===w){const pv=box.lastElementChild;pv.remove();carry.unshift(pv)}
+    H.locked=false;await tapNext(box.closest('.scr'),L?'tap for more':'點一下看後續');H.locked=true;box.innerHTML='';carry.forEach(c=>box.appendChild(c))}
+  await wait(gap)}}
 // ---------- opening (C9) ----------
 async function opening(){
   const O=DATA.open2,seen=new Set();
@@ -306,7 +312,13 @@ async function reunion(){
   const dms=[...S.gone,...DATA.class_.filter(m=>m!=='老顏'&&!S.gone.includes(m)&&(S.hurt[m]||0)===1)];
   for(const m of dms){const r=DATA.reunion[rkey(m)];if(!r||!r.line[0])continue;const cold=S.gone.includes(m);const Q=['家豪','志豪'].includes(m)?U.q:(U.qf||U.q);
     const p=screen('','<div class="who"><img src="img/fb_'+DATA.slug[m]+'.webp" alt=""><b>'+tagOf(m)+'</b></div><div class="chat dmc" style="-webkit-mask:none;mask:none;justify-content:flex-start">'+bubHTML(m,r.line,cold)+'</div><div class="qs">'+Q.map((q,i)=>'<button data-i="'+i+'">'+tx(q)+'</button>').join('')+'</div>');
-    const box=p.querySelector('.chat');
+    const box=p.querySelector('.chat'),qsb=p.querySelector('.qs');
+    // R4-3: a DM taller than its box is split at sentence ends into pages; questions only on the last page. EN splits only at ".!?" + space (keeps 1.8, 26,000)
+    if(box.firstElementChild.offsetHeight>box.clientHeight){qsb.style.visibility='hidden';const parts=tx(r.line).split(/(?<=[。！？])(?![」』])|(?<=[。！？][」』])|(?<=[.!?]["”’]?)\s+/).filter(x=>x&&x.trim());let i=0;
+      while(i<parts.length){const ghost=document.createElement('div');ghost.className='tapnext';ghost.style.visibility='hidden';ghost.textContent='·';p.appendChild(ghost);box.innerHTML=bubHTML(m,'',cold);const bb=box.firstElementChild;let txt='';
+        while(i<parts.length){const t2=txt+(txt&&L?' ':'')+parts[i];bb.innerHTML='<i>'+tagOf(m)+'</i>'+t2;if(bb.offsetHeight>box.clientHeight&&txt){bb.innerHTML='<i>'+tagOf(m)+'</i>'+txt;break}txt=t2;i++}
+        ghost.remove();if(i<parts.length)await tapNext(p,L?'tap for more':'點一下看後續')}
+      qsb.style.visibility=''}
     p.querySelectorAll('.qs button').forEach(b=>b.onclick=e=>{e.stopPropagation();p.querySelectorAll('.qs button').forEach(x=>x.disabled=false);b.disabled=true;
       box.innerHTML='<div class="bub'+(cold?' gone':'')+'"><i>'+tagOf(m)+'</i><span class="clamp">'+tx(r.line)+'</span></div>'+'<div class="bub" style="align-self:flex-end;background:#F3ECE9">'+tx(Q[+b.dataset.i])+'</div>'+bubHTML(m,r.qa[+b.dataset.i],cold)});
     await tapNext(p)}
