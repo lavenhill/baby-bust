@@ -37,7 +37,7 @@
    "effect": "verdict = gone if len(gone)>=2 else self if self>=3 and no gone else mix",
    "shows": [
     "wish26[m][hurt>0]",
-    "lao26[2 if self>=3 else 1 if self+laoyanGray>=1 else 0]",
+    "老顏的燈＝玩家輸入（L1 天燈拍，見 §5）",
     "私訊：先退群者 reunion[m|前兩刀]（冷），再受傷一次仍在群組者 reunion[m|那一刀]（還會酸、約放燈）"
    ]
   }
@@ -2043,20 +2043,195 @@
     "en": "No one was spared, not even you."
    }
   },
-  "lao26": [
-   [
-    "5/24，這次不會再改期。",
-    "5/24, not postponing this time."
+  "lantern": {
+   "rules": [
+    [
+     "prof",
+     null,
+     null,
+     [
+      "家豪",
+      "佩珊"
+     ]
+    ],
+    [
+     "name",
+     null,
+     null,
+     []
+    ],
+    [
+     "date",
+     "5/24|524|5月24|她|結婚|婚|戒指|登記|約會|改期|在一起|伴侶|求婚",
+     "5/24|may 24|marr|wedding|\\bring|\\bshe\\b|\\bher\\b|\\bdate|partner|together|propos",
+     [
+      "佩珊"
+     ]
+    ],
+    [
+     "doc",
+     "回診|醫生|醫院|身體|健康|看病|掛號",
+     "doctor|clinic|hospital|health|check-?up|appointment",
+     [
+      "宜君",
+      "佩珊"
+     ]
+    ],
+    [
+     "sleep",
+     "睡|休息|累|放假|假期|休假",
+     "sleep|\\brest|tired|vacation|holiday|day off|\\bnap",
+     [
+      "家豪",
+      "佩珊"
+     ]
+    ],
+    [
+     "sorry",
+     "對不起|原諒|抱歉|欠|道歉",
+     "sorry|forgive|apolog|\\bowe",
+     [
+      "志豪",
+      "家豪",
+      "佩珊"
+     ]
+    ],
+    [
+     "class",
+     "阿芳|家豪|宜君|志豪|佩珊|大家|同學|群組|回來",
+     "a-?fang|jiahao|yijun|zhihao|peishan|everyone|classmate|group|come back",
+     [
+      "佩珊"
+     ]
+    ],
+    [
+     "work",
+     "辭職|離職|不做|海報|換工作|升|科長|考績|上班|加班|主管",
+     "quit|resign|\\bjob|poster|promot|\\bboss|overtime|\\bwork",
+     [
+      "家豪",
+      "佩珊"
+     ]
+    ],
+    [
+     "other",
+     "",
+     "",
+     [
+      "佩珊"
+     ]
+    ]
    ],
-   [
-    "回診，下週一定去。",
-    "Follow-up, will go next week for sure."
-   ],
-   [
-    "",
-    ""
-   ]
-  ],
+   "names_en": {
+    "阿芳": "a-?fang",
+    "家豪": "jiahao",
+    "宜君": "yijun",
+    "志豪": "zhihao",
+    "佩珊": "peishan"
+   },
+   "prof_zh": "幹|靠北|靠杯|白癡|白痴|去死|機掰|雞掰|智障|垃圾|廢物|操你|操他|腦殘|三小|淦|王八蛋|他媽的|媽的",
+   "prof_en": "\\b(fuck\\w*|shit\\w*|damn\\w*|bitch\\w*|asshole\\w*|bastard\\w*|crap\\w*|wtf|dick\\w*|piss\\w*)\\b",
+   "lines": {
+    "prof_家豪": [
+     "這盞燈寫得最真心，哈哈哈",
+     "This lantern's the most honest one, hahaha"
+    ],
+    "prof_佩珊": [
+     "這盞的照片先放我這裡，不好意思",
+     "I'll hold on to the photo of this one, sorry"
+    ],
+    "name_阿芳": [
+     "燈上有我的名字，照片留給小芋頭啦😝",
+     "My name's on the lantern! Saving the photo for Little Taro 😝"
+    ],
+    "name_家豪": [
+     "我的名字在燈上，比小太陽的招牌還亮，哈哈哈",
+     "My name's on the lantern, brighter than Little Sun's sign, hahaha"
+    ],
+    "name_宜君": [
+     "看到我的名字，這張留給我媽，QQ",
+     "Saw my name. Saving this one for my mom QQ"
+    ],
+    "name_志豪": [
+     "燈上有我的名字，照片我留給小雯。",
+     "My name's on the lantern. The photo goes to Xiaowen."
+    ],
+    "name_佩珊": [
+     "燈上有我的名字，這次妳的案子放我這邊，不好意思",
+     "My name's on the lantern. This time your cases are on me, sorry"
+    ],
+    "date_佩珊": [
+     "「{w}」那天的案子放我這邊，不好意思",
+     "\"{w}\": that day, I've got your cases, sorry"
+    ],
+    "doc_宜君": [
+     "「{w}」喔，那天換我盯妳的掛號單，QQ",
+     "\"{w}\", that day I'm watching your appointment slip QQ"
+    ],
+    "doc_佩珊": [
+     "「{w}」那天，桌上的案子放我這邊，不好意思",
+     "\"{w}\": that day, I've got the cases on your desk, sorry"
+    ],
+    "sleep_家豪": [
+     "「{w}」這個願，我也要一份，哈哈哈",
+     "\"{w}\", I want that wish too, hahaha"
+    ],
+    "sleep_佩珊": [
+     "多睡一點，請假單我幫妳放桌上，不好意思",
+     "Get some more sleep. I'll put your leave form on your desk, sorry"
+    ],
+    "sorry_志豪": [
+     "沒有誰欠誰。",
+     "No one owes anyone."
+    ],
+    "sorry_家豪": [
+     "燈上那句，群組裡的人都還在這邊，哈哈哈",
+     "That line on the lantern: everyone in the chat is still here, hahaha"
+    ],
+    "sorry_佩珊": [
+     "這句心意在我這邊，往後的案子放我桌上就好，不好意思",
+     "Got your message. From now on, just leave the cases on my desk, sorry"
+    ],
+    "class_佩珊": [
+     "「{w}」這盞，我拍下來傳到群組，不好意思",
+     "\"{w}\": I took a photo of this one for the group chat, sorry"
+    ],
+    "work_家豪": [
+     "「{w}」喔，這盞燈飛得比招牌還高，哈哈哈",
+     "\"{w}\", this lantern's flying higher than my sign, hahaha"
+    ],
+    "work_佩珊": [
+     "工作的心願最大，妳的案子交給我，不好意思",
+     "Work wishes come first. Leave your cases to me, sorry"
+    ],
+    "other_佩珊": [
+     "老顏的燈飛最高，不好意思",
+     "Lao Yan's lantern is flying the highest, sorry"
+    ]
+   },
+   "ui": {
+    "ph": [
+     "寫在老顏的燈上",
+     "Write on Lao Yan's lantern"
+    ],
+    "go": [
+     "放！",
+     "Let go!"
+    ],
+    "on": [
+     "燈上",
+     "On the lantern"
+    ],
+    "poster": [
+     "海報上",
+     "On the poster"
+    ],
+    "blank": [
+     "（什麼都沒寫）",
+     "(nothing written)"
+    ]
+   }
+  },
   "wish26": {
    "阿芳": [
     [
@@ -2166,10 +2341,40 @@
    "1": 54,
    "0": 62
   },
-  "lao26_index": {
-   "1": 43,
-   "0": 1,
-   "2": 84
+  "lantern_responder": {
+   "prof": {
+    "佩珊": 16,
+    "家豪": 112
+   },
+   "name": {
+    "被點名者": 128
+   },
+   "date": {
+    "佩珊": 128
+   },
+   "doc": {
+    "佩珊": 16,
+    "宜君": 112
+   },
+   "sleep": {
+    "佩珊": 16,
+    "家豪": 112
+   },
+   "sorry": {
+    "佩珊": 4,
+    "家豪": 36,
+    "志豪": 88
+   },
+   "class": {
+    "佩珊": 128
+   },
+   "work": {
+    "佩珊": 16,
+    "家豪": 112
+   },
+   "other": {
+    "佩珊": 128
+   }
   },
   "leaves_group": {
    "志豪": 40,
@@ -2213,7 +2418,17 @@
    ],
    "self": 0,
    "verdict": "gone",
-   "lao26": 1
+   "lantern": {
+    "prof": "佩珊",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "佩珊",
+    "sleep": "佩珊",
+    "sorry": "佩珊",
+    "class": "佩珊",
+    "work": "佩珊",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUUUUUD",
@@ -2233,7 +2448,17 @@
    ],
    "self": 0,
    "verdict": "gone",
-   "lao26": 0
+   "lantern": {
+    "prof": "佩珊",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "佩珊",
+    "sleep": "佩珊",
+    "sorry": "佩珊",
+    "class": "佩珊",
+    "work": "佩珊",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUUUUDU",
@@ -2252,7 +2477,17 @@
    ],
    "self": 1,
    "verdict": "gone",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "佩珊",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUUUUDD",
@@ -2271,7 +2506,17 @@
    ],
    "self": 1,
    "verdict": "gone",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "佩珊",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUUUDUU",
@@ -2289,7 +2534,17 @@
    ],
    "self": 1,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUUUDUD",
@@ -2307,7 +2562,17 @@
    ],
    "self": 1,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUUUDDU",
@@ -2325,7 +2590,17 @@
    ],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUUUDDD",
@@ -2343,7 +2618,17 @@
    ],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUUDUUU",
@@ -2362,7 +2647,17 @@
    ],
    "self": 1,
    "verdict": "gone",
-   "lao26": 1
+   "lantern": {
+    "prof": "佩珊",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "佩珊",
+    "sleep": "佩珊",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "佩珊",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUUDUUD",
@@ -2381,7 +2676,17 @@
    ],
    "self": 1,
    "verdict": "gone",
-   "lao26": 1
+   "lantern": {
+    "prof": "佩珊",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "佩珊",
+    "sleep": "佩珊",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "佩珊",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUUDUDU",
@@ -2399,7 +2704,17 @@
    ],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "佩珊",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUUDUDD",
@@ -2417,7 +2732,17 @@
    ],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "佩珊",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUUDDUU",
@@ -2435,7 +2760,17 @@
    ],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUUDDUD",
@@ -2453,7 +2788,17 @@
    ],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUUDDDU",
@@ -2469,7 +2814,17 @@
    "gone": [],
    "self": 3,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUUDDDD",
@@ -2485,7 +2840,17 @@
    "gone": [],
    "self": 3,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUDUUUU",
@@ -2504,7 +2869,17 @@
    ],
    "self": 1,
    "verdict": "gone",
-   "lao26": 1
+   "lantern": {
+    "prof": "佩珊",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "佩珊",
+    "sleep": "佩珊",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "佩珊",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUDUUUD",
@@ -2523,7 +2898,17 @@
    ],
    "self": 1,
    "verdict": "gone",
-   "lao26": 1
+   "lantern": {
+    "prof": "佩珊",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "佩珊",
+    "sleep": "佩珊",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "佩珊",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUDUUDU",
@@ -2541,7 +2926,17 @@
    ],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "佩珊",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUDUUDD",
@@ -2559,7 +2954,17 @@
    ],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "佩珊",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUDUDUU",
@@ -2575,7 +2980,17 @@
    "gone": [],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUDUDUD",
@@ -2591,7 +3006,17 @@
    "gone": [],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUDUDDU",
@@ -2607,7 +3032,17 @@
    "gone": [],
    "self": 3,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUDUDDD",
@@ -2623,7 +3058,17 @@
    "gone": [],
    "self": 3,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUDDUUU",
@@ -2642,7 +3087,17 @@
    ],
    "self": 2,
    "verdict": "gone",
-   "lao26": 1
+   "lantern": {
+    "prof": "佩珊",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "佩珊",
+    "sleep": "佩珊",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "佩珊",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUDDUUD",
@@ -2661,7 +3116,17 @@
    ],
    "self": 2,
    "verdict": "gone",
-   "lao26": 1
+   "lantern": {
+    "prof": "佩珊",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "佩珊",
+    "sleep": "佩珊",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "佩珊",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUDDUDU",
@@ -2679,7 +3144,17 @@
    ],
    "self": 3,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "佩珊",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUDDUDD",
@@ -2697,7 +3172,17 @@
    ],
    "self": 3,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "佩珊",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUDDDUU",
@@ -2713,7 +3198,17 @@
    "gone": [],
    "self": 3,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUDDDUD",
@@ -2729,7 +3224,17 @@
    "gone": [],
    "self": 3,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUDDDDU",
@@ -2745,7 +3250,17 @@
    "gone": [],
    "self": 4,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UUDDDDD",
@@ -2761,7 +3276,17 @@
    "gone": [],
    "self": 4,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDUUUUU",
@@ -2780,7 +3305,17 @@
    ],
    "self": 1,
    "verdict": "gone",
-   "lao26": 1
+   "lantern": {
+    "prof": "佩珊",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "佩珊",
+    "sorry": "佩珊",
+    "class": "佩珊",
+    "work": "佩珊",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDUUUUD",
@@ -2799,7 +3334,17 @@
    ],
    "self": 1,
    "verdict": "gone",
-   "lao26": 1
+   "lantern": {
+    "prof": "佩珊",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "佩珊",
+    "sorry": "佩珊",
+    "class": "佩珊",
+    "work": "佩珊",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDUUUDU",
@@ -2817,7 +3362,17 @@
    ],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDUUUDD",
@@ -2835,7 +3390,17 @@
    ],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDUUDUU",
@@ -2853,7 +3418,17 @@
    ],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDUUDUD",
@@ -2871,7 +3446,17 @@
    ],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDUUDDU",
@@ -2889,7 +3474,17 @@
    ],
    "self": 3,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDUUDDD",
@@ -2907,7 +3502,17 @@
    ],
    "self": 3,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDUDUUU",
@@ -2925,7 +3530,17 @@
    ],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "佩珊",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "佩珊",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "佩珊",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDUDUUD",
@@ -2943,7 +3558,17 @@
    ],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "佩珊",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "佩珊",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "佩珊",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDUDUDU",
@@ -2959,7 +3584,17 @@
    "gone": [],
    "self": 3,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDUDUDD",
@@ -2975,7 +3610,17 @@
    "gone": [],
    "self": 3,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDUDDUU",
@@ -2993,7 +3638,17 @@
    ],
    "self": 3,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDUDDUD",
@@ -3011,7 +3666,17 @@
    ],
    "self": 3,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDUDDDU",
@@ -3027,7 +3692,17 @@
    "gone": [],
    "self": 4,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDUDDDD",
@@ -3043,7 +3718,17 @@
    "gone": [],
    "self": 4,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDDUUUU",
@@ -3061,7 +3746,17 @@
    ],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "佩珊",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "佩珊",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "佩珊",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDDUUUD",
@@ -3079,7 +3774,17 @@
    ],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "佩珊",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "佩珊",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "佩珊",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDDUUDU",
@@ -3095,7 +3800,17 @@
    "gone": [],
    "self": 3,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDDUUDD",
@@ -3111,7 +3826,17 @@
    "gone": [],
    "self": 3,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDDUDUU",
@@ -3127,7 +3852,17 @@
    "gone": [],
    "self": 3,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDDUDUD",
@@ -3143,7 +3878,17 @@
    "gone": [],
    "self": 3,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDDUDDU",
@@ -3159,7 +3904,17 @@
    "gone": [],
    "self": 4,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDDUDDD",
@@ -3175,7 +3930,17 @@
    "gone": [],
    "self": 4,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDDDUUU",
@@ -3193,7 +3958,17 @@
    ],
    "self": 3,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "佩珊",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "佩珊",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "佩珊",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDDDUUD",
@@ -3211,7 +3986,17 @@
    ],
    "self": 3,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "佩珊",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "佩珊",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "佩珊",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDDDUDU",
@@ -3227,7 +4012,17 @@
    "gone": [],
    "self": 4,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDDDUDD",
@@ -3243,7 +4038,17 @@
    "gone": [],
    "self": 4,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDDDDUU",
@@ -3259,7 +4064,17 @@
    "gone": [],
    "self": 4,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDDDDUD",
@@ -3275,7 +4090,17 @@
    "gone": [],
    "self": 4,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDDDDDU",
@@ -3291,7 +4116,17 @@
    "gone": [],
    "self": 5,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "UDDDDDD",
@@ -3307,7 +4142,17 @@
    "gone": [],
    "self": 5,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUUUUUU",
@@ -3325,7 +4170,17 @@
    ],
    "self": 1,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUUUUUD",
@@ -3343,7 +4198,17 @@
    ],
    "self": 1,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUUUUDU",
@@ -3361,7 +4226,17 @@
    ],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUUUUDD",
@@ -3379,7 +4254,17 @@
    ],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUUUDUU",
@@ -3397,7 +4282,17 @@
    ],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUUUDUD",
@@ -3415,7 +4310,17 @@
    ],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUUUDDU",
@@ -3433,7 +4338,17 @@
    ],
    "self": 3,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUUUDDD",
@@ -3451,7 +4366,17 @@
    ],
    "self": 3,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUUDUUU",
@@ -3467,7 +4392,17 @@
    "gone": [],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUUDUUD",
@@ -3483,7 +4418,17 @@
    "gone": [],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUUDUDU",
@@ -3499,7 +4444,17 @@
    "gone": [],
    "self": 3,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUUDUDD",
@@ -3515,7 +4470,17 @@
    "gone": [],
    "self": 3,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUUDDUU",
@@ -3533,7 +4498,17 @@
    ],
    "self": 3,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUUDDUD",
@@ -3551,7 +4526,17 @@
    ],
    "self": 3,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUUDDDU",
@@ -3567,7 +4552,17 @@
    "gone": [],
    "self": 4,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUUDDDD",
@@ -3583,7 +4578,17 @@
    "gone": [],
    "self": 4,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUDUUUU",
@@ -3601,7 +4606,17 @@
    ],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUDUUUD",
@@ -3619,7 +4634,17 @@
    ],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUDUUDU",
@@ -3637,7 +4662,17 @@
    ],
    "self": 3,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUDUUDD",
@@ -3655,7 +4690,17 @@
    ],
    "self": 3,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUDUDUU",
@@ -3673,7 +4718,17 @@
    ],
    "self": 3,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUDUDUD",
@@ -3691,7 +4746,17 @@
    ],
    "self": 3,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUDUDDU",
@@ -3709,7 +4774,17 @@
    ],
    "self": 4,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUDUDDD",
@@ -3727,7 +4802,17 @@
    ],
    "self": 4,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUDDUUU",
@@ -3743,7 +4828,17 @@
    "gone": [],
    "self": 3,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUDDUUD",
@@ -3759,7 +4854,17 @@
    "gone": [],
    "self": 3,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUDDUDU",
@@ -3775,7 +4880,17 @@
    "gone": [],
    "self": 4,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUDDUDD",
@@ -3791,7 +4906,17 @@
    "gone": [],
    "self": 4,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUDDDUU",
@@ -3807,7 +4932,17 @@
    "gone": [],
    "self": 4,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUDDDUD",
@@ -3823,7 +4958,17 @@
    "gone": [],
    "self": 4,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUDDDDU",
@@ -3839,7 +4984,17 @@
    "gone": [],
    "self": 5,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DUDDDDD",
@@ -3855,7 +5010,17 @@
    "gone": [],
    "self": 5,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDUUUUU",
@@ -3873,7 +5038,17 @@
    ],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDUUUUD",
@@ -3891,7 +5066,17 @@
    ],
    "self": 2,
    "verdict": "mix",
-   "lao26": 1
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDUUUDU",
@@ -3909,7 +5094,17 @@
    ],
    "self": 3,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDUUUDD",
@@ -3927,7 +5122,17 @@
    ],
    "self": 3,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDUUDUU",
@@ -3945,7 +5150,17 @@
    ],
    "self": 3,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDUUDUD",
@@ -3963,7 +5178,17 @@
    ],
    "self": 3,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDUUDDU",
@@ -3981,7 +5206,17 @@
    ],
    "self": 4,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDUUDDD",
@@ -3999,7 +5234,17 @@
    ],
    "self": 4,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDUDUUU",
@@ -4015,7 +5260,17 @@
    "gone": [],
    "self": 3,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDUDUUD",
@@ -4031,7 +5286,17 @@
    "gone": [],
    "self": 3,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDUDUDU",
@@ -4047,7 +5312,17 @@
    "gone": [],
    "self": 4,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDUDUDD",
@@ -4063,7 +5338,17 @@
    "gone": [],
    "self": 4,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDUDDUU",
@@ -4081,7 +5366,17 @@
    ],
    "self": 4,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDUDDUD",
@@ -4099,7 +5394,17 @@
    ],
    "self": 4,
    "verdict": "mix",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "家豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDUDDDU",
@@ -4115,7 +5420,17 @@
    "gone": [],
    "self": 5,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDUDDDD",
@@ -4131,7 +5446,17 @@
    "gone": [],
    "self": 5,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDDUUUU",
@@ -4147,7 +5472,17 @@
    "gone": [],
    "self": 3,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDDUUUD",
@@ -4163,7 +5498,17 @@
    "gone": [],
    "self": 3,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDDUUDU",
@@ -4179,7 +5524,17 @@
    "gone": [],
    "self": 4,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDDUUDD",
@@ -4195,7 +5550,17 @@
    "gone": [],
    "self": 4,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDDUDUU",
@@ -4211,7 +5576,17 @@
    "gone": [],
    "self": 4,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDDUDUD",
@@ -4227,7 +5602,17 @@
    "gone": [],
    "self": 4,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDDUDDU",
@@ -4243,7 +5628,17 @@
    "gone": [],
    "self": 5,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDDUDDD",
@@ -4259,7 +5654,17 @@
    "gone": [],
    "self": 5,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDDDUUU",
@@ -4275,7 +5680,17 @@
    "gone": [],
    "self": 4,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDDDUUD",
@@ -4291,7 +5706,17 @@
    "gone": [],
    "self": 4,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDDDUDU",
@@ -4307,7 +5732,17 @@
    "gone": [],
    "self": 5,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDDDUDD",
@@ -4323,7 +5758,17 @@
    "gone": [],
    "self": 5,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDDDDUU",
@@ -4339,7 +5784,17 @@
    "gone": [],
    "self": 5,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDDDDUD",
@@ -4355,7 +5810,17 @@
    "gone": [],
    "self": 5,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDDDDDU",
@@ -4371,7 +5836,17 @@
    "gone": [],
    "self": 6,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   },
   {
    "key": "DDDDDDD",
@@ -4387,7 +5862,17 @@
    "gone": [],
    "self": 6,
    "verdict": "self",
-   "lao26": 2
+   "lantern": {
+    "prof": "家豪",
+    "name": "被點名者",
+    "date": "佩珊",
+    "doc": "宜君",
+    "sleep": "家豪",
+    "sorry": "志豪",
+    "class": "佩珊",
+    "work": "家豪",
+    "other": "佩珊"
+   }
   }
  ]
 }
