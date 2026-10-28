@@ -174,6 +174,13 @@ with sync_playwright() as p:
             b=pg.locator('.scr.sp .spk>button').nth(ki);b.scroll_into_view_if_needed();b.click();time.sleep(.3)
         kr=spe("()=>[...document.querySelectorAll('.scr.sp .spk')].map(k=>[k.classList.contains('open'),k.querySelectorAll('.spkb .spfact').length,k.querySelectorAll('.spkb a.splink').length,k.querySelector('button').getAttribute('aria-expanded')])")
         if any((not o) or f<1 or l<1 or a!='true' for o,f,l,a in kr): SPF.append(('kept open',kr))
+        # L（2026-10-28）：每張留下的海報展開後有「誰在倡議這一張」＋「沒留下的另一張」，內容＝DATA.sources.nadv，連結 https、新分頁
+        ad=spe(f"""()=>[...document.querySelectorAll('.scr.sp .spk')].map((k,i)=>{{const p=S.path[i],o=p.side==='U'?'D':'U',nv=(DATA.sources.nadv[p.node]||{{}}),a=k.querySelector('.spadv');if(!a)return {{i,miss:'no .spadv'}};
+            const ct=[...a.querySelectorAll('.spct')].map(x=>x.textContent),f=[...a.querySelectorAll('.spfact.adv')].map(x=>x.textContent),ln=[...a.querySelectorAll('a.splink')].map(x=>[x.getAttribute('href'),x.target,x.rel]),nn=a.querySelectorAll('.spnone').length;
+            const want=(nv[p.side]||[]).concat(nv[o]||[]).map(id=>DATA.sources.cards[id].f[0][{Lg}]);
+            return {{i,ct,nf:f.length,ok:JSON.stringify(f)===JSON.stringify(want),nl:ln.length,badl:ln.filter(([h,t,r])=>!h.startsWith('https://')||t!=='_blank'||!r.includes('noopener')).length,nn,other:ct[1]&&ct[1].includes(N[p.node][o].h1[{Lg}])}}}})""")
+        badad=[x for x in ad if x.get('miss') or not x['ok'] or x['nf']<1 or x['nl']<x['nf'] or x['badl'] or len(x['ct'])!=2 or not x['other']]
+        if badad: SPF.append(('advocates',badad))
         ov('kept');scr('.scr.sp .spk');shot('sp_kept')
         cov=spe("""()=>{const out=[];document.querySelectorAll('.scr.sp .spk a.splink').forEach(a=>{a.scrollIntoView({block:'center'});const r=a.getBoundingClientRect(),e=document.elementFromPoint(r.left+Math.min(8,r.width/2),r.top+r.height/2);if(!(e===a||a.contains(e)))out.push(a.textContent)});return out}""")
         if cov: SPF.append(('kept links covered',cov))
