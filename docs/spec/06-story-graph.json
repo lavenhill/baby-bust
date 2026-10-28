@@ -1,11 +1,11 @@
 {
- "version": "v5 (V=20261027f)",
+ "version": "lines-r3 (V=20261028b)",
  "generated_from": "data.js + engine rules in index.html",
  "state": {
   "hurt[m]": "同學 m 被犧牲次數；選上半（文宣）時 +1 給 D.who（下半照片上的人）",
   "gone": "hurt[m]==2 的同學：退群、之後群組不出現、2026 空燈、結局私訊",
   "self": "選下半（現場）次數＝老顏重做晚數；頭像 1–2 半灰、≥3 劃線",
-  "laoyanGray": "2026 選上（佩珊的海報）→ 老顏的燈灰",
+  "laoyanGray": "2026 選上（佩珊的海報）→ 老顏的燈灰；佩珊 hurt+1（組長拿海報堵她），結局收到受傷一次版私訊",
   "peishanGray": "2026 選下（老顏自己）→ 佩珊的燈灰、願望換成第二版",
   "baby": "新生兒數，隨機步數觸發，與選擇無關（設計：選擇不影響出生人數）"
  },
@@ -14,9 +14,10 @@
    "when": "choose U (poster) at non-final node",
    "effect": "hurt[D.who]+=1 if D.named and not gone",
    "shows": [
-    "cons[node][0..2]",
-    "hurt==1 → 被堵同學回應 cons[2]",
-    "hurt==2 → 系統訊息「已退出群組」+ 加入 gone"
+    "群組後果 gcons[node][hurt]：同學在群組轉述外人的話（不出現外人轉傳畫面）",
+    "2022c 先出新聞卡 news[node]",
+    "hurt==2 → 系統訊息「已退出群組」+ 加入 gone",
+    "D.who 已退群 → 不出後果畫面"
    ]
   },
   {
@@ -37,7 +38,7 @@
    "shows": [
     "wish26[m][hurt>0]",
     "lao26[2 if self>=3 else 1 if self+laoyanGray>=1 else 0]",
-    "reunion[m|sorted(cutIn)] for m in gone"
+    "私訊：先退群者 reunion[m|前兩刀]（冷），再受傷一次仍在群組者 reunion[m|那一刀]（還會酸、約放燈）"
    ]
   }
  ],
@@ -188,20 +189,38 @@
      "next": "y2019b"
     }
    },
-   "cons_U": [
-    {
-     "zh": "小太陽家長群・家長",
-     "en": "Little Sun Parents Group · Parent"
-    },
-    {
-     "zh": "海報寫月付四千五，妳憑什麼收一萬？",
-     "en": "Poster says 4,500 a month, why do you charge 10k?"
-    },
-    {
-     "zh": "這學期少十五個。招牌的漆掉了，我爸還在補。",
-     "en": "Down 15 kids this term. Sign paint's peeling, my dad's fixing it."
-    }
-   ],
+   "group_after_U": {
+    "1": [
+     {
+      "who": "家豪",
+      "time": "",
+      "zh": "今天有家長拿月付四千五那張來堵我",
+      "en": "Today a parent used the 4,500-a-month poster to shut me down",
+      "visible_if": {
+       "present": []
+      }
+     },
+     {
+      "who": "家豪",
+      "time": "",
+      "zh": "問我憑什麼還收一萬啦，哈哈哈",
+      "en": "Asked me why I still charge 10,000, haha",
+      "visible_if": {
+       "present": []
+      }
+     },
+     {
+      "who": "家豪",
+      "time": "",
+      "zh": "這學期少了十五個小朋友，招牌的漆也掉了一大片",
+      "en": "Fifteen fewer kids this semester, the paint on the sign is peeling off in a big patch too",
+      "visible_if": {
+       "present": []
+      }
+     }
+    ]
+   },
+   "news_after_U": null,
    "boss_D": {
     "zh": "私幼不是部長這次要講的。今晚重做。",
     "en": "Private preschools aren't what the Minister wants this time. Redo tonight."
@@ -358,20 +377,40 @@
      "next": "y2021"
     }
    },
-   "cons_U": [
-    {
-     "zh": "小太陽老師群・園長家豪",
-     "en": "Little Sun Teachers Group · Director Jiahao"
-    },
-    {
-     "zh": "海報都說國家補了，大家共體時艱。",
-     "en": "Posters say the state covers it, let's all tough it out."
-    },
-    {
-     "zh": "我實拿還是兩萬六。",
-     "en": "I still take home 26,000."
-    }
-   ],
+   "group_after_U": {
+    "1": [
+     {
+      "who": "宜君",
+      "time": "",
+      "zh": "今天開會園長拿那張說國家都補貼學費了啦",
+      "en": "At the meeting today the director held up that poster: the government already subsidizes tuition",
+      "visible_if": {
+       "present": []
+      }
+     },
+     {
+      "who": "宜君",
+      "time": "",
+      "zh": "笑死，共體時艱，我實拿還是兩萬六QQ",
+      "en": "lol, share the hardship, my take-home is still 26,000 :(",
+      "visible_if": {
+       "present": []
+      }
+     },
+     {
+      "who": "家豪",
+      "time": "",
+      "zh": "……那個園長就是我爸，不好意思啦",
+      "en": "...that director is my dad, sorry",
+      "visible_if": {
+       "present": [
+        "家豪"
+       ]
+      }
+     }
+    ]
+   },
+   "news_after_U": null,
    "boss_D": {
     "zh": "薪水查核是別科的事，今年只拍掛牌。重做。",
     "en": "Salary checks are another division's job, this year we just shoot the sign. Redo."
@@ -528,20 +567,38 @@
      "next": "y2021"
     }
    },
-   "cons_U": [
-    {
-     "zh": "家族群組・阿芳的婆婆",
-     "en": "Family Group · A-Fang's MIL"
-    },
-    {
-     "zh": "海報上別人家都中了，妳呢？",
-     "en": "Poster says everyone else got in, what about you?"
-    },
-    {
-     "zh": "回事務所的事，又往後延一年。",
-     "en": "Going back to the firm gets pushed another year."
-    }
-   ],
+   "group_after_U": {
+    "1": [
+     {
+      "who": "阿芳",
+      "time": "",
+      "zh": "婆婆把那張丟到家族群組啦",
+      "en": "My mother-in-law dropped that poster in the family group chat",
+      "visible_if": {
+       "present": []
+      }
+     },
+     {
+      "who": "阿芳",
+      "time": "",
+      "zh": "說別人家都抽中名額了，妳咧，😝",
+      "en": "Said everyone else got a spot, what about you 😝",
+      "visible_if": {
+       "present": []
+      }
+     },
+     {
+      "who": "阿芳",
+      "time": "",
+      "zh": "備取87啦，回事務所又要延一年",
+      "en": "Waitlist #87, going back to the firm gets pushed back another year",
+      "visible_if": {
+       "present": []
+      }
+     }
+    ]
+   },
+   "news_after_U": null,
    "boss_D": {
     "zh": "議員要看的是抽中的。誰要看備取？重做。",
     "en": "Councilor wants to see winners. Who wants waitlist? Redo."
@@ -694,20 +751,42 @@
      "next": "y2022d"
     }
    },
-   "cons_U": [
-    {
-     "zh": "茶水間公告・志豪的經理",
-     "en": "Break Room Notice · Zhihao's Manager"
-    },
-    {
-     "zh": "海報說爸媽有政府罩，你就多補一點位。",
-     "en": "Poster says parents got government cover, so you cover more shifts."
-    },
-    {
-     "zh": "那一年，我沒在天黑前到過家。",
-     "en": "That year, I never got home before dark."
-    }
-   ],
+   "group_after_U": {
+    "1": [
+     {
+      "who": "佩珊",
+      "time": "",
+      "zh": "志豪他們經理把海報貼茶水間啦",
+      "en": "Zhihao's manager stuck the poster in the pantry",
+      "visible_if": {
+       "present": [
+        "佩珊"
+       ]
+      }
+     },
+     {
+      "who": "佩珊",
+      "time": "",
+      "zh": "說爸媽有政府罩，加班就交給單身的人",
+      "en": "Said parents have the government covering them, so overtime goes to the single people",
+      "visible_if": {
+       "present": [
+        "佩珊"
+       ]
+      }
+     },
+     {
+      "who": "志豪",
+      "time": "01:12",
+      "zh": "那一年，我沒有一天在天黑前回到家門口",
+      "en": "That year, I never got back home before dark, not one day",
+      "visible_if": {
+       "present": []
+      }
+     }
+    ]
+   },
+   "news_after_U": null,
    "boss_D": {
     "zh": "現在不是講這個的時候。妳也不想考績吃乙吧？",
     "en": "Not the time for this. You don't want a B performance grade, do you?"
@@ -720,7 +799,7 @@
     "D": "y2024"
    },
    "final": false,
-   "policy_src": "內政部 2022-03-31；行政院 2022-06-30",
+   "policy_src": "內政部 2022-03-31；行政院 2022-06-30；TVBS 2022-07-20、2022-09-28（房客申請租補，房東漲租）",
    "ask": [
     {
      "zh": "300 億租金補貼，育兒家庭最高 1.8 倍。年底前要看到有感。",
@@ -861,20 +940,35 @@
      "next": "y2024"
     }
    },
-   "cons_U": [
-    {
-     "zh": "房東",
-     "en": "Landlord"
-    },
-    {
-     "zh": "海報說你們都有領，漲五百怎麼了？",
-     "en": "Poster says you all got it, what's wrong with +500?"
-    },
-    {
-     "zh": "我根本沒領到。頭期款又少一個月。",
-     "en": "I never got it at all. Down payment short another month."
-    }
-   ],
+   "group_after_U": {
+    "2": [
+     {
+      "who": "佩珊",
+      "time": "",
+      "zh": "志豪你房東那邊還好嗎啦",
+      "en": "Zhihao, how are things with your landlord?",
+      "visible_if": {
+       "present": [
+        "佩珊"
+       ]
+      }
+     },
+     {
+      "who": "志豪",
+      "time": "02:47",
+      "zh": "房東說要申請就漲租金，我就沒送申請表了。頭期款又少一個月。",
+      "en": "Landlord said if I apply he'll raise the rent, so I didn't send the form. That's one less month for the down payment.",
+      "visible_if": {
+       "present": []
+      }
+     }
+    ]
+   },
+   "news_after_U": {
+    "zh": "房客申請租補，房東漲全棟房租",
+    "en": "A tenant applied for rent subsidy, the landlord raised rent for the whole building",
+    "src": "TVBS 2022-07-20、2022-09-28"
+   },
    "boss_D": {
     "zh": "單身不是這次主打。重做。",
     "en": "Singles aren't the focus this time. Redo it."
@@ -1028,20 +1122,60 @@
      "next": "y2024"
     }
    },
-   "cons_U": [
-    {
-     "zh": "面試・人資",
-     "en": "Interview · HR"
-    },
-    {
-     "zh": "海報說在家顧也有五千，妳幹嘛出來找工作？",
-     "en": "Poster says you get 5k staying home, why look for a job?"
-    },
-    {
-     "zh": "我在平溪寫的是三十五歲升主任。",
-     "en": "What I wrote in Pingxi: director by 35."
-    }
-   ],
+   "group_after_U": {
+    "1": [
+     {
+      "who": "阿芳",
+      "time": "",
+      "zh": "今天去面試，人資拿那張堵我啦",
+      "en": "Went to a job interview today, HR used that poster to shut me down",
+      "visible_if": {
+       "present": []
+      }
+     },
+     {
+      "who": "阿芳",
+      "time": "",
+      "zh": "在家顧也有五千，空白兩年要我怎麼解釋經歷😝",
+      "en": "Staying home to watch them still gets 5,000, how do I explain two blank years on my resume 😝",
+      "visible_if": {
+       "present": []
+      }
+     },
+     {
+      "who": "阿芳",
+      "time": "",
+      "zh": "留停到期，我就先提辭呈了，升主任又離我更遠一步啦",
+      "en": "My unpaid parental leave ended, so I just resigned first, getting to manager is one step farther again",
+      "visible_if": {
+       "present": []
+      }
+     }
+    ],
+    "2": [
+     {
+      "who": "佩珊",
+      "time": "",
+      "zh": "阿芳好久沒傳訊息到群組了……",
+      "en": "A-Fang hasn't messaged the group in a long time...",
+      "visible_if": {
+       "present": [
+        "佩珊"
+       ]
+      }
+     },
+     {
+      "who": "阿芳",
+      "time": "",
+      "zh": "人資說在家顧也有五千，空白那兩年的事，我不想再對任何人解釋一遍",
+      "en": "HR said staying home to watch the kids still gets 5,000, I don't want to explain those two blank years to anyone again",
+      "visible_if": {
+       "present": []
+      }
+     }
+    ]
+   },
+   "news_after_U": null,
    "boss_D": {
     "zh": "她自己選的。重做。",
     "en": "It was her own choice. Redo it."
@@ -1194,20 +1328,60 @@
      "next": "y2025f"
     }
    },
-   "cons_U": [
-    {
-     "zh": "家長 LINE・家長",
-     "en": "Parent LINE · Parent"
-    },
-    {
-     "zh": "海報說延托到六點，這本來就是老師該做的吧？",
-     "en": "Poster says extended care til 6, isn't that teachers' job anyway?"
-    },
-    {
-     "zh": "薪水是漲了，我每天站十一個小時。",
-     "en": "Pay went up, and I'm on my feet eleven hours a day."
-    }
-   ],
+   "group_after_U": {
+    "1": [
+     {
+      "who": "宜君",
+      "time": "",
+      "zh": "家長傳延托到六點那張給我啦",
+      "en": "A parent sent me the “after-school care till 6” poster",
+      "visible_if": {
+       "present": []
+      }
+     },
+     {
+      "who": "宜君",
+      "time": "",
+      "zh": "笑死，說這本來就是老師該做的吧QQ",
+      "en": "lol, said this is just what teachers should do :(",
+      "visible_if": {
+       "present": []
+      }
+     },
+     {
+      "who": "宜君",
+      "time": "",
+      "zh": "考上公幼第一年，每天站十一小時啦",
+      "en": "First year at the public preschool, on my feet 11 hours a day",
+      "visible_if": {
+       "present": []
+      }
+     }
+    ],
+    "2": [
+     {
+      "who": "佩珊",
+      "time": "",
+      "zh": "宜君好久沒傳訊息到群組了……",
+      "en": "Yijun hasn't messaged the group in a long time...",
+      "visible_if": {
+       "present": [
+        "佩珊"
+       ]
+      }
+     },
+     {
+      "who": "宜君",
+      "time": "",
+      "zh": "嗯，顧到六點是應該的，站十一小時而已",
+      "en": "Yeah, staying till 6 is just part of the job. It’s only 11 hours on my feet",
+      "visible_if": {
+       "present": []
+      }
+     }
+    ]
+   },
+   "news_after_U": null,
    "boss_D": {
     "zh": "老師的事另案處理。考績要打了，別在這時候。",
     "en": "Teachers' issue handled separately. Reviews are coming, not now."
@@ -1227,8 +1401,8 @@
      "en": "Need to fill the summer/winter care gap, councilor wants \"open all year.\""
     },
     {
-     "zh": "畫放心的家長，還是請不到假的老師？",
-     "en": "Draw the relieved parent, or the teacher who can't get leave?"
+     "zh": "畫放心的家長，還是招不到暑期班的私幼？",
+     "en": "Draw relieved parents, or the private preschool that can’t fill its summer program?"
     }
    ],
    "U": {
@@ -1252,26 +1426,26 @@
     }
    },
    "D": {
-    "who": "宜君",
+    "who": "家豪",
     "named": true,
     "tag": {
-     "zh": "公幼老師",
-     "en": "public preschool teacher"
+     "zh": "私幼園長",
+     "en": "private preschool owner"
     },
     "h1": {
-     "zh": "老師也有寒暑假",
-     "en": "Teachers get summer and winter breaks too"
+     "zh": "私幼一起顧",
+     "en": "Private Preschools Pitch In"
     },
     "sub": {
-     "zh": "休息充電 才能照顧更好",
-     "en": "Rest and Recharge to Care Better"
+     "zh": "暑假不打烊",
+     "en": "Open All Summer"
     },
     "aside": {
-     "zh": "機票改到過年後了",
-     "en": "Flight moved to after Lunar New Year"
+     "zh": "暑期班傳單印一百張，報名三個",
+     "en": "Printed 100 summer program flyers. 3 sign-ups"
     }
    },
-   "U_hurts": "宜君",
+   "U_hurts": "家豪",
    "group": [
     {
      "id": "y2025e.g1",
@@ -1379,7 +1553,7 @@
    "choices": {
     "U": {
      "promotes": "阿芳",
-     "harm": "宜君",
+     "harm": "家豪",
      "effect": "hurt[harm]+=1",
      "next": "y2026"
     },
@@ -1388,23 +1562,74 @@
      "next": "y2026"
     }
    },
-   "cons_U": [
-    {
-     "zh": "園務會議・主任",
-     "en": "Staff Meeting · Director"
-    },
-    {
-     "zh": "海報說全年有開，假單先收回。",
-     "en": "Poster says open all year, leave request denied."
-    },
-    {
-     "zh": "我媽說明年再去。她明年七十了。",
-     "en": "My mom says go next year. She'll be 70 next year."
-    }
-   ],
+   "group_after_U": {
+    "1": [
+     {
+      "who": "家豪",
+      "time": "",
+      "zh": "有家長拿公幼暑假也收那張來問暑期班的事啦",
+      "en": "A parent brought the “public preschools open all summer” poster to ask about my summer program",
+      "visible_if": {
+       "present": []
+      }
+     },
+     {
+      "who": "家豪",
+      "time": "",
+      "zh": "說那我暑期班幹嘛收那麼貴，哈哈哈",
+      "en": "Said then why does my summer program cost so much, hahaha",
+      "visible_if": {
+       "present": []
+      }
+     },
+     {
+      "who": "家豪",
+      "time": "",
+      "zh": "報名剩三個，兩個老師我先請她們回家休息到開學了",
+      "en": "Only three signed up. I’ve sent two teachers home until school starts",
+      "visible_if": {
+       "present": []
+      }
+     }
+    ],
+    "2": [
+     {
+      "who": "阿芳",
+      "time": "",
+      "zh": "暑假公幼也收，老二有地方可以去上課了🙏",
+      "en": "Public preschools take kids over the summer too, so my youngest has somewhere to go 🙏",
+      "visible_if": {
+       "present": [
+        "阿芳"
+       ]
+      }
+     },
+     {
+      "who": "佩珊",
+      "time": "",
+      "zh": "家長拿那張問暑期班幹嘛那麼貴齁",
+      "en": "A parent used that poster to ask why the summer program costs so much, right?",
+      "visible_if": {
+       "present": [
+        "佩珊"
+       ]
+      }
+     },
+     {
+      "who": "家豪",
+      "time": "",
+      "zh": "嗯，只剩三個，開不成，我先請兩個老師回家休息到開學了",
+      "en": "Yeah, only three left, so it can’t run. I’ve sent two teachers home until school starts",
+      "visible_if": {
+       "present": []
+      }
+     }
+    ]
+   },
+   "news_after_U": null,
    "boss_D": {
-    "zh": "老師休假不是亮點，議員那邊我交代不了。重做。",
-    "en": "Teachers' leave isn't a highlight, I can't answer to the councilor. Redo."
+    "zh": "私幼的暑期班不是議員要的。重做。",
+    "en": "A private preschool’s summer program isn’t what the councilor wants. Redo it."
    }
   },
   "y2025f": {
@@ -1557,20 +1782,60 @@
      "next": "y2026"
     }
    },
-   "cons_U": [
-    {
-     "zh": "小雯的媽媽",
-     "en": "Xiaowen's Mom"
-    },
-    {
-     "zh": "海報上人家有房才敢生，你拿什麼娶我女兒？",
-     "en": "Poster says people have homes so they dare have kids, what will you marry my daughter with?"
-    },
-    {
-     "zh": "我什麼都沒說，把戒指放回抽屜。",
-     "en": "I said nothing, put the ring back in the drawer."
-    }
-   ],
+   "group_after_U": {
+    "1": [
+     {
+      "who": "志豪",
+      "time": "",
+      "zh": "小雯媽媽拿有房子那張問我啦",
+      "en": "Xiaowen’s mom hit me with the own-a-home poster",
+      "visible_if": {
+       "present": []
+      }
+     },
+     {
+      "who": "志豪",
+      "time": "",
+      "zh": "說人家有房才敢生，你拿什麼娶小雯，哈哈",
+      "en": "She said people only dare to have kids once they own a home, so what are you marrying Xiaowen with, haha",
+      "visible_if": {
+       "present": []
+      }
+     },
+     {
+      "who": "志豪",
+      "time": "",
+      "zh": "我先把戒指放回抽屜裡了",
+      "en": "I put the ring back in the drawer for now",
+      "visible_if": {
+       "present": []
+      }
+     }
+    ],
+    "2": [
+     {
+      "who": "阿芳",
+      "time": "",
+      "zh": "志豪好久沒傳訊息到群組了……",
+      "en": "Zhihao hasn't messaged the group in a long time...",
+      "visible_if": {
+       "present": [
+        "阿芳"
+       ]
+      }
+     },
+     {
+      "who": "志豪",
+      "time": "01:08",
+      "zh": "小雯媽媽拿有房那張問我，人家有房才敢生，你拿什麼娶小雯。戒指我放回抽屜裡了。",
+      "en": "Xiaowen’s mom hit me with the own-a-home poster: people only dare to have kids once they own a home, so what are you marrying Xiaowen with. I put the ring back in the drawer.",
+      "visible_if": {
+       "present": []
+      }
+     }
+    ]
+   },
+   "news_after_U": null,
    "boss_D": {
     "zh": "要的是拿鑰匙的照片，單身不是對象。重做。",
     "en": "We want key-handover photos, singles aren't the target. Redo."
@@ -1700,13 +1965,44 @@
    ],
    "choices": {
     "U": {
-     "effect": "laoyanGray=true"
+     "effect": "laoyanGray=true; hurt[U.who]+=1"
     },
     "D": {
      "effect": "peishanGray=true"
     }
    },
-   "cons_U": [],
+   "group_after_U": {
+    "1": [
+     {
+      "who": "佩珊",
+      "time": "",
+      "zh": "組長拿那張反問我，說不用抱歉，那案子要叫誰扛責任",
+      "en": "My team lead threw that poster back at me: no need to apologize, sure, but then who takes responsibility for the case?",
+      "visible_if": {
+       "present": []
+      }
+     },
+     {
+      "who": "佩珊",
+      "time": "",
+      "zh": "半天假被記在考績上了啦，真的不好意思",
+      "en": "Half a day off got marked on my performance review, really sorry",
+      "visible_if": {
+       "present": []
+      }
+     },
+     {
+      "who": "佩珊",
+      "time": "",
+      "zh": "老顏，我的案子先放在妳的桌上🙏",
+      "en": "Lao Yan, I’m leaving my case on your desk for now 🙏",
+      "visible_if": {
+       "present": []
+      }
+     }
+    ]
+   },
+   "news_after_U": null,
    "boss_D": null
   }
  },
@@ -1818,46 +2114,35 @@
    ]
   },
   "reunion_keys": [
-   "佩珊|y2026",
-   "宜君|y2019a",
-   "宜君|y2019a,y2024",
-   "宜君|y2019a,y2024,y2025e",
-   "宜君|y2024",
-   "宜君|y2024,y2025e",
-   "家豪|y2018",
-   "志豪|y2021",
-   "志豪|y2021,y2022c",
-   "志豪|y2021,y2022c,y2025f",
-   "志豪|y2021,y2025f",
-   "志豪|y2025f",
-   "阿芳|y2019b",
    "阿芳|y2019b,y2022d",
-   "阿芳|y2022d"
-  ],
-  "reunion_unreachable": [
-   "佩珊|y2026",
+   "宜君|y2019a,y2024",
+   "志豪|y2021,y2022c",
+   "志豪|y2021,y2025f",
+   "家豪|y2018,y2025e",
+   "阿芳|y2019b",
+   "阿芳|y2022d",
    "宜君|y2019a",
-   "宜君|y2019a,y2024,y2025e",
    "宜君|y2024",
    "家豪|y2018",
+   "家豪|y2025e",
    "志豪|y2021",
-   "志豪|y2021,y2022c,y2025f",
    "志豪|y2025f",
-   "阿芳|y2019b",
-   "阿芳|y2022d"
-  ]
+   "佩珊|y2026"
+  ],
+  "reunion_unreachable": []
  },
  "path_stats": {
   "paths": 128,
   "verdict": {
    "gone": 12,
-   "mix": 66,
-   "self": 50
+   "mix": 58,
+   "self": 58
   },
   "gone_count": {
-   "2": 12,
-   "1": 64,
-   "0": 52
+   "3": 2,
+   "2": 10,
+   "1": 54,
+   "0": 62
   },
   "lao26_index": {
    "1": 43,
@@ -1866,14 +2151,24 @@
   },
   "leaves_group": {
    "志豪": 40,
-   "宜君": 40,
+   "宜君": 16,
+   "家豪": 16,
    "阿芳": 8
   },
   "reunion_reach": {
    "志豪|y2021,y2022c": 32,
    "宜君|y2019a,y2024": 16,
+   "家豪|y2018,y2025e": 16,
+   "佩珊|y2026": 64,
+   "家豪|y2018": 48,
+   "宜君|y2019a": 16,
+   "志豪|y2021": 24,
    "志豪|y2021,y2025f": 8,
-   "宜君|y2024,y2025e": 24,
+   "阿芳|y2022d": 24,
+   "志豪|y2025f": 16,
+   "宜君|y2024": 48,
+   "阿芳|y2019b": 24,
+   "家豪|y2025e": 16,
    "阿芳|y2019b,y2022d": 8
   }
  },
@@ -1891,7 +2186,8 @@
    ],
    "gone": [
     "志豪",
-    "宜君"
+    "宜君",
+    "家豪"
    ],
    "self": 0,
    "verdict": "gone",
@@ -1910,7 +2206,8 @@
    ],
    "gone": [
     "志豪",
-    "宜君"
+    "宜君",
+    "家豪"
    ],
    "self": 0,
    "verdict": "gone",
@@ -2038,10 +2335,11 @@
     "y2026"
    ],
    "gone": [
-    "宜君"
+    "宜君",
+    "家豪"
    ],
    "self": 1,
-   "verdict": "mix",
+   "verdict": "gone",
    "lao26": 1
   },
   {
@@ -2056,10 +2354,11 @@
     "y2026"
    ],
    "gone": [
-    "宜君"
+    "宜君",
+    "家豪"
    ],
    "self": 1,
-   "verdict": "mix",
+   "verdict": "gone",
    "lao26": 1
   },
   {
@@ -2178,10 +2477,11 @@
     "y2026"
    ],
    "gone": [
-    "宜君"
+    "宜君",
+    "家豪"
    ],
    "self": 1,
-   "verdict": "mix",
+   "verdict": "gone",
    "lao26": 1
   },
   {
@@ -2196,10 +2496,11 @@
     "y2026"
    ],
    "gone": [
-    "宜君"
+    "宜君",
+    "家豪"
    ],
    "self": 1,
-   "verdict": "mix",
+   "verdict": "gone",
    "lao26": 1
   },
   {
@@ -2314,10 +2615,11 @@
     "y2026"
    ],
    "gone": [
-    "宜君"
+    "宜君",
+    "家豪"
    ],
    "self": 2,
-   "verdict": "mix",
+   "verdict": "gone",
    "lao26": 1
   },
   {
@@ -2332,10 +2634,11 @@
     "y2026"
    ],
    "gone": [
-    "宜君"
+    "宜君",
+    "家豪"
    ],
    "self": 2,
-   "verdict": "mix",
+   "verdict": "gone",
    "lao26": 1
   },
   {
@@ -2451,7 +2754,7 @@
    ],
    "gone": [
     "志豪",
-    "宜君"
+    "家豪"
    ],
    "self": 1,
    "verdict": "gone",
@@ -2470,7 +2773,7 @@
    ],
    "gone": [
     "志豪",
-    "宜君"
+    "家豪"
    ],
    "self": 1,
    "verdict": "gone",
@@ -2596,7 +2899,7 @@
     "y2026"
    ],
    "gone": [
-    "宜君"
+    "家豪"
    ],
    "self": 2,
    "verdict": "mix",
@@ -2614,7 +2917,7 @@
     "y2026"
    ],
    "gone": [
-    "宜君"
+    "家豪"
    ],
    "self": 2,
    "verdict": "mix",
@@ -2732,7 +3035,7 @@
     "y2026"
    ],
    "gone": [
-    "宜君"
+    "家豪"
    ],
    "self": 2,
    "verdict": "mix",
@@ -2750,7 +3053,7 @@
     "y2026"
    ],
    "gone": [
-    "宜君"
+    "家豪"
    ],
    "self": 2,
    "verdict": "mix",
@@ -2864,7 +3167,7 @@
     "y2026"
    ],
    "gone": [
-    "宜君"
+    "家豪"
    ],
    "self": 3,
    "verdict": "mix",
@@ -2882,7 +3185,7 @@
     "y2026"
    ],
    "gone": [
-    "宜君"
+    "家豪"
    ],
    "self": 3,
    "verdict": "mix",
@@ -2996,11 +3299,10 @@
     "y2026"
    ],
    "gone": [
-    "志豪",
-    "宜君"
+    "志豪"
    ],
    "self": 1,
-   "verdict": "gone",
+   "verdict": "mix",
    "lao26": 1
   },
   {
@@ -3015,11 +3317,10 @@
     "y2026"
    ],
    "gone": [
-    "志豪",
-    "宜君"
+    "志豪"
    ],
    "self": 1,
-   "verdict": "gone",
+   "verdict": "mix",
    "lao26": 1
   },
   {
@@ -3141,9 +3442,7 @@
     "y2025e",
     "y2026"
    ],
-   "gone": [
-    "宜君"
-   ],
+   "gone": [],
    "self": 2,
    "verdict": "mix",
    "lao26": 1
@@ -3159,9 +3458,7 @@
     "y2025e",
     "y2026"
    ],
-   "gone": [
-    "宜君"
-   ],
+   "gone": [],
    "self": 2,
    "verdict": "mix",
    "lao26": 1
@@ -3278,11 +3575,10 @@
     "y2026"
    ],
    "gone": [
-    "阿芳",
-    "宜君"
+    "阿芳"
    ],
    "self": 2,
-   "verdict": "gone",
+   "verdict": "mix",
    "lao26": 1
   },
   {
@@ -3297,11 +3593,10 @@
     "y2026"
    ],
    "gone": [
-    "阿芳",
-    "宜君"
+    "阿芳"
    ],
    "self": 2,
-   "verdict": "gone",
+   "verdict": "mix",
    "lao26": 1
   },
   {
@@ -3423,11 +3718,9 @@
     "y2025e",
     "y2026"
    ],
-   "gone": [
-    "宜君"
-   ],
+   "gone": [],
    "self": 3,
-   "verdict": "mix",
+   "verdict": "self",
    "lao26": 2
   },
   {
@@ -3441,11 +3734,9 @@
     "y2025e",
     "y2026"
    ],
-   "gone": [
-    "宜君"
-   ],
+   "gone": [],
    "self": 3,
-   "verdict": "mix",
+   "verdict": "self",
    "lao26": 2
   },
   {
@@ -3556,11 +3847,10 @@
     "y2026"
    ],
    "gone": [
-    "志豪",
-    "宜君"
+    "志豪"
    ],
    "self": 2,
-   "verdict": "gone",
+   "verdict": "mix",
    "lao26": 1
   },
   {
@@ -3575,11 +3865,10 @@
     "y2026"
    ],
    "gone": [
-    "志豪",
-    "宜君"
+    "志豪"
    ],
    "self": 2,
-   "verdict": "gone",
+   "verdict": "mix",
    "lao26": 1
   },
   {
@@ -3701,11 +3990,9 @@
     "y2025e",
     "y2026"
    ],
-   "gone": [
-    "宜君"
-   ],
+   "gone": [],
    "self": 3,
-   "verdict": "mix",
+   "verdict": "self",
    "lao26": 2
   },
   {
@@ -3719,11 +4006,9 @@
     "y2025e",
     "y2026"
    ],
-   "gone": [
-    "宜君"
-   ],
+   "gone": [],
    "self": 3,
-   "verdict": "mix",
+   "verdict": "self",
    "lao26": 2
   },
   {
@@ -3837,11 +4122,9 @@
     "y2025e",
     "y2026"
    ],
-   "gone": [
-    "宜君"
-   ],
+   "gone": [],
    "self": 3,
-   "verdict": "mix",
+   "verdict": "self",
    "lao26": 2
   },
   {
@@ -3855,11 +4138,9 @@
     "y2025e",
     "y2026"
    ],
-   "gone": [
-    "宜君"
-   ],
+   "gone": [],
    "self": 3,
-   "verdict": "mix",
+   "verdict": "self",
    "lao26": 2
   },
   {
@@ -3969,11 +4250,9 @@
     "y2025e",
     "y2026"
    ],
-   "gone": [
-    "宜君"
-   ],
+   "gone": [],
    "self": 4,
-   "verdict": "mix",
+   "verdict": "self",
    "lao26": 2
   },
   {
@@ -3987,11 +4266,9 @@
     "y2025e",
     "y2026"
    ],
-   "gone": [
-    "宜君"
-   ],
+   "gone": [],
    "self": 4,
-   "verdict": "mix",
+   "verdict": "self",
    "lao26": 2
   },
   {
