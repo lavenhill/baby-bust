@@ -312,3 +312,9 @@ UI['q']=['後來呢？','你怪我嗎？','那時候你需要什麼？']
 NODES['y2022c']['src']+='；TVBS 2022-07-20、2022-09-28（房客申請租補，房東漲租）'
 # questions Lao Yan asks in the ending DMs: 妳 for women (定稿 wording), 你 for 家豪/志豪
 UI_QF=['後來呢？','妳怪我嗎？','那時候妳需要什麼？']
+
+# ---- R4-4 (2026-10-28, user-approved plan-r4): poster text placement ----
+# POSTER_TEXT[node_side]: manual overrides on top of the YuNet head boxes (tools/heads.json). avoid = extra boxes (0..1 of the 960x640 poster); top = preferred headline top (fraction of the half).
+POSTER_TEXT={'y2025f_U':{'avoid':[[0.458,0.617,0.135,0.172]],'note':'劇情道具：鑰匙'},'y2025e_D':{'top':0.06,'note':'主標放在圖上空白布條'}}
+# H1S_EN[node_side]: short English headline, used only when the half-screen is under 280px tall (Muse Spark draft, edited for naturalness).
+H1S_EN={"y2018_U": "We Help Raise Them", "y2018_D": "A Teacher per Class", "y2019a_U": "Quasi-Public, No Worries", "y2019a_D": "Secure Teacher Pay", "y2019b_U": "More Public Seats", "y2019b_D": "Every Child a Seat", "y2021_U": "Parents' Teammate", "y2021_D": "Thanks for Stepping In", "y2022c_U": "Rent Help for Families", "y2022c_D": "Youth Rent Support", "y2022d_U": "NT$5,000 Childcare", "y2022d_D": "Kids and Career", "y2024_U": "0–6 Together 2.0", "y2024_D": "Teachers Off on Time", "y2025e_U": "Open During Breaks", "y2025e_D": "Private Schools Help", "y2025f_U": "We Back Families", "y2025f_D": "A Home for All", "y2026_U": "Leave by the Day", "y2026_D": "Thanks for Stepping In"}
