@@ -1,4 +1,4 @@
-// 《我們這一班》出處頁「還想查什麼？」即時查詢中繼（Cloudflare Worker 草稿，尚未部署）。
+// 《我們與孩子的距離》出處頁「還想查什麼？」即時查詢中繼（Cloudflare Worker 草稿，尚未部署）。
 // 由 tools/sources_muse.py worker 從出處庫產生 tools/ask_worker.js；改出處庫後重跑，提示與句子編號才會同步。
 // 金鑰不在這裡：部署時用 `wrangler secret put META_KEY` 放進 Worker secret。repo 不放任何金鑰。
 // 需要一個 KV namespace 綁定成 ASK_KV（計次與花費）。設定見 docs/ask-worker.md。
