@@ -41,6 +41,16 @@ with sync_playwright() as p:
     pg.goto(url,wait_until="domcontentloaded");time.sleep(.6)
     if lang=='en': pg.click("#lang");time.sleep(.3)
     report=[];i=0;n=0;last=None;ms=[]
+    # 2026-10-28 21:38 標題改「我們與孩子的距離」：標題頁 h1 不得溢出（寬、換行後高度），不得蓋到背景圖人頭（背景模糊，>=0.15 才算失敗）
+    time.sleep(.4)
+    tt=pg.evaluate("""()=>{const s=document.querySelector('.scr.title'),h=s&&s.querySelector('h1');if(!h)return {miss:1};const r=h.getBoundingClientRect(),p=s.getBoundingClientRect(),b=document.getElementById('bd').getBoundingClientRect();
+      const HB=(DATA.heads||{})['y2018_U']||[];const sc=Math.max(b.width/960,b.height/640),iw=960*sc,ih=640*sc,ox=b.left+(b.width-iw)/2,oy=b.top+(b.height-ih)/2;let cov=0;
+      for(const [x,y,w,hh] of HB){const X=ox+x*iw,Y=oy+y*ih,W=w*iw,HH=hh*ih;const ix=Math.max(0,Math.min(r.right,X+W)-Math.max(r.left,X)),iy=Math.max(0,Math.min(r.bottom,Y+HH)-Math.max(r.top,Y));cov=Math.max(cov,ix*iy/(W*HH))}
+      return {text:h.textContent,wide:r.left<p.left-1||r.right>p.right+1||h.scrollWidth>h.clientWidth+1,tall:r.bottom>p.bottom||r.top<p.top,lines:Math.round(r.height/(parseFloat(getComputedStyle(h).fontSize)*1.3)),cov:+cov.toFixed(3),w:Math.round(r.width),pw:Math.round(p.width)}}""")
+    # 背景 #bd 是模糊 28px＋壓暗的底圖，人頭覆蓋只記 WARN；中文標題必須一行（不可剩一個字掉到第二行）
+    if tt.get('miss') or tt['wide'] or tt['tall'] or (lang=='zh' and tt['lines']>1) or (lang=='en' and tt['lines']>3): report.append(('title',[tt]))
+    elif tt['cov']>=.05: report.append(('title',['WARN head cover (blurred backdrop) '+str(tt['cov'])]))
+    if shots: pg.screenshot(path=f"{out}_00_title.png")
     def shot(tag):
         if shots: pg.screenshot(path=f"{out}_{n:02d}_{tag}.png")
     for guard in range(500):
@@ -110,9 +120,22 @@ with sync_playwright() as p:
             if '▇' not in LS['lan']['w'] or WISH.strip() in LS['all']: prob.append('profanity not masked')
         if prob: report.append(('lantern',prob))
     # FX（2026-10-28 20:45 使用者：情節要有依據）：遊戲正文（出處頁以外）不得再出現已查證不符的說法
-    BAN=['議員','考上中央','老顏考上','試用期','考績乙等','考績吃乙','請半天','半天假','凍卵回診','手術做凍卵','婆婆把','家族群組']
+    BAN=['議員','考上中央','老顏考上','試用期','考績乙等','考績吃乙','請半天','半天假','凍卵回診','手術做凍卵','婆婆把','家族群組',
+         '暑期班','我們這一班']  # 2026-10-28 21:32 方案 A：2025e 正文不得再出現家豪暑期班；21:38 標題改名，正文不得再出現舊標題
     hit=pg.evaluate("(B)=>{const d=Object.assign({},DATA);delete d.sources;const s=JSON.stringify(d);return B.filter(b=>s.includes(b))}",BAN)
     if hit: report.append(('banned phrases',hit))
+    # 2026-10-28 21:32 方案 A：2025e 下半必須是宜君，家豪不得是 2025e 的受害者
+    if pg.evaluate("N.y2025e.D.who")!='宜君' or pg.evaluate("JSON.stringify(DATA.gcons.y2025e||{})").count('家豪'): report.append(('2025e',['lower half must be 宜君, no 家豪 consequence']))
+    # 21:43 英文名、21:45 英文白話：英文模式畫面（所有已顯示的頁）與英文資料不得出現舊拼音名、quasi-public、kindergarten lottery、拼音術語
+    if lang=='en':
+        import re as _re
+        scr_txt=pg.evaluate("()=>H.list.map(s=>s.innerText).join('\\n')")
+        en_txt=pg.evaluate("()=>{const o=[];const w=x=>{if(Array.isArray(x)&&x.length===2&&typeof x[0]==='string'&&typeof x[1]==='string'&&/[\\u4e00-\\u9fff]/.test(x[0])){o.push(x[1]);return}if(x&&typeof x==='object')Object.values(x).forEach(w)};w(DATA);return o.concat(Object.values(DATA.names)).join('\\n')}")
+        OLDN=r'\b(?:Lao Yan|Old Yan|A-?Fang|Ah-Fang|Jiahao|Chia-Hao|Yijun|Yi-Chun|Zhihao|Chih-Hao|Peishan|Pei-Shan|Xiaowen|Hsiao-Wen)\b|\bYen\b(?!-)'
+        TERM=r'(?i)quasi|kindergarten lottery|\bzhun\b|gong ?gong|gongyou|jiaobao|\byou ?er ?yuan\b'
+        bad=sorted(set(_re.findall(OLDN,scr_txt+'\n'+en_txt,flags=_re.I)))+sorted(set(m.lower() for m in _re.findall(TERM,scr_txt+'\n'+en_txt)))
+        if bad: report.append(('english names/terms',bad))
+        if _re.search('[\\u4e00-\\u9fff]{2,}',pg.evaluate("()=>[...document.querySelectorAll('.scr.title h1')].map(e=>e.textContent).join('')")): report.append(('english title',['title not English']))
     # ---------- S7 sources page ----------
     SPF=[]
     def spe(js): return pg.evaluate(js)
@@ -211,6 +234,9 @@ with sync_playwright() as p:
             if not r2 or ('查證範圍' not in r2 and 'outside' not in r2): SPF.append(('live abuse',[r2]))
             shot('sp_live')
         elif spe("!!document.querySelector('.scr.sp .sprow')"): SPF.append(('input box shown while ASK_URL empty',[1]))
+        if lang=='en':  # 21:50「全文應該都要按照同樣的翻譯原則」：英文出處頁不得殘留中文
+            cj=pg.evaluate("()=>{const t=document.querySelector('.scr.sp .spb').innerText;return (t.match(/[\\u4e00-\\u9fff]+/g)||[]).slice(0,8)}")
+            if cj: SPF.append(('chinese left on English sources page',cj))
         report.append(('sources page',[x for x in SPF]))
     elif pg.evaluate("S.ended===true"): report.append(('sources page',['missing (fallback page shown)']))
     isw=lambda r:all(str(x).startswith('WARN') for x in r[1])
