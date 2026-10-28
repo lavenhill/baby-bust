@@ -28,8 +28,9 @@ def run(choices):
             S['self']+=1;S['events'].append((S['node'],'self',S['self']))
         S['node']=n['next'][c]
     g=len(S['gone']);v='gone' if g>=2 else ('self' if S['self']>=3 and not g else 'mix')
-    li=2 if S['self']>=3 else (1 if S['self']+(1 if S['lg'] else 0)>=1 else 0)
-    S['verdict']=v;S['lao26']=li
+    S['verdict']=v
+    pres=[m for m in CL if m!='老顏' and m not in S['gone']]  # L1 lantern: responder = first in rule order still in the group
+    S['lantern']={k:(next((x for x in who if x in pres),'佩珊') if who else '被點名者') for k,zh,en,who in D['lantern']['rules']}
     key=lambda m:m+'|'+','.join(sorted(S['cutIn'][m][:2]))
     S['reunion']=[key(m) for m in S['gone']]+[key(m) for m in CL if m!='老顏' and m not in S['gone'] and S['hurt'].get(m,0)==1]
     return S
@@ -39,7 +40,8 @@ for ch in itertools.product('UD',repeat=7):
     if key not in [p['key'] for p in paths]:paths.append(dict(key=key,S=s))
 P=len(paths)
 cnt=lambda f:collections.Counter(f(p['S']) for p in paths)
-verdicts=cnt(lambda s:s['verdict']);goneC=cnt(lambda s:len(s['gone']));lao=cnt(lambda s:s['lao26'])
+verdicts=cnt(lambda s:s['verdict']);goneC=cnt(lambda s:len(s['gone']));lan={k:dict(collections.Counter(p['S']['lantern'][k] for p in paths)) for k,*_ in D['lantern']['rules']}
+assert all('佩珊' not in p['S']['gone'] for p in paths),'佩珊 must never leave (lantern fallback)'
 reach=collections.Counter(k for p in paths for k in p['S']['reunion'])
 dead=[k for k in D['reunion'] if k not in reach]
 leaveC=collections.Counter(m for p in paths for m in p['S']['gone'])
@@ -61,7 +63,7 @@ graph={'version':'r4 (V=20261028c)','generated_from':'data.js + engine rules in 
   {'when':'choose U (poster) at non-final node','effect':'hurt[D.who]+=1 if D.named and not gone','shows':['群組後果 gcons[node][hurt]：同學在群組轉述外人的話（不出現外人轉傳畫面）','2022c 先出新聞卡 news[node]','hurt==2 → 系統訊息「已退出群組」+ 加入 gone','D.who 已退群 → 不出後果畫面']},
   {'when':'choose D (real) at non-final node','effect':'self+=1','shows':['主管退件 boss.D','life[self-1]；self==3 → ring_off（兩只戒指）；self>4 → again_night']},
   {'when':'group line has deps [x]','effect':'x in gone → 不顯示；dep "!x" → 只有 x in gone 才顯示'},
-  {'when':'2026 ending','effect':'verdict = gone if len(gone)>=2 else self if self>=3 and no gone else mix','shows':['wish26[m][hurt>0]','lao26[2 if self>=3 else 1 if self+laoyanGray>=1 else 0]','私訊：先退群者 reunion[m|前兩刀]（冷），再受傷一次仍在群組者 reunion[m|那一刀]（還會酸、約放燈）']}],
+  {'when':'2026 ending','effect':'verdict = gone if len(gone)>=2 else self if self>=3 and no gone else mix','shows':['wish26[m][hurt>0]','老顏的燈＝玩家輸入（L1 天燈拍，見 §5）','私訊：先退群者 reunion[m|前兩刀]（冷），再受傷一次仍在群組者 reunion[m|那一刀]（還會酸、約放燈）']}],
  'nodes':{k:{'year':n['year'],'next':n['next'],'final':n['final'],'policy_src':n['src'],
    'ask':[{'zh':a[0],'en':a[1]} for a in n['ask']],
    'U':side(n,'U'),'D':side(n,'D'),
@@ -71,10 +73,10 @@ graph={'version':'r4 (V=20261028c)','generated_from':'data.js + engine rules in 
    'group_after_U':{h:[{'who':g[0],'time':g[1],'zh':g[2][0],'en':g[2][1],'visible_if':{'present':g[3]}} for g in ls] for h,ls in D.get('gcons',{}).get(k,{}).items()},
    'news_after_U':({'zh':D['news'][k][0][0],'en':D['news'][k][0][1],'src':D['news'][k][1][0]} if k in D.get('news',{}) else None),
    'boss_D':({'zh':n['boss']['D'][0],'en':n['boss']['D'][1]} if isinstance(n.get('boss',{}).get('D'),list) else None)} for k,n in N.items()},
- 'endings':{'verdict':{k:{'zh':v[0],'en':v[1]} for k,v in D['verdict'].items()},'lao26':D['lao26'],'wish26':D['wish26'],'wish2018':D['wish'],
+ 'endings':{'verdict':{k:{'zh':v[0],'en':v[1]} for k,v in D['verdict'].items()},'lantern':D['lantern'],'wish26':D['wish26'],'wish2018':D['wish'],
    'reunion_keys':list(D['reunion'].keys()),'reunion_unreachable':dead},
- 'path_stats':{'paths':P,'verdict':verdicts,'gone_count':goneC,'lao26_index':lao,'leaves_group':leaveC,'reunion_reach':reach},
- 'paths':[{'key':p['key'],'nodes':[n for n,_ in p['S']['path']],'gone':p['S']['gone'],'self':p['S']['self'],'verdict':p['S']['verdict'],'lao26':p['S']['lao26']} for p in paths]}
+ 'path_stats':{'paths':P,'verdict':verdicts,'gone_count':goneC,'lantern_responder':lan,'leaves_group':leaveC,'reunion_reach':reach},
+ 'paths':[{'key':p['key'],'nodes':[n for n,_ in p['S']['path']],'gone':p['S']['gone'],'self':p['S']['self'],'verdict':p['S']['verdict'],'lantern':p['S']['lantern']} for p in paths]}
 json.dump(graph,open(B+'docs/spec/06-story-graph.json','w'),ensure_ascii=False,indent=1)
 # ---------- human doc ----------
 L=[]
@@ -109,7 +111,11 @@ for i,l in enumerate(D['life']):
 a(f"- 第 5 晚以後：{Z(D['ui']['again_night'])}\n")
 a('**2026 結局判詞**（gone≥2 → gone；self≥3 且無人退群 → self；其餘 → mix）')
 for k,v in D['verdict'].items():a(f'- {k}：{v[0]}（{verdicts.get(k,0)}/{P} 條路徑）')
-a('\n**老顏的燈**：self≥3 →「'+(Z(D['lao26'][2]) or '（空白）')+'」；self＋(2026 選上?1:0)≥1 →「'+Z(D['lao26'][1])+'」；都沒有 →「'+Z(D['lao26'][0])+'」\n')
+a('\n**老顏的燈（L1 天燈拍，2026-10-28）**：玩家替老顏寫燈（12 字內，中文 1、英數 0.5；可空白；髒話打碼▇）→ 5 秒升空 → 佩珊傳照片 → 一位在群同學回一句 → 對照「燈上／海報上（2026 實際留下那張的主標）」。回應規則依序：')
+for k,zh,en,who in D['lantern']['rules']:
+    ln=D['lantern']['lines'];ws=who or ['被點名者']
+    a(f"- {k}（{zh or ('髒話／空白' if k=='prof' else '燈上最先出現且仍在群組的同學名' if k=='name' else '其他')}）：{'→'.join(ws)}；各路徑回應者 {lan[k]}；台詞："+'／'.join(f"{x}「{ln[k+'_'+x][0]}」" for x in (who or [m for m in CL if 'name_'+m in ln]) if k+'_'+x in ln or 'name_'+x in ln and k=='name' and not ln.get(k+'_'+x) is None))
+a('')
 a('## 3. 分支圖\n```mermaid\nflowchart TD')
 for k,n in N.items():
     lab=f"{n['year']}{k[5:]}"
@@ -126,7 +132,7 @@ a('## 4. 角色線\n')
 a('| 角色 | 2018 願望 | 頭像標 | 可能被犧牲的年份 | 退群機率 | 2026 願望（沒事／受過傷） |\n|---|---|---|---|---|---|')
 for m in CL:
     w26=D['wish26'].get(m)
-    a(f"| {m} | {Z(D['wish'][m])} | {Z(D['wish2'][m])} | {'、'.join(hurtable.get(m,[])) or ('2026（最後一刀）' if m in ('老顏','佩珊') else '—')} | {leaveC.get(m,0)}/{P} | {(Z(w26[0])+'／'+Z(w26[1])) if w26 else '見老顏的燈'} |")
+    a(f"| {m} | {Z(D['wish'][m])} | {Z(D['wish2'][m])} | {'、'.join(hurtable.get(m,[])) or ('2026（最後一刀）' if m in ('老顏','佩珊') else '—')} | {leaveC.get(m,0)}/{P} | {(Z(w26[0])+'／'+Z(w26[1])) if w26 else '玩家寫（L1）'} |")
 a('')
 for p in []:pass
 # per year
@@ -166,7 +172,7 @@ a('- 從不會退群的同學：'+'、'.join(nev))
 
 a('- 生活框第 3 晚為空，由「兩只戒指」頂替（設計如此）。')
 open(B+'docs/spec/06-story-causality.md','w').write('\n'.join(L))
-print(P,verdicts,goneC,lao,leaveC,dead)
+print(P,verdicts,goneC,lan,leaveC,dead)
 # ---------- hand-written: pending decisions (edit here, not in the .md) ----------
 open(B+'docs/spec/06-story-causality.md','a').write('''
 
