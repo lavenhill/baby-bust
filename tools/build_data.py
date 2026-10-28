@@ -12,7 +12,8 @@ for k,n in C.NODES.items():
         if x.get('aside_ring'): o[h]['aside_ring']=[x['aside_ring'],'She’s waiting downstairs, engine running']
     nodes[k]=o
 fix=lambda s:s.replace('Old Yan','Lao Yan')
-reu={k:{'line':[v['line'],fix(v.get('line_en',''))],'qa':[[q.get('a',''),fix(q.get('a_en',''))] for q in v.get('qa',[])][:3],'off':[v.get('offtopic',''),fix(v.get('offtopic_en',''))]} for k,v in R['reunion'].items()}
+reu={k:{'line':[v['line'],fix(v.get('line_en',''))],'qa':[[q.get('a',''),fix(q.get('a_en',''))] for q in v.get('qa',[])][:3],'off':[v.get('offtopic',''),fix(v.get('offtopic_en',''))],'kind':v.get('kind','')} for k,v in R['reunion'].items()}
+for k,v in reu.items(): assert v['line'][0] and v['line'][1] and v['off'][0] and v['off'][1] and all(a and b for a,b in v['qa']) and len(v['qa'])==3,('reunion missing text',k)
 SELF={'0':['八年來老顏從沒退過件。最後一張她留下自己，人工生殖法草案影本還夾在卷宗裡。','In eight years Lao Yan never pushed back once. In the last photo she kept herself; the draft fertility bill is still tucked in the files.'],
 '0|gray':['八年來老顏從沒退過件。最後一張她把自己裁掉，合照裡只有她是黑白的。','In eight years Lao Yan never pushed back once. In the last photo she cut herself out; she is the only one in grey.'],
 '1':['老顏重做過 {n} 次。最後一張她留下自己，相框裡的照片褪了一點。','Lao Yan redid it {n} times. In the last photo she kept herself; the picture in the frame has faded a little.'],
@@ -23,6 +24,7 @@ VERDICT={'self':['同學都留在畫面裡，妳的生活被裁掉了','Everyone
 ui={k:([E(x) for x in v] if isinstance(v,list) else E(v)) for k,v in C.UI.items()}
 ui['credit'][1]='Draft copy & translation: Meta Muse Spark 1.3 · Illustrations: Meta Muse Image 1.0 · Every policy and number is sourced'
 ui['credit'][0]=C.UI['credit']
+ui['qf']=[E(x) for x in C.UI_QF]
 EN3={'家裡桌上一碗蓋著保鮮膜的飯，紙條寫「微波三分鐘」。':'At home, a bowl of rice under cling film. The note says “3 minutes in the microwave.”',
 '考績乙等，年終少一個月。回診單上的日期劃掉，改寫「再約」。':'Performance grade: B. One month less year-end bonus. The clinic date is crossed out: “reschedule.”',
 '桌上的相框，只剩一隻手。':'In the frame on the desk, only one hand is left.','鍵盤旁邊，兩只戒指。':'Next to the keyboard, two rings.',
@@ -43,9 +45,9 @@ E3=lambda s:[s,EN3.get(s) or en.get(s,s)]
 D=dict(nodes=nodes,wish={k:E3(v) for k,v in C.WISH.items()},call={k:[E3(x) for x in v] for k,v in C.CALL.items()},callN={k:[E(x) for x in v] for k,v in C.CALLN.items()},open2={k:E3(v) for k,v in C.OPEN2.items()},ring_off=E3(C.RING_OFF),open=[[w,E(t)] for w,t in C.OPEN],life=[E3(x) for x in C.LIFE],ui=ui,reunion=reu,self=SELF,verdict=VERDICT,
  tag={k:E(v) for k,v in C.TAG.items()},names={'老顏':'Lao Yan','阿芳':'A-Fang','家豪':'Jiahao','宜君':'Yijun','志豪':'Zhihao','佩珊':'Peishan','主管':'Boss'},
  slug={'老顏':'laoyan','阿芳':'afang','家豪':'jiahao','宜君':'yijun','志豪':'zhihao','佩珊':'peishan'},
- group={k:[[w,E(t),d] for w,t,d in v] for k,v in C.GROUP.items()},cons={k:[E(x) for x in v] for k,v in C.CONS.items()},wish2={k:E(v) for k,v in C.WISH2.items()},wish26={k:[E(x) for x in v] for k,v in C.WISH26.items()},lao26=[E(x) if x else ['',''] for x in C.LAO26],v5={k:E(v) for k,v in C.V5UI.items()},
+ group={k:[[w,E(t),d] for w,t,d in v] for k,v in C.GROUP.items()},gcons={k:{str(n):[[w,t,E(x),d] for w,t,x,d in ls] for n,ls in v.items()} for k,v in C.GCONS.items()},news={k:[E(h),E(src)] for k,(h,src) in C.NEWS.items()},wish2={k:E(v) for k,v in C.WISH2.items()},wish26={k:[E(x) for x in v] for k,v in C.WISH26.items()},lao26=[E(x) if x else ['',''] for x in C.LAO26],v5={k:E(v) for k,v in C.V5UI.items()},
  class_=['阿芳','家豪','宜君','志豪','佩珊','老顏'],babies=['afang','jiahao','yijun','peishan'])
-open('/workspace/work/bb2/data.js','w').write('// Copy drafted with Meta Muse Spark 1.3 (translations, reunion lines); insider slogans are drafts for the author to replace. Illustrations: Meta Muse Image 1.0. Built 2026-10-27.\nconst DATA='+json.dumps(D,ensure_ascii=False)+';\n')
+open('/workspace/work/bb2/data.js','w').write('// Copy drafted with Meta Muse Spark 1.3 (translations, reunion lines); insider slogans are drafts for the author to replace. Illustrations: Meta Muse Image 1.0. Built 2026-10-28 (lines-r3).\nconst DATA='+json.dumps(D,ensure_ascii=False)+';\n')
 chars=set(json.dumps(D,ensure_ascii=False))
 open('chars.txt','w').write(''.join(sorted(chars))+'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz–—…·・，。？！：「」（）')
 print('ok',len(chars))
