@@ -1,5 +1,7 @@
 """Headless playtest for the one-screen-per-beat build.
-usage: python3 tools/play.py PATH(7 x U/D) OUTPREFIX [zh|en] [WxH] [shots] [kb] [rm]
+usage: python3 tools/play.py PATH(7 x U/D) OUTPREFIX [zh|en] [WxH] [shots] [kb] [rm] [wish=TEXT] [expect=同學]
+ L1 (2026-10-28): types wish on Lao Yan's lantern (empty allowed: wish=), checks 5 s beat, one reply from a classmate still in the group,
+ contrast 燈上/海報上 = masked wish / kept 2026 headline, dark lamps == gone, profanity never on screen.
  rm = prefers-reduced-motion. kb = pick with keys (1/2 and ↑/↓ alternating) + Enter instead of mouse. Wall checks: tap-only (no ⇅), hint only in 2018, pick lands before 發布.
 Checks every screen for overflow (content taller than the screen) and page errors.
 R4 (2026-10-28): "tap to continue" pill must not overlap other elements or leave the screen (incident: 退群提示蓋到點一下繼續);
@@ -7,7 +9,10 @@ poster text over head boxes: cover >=0.05 WARN, >=0.15 fail; poster placement ti
 from playwright.sync_api import sync_playwright
 import time,sys,os,json
 seq=sys.argv[1];out=sys.argv[2];lang=sys.argv[3] if len(sys.argv)>3 else 'zh'
-W,Hh=map(int,(sys.argv[4] if len(sys.argv)>4 else '390x780').split('x'));extra=sys.argv[5:];kb='kb' in extra;rm='rm' in extra;shots=any(a not in('kb','rm') for a in extra)
+W,Hh=map(int,(sys.argv[4] if len(sys.argv)>4 else '390x780').split('x'));extra=sys.argv[5:]
+opt={a.split('=',1)[0]:a.split('=',1)[1] for a in extra if '=' in a};extra=[a for a in extra if '=' not in a]
+kb='kb' in extra;rm='rm' in extra;shots=any(a not in('kb','rm') for a in extra)
+WISH=opt.get('wish',{'zh':'想睡一整晚','en':'sleep all night'}[lang]);EXPECT=opt.get('expect')  # L1: text typed on Lao Yan's lantern; expect = responder
 url="file://"+os.path.abspath(os.path.join(os.path.dirname(__file__),"..","index.html"))
 OVER="""()=>{const s=H.list[H.i];if(!s)return null;const bad=[];
  if(s.scrollHeight>s.clientHeight+2)bad.push('screen '+s.scrollHeight+'>'+s.clientHeight);
@@ -34,6 +39,13 @@ with sync_playwright() as p:
         if pg.evaluate("()=>!!H.list[H.i].querySelector('.lan:not(.fly) .mate:not(.seen)')&&!H.list[H.i].querySelector('.l26')"):
             for m in pg.locator('.scr:not(.below):not(.above) .lan .mate').all(): m.click();time.sleep(.25)
             bad=pg.evaluate(OVER);report.append(('lanterns',bad));shot('lan');continue
+        if pg.evaluate("()=>!!H.list[H.i].querySelector('.wish input:not(:disabled)')"):
+            time.sleep(.3);bad=pg.evaluate(OVER);report.append(('lantern input',bad))
+            pg.locator('.scr:not(.below):not(.above) .wish input').click()
+            if WISH: pg.keyboard.type(WISH,delay=20)
+            time.sleep(.2);shot('lin');lin_val=pg.evaluate("()=>H.list[H.i].querySelector('.wish input').value")
+            pg.locator('.scr:not(.below):not(.above) .wish button').click();t_sub=time.time();n+=1
+            time.sleep(2.4);shot('lmid');time.sleep(.2);continue
         if info['wall']:
             time.sleep(.7);bad=pg.evaluate(OVER);report.append((pg.evaluate("S.node")+' wall',bad));shot('wall')
             ms.append(pg.evaluate("()=>Math.max(0,...[...H.list[H.i].querySelectorAll('.half')].map(h=>+(h.dataset.ms||0)))"))
@@ -64,11 +76,28 @@ with sync_playwright() as p:
     # lines-r3 checks: ending DMs (gone = cold, hurt once = warm), no blank bubbles, no outsider forward screens
     dm=pg.evaluate("""()=>H.list.filter(s=>s.querySelector('.who')).map(s=>{const b=s.querySelector('.chat .bub');return {who:s.querySelector('.who b').textContent,cold:!!(b&&b.classList.contains('gone')),len:b?b.textContent.length:0}})""")
     exp=pg.evaluate("()=>({gone:S.gone.slice(),once:Object.keys(S.hurt).filter(m=>S.hurt[m]===1&&!S.gone.includes(m))})")
-    blank=pg.evaluate("()=>H.list.flatMap(s=>[...s.querySelectorAll('.bub,.sysin')]).filter(b=>{const c=b.cloneNode(true);c.querySelectorAll('i').forEach(i=>i.remove());return !c.textContent.trim()&&!b.querySelector('img')}).length")
+    blank=pg.evaluate("()=>H.list.flatMap(s=>[...s.querySelectorAll('.bub,.sysin')]).filter(b=>{const c=b.cloneNode(true);c.querySelectorAll('i').forEach(i=>i.remove());return !c.textContent.trim()&&!b.querySelector('img,.photo')}).length")
     fw=pg.evaluate("()=>H.list.filter(s=>s.querySelector('.fw')).length")
     if blank: report.append(('blank bubbles',[blank]))
     if fw: report.append(('outsider forward screens',[fw]))
     if len(dm)!=len(exp['gone'])+len(exp['once']) or any(d['len']<20 for d in dm): report.append(('dm mismatch',[dm,exp]))
+    LS=pg.evaluate("""()=>{const s=H.list.find(x=>x.classList.contains('lt'));if(!s)return null;return {lan:S.lantern,reps:[...s.querySelectorAll('.lrep')].map(b=>b.dataset.w),
+      con:[...s.querySelectorAll('.lcon b')].map(b=>b.textContent),off:s.querySelectorAll('.sl.off').length,photoOff:s.querySelectorAll('.photo u.off').length,lw:s.querySelector('.lw').textContent,
+      kept:(()=>{const l=S.path[S.path.length-1];return N[l.node][l.side].h1})(),blank:DATA.lantern.ui.blank,all:s.innerText}}""")
+    if not LS or not LS['lan']: report.append(('lantern',['lantern beat missing']))
+    else:
+        g=exp['gone'];prob=[]
+        if len(LS['reps'])!=1: prob.append(f"replies={LS['reps']}")
+        elif LS['reps'][0] in g or LS['reps'][0]=='老顏': prob.append(f"responder {LS['reps'][0]} not in group")
+        if EXPECT and LS['reps'] and LS['reps'][0]!=EXPECT: prob.append(f"responder {LS['reps'][0]} != expect {EXPECT}")
+        if not 4900<=LS['lan']['ms']<=7000: prob.append(f"beat {LS['lan']['ms']}ms")
+        if LS['off']!=len(g) or LS['photoOff']!=len(g): prob.append(f"dark lamps {LS['off']}/{LS['photoOff']} != gone {len(g)}")
+        L_=1 if lang=='en' else 0
+        if LS['con'][1]!=LS['kept'][L_]: prob.append(f"poster {LS['con'][1]!r} != kept {LS['kept'][L_]!r}")
+        if LS['con'][0]!=(LS['lan']['w'] or LS['blank'][L_]) or LS['lw']!=LS['lan']['w']: prob.append(f"lantern text {LS['con'][0]!r}/{LS['lw']!r} vs {LS['lan']['w']!r}")
+        if any(b in WISH.lower() for b in ['幹','靠北','白癡','去死','fuck','shit']):  # masked: lantern shows ▇, the raw words never appear
+            if '▇' not in LS['lan']['w'] or WISH.strip() in LS['all']: prob.append('profanity not masked')
+        if prob: report.append(('lantern',prob))
     isw=lambda r:all(str(x).startswith('WARN') for x in r[1])
     warns=[r for r in report if r[1] and isw(r)];fails=[r for r in report if r[1] and not isw(r)]
-    print(json.dumps({"vp":f"{W}x{Hh}","lang":lang,"path":seq,"screens":len(report),"ended":pg.evaluate("S.ended===true"),"errors":errs,"overflow":fails,"warn":warns,"place_ms":max(ms or [0]),"dms":dm,"hurt":exp},ensure_ascii=False))
+    print(json.dumps({"vp":f"{W}x{Hh}","lang":lang,"path":seq,"screens":len(report),"ended":pg.evaluate("S.ended===true"),"errors":errs,"overflow":fails,"warn":warns,"place_ms":max(ms or [0]),"dms":dm,"hurt":exp,"lantern":(LS or {}).get('lan'),"reply":(LS or {}).get('reps')},ensure_ascii=False))
