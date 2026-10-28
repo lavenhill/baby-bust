@@ -20,8 +20,8 @@ for _k,_n in D['nodes'].items():  # R4-4: English-only short headlines (small sc
     for _h in 'UD':
         if _n[_h].get('h1s'): rows.append((f'nodes.{_k}.{_h}.h1s',_n[_h]['h1'][0],_n[_h]['h1s']))
 legacy=[r'^nodes\.\w+\.(setup|chat|boss\.U)',r'^call\.',r'^callN\.',r'^self\.',r'^open2\.(reu|calling)',r'^open\[',r'^ui\.(reu|promise|intro|obj19|end|kids|baby)$',r'^nodes\.\w+\.src$',r'^v5\.blank$']
-SEC={'wish':'2018 天燈願望','wish2':'新願望','wish26':'2026 願望','lantern':'結局天燈（玩家寫老顏的燈）','v5':'介面','ui':'介面','open2':'開場','life':'老顏生活框','ring_off':'老顏生活框','verdict':'結局判詞','tag':'標籤','names':'人名','call':'電話（舊）','callN':'電話（舊）','self':'老顏（舊）','open':'開場（舊）','class_':'人名','babies':'其他','slug':'其他','sources':'結局出處頁（S7）'}
-ORDER=['開場','2018 天燈願望','同學群組','逐年節點','選圖牆','群組後果（選上）','老顏生活框','新願望','2026 願望','結局天燈（玩家寫老顏的燈）','結局判詞','結局私訊','結局出處頁（S7）','介面','標籤','人名']
+SEC={'wish':'2018 天燈願望','wish2':'新願望','wish26':'2026 願望','lantern':'結局天燈（玩家寫老顏的燈）','v5':'介面','ui':'介面','open2':'開場','life':'老顏生活框','ring_off':'老顏生活框','verdict':'結局判詞','tag':'標籤','names':'人名','call':'電話（舊）','callN':'電話（舊）','self':'老顏（舊）','open':'開場（舊）','class_':'人名','babies':'其他','slug':'其他','sources':'結局出處頁（S7＋誰在倡議）'}
+ORDER=['開場','2018 天燈願望','同學群組','逐年節點','選圖牆','群組後果（選上）','老顏生活框','新願望','2026 願望','結局天燈（玩家寫老顏的燈）','結局判詞','結局私訊','結局出處頁（S7＋誰在倡議）','介面','標籤','人名']
 def classify(p):
     m=re.match(r'nodes\.y(\w+)\.(.*)',p)
     if m:
@@ -91,8 +91,13 @@ ws.freeze_panes='F2';ws.auto_filter.ref=ws.dimensions
 s2=wb.create_sheet('政策出處');s2.append(['節點','年份','出處'])
 for k,v in D['nodes'].items(): s2.append([k[1:],v['year'],v['src']])
 s2.column_dimensions['C'].width=90
+# L：倡議者清單（每選項，含出處日期與連結）
+import sys as _s;_s.path.insert(0,B+'tools');import sources_zh as _SZ
+s4=wb.create_sheet('誰在倡議');s4.append(['節點','面','倡議者','摘要（中）','摘要（英）','出處 日期','連結'])
+for a in _SZ.ADV: s4.append([a[1][1:],{'U':'上半・文宣','D':'下半・現場'}[a[2]],a[3],a[6],D['sources']['cards'][a[0]]['f'][0][1],a[4],a[5]])
+for c,w in zip('ABCDEFG',[8,10,26,60,60,30,50]): s4.column_dimensions[c].width=w
 s3=wb.create_sheet('說明')
-for l in ['《我們這一班》Baby or Bust 全部文案與台詞對照（data.js，V=20261028e，S7 出處頁，2026-10-28 匯出）',
+for l in ['《我們這一班》Baby or Bust 全部文案與台詞對照（data.js，V=20261028f，出處頁＋誰在倡議，2026-10-28 匯出）',
  '區塊依遊戲順序排列：開場 → 每年（同學群組 → 主管交辦 → 選圖牆 → 後果）→ 結局 → 介面。',
  '狀態「舊版未使用」＝資料檔還留著、遊戲不會顯示（灰字，排在最後）。',
  '依賴：列出的同學退出群組時，這句不出現；「!宜君」＝宜君退群後才出現。',
