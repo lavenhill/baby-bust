@@ -169,15 +169,63 @@ body{color:var(--ink);font-family:"Huninn","Noto Sans CJK TC",system-ui,sans-ser
 .photo u.me{width:13%}.photo u.off{background:#6d6670;box-shadow:none}
 .lcon{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;border-top:1px dashed #b9ad9c;padding-top:8px;font-size:clamp(14px,calc(2.37*var(--u)),18px);line-height:1.35;opacity:0;transition:opacity .6s}
 .lcon.on{opacity:1}.lcon i{font-style:normal;color:#8a8080;font-size:.8em;padding-top:.2em;white-space:nowrap}.lcon b{word-break:break-word}
+/* S7 出處頁新版 (2026-10-28)：可捲動的一屏；class 一律 sp 開頭，避免撞到牆面的 .tag/.sub */
+.scr.sp{padding:0;gap:0}
+.spb{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:calc(env(safe-area-inset-top) + 3*var(--u)) 5% calc(env(safe-area-inset-bottom) + 3*var(--u));outline:none;-webkit-user-select:text;user-select:text}
+.spb h2{color:var(--paper);font-size:clamp(20px,calc(3.4*var(--u)),26px);letter-spacing:3px;text-align:center;margin:2px 0 4px}
+.spb h3{color:var(--memo);font-size:clamp(15px,calc(2.4*var(--u)),18px);letter-spacing:1px;margin:20px 2px 4px}
+.splead{color:#b9b4b2;font-size:clamp(13px,calc(2*var(--u)),15px);text-align:center;line-height:1.6;margin-bottom:10px}
+.spsub{color:#b9b4b2;font-size:12.5px;line-height:1.5;margin:0 2px 8px}
+.spf00{background:#ffffff14;border:1px solid #ffffff2a;color:var(--paper);border-radius:12px;padding:9px 12px;font-size:clamp(13px,calc(2*var(--u)),15px);line-height:1.6}
+.spf00 p+p{margin-top:4px}
+.spbox{background:var(--paper);border-radius:12px;margin-bottom:8px;overflow:hidden;box-shadow:0 2px 0 #0003}
+.spq{padding:10px 12px}
+.spq .spcl{font-size:clamp(15px,calc(2.4*var(--u)),17px);line-height:1.45;margin-bottom:8px;word-break:break-word}
+.spq .spcl small{display:block;color:#8a8080;font-size:12px}
+.spqb{display:flex;gap:6px}
+.spqb button{flex:1;min-width:0;border:0;border-radius:10px;padding:8px 2px;font:inherit;font-size:clamp(13px,calc(2.2*var(--u)),15px);background:#2F3B5214;color:var(--night);cursor:pointer}
+.spqb button.ok{background:#2e7d4f;color:#fff}.spqb button.no{background:#d5cfcc;color:#6f6767;text-decoration:line-through}
+.sprev{display:none;margin-top:8px}.spq.done .sprev{display:block;animation:in .3s both}
+.spv{font-weight:bold;font-size:14px;line-height:1.5;margin-bottom:2px}
+.spfact{font-size:clamp(14px,calc(2.2*var(--u)),16px);line-height:1.55;margin:5px 0 1px;padding-left:10px;border-left:3px solid var(--pink);word-break:break-word}
+.spfact.cost{border-left-color:var(--hot)}.spfact.update{border-left-color:#4b7bd6}.spfact.meta{border-left-color:#9a9090}
+a.splink{display:inline-block;font-size:12.5px;line-height:1.5;color:#3d5ea8;text-decoration:underline;margin:2px 0 3px;padding:2px 0;word-break:break-word;-webkit-user-select:none;user-select:none}
+.spask{background:#ffffff10;border:1px solid #ffffff26;border-radius:14px;padding:10px}
+.spchips{display:flex;flex-wrap:wrap;gap:6px}
+.spchips button{border:1px solid #ffffff4d;background:transparent;color:var(--paper);border-radius:14px;padding:5px 11px;font:inherit;font-size:clamp(13px,calc(2.1*var(--u)),15px);line-height:1.35;text-align:left;cursor:pointer;max-width:100%}
+.spchips button[aria-pressed=true]{background:var(--paper);color:var(--ink)}
+.sprow{display:flex;gap:6px;margin-bottom:8px}
+.sprow input{flex:1;min-width:0;border:0;border-radius:10px;padding:9px 10px;font:inherit;font-size:16px;background:var(--paper);color:var(--ink);-webkit-user-select:text;user-select:text}
+.sprow button{border:0;border-radius:10px;padding:0 14px;font:inherit;font-weight:bold;background:var(--pink);color:var(--ink)}
+.spans{margin-top:10px}.spans:empty{display:none}
+.spa{background:var(--paper);border-radius:12px;padding:10px 12px;animation:in .3s both}
+.spah{font-size:13.5px;color:#5d5656;line-height:1.5;margin-bottom:2px}
+.spmeta{color:#7d8597;font-size:11.5px;margin-top:7px;line-height:1.5}
+.spthink{color:#b9b4b2;font-size:13px;display:flex;gap:6px;align-items:center}
+.spthink i{width:6px;height:6px;border-radius:50%;background:var(--pink);animation:blink 1s infinite}.spthink i:nth-child(2){animation-delay:.15s}.spthink i:nth-child(3){animation-delay:.3s}
+.spk>button{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:10px;width:100%;padding:11px 12px;cursor:pointer}
+.spk .spy{font-weight:bold;font-size:15px;color:var(--night);flex:none}
+.spk .spt{flex:1;min-width:0;font-size:clamp(14px,calc(2.3*var(--u)),16px);line-height:1.35;word-break:break-word}
+.splab{font-size:11.5px;border-radius:8px;padding:1px 7px;white-space:nowrap;flex:none}
+.splab.U{background:#D6336C1f;color:#b02a5a}.splab.D{background:#2F3B521f;color:var(--night)}.splab.P{background:#4b7bd61f;color:#2f5aa8}
+.spch{color:#9a9090;transition:transform .25s;flex:none}.spk.open .spch{transform:rotate(90deg)}
+.spkb{display:none;padding:0 12px 10px;border-top:1px dashed #0002}.spk.open .spkb{display:block;animation:in .3s both}
+.spct{font-size:12.5px;color:#7a7272;margin:9px 0 0;font-weight:bold}
+.spp{padding:9px 12px}
+.spfoot{color:#8f8a88;font-size:11px;line-height:1.6;text-align:center;margin-top:18px}
+.spb .btn{display:block;margin:14px auto 4px}
+@media (prefers-reduced-motion:reduce){.spq.done .sprev,.spk.open .spkb,.spa{animation:none}.spthink i{animation:none}}
 </style>
 </head>
 <body>
 <div id="bd"></div>
 <div id="stage"><button id="lang" class="lang">EN</button><div id="deck"></div></div>
-<script>document.write('<script src="data.js?v=20261028d&t='+Date.now()+'"><\/script>')</script>
+<script>document.write('<script src="data.js?v=20261028e&t='+Date.now()+'"><\/script>')</script>
 <script>
 // Baby or Bust — 我們這一班. One screen per beat; written during the Meta hackathon (2026-10-27). Spec: docs/spec/.
-const V='20261028d';if(!(DATA.group&&DATA.lantern)&&!/reload=/.test(location.search))location.replace(location.pathname+'?reload='+Date.now());
+const V='20261028e';
+// S7: 「還想查什麼？」即時查詢開關。設成 Cloudflare Worker 網址（tools/ask_worker.js，見 docs/ask-worker.md）就切成即時 Muse；空字串＝只用錄好的答案（預設關）。
+const ASK_URL=window.BB_ASK_URL||'';if(!(DATA.group&&DATA.lantern&&DATA.sources)&&!/reload=/.test(location.search))location.replace(location.pathname+'?reload='+Date.now());
 const bust=h=>h.replace(/(img\/\w+\.webp)/g,'$1?v='+V);
 const N=DATA.nodes,U=DATA.ui;let L=0;
 const tx=a=>Array.isArray(a)?(a[L]||a[0]):(a||'');
@@ -201,14 +249,15 @@ function tapNext(scr,label){const t=document.createElement('div');t.className='t
 function forward(){if(H.i<H.list.length-1)go(H.i+1);else if(H.next&&!H.locked)H.next()}
 function back(){if(H.i>0)go(H.i-1)}
 const cur=()=>H.list[H.i];
-deck.addEventListener('click',e=>{const wl=e.target.closest('.wall');if(e.target.closest('button,input')||(wl&&!wl.classList.contains('done')))return;forward()});
-let ty=null;deck.addEventListener('pointerdown',e=>{ty=e.target.closest('input')?null:e.clientY});
+deck.addEventListener('click',e=>{const wl=e.target.closest('.wall');if(e.target.closest('button,input,a,.spb')||(wl&&!wl.classList.contains('done')))return;forward()});
+let ty=null;deck.addEventListener('pointerdown',e=>{ty=e.target.closest('input,.spb')?null:e.clientY});
 deck.addEventListener('pointerup',e=>{if(ty===null)return;const dy=e.clientY-ty;ty=null;if(cur()&&cur().classList.contains('wall')&&!cur().classList.contains('done'))return;
   if(dy>50)back();else if(dy<-50)forward()});
-let wheelT=0;addEventListener('wheel',e=>{const now=Date.now();if(now-wheelT<600||Math.abs(e.deltaY)<20)return;wheelT=now;
+let wheelT=0;addEventListener('wheel',e=>{if(e.target.closest&&e.target.closest('.spb'))return;const now=Date.now();if(now-wheelT<600||Math.abs(e.deltaY)<20)return;wheelT=now;
   const c=cur();if(c&&c.classList.contains('wall')&&!c.classList.contains('done'))return;
   e.deltaY>0?forward():back()},{passive:true});
-addEventListener('keydown',e=>{if(e.target&&e.target.tagName==='INPUT')return;const c=cur();const live=c&&c.classList.contains('wall')&&!c.classList.contains('done');
+addEventListener('keydown',e=>{if(e.target&&e.target.tagName==='INPUT')return;const c=cur();if(c&&c.classList.contains('sp'))return; // S7: native scrolling on the sources page
+ const live=c&&c.classList.contains('wall')&&!c.classList.contains('done');
   if(live){if(e.key==='ArrowUp'||e.key==='1')c.pick('U');else if(e.key==='ArrowDown'||e.key==='2')c.pick('D');else if(e.key==='Enter'||e.key===' '){e.preventDefault();c.commit&&c.commit()}return}
   if(['ArrowDown','PageDown',' ','Enter','ArrowRight'].includes(e.key)){e.preventDefault();forward()}else if(['ArrowUp','PageUp','ArrowLeft'].includes(e.key))back()});
 // ---------- helpers ----------
@@ -419,9 +468,70 @@ async function reunion(){
     p.querySelectorAll('.qs button').forEach(b=>b.onclick=e=>{e.stopPropagation();p.querySelectorAll('.qs button').forEach(x=>x.disabled=false);b.disabled=true;
       box.innerHTML='<div class="bub'+(cold?' gone':'')+'"><i>'+tagOf(m)+'</i><span class="clamp">'+tx(r.line)+'</span></div>'+'<div class="bub" style="align-self:flex-end;background:#F3ECE9">'+tx(Q[+b.dataset.i])+'</div>'+bubHTML(m,r.qa[+b.dataset.i],cold)});
     await tapNext(p)}
+  if(DATA.sources){sourcesPage();return}
+  // fallback (data.js older than index.html): the old one-screen list
   const srcs=[...new Set(S.path.map(p=>N[p.node].year+'　'+N[p.node].src))];
   const z=screen('','<div class="yr" style="font-size:calc(3*var(--u))">'+tx(U.src)+'</div><div class="src">'+srcs.join('<br>')+'</div><div class="credit">'+tx(U.credit)+'</div><button class="btn">'+tx(U.again)+'</button>');
   z.querySelector('button').onclick=()=>location.reload();S.ended=true;
+}
+// ---------- S7 sources page: 聲明 → 猜猜看 → 還想查什麼？ → 這七年留下的海報 → 公開進度 ----------
+function sourcesPage(){
+  const SD=DATA.sources,SU=SD.ui,C=SD.cards,DBG=/[?&]dbg=/.test(location.search);
+  const u=(k,o={})=>{let t=tx(SU[k]);for(const x in o)t=t.split('{'+x+'}').join(o[x]);return esc(t)};
+  const fact=p=>{const m=/^(F\d\d)-(\d+)$/.exec(p);const c=m&&C[m[1]];const f=c&&c.f[+m[2]-1];return f?{c,t:tx(f)}:null};
+  const link=(href,label)=>href?'<a class="splink" href="'+esc(href)+'" target="_blank" rel="noopener noreferrer">'+esc(label)+' ↗</a>':'';
+  const links=c=>c.url2?link(c.url,tx(c.src).split(/[；;]/)[0])+'<br>'+link(c.url2,tx(c.src2)):link(c.url,tx(c.src));
+  const factH=p=>{const f=fact(p);return f?'<div class="spfact '+f.c.kind+'">'+esc(f.t)+'</div>'+links(f.c):''};
+  const yr=n=>N[n].year;
+  // 猜猜看：本局走過的年份挑 3 題，盡量真的／改編／虛構各一
+  const pool=S.path.map(p=>p.node).filter(n=>SD.quiz[n]),pick=[];
+  for(const k of ['real','adapt','fiction']){const n=pool.find(x=>SD.quiz[x].kind===k&&!pick.includes(x));if(n)pick.push(n)}
+  for(const n of pool){if(pick.length>=3)break;if(!pick.includes(n))pick.push(n)}
+  pick.sort((a,b)=>yr(a)-yr(b));
+  const quizH=pick.map(n=>{const z=SD.quiz[n];return '<div class="spbox spq" data-k="'+z.kind+'" data-n="'+n+'"><div class="spcl"><small>'+u('quizYr',{y:yr(n)})+'</small>'+(z.who?esc(nm(z.who))+(L?': ':'：'):'')+(L?'“':'「')+esc(tx(z.c))+(L?'”':'」')+'</div>'+
+    '<div class="spqb">'+['real','adapt','fiction'].map(k=>'<button type="button" data-k="'+k+'">'+u(k)+'</button>').join('')+'</div>'+
+    '<div class="sprev"><div class="spv">'+u(z.kind)+(L?'. ':'。')+esc(tx(z.note))+'</div>'+z.picks.map(factH).join('')+'</div></div>'}).join('');
+  // 這七年留下的海報（玩家實際留下的那一面）
+  const keptH=S.path.map(({node,side},i)=>{const n=N[node];return '<div class="spbox spk" data-i="'+i+'"><button type="button" aria-expanded="false"><span class="spy">'+n.year+'</span><span class="spt">'+esc(tx(n[side].h1))+'</span><span class="splab '+side+'">'+u(side)+'</span><span class="spch">›</span></button>'+
+    '<div class="spkb">'+(SD.ncard[node]||[]).map(id=>{const c=C[id];return '<div class="spct">'+esc(tx(c.t))+'</div>'+c.f.map(f=>'<div class="spfact '+c.kind+'">'+esc(tx(f))+'</div>').join('')+links(c)}).join('')+'</div></div>'}).join('');
+  const progH=SD.prog.map(([p,st])=>{const f=fact(p);return '<div class="spbox spp"><div class="spct" style="margin-top:0"><span class="splab P">'+esc(tx(st))+'</span> '+esc(tx(f.c.t))+'</div>'+factH(p)+'</div>'}).join('');
+  const live=!!ASK_URL;
+  const z=screen('sp','<div class="spb" tabindex="-1"><h2>'+u('title')+'</h2><div class="splead">'+u('lead')+'</div>'+
+    '<div class="spf00">'+C.F00.f.map(f=>'<p>'+esc(tx(f))+'</p>').join('')+'</div>'+
+    '<h3>'+u('quizH')+'</h3>'+quizH+
+    '<h3 id="spask">'+u('askH')+'</h3><div class="spsub">'+u('askSub')+'</div><div class="spask">'+
+      (live?'<div class="sprow"><input type="text" maxlength="40" enterkeyhint="search" autocomplete="off" placeholder="'+u('ph')+'"><button type="button" class="spgo">'+u('go')+'</button></div>':'')+
+      '<div class="spchips">'+SD.chips.map((c,i)=>'<button type="button" aria-pressed="false" data-i="'+i+'">'+esc(tx(c))+'</button>').join('')+'</div><div class="spans" aria-live="polite"></div></div>'+
+    '<h3>'+u('keptH')+'</h3><div class="spsub">'+u('keptSub')+'</div>'+keptH+
+    '<h3>'+u('progH')+'</h3><div class="spsub">'+u('progSub')+'</div>'+progH+
+    '<div class="spfoot">'+esc(tx(U.credit))+'<br>'+u('foot')+'</div><button class="btn" type="button">'+tx(U.again)+'</button></div>');
+  const B=z.querySelector('.spb'),A=z.querySelector('.spans');
+  z.querySelectorAll('.spq').forEach(q=>q.querySelectorAll('.spqb button').forEach(b=>b.onclick=e=>{e.stopPropagation();if(q.classList.contains('done'))return;
+    q.querySelectorAll('.spqb button').forEach(x=>{if(x.dataset.k===q.dataset.k)x.classList.add('ok');else if(x===b)x.classList.add('no');x.disabled=true});q.classList.add('done')}));
+  z.querySelectorAll('.spk>button').forEach(b=>b.onclick=e=>{e.stopPropagation();const o=b.parentElement.classList.toggle('open');b.setAttribute('aria-expanded',o)});
+  const show=(r,mode,sec)=>{const ok=(r.picks||[]).map(fact).filter(Boolean).slice(0,3),n=ok.length,N0=SD.N;
+    const meta=mode==='local'?'':'<div class="spmeta">'+(mode==='rec'?u(n?'meta_rec':'meta_rec0',{N:N0,n}):u(n?'meta_live':'meta_live0',{N:N0,n,s:sec.toFixed(1)}))+(DBG?' ｜ '+esc((r.picks||[]).join(', ')):'')+'</div>';
+    let h;
+    if(r.type==='offline')h='<div class="spa"><div class="spah">'+u('offline')+'</div></div>';
+    else if(r.type==='abuse')h='<div class="spa"><div class="spah">'+u('head_abuse')+'</div>'+meta+'</div>';
+    else if(!n)h='<div class="spa"><div class="spah">'+u('head_none')+'</div>'+meta+'</div>';
+    else h='<div class="spa"><div class="spah">'+(r.type==='fiction'?u('head_fiction'):u('head_fact',{n}))+'</div>'+(r.picks||[]).filter(fact).slice(0,3).map(factH).join('')+meta+'</div>';
+    A.innerHTML=h};
+  const think=()=>{A.innerHTML='<div class="spthink"><i></i><i></i><i></i>'+u('thinking',{N:SD.N})+'</div>'};
+  let seq=0;
+  z.querySelectorAll('.spchips button').forEach(b=>b.onclick=async e=>{e.stopPropagation();const my=++seq;
+    z.querySelectorAll('.spchips button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));show(SD.rec[+b.dataset.i],'rec')}); // recorded: shown at once, no fake "thinking"
+  if(live){const inp=z.querySelector('.sprow input'),BAD=/幹你|幹您|靠北|白癡|操你|忽略.{0,8}指示|ignore (all |the )?(previous|above|prior)/i;
+    const ask=async()=>{const q=inp.value.trim();if(!q)return;const my=++seq;z.querySelectorAll('.spchips button').forEach(x=>x.setAttribute('aria-pressed','false'));inp.blur();
+      if(BAD.test(q)){show({type:'abuse',picks:[]},'local',0);return}
+      think();const t0=performance.now();let r;
+      try{const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),4000);
+        const res=await fetch(ASK_URL,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({q}),signal:ctl.signal});clearTimeout(to);
+        r=await res.json();if(!r||!Array.isArray(r.picks))throw 0}catch(_){r={type:'offline',picks:[]}}
+      if(my===seq)show(r,'live',(performance.now()-t0)/1000)};
+    z.querySelector('.spgo').onclick=e=>{e.stopPropagation();ask()};inp.addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter'&&!e.isComposing&&e.keyCode!==229){e.preventDefault();ask()}})}
+  z.querySelector('.spb>.btn').onclick=()=>location.reload();
+  B.focus({preventScroll:true});S.ended=true;
 }
 function title(){
   const t=screen('title','<h1>'+tx(U.title)+'</h1><button class="btn" style="margin-top:4vh">'+(L?'Start':'開始')+'</button>',{bg:'img/y2018_U_poster.webp'});
