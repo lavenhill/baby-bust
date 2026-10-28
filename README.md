@@ -28,6 +28,7 @@ All generation runs at build time through `tools/meta.py` (Meta Model API, `http
 - `index.html` — the game (no framework)
 - `data.js` — all copy (zh + en), reunion lines, AI-generated
 - `img/` — Muse Image illustrations
+- `poster.woff2` — poster headline font: a subset of Noto Sans TC Black (weight 900), SIL Open Font License 1.1 (license text: `poster-font-OFL.txt`)
 - `tools/` — generation scripts
 
 ## Status
@@ -46,6 +47,11 @@ All generation runs at build time through `tools/meta.py` (Meta Model API, `http
 - Portrait-first: each policy photo is split top/bottom; push away the half you don't keep (swipe up keeps the bottom). The kept half becomes a government-style campaign poster; the other stays a grey real-life photo.
 - Six classmates, an opening promise photo and a reunion at the same building.
 - Tools: `tools/` (Meta Muse Image / Muse Spark generation scripts, `play.py` headless playtest).
+
+## lines-r3 (2026-10-28)
+- 台詞定稿 r3：每年選上半後的「群組後果」改由同學在群組轉述外人的話（不出現外人轉傳畫面）；2022c 加新聞卡（TVBS 2022-07-20、2022-09-28）；2025e 下半改為家豪的暑期班。
+- 結局私訊：退群者（受傷兩次）5 組冷調；受傷一次仍在群組者 9 組（含佩珊 2026）。
+- 標題字型 `poster.woff2`：Noto Sans TC Black 子集，SIL OFL 1.1。
 
 ## 檔案狀態
 見 [docs/FILES.md](docs/FILES.md)：哪些是當前文件、參考、歷史。
