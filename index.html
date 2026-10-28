@@ -48,8 +48,8 @@ body{color:var(--ink);font-family:"Huninn","Noto Sans CJK TC",system-ui,sans-ser
 .half .po{opacity:0}.half .re{filter:saturate(.55)}
 .half.on .po{opacity:1}.half.on .re{opacity:0}
 .half.off .re{filter:grayscale(1) brightness(1.04)}
-.h1{position:absolute;left:0;right:0;top:10%;text-align:center;font-family:"Poster",sans-serif;font-weight:900;color:#fff;-webkit-text-stroke:5px var(--hot);paint-order:stroke fill;line-height:1.06;padding:0 10px;opacity:0;transition:opacity .3s}
-.sub{position:absolute;left:50%;transform:translateX(-50%);top:calc(10% + var(--h1h,52px) + 6px);max-width:92%;text-align:center;line-height:1.25;background:var(--hot);color:#fff;font-family:"Poster",sans-serif;font-weight:900;font-size:clamp(12px,calc(2.1*var(--u)),16px);border-radius:16px;padding:4px 14px;opacity:0;transition:opacity .3s}
+.h1{position:absolute;left:0;right:0;top:10%;word-break:keep-all;text-align:center;font-family:"Poster",sans-serif;font-weight:900;color:#fff;-webkit-text-stroke:5px var(--hot);paint-order:stroke fill;line-height:1.06;padding:0 10px;opacity:0;transition:opacity .3s}
+.sub{position:absolute;left:50%;transform:translateX(-50%);top:calc(10% + var(--h1h,52px) + 6px);width:max-content;max-width:92%;text-align:center;line-height:1.25;background:var(--hot);color:#fff;font-family:"Poster",sans-serif;font-weight:900;font-size:clamp(12px,calc(2.1*var(--u)),16px);border-radius:16px;padding:4px 14px;opacity:0;transition:opacity .3s}
 .half.on .h1,.half.on .sub{opacity:1}
 .tag{position:absolute;left:10px;bottom:10px;background:#fffd;border-radius:16px;padding:3px 12px;font-size:clamp(12px,calc(2*var(--u)),15px);font-weight:bold;z-index:2}
 .U .tag{top:calc(env(safe-area-inset-top) + 10px);bottom:auto}
@@ -237,15 +237,47 @@ async function year(){
   await tapNext(a);choice(n,s);
 }
 function fitH1(w){w.querySelectorAll('.half').forEach(h=>{const e=h.querySelector('.h1');const max=h.clientHeight*(L?.5:.42);
+  if(L&&e.dataset.s&&h.clientHeight<280)e.textContent=e.dataset.s; // R4-4: short English headline on very short half-screens
   let fs=Math.min(60,h.clientHeight*.2);e.style.fontSize=fs+'px';while((e.scrollHeight>max||e.scrollWidth>e.clientWidth+1)&&fs>16){fs-=2;e.style.fontSize=fs+'px'}
+  if(e.scrollWidth>e.clientWidth+1)e.style.wordBreak='normal'; // no space to break at: fall back to normal CJK breaking rather than overflow
   e.style.webkitTextStroke=Math.max(3,Math.round(fs/10))+'px var(--hot)';h.style.setProperty('--h1h',e.scrollHeight+'px')})}
+// R4-4: DATA.heads[node_side] = head boxes (0..1 of the 960x640 poster) found at build time by YuNet (tools/heads.py); DATA.posterText adds
+// manual avoid boxes / a preferred top. The poster is object-fit:cover, so map boxes into the half, then pick the headline/subline position
+// (and, if needed, a smaller size) that covers the least head area. Layout is read once per size and side; positions are shifted arithmetically.
+function cropBoxes(B,Wd,Hh){const s=Math.max(Wd/960,Hh/640),ox=(Wd-960*s)/2,oy=(Hh-640*s)/2;return B.map(([x,y,a,b])=>[ox+x*960*s,oy+y*640*s,a*960*s,b*640*s])}
+function headCover(R,B){let c=0;for(const [x,y,a,b] of R){let ov=0;for(const [X,Y,A,Bh] of B){const iw=Math.min(x+a,X+A)-Math.max(x,X),ih=Math.min(y+b,Y+Bh)-Math.max(y,Y);if(iw>0&&ih>0)ov+=iw*ih}c+=Math.min(1,ov/(a*b))}return c}
+function placePoster(w,node){w.querySelectorAll('.half').forEach(h=>{const side=h.classList.contains('U')?'U':'D',pk=node+'_'+side,o=(DATA.posterText||{})[pk]||{};
+  const e=h.querySelector('.h1'),sb=h.querySelector('.sub'),Wd=h.clientWidth,Hh=h.clientHeight,R=cropBoxes([...((DATA.heads||{})[pk]||[]),...(o.avoid||[])],Wd,Hh);
+  if(!R.length)return;const def=Hh*(o.top??.1),t0=performance.now(),hb0=h.getBoundingClientRect(),tg=h.querySelector('.tag').getBoundingClientRect(),
+    T=[tg.left-hb0.left-4,tg.top-hb0.top-4,tg.width+8,tg.height+8],hitTag=B=>B.some(([x,y,a,b])=>Math.min(x+a,T[0]+T[2])-Math.max(x,T[0])>0&&Math.min(y+b,T[1]+T[3])-Math.max(y,T[1])>0);
+  // sm: 0 = subline right under the headline, 1 = subline at the bottom, 2 = subline at the top and headline below it; sx = subline centre
+  const put=(b)=>{const sh=sb.offsetHeight;e.style.top=b.t+'px';sb.style.top=(b.sm===1?Hh-b.hi-sh:b.sm===2?b.lo:b.t+e.scrollHeight+6)+'px';sb.style.left=b.sx+'px'};
+  const measure=()=>{const hb=h.getBoundingClientRect(),st=parseFloat(e.style.webkitTextStroke)||4,rg=document.createRange(),L1=[];rg.selectNodeContents(e);
+    for(const r of rg.getClientRects())L1.push([r.left-hb.left-st,r.top-hb.top-st,r.width+2*st,r.height+2*st]);const q=sb.getBoundingClientRect();return [L1,[q.left-hb.left,q.top-hb.top,q.width,q.height]]};
+  const fs0=parseFloat(e.style.fontSize),wb0=e.style.wordBreak,cx=Wd/2;
+  // pass 0 = the usual poster layout (centred, clear of the name tag strip); pass 1, only if heads are still covered: subline may go top/left/right,
+  // text may use the tag strip, and tiny English halves may go down to 16px. Text never overlaps the name tag itself (notch insets move it).
+  const run=ext=>{let best=null;const lo=ext?8:(side==='U'?44:8),hi=ext?8:(side==='D'?44:8),fmin=ext&&L&&Hh<280?16:20;
+    for(let k=0;k<8;k++){const fs=Math.max(fmin,Math.round(fs0*Math.pow(.86,k)));e.style.fontSize=fs+'px';e.style.wordBreak=wb0;if(e.scrollWidth>e.clientWidth+1)e.style.wordBreak='normal';
+      e.style.webkitTextStroke=Math.max(3,Math.round(fs/10))+'px var(--hot)';const eh=e.scrollHeight,sh=sb.offsetHeight,sw=sb.offsetWidth,xs=ext&&sw<Wd-40?[cx,8+sw/2,Wd-8-sw/2]:[cx];
+      for(const sm of ext?[0,1,2]:[0,1]){const tmin=sm===2?lo+sh+6:lo,tmax=Hh-hi-eh-(sm===2?0:6+sh);if(tmax<tmin)continue;put({t:tmin,sm,sx:cx,lo,hi});const [L1,Q]=measure();
+        for(let t=tmin;t<=tmax;t+=4){const d=t-tmin,B=L1.map(([x,y,a,b])=>[x,y+d,a,b]);
+          for(const sx of xs){const BB=[...B,[Q[0]+sx-cx,sm===0?Q[1]+d:Q[1],Q[2],Q[3]]];if(hitTag(BB))continue;
+            const raw=headCover(R,BB),c=raw+k*.025+(sm===1?.03:sm===2?.06:0)+(sx!==cx?.02:0)+Math.abs(t-def)/Hh*.05;
+            if(!best||c<best.c)best={c,t,fs,sm,sx,lo,hi,raw,wb:e.style.wordBreak}}}}
+      if((best&&best.raw<.02)||fs<=fmin)break}
+    return best};
+  let best=run(0);if(!best||best.raw>=.05){const b2=run(1);if(b2&&(!best||b2.raw<best.raw))best=b2}
+  if(best){e.style.fontSize=best.fs+'px';e.style.wordBreak=best.wb;e.style.webkitTextStroke=Math.max(3,Math.round(best.fs/10))+'px var(--hot)';put(best);h.dataset.cover=best.raw.toFixed(3)}
+  else{e.style.fontSize=fs0+'px';e.style.wordBreak=wb0;e.style.webkitTextStroke=Math.max(3,Math.round(fs0/10))+'px var(--hot)';e.style.top=sb.style.top=sb.style.left=''} // nothing fits: keep the plain layout
+  h.dataset.ms=(performance.now()-t0).toFixed(1)})}
 function choice(n,s){
   const half=h=>{const x=n[h],who=x.named?tagOf(x.who):tx(x.whoE);const show=h==='U'||!S.seenAside.includes(x.who)||n.final;
     return '<div class="half '+h+'"><img class="re" src="img/'+S.node+'_'+h+'_real.webp" alt=""><img class="po" src="img/'+S.node+'_'+h+'_poster.webp" alt="">'+
-     '<div class="h1">'+tx(x.h1)+'</div><div class="sub">'+tx(x.sub)+'</div><div class="tag">'+who+'</div>'+(show?'<div class="aside hand">'+tx(x.aside_ring&&S.self<3?x.aside_ring:x.aside)+'</div>':'')+'</div>'};
+     '<div class="h1"'+(x.h1s?' data-s="'+x.h1s.replace(/"/g,'&quot;')+'"':'')+'>'+tx(x.h1)+'</div><div class="sub">'+tx(x.sub)+'</div><div class="tag">'+who+'</div>'+(show?'<div class="aside hand">'+tx(x.aside_ring&&S.self<3?x.aside_ring:x.aside)+'</div>':'')+'</div>'};
   const askBar='<span class="cut">✂</span><span>'+tx(n.ask[1])+'</span>';
   const w=screen('wall',half('U')+half('D')+'<div class="bar">'+askBar+'</div>'+(S.node==='y2018'?'<div class="hint">'+tx(U.hint)+'</div>':''),{sat:s,bg:'img/'+S.node+'_U_poster.webp'});
-  S.seenAside.push(n.D.who);requestAnimationFrame(()=>fitH1(w));
+  const nd=S.node;S.seenAside.push(n.D.who);requestAnimationFrame(()=>{fitH1(w);placePoster(w,nd)});
   let pick=null;
   w.pick=h=>{if(w.classList.contains('done'))return;pick=h;const o=h==='U'?'D':'U';
     w.querySelector('.half.'+h).className='half '+h+' on';w.querySelector('.half.'+o).className='half '+o+' off';
