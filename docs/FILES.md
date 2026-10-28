@@ -1,4 +1,4 @@
-# 檔案狀態索引（2026-10-28，S7 出處頁）
+# 檔案狀態索引（2026-10-28，出處頁＋誰在倡議，V=20261028f）
 
 - **當前**：遊戲正在用、或正在維護的文件。有衝突以當前為準。
 - **參考**：設計理由或舊版規格，可查，不以它為準。
@@ -10,7 +10,7 @@
 |---|---|---|
 | index.html | 當前 | 遊戲引擎（單檔） |
 | data.js | 當前 | 全部文案、英譯、群組、結局；由 tools/build_data.py 生成，勿手改 |
-| poster.woff2 | 當前 | 海報字型子集（Noto Sans TC Black） |
+| poster.woff2 | 當前 | 海報字型子集（Noto Sans TC Black；pyftsubset，舊字集＋chars.txt 聯集） |
 | img/ | 當前 | Muse Image 生成的插圖（tools/gen.py） |
 | README.md | 當前 | 專案說明 |
 | docs/FILES.md | 當前 | 本索引 |
@@ -28,9 +28,10 @@
 | tools/story_doc.py | 當前 | 從 data.js 生成 06 文件與 JSON |
 | tools/copy_map.py | 當前 | 從 data.js 生成文案台詞對照表（xlsx） |
 | tools/play.py | 當前 | 自動試玩＋溢出／錯誤檢查＋截圖；`wish=` 輸入老顏的燈、`expect=` 檢查回應者；S7 起逐項驗出處頁（猜猜看全選項、建議問題全點、連結、斷網），`live=mock|down|slow` 測即時開關 |
-| tools/sources_zh.py | 當前 | S7 出處頁：出處庫 22 張卡 64 句（每句開過原文核對）、猜猜看、建議問題、公開進度、介面字 |
+| tools/sources_zh.py | 當前 | 出處頁：出處庫 22 張政策卡（含放回的 F07）＋56 張倡議者卡（A01–A57，A43 空號），共 122 句，每句開過原文核對；NODE_ADV＝每個選項的倡議者；猜猜看、9 個建議問題、公開進度、介面字 |
 | tools/sources_en.json | 當前 | 出處頁英文（Muse 初譯、Hark 審） |
-| tools/sources_rec.json | 當前 | 建議問題的錄製答案（Muse 只挑句子編號；每題 3 次挑 1 次，理由在 why） |
+| tools/sources_rec.json | 當前 | 建議問題的錄製答案（Muse 只挑句子編號；每題 3 次挑 1 次，理由在 why；2026-10-28 出處庫擴充後重錄，挑選腳本 qa/adv/pick_rec.py） |
+| qa/adv/ | 當前 | 誰在倡議的研究與 QA：原文快取 pages.json、Muse 摘要初稿 muse_sum.json、英譯 en_muse.json、重錄與成本實測 jsonl、審稿 review_r1/r2＋review_disposition.md、試玩結果 run/、推版前備份 bak/*.apre.bak |
 | tools/sources_muse.py | 當前 | Muse 檢索：錄製（record）、成本實測（cost）、產生 Worker（worker） |
 | tools/ask_worker.tpl.js、tools/ask_worker.js | 當前（未部署） | 即時查詢 Cloudflare Worker 草稿；不含金鑰；ask_worker.js 由 sources_muse.py 產生 |
 | docs/ask-worker.md | 當前 | 即時查詢開關與部署步驟（預設關） |
