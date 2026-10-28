@@ -188,7 +188,7 @@ body{color:var(--ink);font-family:"Huninn","Noto Sans CJK TC",system-ui,sans-ser
 .sprev{display:none;margin-top:8px}.spq.done .sprev{display:block;animation:in .3s both}
 .spv{font-weight:bold;font-size:14px;line-height:1.5;margin-bottom:2px}
 .spfact{font-size:clamp(14px,calc(2.2*var(--u)),16px);line-height:1.55;margin:5px 0 1px;padding-left:10px;border-left:3px solid var(--pink);word-break:break-word}
-.spfact.cost{border-left-color:var(--hot)}.spfact.update{border-left-color:#4b7bd6}.spfact.meta{border-left-color:#9a9090}.spfact.adv{border-left-color:#8a5cc7}.spadv{margin-top:10px;padding-top:2px;border-top:1px dashed rgba(0,0,0,.18)}.spnone{font-size:13px;color:#8a8080;margin:4px 0 2px}
+.spfact.cost{border-left-color:var(--hot)}.spfact.update{border-left-color:#4b7bd6}.spfact.meta{border-left-color:#9a9090}.spfact.adv{border-left-color:#8a5cc7}.spfact.basis{border-left-color:#3f9a6b}.spadv{margin-top:10px;padding-top:2px;border-top:1px dashed rgba(0,0,0,.18)}.spnone{font-size:13px;color:#8a8080;margin:4px 0 2px}
 a.splink{display:inline-block;font-size:12.5px;line-height:1.5;color:#3d5ea8;text-decoration:underline;margin:2px 0 3px;padding:2px 0;word-break:break-word;-webkit-user-select:none;user-select:none}
 .spask{background:#ffffff10;border:1px solid #ffffff26;border-radius:14px;padding:10px}
 .spchips{display:flex;flex-wrap:wrap;gap:6px}
@@ -220,10 +220,10 @@ a.splink{display:inline-block;font-size:12.5px;line-height:1.5;color:#3d5ea8;tex
 <body>
 <div id="bd"></div>
 <div id="stage"><button id="lang" class="lang">EN</button><div id="deck"></div></div>
-<script>document.write('<script src="data.js?v=20261028f&t='+Date.now()+'"><\/script>')</script>
+<script>document.write('<script src="data.js?v=20261028g&t='+Date.now()+'"><\/script>')</script>
 <script>
 // Baby or Bust — 我們這一班. One screen per beat; written during the Meta hackathon (2026-10-27). Spec: docs/spec/.
-const V='20261028f';
+const V='20261028g';
 // S7: 「還想查什麼？」即時查詢開關。設成 Cloudflare Worker 網址（tools/ask_worker.js，見 docs/ask-worker.md）就切成即時 Muse；空字串＝只用錄好的答案（預設關）。
 const ASK_URL=window.BB_ASK_URL||'';if(!(DATA.group&&DATA.lantern&&DATA.sources)&&!/reload=/.test(location.search))location.replace(location.pathname+'?reload='+Date.now());
 const bust=h=>h.replace(/(img\/\w+\.webp)/g,'$1?v='+V);
@@ -480,7 +480,7 @@ function sourcesPage(){
   const u=(k,o={})=>{let t=tx(SU[k]);for(const x in o)t=t.split('{'+x+'}').join(o[x]);return esc(t)};
   const fact=p=>{const m=/^([FA]\d\d)-(\d+)$/.exec(p);const c=m&&C[m[1]];const f=c&&c.f[+m[2]-1];return f?{c,t:tx(f)}:null};
   const link=(href,label)=>href?'<a class="splink" href="'+esc(href)+'" target="_blank" rel="noopener noreferrer">'+esc(label)+' ↗</a>':'';
-  const links=c=>c.url2?link(c.url,tx(c.src).split(/[；;]/)[0])+'<br>'+link(c.url2,tx(c.src2)):link(c.url,tx(c.src));
+  const links=c=>c.refs?c.refs.map(([l,h])=>link(h,tx(l))).join('<br>'):c.url2?link(c.url,tx(c.src).split(/[；;]/)[0])+'<br>'+link(c.url2,tx(c.src2)):link(c.url,tx(c.src));
   const factH=p=>{const f=fact(p);return f?'<div class="spfact '+f.c.kind+'">'+esc(f.t)+'</div>'+links(f.c):''};
   const yr=n=>N[n].year;
   // 猜猜看：本局走過的年份挑 3 題，盡量真的／改編／虛構各一
