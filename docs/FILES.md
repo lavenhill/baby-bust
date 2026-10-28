@@ -26,7 +26,8 @@
 | tools/content_zh.py | 當前 | 中文文案原始檔 |
 | tools/build_data.py | 當前 | content_zh＋en.json＋reunion → data.js |
 | tools/story_doc.py | 當前 | 從 data.js 生成 06 文件與 JSON |
-| tools/copy_map.py | 當前 | 從 data.js 生成文案台詞對照表（xlsx） |
+| tools/copy_map.py | 當前 | 從 data.js（＋index.html 內建介面字）生成文案台詞對照表（xlsx，只在本機） |
+| tools/sheet_sync.py | 當前 | 文案表與源碼同步：pull／apply（只回寫中文、英文不動）／push（有使用者未回寫修改時拒絕覆蓋） |
 | tools/play.py | 當前 | 自動試玩＋溢出／錯誤檢查＋截圖；2026-10-28 h 版起另查：標題頁（中文一行、不溢出）、正文禁「暑期班」「我們這一班」、2025e 下半必須是宜君、英文畫面禁舊拼音名／quasi／拼音術語、英文出處頁不得殘留中文；`wish=` 輸入老顏的燈、`expect=` 檢查回應者；FX 起檢查情節依據卡（.spfact.basis）與遊戲正文禁用說法（議員、考上中央、考績乙等、請半天、凍卵回診、婆婆把…）；S7 起逐項驗出處頁（猜猜看全選項、建議問題全點、連結、斷網），`live=mock|down|slow` 測即時開關 |
 | tools/sources_zh.py | 當前 | 出處頁：出處庫 22 張政策卡（含放回的 F07）＋11 張情節依據卡（F23–F33，kind=basis，多連結 refs；FX 2026-10-28）＋61 張倡議者卡（A01–A62，A43 空號），共 152 句，每句開過原文核對；NODE_ADV＝每個選項的倡議者；猜猜看、9 個建議問題、公開進度、介面字 |
 | tools/sources_en.json | 當前 | 出處頁英文（Muse 初譯、Hark 審） |
