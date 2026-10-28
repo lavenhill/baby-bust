@@ -1,13 +1,13 @@
-# Baby or Bust（我們這一班 / Our Class）
+# Baby or Bust（我們與孩子的距離 / Between Us and the Kids）
 
-A narrative game about family-care policy trade-offs in Taiwan, built for the Meta AI Developer Hackathon 2026.
+A short story game about who pays for Taiwan’s childcare and family policies, built for the Meta AI Developer Hackathon 2026.
 
 **Play:** https://raw.githack.com/lavenhill/baby-bust/main/index.html (mobile first; tap EN for English)
 
 **Built from scratch during the hackathon.** This repository was created on 2026-10-27 (Asia/Taipei), after the event opened (2026-10-26 12:00 PM ET). Every file here is new work made during the event period (Oct 27 – Nov 4, 2026). No earlier codebase is reused; earlier prototypes by the same author served only as inspiration.
 
 ## How it plays
-You are Lao Yan, the social-media editor of a government birth-rate office. Each year a real policy launches. The photo from the scene has two halves: the people it helps, and the classmate who pays for it. You can only publish one half.
+You are Vivian, a contract worker who runs social media for a government office on low birth rates. Each year a real policy launches. The photo from the scene has two halves: the people it helps, and the classmate who pays for it. You can only publish one half.
 - Keep the beneficiaries: your classmate on the other half fades to grey, and walks out of the class reunion photo at the end.
 - Keep the one who pays: your boss rejects it, you redo it overnight, and your own life fades one frame at a time.
 - The feed scrolls down like your desk piling up. You can look back, but never re-crop.
@@ -19,7 +19,7 @@ Every policy, number and date in the game is real and sourced at the end of each
 | Model | Used for |
 |---|---|
 | Muse Spark 1.3 (`muse-spark-1.3`) | Draft slogans, private asides, group-chat lines, a self-review pass for consistency, and all English translations (`tools/gen_copy.py`, `tools/fix_copy.py`) |
-| Muse Spark 1.3 | Reunion: one cost line + answers to 3 follow-up questions for every classmate × every path they could have been cut on (14 combinations) and Lao Yan's own line for 8 endings (`tools/gen_reunion.py`) |
+| Muse Spark 1.3 | Reunion: one cost line + answers to 3 follow-up questions for every classmate × every path they could have been cut on (14 combinations) and Vivian's own line for 8 endings (`tools/gen_reunion.py`) |
 | Muse Spark 1.3 | Sources page “Anything else to check?”: Muse only **picks sentence IDs** from a 64-line library of verified source quotes (it never writes a fact); the screen shows those exact lines with links. The 8 suggested questions use answers **pre-recorded** with Muse and checked by hand, and are labelled “pre-recorded”. A live mode exists behind a switch (`ASK_URL` in `index.html`, Cloudflare Worker draft `tools/ask_worker.js`, no key in this repo) and is **off** (`tools/sources_muse.py`, `docs/ask-worker.md`) |
 | Muse Image 1.0 (`muse-image-1.0`) | 7 character reference sheets, then 20 scene halves and 5 objects generated with `images/edits` from those references, so characters stay consistent across years (`tools/gen_img.py`) |
 
@@ -34,6 +34,7 @@ All generation runs at build time through `tools/meta.py` (Meta Model API, `http
 
 ## Status
 - 2026-10-27: repo created; minimal playable build; scrolling-desk layout; Meta AI copy, translations, reunion lines and illustrations wired in.
+- 2026-10-28 (V=20261028h): 2025 lower half is Jessica again (public preschool teachers working through summer break, sourced); title changed to 我們與孩子的距離 / Between Us and the Kids; English version uses English names (Vivian, Amy, Kevin, Jessica, Jason, Penny) and plain-English childcare terms.
 
 ---
 
@@ -55,7 +56,7 @@ All generation runs at build time through `tools/meta.py` (Meta Model API, `http
 - 標題字型 `poster.woff2`：Noto Sans TC Black 子集，SIL OFL 1.1。
 
 ## L1 lantern (2026-10-28)
-- Ending: at the 2026 Pingxi reunion the player writes Lao Yan's own sky lantern (up to 12 characters, Chinese or English; blank allowed). A fixed 5-second release follows, Peishan posts a photo to the group chat, one classmate still in the group answers, and a last frame sets the lantern words beside the 2026 poster headline the player actually kept (labels only: "On the lantern / On the poster").
+- Ending: at the 2026 Pingxi reunion the player writes Vivian's own sky lantern (up to 12 characters, Chinese or English; blank allowed). A fixed 5-second release follows, Penny posts a photo to the group chat, one classmate still in the group answers, and a last frame sets the lantern words beside the 2026 poster headline the player actually kept (labels only: "On the lantern / On the poster").
 - Runs entirely in the page: keyword rules + pre-written lines (`tools/content_zh.py` `LANTERN_*`, `data.js` `lantern`). No AI call, no key, no server. Profanity is masked as ▇.
 - Lines: drafted by Muse Spark 1.3 and reviewed by Hark; English by Muse Spark, reviewed.
 - 結局天燈拍：玩家替老顏寫燈（12 字內，可中英、可空白）→ 5 秒升空 → 佩珊傳照片到群組 → 一位在群同學回一句 → 對照「燈上／海報上」。全部本機運行，不接 AI、不放金鑰；髒話打碼成▇。規格：`docs/spec/01-game-spec.md` §10。
