@@ -51,7 +51,7 @@ for k,n in N.items():
 # ---------- machine graph ----------
 def side(n,h):
     x=n[h];return {k:(v if not isinstance(v,list) else {'zh':v[0],'en':v[1]}) for k,v in x.items()}
-graph={'version':'S7 (V=20261028e)','generated_from':'data.js + engine rules in index.html',
+graph={'version':'L advocates (V=20261028f)','generated_from':'data.js + engine rules in index.html',
  'state':{
   'hurt[m]':'同學 m 被犧牲次數；選上半（文宣）時 +1 給 D.who（下半照片上的人）',
   'gone':'hurt[m]==2 的同學：退群、之後群組不出現、2026 空燈、結局私訊',
@@ -201,4 +201,5 @@ open(B+'docs/spec/06-story-causality.md','a').write('''
 ## 10. 結局出處頁（S7，2026-10-28；規格 01 §11）
 - 私訊之後的最後一屏，內容全部來自 DATA.sources（tools/sources_zh.py＋sources_en.json＋sources_rec.json）：虛構聲明 → 猜猜看（本局走過年份挑 3 題）→ 還想查什麼？（8 個建議問題，Muse 預先錄製）→ 這七年留下的海報（本局路徑 7 張）→ 截至 2026 年 10 月的公開進度。
 - 和劇情的因果：猜猜看與留下的海報只依本局路徑（S.path）變，不影響判詞與私訊；虛構題只有走過 y2025e 才會出現。
+- 誰在倡議（L，2026-10-28，規格 01 §12）：每張留下的海報展開後列「誰在倡議這一張」與「沒留下的另一張」的真實倡議者（DATA.sources.nadv，A01–A57，每選項 2–3 位，具名＋原文摘要＋連結）；出處庫共 122 句，第 9 個建議問題「按日請育嬰假，誰支持、誰擔心？」示範倡議者卡。
 ''')
