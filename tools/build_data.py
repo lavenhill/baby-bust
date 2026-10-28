@@ -49,11 +49,31 @@ D=dict(nodes=nodes,wish={k:E3(v) for k,v in C.WISH.items()},call={k:[E3(x) for x
  group={k:[[w,E(t),d] for w,t,d in v] for k,v in C.GROUP.items()},gcons={k:{str(n):[[w,t,E(x),d] for w,t,x,d in ls] for n,ls in v.items()} for k,v in C.GCONS.items()},news={k:[E(h),E(src)] for k,(h,src) in C.NEWS.items()},wish2={k:E(v) for k,v in C.WISH2.items()},wish26={k:[E(x) for x in v] for k,v in C.WISH26.items()},v5={k:E(v) for k,v in C.V5UI.items()},
  lantern=dict(rules=[[k,zh,en,who] for k,zh,en,who in C.LANTERN_RULES],names_en=C.LANTERN_NAMES_EN,prof_zh=C.LANTERN_PROF_ZH,prof_en=C.LANTERN_PROF_EN,lines={k:list(v) for k,v in C.LANTERN_LINES.items()},ui={k:list(v) for k,v in C.LANTERN_UI.items()}),
  class_=['阿芳','家豪','宜君','志豪','佩珊','老顏'],babies=['afang','jiahao','yijun','peishan'])
+# S7 (2026-10-28): 出處頁新版——出處庫、猜猜看、建議問題（錄好的 Muse 答案）、公開進度。缺這塊時引擎退回舊出處頁。
+import os,sources_zh as SZ
+_T=os.path.dirname(os.path.abspath(__file__));SEN=json.load(open(os.path.join(_T,'sources_en.json')));SREC=json.load(open(os.path.join(_T,'sources_rec.json')))
+def se(key,zh):
+    v=SEN.get(key);assert v,('sources_en missing',key);return [zh,v]
+cards={}
+for c in SZ.CARDS:
+    o=dict(t=se(c['id']+'.title',c['title']),src=se(c['id']+'.src',c['src']),url=c['url'],kind=c['kind'],f=[se(f"{c['id']}-{i+1}",f) for i,f in enumerate(c['facts'])])
+    if c.get('url2'): o['url2']=c['url2'];o['src2']=se(c['id']+'.src2',c['src2'])
+    cards[c['id']]=o
+ids={f"{k}-{i+1}" for k,c in cards.items() for i in range(len(c['f']))}
+for k,q in SZ.QUIZ.items(): assert all(p in ids for p in q['picks']),k
+quiz={k:dict(c=se('quiz.'+k+'.claim',q['claim']),who=q.get('who',''),kind=q['kind'],note=(se('quiz.'+k+'.note',q['note']) if q['note'] else ['','']),picks=q['picks']) for k,q in SZ.QUIZ.items()}
+rec=[]
+for i,c in enumerate(SZ.CHIPS):
+    r=SREC[c];assert all(p in ids for p in r['picks']),c;rec.append(dict(type=r['type'],picks=r['picks']))
+D['sources']=dict(N=len(ids),order=[c['id'] for c in SZ.CARDS],cards=cards,ncard=SZ.NODE_CARD,quiz=quiz,
+  prog=[[p,se('prog.'+st,st)] for p,st in SZ.PROGRESS],chips=[se(f'chip.{i}',c) for i,c in enumerate(SZ.CHIPS)],rec=rec,
+  ui={k:se('ui.'+k,v) for k,v in SZ.UI.items()})
+for p,_ in SZ.PROGRESS: assert p in ids,p
 import os
 HP='/workspace/work/bb2/tools/heads.json'  # R4-4a: YuNet head boxes (tools/heads.py)
 if os.path.exists(HP): D['heads']=json.load(open(HP))
 if getattr(C,'POSTER_TEXT',None): D['posterText']={k:{kk:vv for kk,vv in v.items() if kk!='note'} for k,v in C.POSTER_TEXT.items()}
-open('/workspace/work/bb2/data.js','w').write('// Copy drafted with Meta Muse Spark 1.3 (translations, reunion lines); insider slogans are drafts for the author to replace. Illustrations: Meta Muse Image 1.0. Built 2026-10-28 (L1 lantern).\nconst DATA='+json.dumps(D,ensure_ascii=False)+';\n')
+open('/workspace/work/bb2/data.js','w').write('// Copy drafted with Meta Muse Spark 1.3 (translations, reunion lines); insider slogans are drafts for the author to replace. Illustrations: Meta Muse Image 1.0. Built 2026-10-28 (S7 sources page).\nconst DATA='+json.dumps(D,ensure_ascii=False)+';\n')
 chars=set(json.dumps(D,ensure_ascii=False))
 open('chars.txt','w').write(''.join(sorted(chars))+'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz–—…·・，。？！：「」（）')
 print('ok',len(chars))
