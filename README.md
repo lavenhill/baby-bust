@@ -20,6 +20,7 @@ Every policy, number and date in the game is real and sourced at the end of each
 |---|---|
 | Muse Spark 1.3 (`muse-spark-1.3`) | Draft slogans, private asides, group-chat lines, a self-review pass for consistency, and all English translations (`tools/gen_copy.py`, `tools/fix_copy.py`) |
 | Muse Spark 1.3 | Reunion: one cost line + answers to 3 follow-up questions for every classmate × every path they could have been cut on (14 combinations) and Lao Yan's own line for 8 endings (`tools/gen_reunion.py`) |
+| Muse Spark 1.3 | Sources page “Anything else to check?”: Muse only **picks sentence IDs** from a 64-line library of verified source quotes (it never writes a fact); the screen shows those exact lines with links. The 8 suggested questions use answers **pre-recorded** with Muse and checked by hand, and are labelled “pre-recorded”. A live mode exists behind a switch (`ASK_URL` in `index.html`, Cloudflare Worker draft `tools/ask_worker.js`, no key in this repo) and is **off** (`tools/sources_muse.py`, `docs/ask-worker.md`) |
 | Muse Image 1.0 (`muse-image-1.0`) | 7 character reference sheets, then 20 scene halves and 5 objects generated with `images/edits` from those references, so characters stay consistent across years (`tools/gen_img.py`) |
 
 All generation runs at build time through `tools/meta.py` (Meta Model API, `https://api.meta.ai/v1`, key from `MODEL_API_KEY`, spend ledger). Total build cost on day 1: about US$0.60. The page itself is static and contains no key. Human review: the author edits the final copy; AI drafts are kept in `data.js`.
