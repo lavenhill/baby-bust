@@ -46,9 +46,18 @@ with sync_playwright() as p:
         if info['btn']:
             time.sleep(.4);pg.locator('.scr:not(.below):not(.above) .btn').last.click();n+=1;time.sleep(.9);continue
         if info['tap']:
+            if info['qs'] and not pg.evaluate("()=>!!H.list[H.i].querySelector('.qs button:disabled')"): shot('dm')
             if info['qs']: pg.locator('.scr:not(.below):not(.above) .qs button').first.click();time.sleep(.3)
             bad=pg.evaluate(OVER);report.append((f"screen {info['k']}",bad));shot('s')
             pg.mouse.click(pg.locator('#stage').bounding_box()['x']+20,60);n+=1;time.sleep(.7);continue
         time.sleep(.4)
+    # lines-r3 checks: ending DMs (gone = cold, hurt once = warm), no blank bubbles, no outsider forward screens
+    dm=pg.evaluate("""()=>H.list.filter(s=>s.querySelector('.who')).map(s=>{const b=s.querySelector('.chat .bub');return {who:s.querySelector('.who b').textContent,cold:!!(b&&b.classList.contains('gone')),len:b?b.textContent.length:0}})""")
+    exp=pg.evaluate("()=>({gone:S.gone.slice(),once:Object.keys(S.hurt).filter(m=>S.hurt[m]===1&&!S.gone.includes(m))})")
+    blank=pg.evaluate("()=>H.list.flatMap(s=>[...s.querySelectorAll('.bub')]).filter(b=>{const c=b.cloneNode(true);c.querySelectorAll('i').forEach(i=>i.remove());return !c.textContent.trim()&&!b.querySelector('img')}).length")
+    fw=pg.evaluate("()=>H.list.filter(s=>s.querySelector('.fw')).length")
+    if blank: report.append(('blank bubbles',[blank]))
+    if fw: report.append(('outsider forward screens',[fw]))
+    if len(dm)!=len(exp['gone'])+len(exp['once']) or any(d['len']<20 for d in dm): report.append(('dm mismatch',[dm,exp]))
     fails=[r for r in report if r[1]]
-    print(json.dumps({"vp":f"{W}x{Hh}","lang":lang,"path":seq,"screens":len(report),"ended":pg.evaluate("S.ended===true"),"errors":errs,"overflow":fails},ensure_ascii=False))
+    print(json.dumps({"vp":f"{W}x{Hh}","lang":lang,"path":seq,"screens":len(report),"ended":pg.evaluate("S.ended===true"),"errors":errs,"overflow":fails,"dms":dm,"hurt":exp},ensure_ascii=False))
