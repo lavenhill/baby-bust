@@ -18,7 +18,7 @@ def walk(v,p):
 walk(D,'')
 legacy=[r'^nodes\.\w+\.(setup|chat|boss\.U)',r'^call\.',r'^callN\.',r'^self\.',r'^open2\.(reu|calling)',r'^open\[',r'^ui\.(reu|promise|intro|obj19|end|kids|baby)$',r'^nodes\.\w+\.src$']
 SEC={'wish':'2018 天燈願望','wish2':'新願望','wish26':'2026 願望','lao26':'老顏 2026 燈','v5':'介面','ui':'介面','open2':'開場','life':'老顏生活框','ring_off':'老顏生活框','verdict':'結局判詞','tag':'標籤','names':'人名','call':'電話（舊）','callN':'電話（舊）','self':'老顏（舊）','open':'開場（舊）','class_':'人名','babies':'其他','slug':'其他'}
-ORDER=['開場','2018 天燈願望','同學群組','逐年節點','選圖牆','後果三拍（選上）','老顏生活框','新願望','2026 願望','老顏 2026 燈','結局判詞','結局私訊（缺席者）','介面','標籤','人名']
+ORDER=['開場','2018 天燈願望','同學群組','逐年節點','選圖牆','群組後果（選上）','老顏生活框','新願望','2026 願望','老顏 2026 燈','結局判詞','結局私訊','介面','標籤','人名']
 def classify(p):
     m=re.match(r'nodes\.y(\w+)\.(.*)',p)
     if m:
@@ -37,12 +37,17 @@ def classify(p):
     if m:
         g=D['group']['y'+m.group(1)][int(m.group(2))]
         return '同學群組',m.group(1),'第%d句'%(int(m.group(2))+1),g[0]
-    m=re.match(r'cons\.y(\w+)\[(\d)\]',p)
-    if m: return '後果三拍（選上）',m.group(1),['轉傳來源','施壓句（拿海報堵嘴）','被堵同學回應'][int(m.group(2))],''
+    m=re.match(r'gcons\.y(\w+)\.(\d)\[(\d+)\]',p)
+    if m:
+        g=D['gcons']['y'+m.group(1)][m.group(2)][int(m.group(3))]
+        return '群組後果（選上）',m.group(1),'被犧牲者第%s次・第%d句%s'%(m.group(2),int(m.group(3))+1,('（'+g[1]+'）' if g[1] else '')),g[0]
+    m=re.match(r'news\.y(\w+)\[(\d)\]',p)
+    if m: return '群組後果（選上）',m.group(1),['新聞卡標題','新聞卡出處'][int(m.group(2))],''
     m=re.match(r'reunion\.([^|]+)\|([^.]+)\.(.*)',p)
     if m:
         f=m.group(3); f={'line':'私訊','off':'已讀不回／離線'}.get(f,f.replace('qa','追問'))
-        return '結局私訊（缺席者）',m.group(2).replace('y',''),f,m.group(1)
+        kind={'gone':'退群版','stay':'受傷一次・還在群組版'}.get(D['reunion'][m.group(1)+'|'+m.group(2)].get('kind'),'')
+        return '結局私訊',m.group(2).replace('y',''),kind+'・'+f,m.group(1)
     k=re.split(r'[.\[]',p)[0]
     rest=p[len(k):].lstrip('.')
     spk=''
@@ -56,6 +61,9 @@ for p,zh,en in rows:
     dep=''
     m=re.match(r'group\.y(\w+)\[(\d+)\]',p)
     if m: dep='、'.join(D['group']['y'+m.group(1)][int(m.group(2))][2])
+    m=re.match(r'gcons\.y(\w+)\.(\d)\[(\d+)\]\[2\]',p)
+    if m: dep='、'.join(D['gcons']['y'+m.group(1)][m.group(2)][int(m.group(3))][3])
+    if re.match(r'gcons\.[^\[]+\[\d+\]\[[013]',p): continue
     status='舊版未使用' if any(re.search(r,p) for r in legacy) else '使用中'
     if p.startswith('class_') or p.startswith('slug') or p.startswith('babies'): continue
     out.append([sec,y,field,spk,zh,en,dep,status,p])
@@ -76,7 +84,7 @@ s2=wb.create_sheet('政策出處');s2.append(['節點','年份','出處'])
 for k,v in D['nodes'].items(): s2.append([k[1:],v['year'],v['src']])
 s2.column_dimensions['C'].width=90
 s3=wb.create_sheet('說明')
-for l in ['《我們這一班》Baby or Bust 全部文案與台詞對照（data.js，V=20261027f，2026-10-28 匯出）',
+for l in ['《我們這一班》Baby or Bust 全部文案與台詞對照（data.js，V=20261028b，lines-r3，2026-10-28 匯出）',
  '區塊依遊戲順序排列：開場 → 每年（同學群組 → 主管交辦 → 選圖牆 → 後果）→ 結局 → 介面。',
  '狀態「舊版未使用」＝資料檔還留著、遊戲不會顯示（灰字，排在最後）。',
  '依賴：列出的同學退出群組時，這句不出現；「!宜君」＝宜君退群後才出現。',
