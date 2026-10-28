@@ -16,6 +16,9 @@ def walk(v,p):
         for k,x in v.items(): walk(x,f'{p}.{k}' if p else k)
     elif isinstance(v,str) and cjk.search(v): rows.append((p,v,''))
 walk(D,'')
+for _k,_n in D['nodes'].items():  # R4-4: English-only short headlines (small screens)
+    for _h in 'UD':
+        if _n[_h].get('h1s'): rows.append((f'nodes.{_k}.{_h}.h1s',_n[_h]['h1'][0],_n[_h]['h1s']))
 legacy=[r'^nodes\.\w+\.(setup|chat|boss\.U)',r'^call\.',r'^callN\.',r'^self\.',r'^open2\.(reu|calling)',r'^open\[',r'^ui\.(reu|promise|intro|obj19|end|kids|baby)$',r'^nodes\.\w+\.src$']
 SEC={'wish':'2018 天燈願望','wish2':'新願望','wish26':'2026 願望','lao26':'老顏 2026 燈','v5':'介面','ui':'介面','open2':'開場','life':'老顏生活框','ring_off':'老顏生活框','verdict':'結局判詞','tag':'標籤','names':'人名','call':'電話（舊）','callN':'電話（舊）','self':'老顏（舊）','open':'開場（舊）','class_':'人名','babies':'其他','slug':'其他'}
 ORDER=['開場','2018 天燈願望','同學群組','逐年節點','選圖牆','群組後果（選上）','老顏生活框','新願望','2026 願望','老顏 2026 燈','結局判詞','結局私訊','介面','標籤','人名']
@@ -28,7 +31,7 @@ def classify(p):
         mm=re.match(r'([UD])\.(\w+)',rest)
         if mm:
             side='上半・文宣' if mm.group(1)=='U' else '下半・現場'
-            ff={'who':'被拍的人','tag':'身分標籤','h1':'海報標題','sub':'海報副標','aside':'現場照旁註'}.get(mm.group(2),mm.group(2))
+            ff={'who':'被拍的人','tag':'身分標籤','h1':'海報標題','h1s':'海報標題（英文小螢幕短版）','sub':'海報副標','aside':'現場照旁註'}.get(mm.group(2),mm.group(2))
             return '選圖牆',y,side+'・'+ff,''
         ms=re.match(r'setup\[(\d+)\]',rest)
         if ms: return '逐年節點',y,'舊前置對話',D['nodes']['y'+y]['setup'][int(ms.group(1))][0]
@@ -84,7 +87,7 @@ s2=wb.create_sheet('政策出處');s2.append(['節點','年份','出處'])
 for k,v in D['nodes'].items(): s2.append([k[1:],v['year'],v['src']])
 s2.column_dimensions['C'].width=90
 s3=wb.create_sheet('說明')
-for l in ['《我們這一班》Baby or Bust 全部文案與台詞對照（data.js，V=20261028b，lines-r3，2026-10-28 匯出）',
+for l in ['《我們這一班》Baby or Bust 全部文案與台詞對照（data.js，V=20261028c，r4，2026-10-28 匯出）',
  '區塊依遊戲順序排列：開場 → 每年（同學群組 → 主管交辦 → 選圖牆 → 後果）→ 結局 → 介面。',
  '狀態「舊版未使用」＝資料檔還留著、遊戲不會顯示（灰字，排在最後）。',
  '依賴：列出的同學退出群組時，這句不出現；「!宜君」＝宜君退群後才出現。',
