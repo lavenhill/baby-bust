@@ -144,15 +144,40 @@ body{color:var(--ink);font-family:"Huninn","Noto Sans CJK TC",system-ui,sans-ser
 .reply img{width:calc(10*var(--u));aspect-ratio:1;border-radius:50%;object-fit:cover;object-position:top;background:#e2dedc;flex:none}
 .dmc .bub{font-size:clamp(14px,calc(2.37*var(--u)),18px);line-height:1.38;max-width:100%}.dmc .clamp{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .grp{gap:calc(.7*var(--u))}.grp{-webkit-mask:none;mask:none}.grp .bub{font-size:clamp(14px,calc(2.37*var(--u)),18px);padding:calc(.6*var(--u)) 10px;line-height:1.3}.l26{min-height:calc(12*var(--u))}
+/* L1 結局天燈拍 (2026-10-28) */
+.wish input{-webkit-user-select:text;user-select:text;font-family:"Huninn","Noto Sans CJK TC",system-ui,sans-serif;font-size:max(16px,1em);flex:1;min-width:0;border:2px solid #a0743a;border-radius:8px;padding:6px 10px;background:#fff;color:var(--ink)}
+.lin{display:flex;gap:8px;margin-top:4px}
+.lin button{border:0;border-radius:8px;padding:0 16px;background:var(--hot);color:#fff;font:inherit;font-weight:bold;font-size:16px;flex:none}
+.lcnt{display:block;text-align:right;font-size:12px;color:#a0743a;margin-top:2px;font-family:system-ui,sans-serif}
+.lsky{position:absolute;inset:0;transition:filter .5s}.lsky.dim{filter:brightness(.45)}
+.sl{position:absolute;width:13%;display:flex;flex-direction:column;align-items:center;transition:transform 2.2s cubic-bezier(.55,0,.75,.9)}
+.sl b{width:100%;aspect-ratio:3/4;border-radius:40% 40% 18% 18%;background:linear-gradient(#fffbe8,#ffcf6b);box-shadow:0 0 18px #ffd27a;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.sl span{font-size:clamp(10px,calc(1.7*var(--u)),13px);color:var(--paper);text-shadow:0 1px 3px #000;margin-top:2px;white-space:nowrap}
+.sl.off b{background:#55525b;box-shadow:none;opacity:.75}.sl.off span{opacity:.5}
+.sl.me{width:34%;left:33%;top:38%}
+.sl.me b{background:linear-gradient(#fff7e6,#f3e2c0);box-shadow:none;transition:box-shadow .6s,background .6s;padding:9% 8%}
+.sl.me.lit b{background:radial-gradient(circle at 50% 75%,#ffe39a,#f5a457 60%,#c96a32);box-shadow:0 0 30px 10px #ffb45a8c}
+.lw{font-family:"LXGW WenKai TC","Noto Serif CJK TC",serif;font-weight:bold;color:#7a2a10;font-size:clamp(13px,calc(2.4*var(--u)),19px);line-height:1.25;text-align:center;max-height:100%;max-width:100%;word-break:break-word;clip-path:inset(0 0 100% 0);transition:clip-path .7s linear}
+.lw.v{writing-mode:vertical-rl;letter-spacing:.06em;line-height:1.35}
+.lw.on{clip-path:inset(0)}
+.lsky.up .sl{transform:translateY(calc(-62*var(--u))) scale(.7)}
+.lsky.up .sl.me{transform:translateY(calc(-30*var(--u))) scale(.6)}
+.lph{position:absolute!important;left:5%;right:5%;top:calc(env(safe-area-inset-top) + 7*var(--u));opacity:0;transition:opacity .5s;z-index:2}
+.lph.on{opacity:1}
+.photo{width:calc(30*var(--u));aspect-ratio:4/3;border-radius:8px;background:linear-gradient(#1b2340,#4a3550 75%,#5a3f3a);position:relative;overflow:hidden;margin-top:4px}
+.photo u{position:absolute;width:8%;aspect-ratio:3/4;border-radius:40% 40% 18% 18%;background:#f5a457;box-shadow:0 0 6px 2px #ffaa5099}
+.photo u.me{width:13%}.photo u.off{background:#6d6670;box-shadow:none}
+.lcon{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;border-top:1px dashed #b9ad9c;padding-top:8px;font-size:clamp(14px,calc(2.37*var(--u)),18px);line-height:1.35;opacity:0;transition:opacity .6s}
+.lcon.on{opacity:1}.lcon i{font-style:normal;color:#8a8080;font-size:.8em;padding-top:.2em;white-space:nowrap}.lcon b{word-break:break-word}
 </style>
 </head>
 <body>
 <div id="bd"></div>
 <div id="stage"><button id="lang" class="lang">EN</button><div id="deck"></div></div>
-<script>document.write('<script src="data.js?v=20261028c&t='+Date.now()+'"><\/script>')</script>
+<script>document.write('<script src="data.js?v=20261028d&t='+Date.now()+'"><\/script>')</script>
 <script>
 // Baby or Bust — 我們這一班. One screen per beat; written during the Meta hackathon (2026-10-27). Spec: docs/spec/.
-const V='20261028c';if(!DATA.group&&!/reload=/.test(location.search))location.replace(location.pathname+'?reload='+Date.now());
+const V='20261028d';if(!(DATA.group&&DATA.lantern)&&!/reload=/.test(location.search))location.replace(location.pathname+'?reload='+Date.now());
 const bust=h=>h.replace(/(img\/\w+\.webp)/g,'$1?v='+V);
 const N=DATA.nodes,U=DATA.ui;let L=0;
 const tx=a=>Array.isArray(a)?(a[L]||a[0]):(a||'');
@@ -176,14 +201,14 @@ function tapNext(scr,label){const t=document.createElement('div');t.className='t
 function forward(){if(H.i<H.list.length-1)go(H.i+1);else if(H.next&&!H.locked)H.next()}
 function back(){if(H.i>0)go(H.i-1)}
 const cur=()=>H.list[H.i];
-deck.addEventListener('click',e=>{const wl=e.target.closest('.wall');if(e.target.closest('button')||(wl&&!wl.classList.contains('done')))return;forward()});
-let ty=null;deck.addEventListener('pointerdown',e=>{ty=e.clientY});
+deck.addEventListener('click',e=>{const wl=e.target.closest('.wall');if(e.target.closest('button,input')||(wl&&!wl.classList.contains('done')))return;forward()});
+let ty=null;deck.addEventListener('pointerdown',e=>{ty=e.target.closest('input')?null:e.clientY});
 deck.addEventListener('pointerup',e=>{if(ty===null)return;const dy=e.clientY-ty;ty=null;if(cur()&&cur().classList.contains('wall')&&!cur().classList.contains('done'))return;
   if(dy>50)back();else if(dy<-50)forward()});
 let wheelT=0;addEventListener('wheel',e=>{const now=Date.now();if(now-wheelT<600||Math.abs(e.deltaY)<20)return;wheelT=now;
   const c=cur();if(c&&c.classList.contains('wall')&&!c.classList.contains('done'))return;
   e.deltaY>0?forward():back()},{passive:true});
-addEventListener('keydown',e=>{const c=cur();const live=c&&c.classList.contains('wall')&&!c.classList.contains('done');
+addEventListener('keydown',e=>{if(e.target&&e.target.tagName==='INPUT')return;const c=cur();const live=c&&c.classList.contains('wall')&&!c.classList.contains('done');
   if(live){if(e.key==='ArrowUp'||e.key==='1')c.pick('U');else if(e.key==='ArrowDown'||e.key==='2')c.pick('D');else if(e.key==='Enter'||e.key===' '){e.preventDefault();c.commit&&c.commit()}return}
   if(['ArrowDown','PageDown',' ','Enter','ArrowRight'].includes(e.key)){e.preventDefault();forward()}else if(['ArrowUp','PageUp','ArrowLeft'].includes(e.key))back()});
 // ---------- helpers ----------
@@ -325,22 +350,62 @@ async function publish(w,n,h,s){
   if(S.babies.includes(S.step)){S.baby++;let j=S.baby-2,bw,z;for(let t=0;t<DATA.babies.length;t++){bw=DATA.babies[(j+t)%DATA.babies.length];z=Object.keys(DATA.slug).find(q=>DATA.slug[q]===bw);if(!S.gone.includes(z))break}S.pendingBaby={n:S.baby,bw,z}}
   S.node=n.next[h];year();
 }
+// ---------- L1 lantern beat (2026-10-28): the player writes Lao Yan's lantern; local only, no AI ----------
+const CJK=/[\u2E80-\u9FFF\uF900-\uFAFF\uFF00-\uFFEF\u3000-\u303F\uAC00-\uD7AF]/;
+const lw=s=>[...s].reduce((n,c)=>n+(CJK.test(c)?1:.5),0);
+function lclip(s){let o='',n=0;for(const c of s){const d=CJK.test(c)?1:.5;if(n+d>12)break;o+=c;n+=d}return o}
+const esc=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function lmask(s){const LT=DATA.lantern,blk=m=>'▇'.repeat([...m].length);
+  return s.replace(new RegExp(LT.prof_zh,'g'),(m,o,str)=>m==='幹'&&('能才骨主樹'.includes(str[o-1]||'\0')||'嘛部活練勁事麼線'.includes(str[o+1]||'\0'))?m:blk(m)).replace(new RegExp(LT.prof_en,'gi'),blk)}
+function lanternInput(wb){const LU=DATA.lantern.ui;
+  wb.innerHTML='<i>'+nm('老顏')+'</i><div class="lin"><input type="text" enterkeyhint="done" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="'+esc(tx(LU.ph))+'"><button type="button">'+tx(LU.go)+'</button></div><small class="lcnt">0/12</small>';
+  const inp=wb.querySelector('input'),btn=wb.querySelector('button'),cnt=wb.querySelector('.lcnt');let comp=false;
+  const upd=()=>{if(!comp){const c=lclip(inp.value);if(c!==inp.value)inp.value=c}cnt.textContent=Math.ceil(lw(inp.value))+'/12'};
+  let pend=null;inp.addEventListener('compositionstart',()=>comp=true);inp.addEventListener('compositionend',()=>{comp=false;upd();if(pend)setTimeout(pend,0)});inp.addEventListener('input',upd);
+  if(matchMedia('(pointer:fine)').matches)inp.focus({preventScroll:true});
+  return new Promise(r=>{let done=false;const go=()=>{if(done)return;if(comp){pend=go;return}done=true;const v=lclip(inp.value.trim());inp.blur();inp.disabled=btn.disabled=true;r(v)};
+    btn.onclick=e=>{e.stopPropagation();go()};
+    inp.addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter'&&!e.isComposing&&e.keyCode!==229){e.preventDefault();go()}})})}
+function lreply(raw,w){const LT=DATA.lantern,t=raw.trim(),pres=m=>m!=='老顏'&&!S.gone.includes(m),line=k=>esc(tx(LT.lines[k])).split('{w}').join(esc(w));
+  for(const [k,zh,en,who] of LT.rules){
+    if(k==='prof'){if(!t||w!==t){const x=who.find(pres)||'佩珊';return [x,line(k+'_'+x)]}continue}
+    if(k==='name'){let best=null,bi=1e9;for(const m of DATA.class_){if(!pres(m))continue;const mm=t.match(new RegExp(m+'|'+LT.names_en[m],'i'));if(mm&&mm.index<bi){bi=mm.index;best=m}}
+      if(best)return [best,line('name_'+best)];continue}
+    if(k!=='other'&&!(new RegExp(zh).test(t)||new RegExp(en,'i').test(t)))continue;
+    const x=who.find(pres)||'佩珊';return [x,line(LT.lines[k+'_'+x]?k+'_'+x:k+'_佩珊')]}}
+async function lanternBeat(raw){const LT=DATA.lantern,LU=LT.ui,w=lmask(raw.trim()),mates=DATA.class_.filter(m=>m!=='老顏');
+  const fin=S.path.find(q=>N[q.node].final)||{node:'y2026',side:'D'},poster=tx(N[fin.node][fin.side].h1); // the 2026 poster the player actually kept
+  const POS=[[6,14],[40,7],[74,15],[10,31],[72,33]],DOT=[[10,30],[30,14],[50,34],[68,16],[84,36]];
+  const p=screen('lt','<img class="full" src="img/pingxi_2026.webp" alt=""><div class="lsky">'+mates.map((m,i)=>'<div class="sl'+(S.gone.includes(m)?' off':'')+'" style="left:'+POS[i][0]+'%;top:'+POS[i][1]+'%"><b></b><span>'+nm(m)+'</span></div>').join('')+
+    '<div class="sl me"><b><div class="lw'+(/[\u2E80-\u9FFF\uF900-\uFAFF\uAC00-\uD7AF]/.test(w)?' v':'')+'"></div></b><span>'+nm('老顏')+'</span></div></div>'+
+    '<div class="phone lph"><div class="ph">'+tx(DATA.v5.grp)+(L?' (':'（')+(6-S.gone.length)+(L?')':'）')+'</div><div class="bub" data-w="佩珊"><i>'+tagOf('佩珊')+'</i><div class="photo">'+
+    mates.map((m,i)=>'<u class="'+(S.gone.includes(m)?'off':'')+'" style="left:'+DOT[i][0]+'%;top:'+DOT[i][1]+'%"></u>').join('')+'<u class="me" style="left:44%;top:56%"></u></div></div></div><div class="spacer"></div>',{bg:'img/pingxi_2026.webp'});
+  H.locked=true;const t0=Date.now(),at=ms=>wait(Math.max(0,ms-(Date.now()-t0)));
+  const lwd=p.querySelector('.lw');lwd.textContent=w;await wait(60);lwd.classList.add('on'); // 0–0.8 the words go on the lantern
+  await at(800);p.querySelector('.sl.me').classList.add('lit');             // 0.8 light
+  await at(1400);p.querySelector('.lsky').classList.add('up');              // 1.4–3.6 rise with the others; gone classmates' lanterns stay dark
+  await at(3600);p.querySelector('.lsky').classList.add('dim');p.querySelector('.lph').classList.add('on'); // 3.6 phone: Peishan posts the photo
+  await at(5000);const [who,txt]=lreply(raw,w),ph=p.querySelector('.lph');
+  ph.insertAdjacentHTML('beforeend','<div class="bub lrep" data-w="'+who+'"><i>'+tagOf(who)+'</i>'+txt+'</div>');await wait(900);
+  ph.insertAdjacentHTML('beforeend','<div class="lcon"><i>'+tx(LU.on)+'</i><b class="hand"></b><i>'+tx(LU.poster)+'</i><b class="lpo"></b></div>');
+  const lc=ph.querySelector('.lcon');lc.children[1].textContent=w||tx(LU.blank);lc.children[3].textContent=poster;await wait(30);lc.classList.add('on');
+  S.lantern={w,who,ms:Date.now()-t0};await wait(700);H.locked=false;await tapNext(p)}
 // ---------- reunion ----------
 function rkey(m){return m+'|'+S.cutIn[m].slice(0,2).sort().join(',')} // 志豪 etc: only the first two cuts have a key
 async function reunion(){
   const V=DATA.v5,gray=m=>(m==='老顏'&&S.laoyanGray)||(m==='佩珊'&&S.peishanGray);
   const ph=screen('','<img class="full" src="img/pingxi_2026.webp" alt=""><div class="ttl hand">'+tx(V.reu26)+'</div><div class="wish hand l26"></div>'+
     '<div class="lan">'+DATA.class_.map(m=>'<div class="mate'+(S.gone.includes(m)?' empty':gray(m)?' g':'')+'" data-m="'+m+'"><div class="lamp"'+(S.gone.includes(m)?' style="opacity:.25;filter:grayscale(1);transform:translateY(40%)"':'')+'>'+nm(m)+'</div><img src="img/fb_'+DATA.slug[m]+'.webp" alt=""><span>'+nm(m)+'</span></div>').join('')+'</div>',{bg:'img/pingxi_2026.webp'});
-  const wb=ph.querySelector('.wish');H.locked=true;await wait(1200);
+  const wb=ph.querySelector('.wish');H.locked=true;await wait(1200);let wish='';
   for(const m of DATA.class_){const el=ph.querySelector('[data-m="'+m+'"]');let t;
     if(S.gone.includes(m)){wb.style.filter='grayscale(1)';wb.style.opacity=.7;wb.innerHTML='<i>'+nm(m)+'　'+tx(V.left26)+'</i>'+tx(DATA.wish[m]);await wait(1500);wb.style.filter='';wb.style.opacity='';continue}
-    if(m==='老顏'){const i=S.self>=3?2:(S.self+(S.laoyanGray?1:0))>=1?1:0;t=DATA.lao26[i][0]?tx(DATA.lao26[i]):tx(V.blank)}
-    else t=tx(DATA.wish26[m][(m==='佩珊'?S.peishanGray:(S.hurt[m]||0)>0)?1:0]);
+    if(m==='老顏'){el.classList.add('seen');wish=await lanternInput(wb);continue} // L1: the player writes Lao Yan's lantern
+    t=tx(DATA.wish26[m][(m==='佩珊'?S.peishanGray:(S.hurt[m]||0)>0)?1:0]);
     el.classList.add('seen');wb.innerHTML='<i>'+nm(m)+'</i>'+t;await wait(2300)}
-  ph.querySelector('.lan').classList.add('fly');await wait(2200);
+  await lanternBeat(wish);
   const g=S.gone.length,v=g>=2?'gone':(S.self>=3&&!g?'self':'mix');
-  wb.innerHTML='<b>'+tx(DATA.verdict[v])+'</b><br><small>'+tx(V.kids26).replace('{n}',S.baby)+(S.self?'　'+tx(V.redo).replace('{n}',S.self):'')+'</small>';
-  H.locked=false;await tapNext(ph);
+  const vs=screen('','<img class="full" src="img/pingxi_2026.webp" alt=""><div class="spacer"></div><div class="wish hand l26"><b>'+tx(DATA.verdict[v])+'</b><br><small>'+tx(V.kids26).replace('{n}',S.baby)+(S.self?'　'+tx(V.redo).replace('{n}',S.self):'')+'</small></div><div class="spacer"></div>',{bg:'img/pingxi_2026.webp'});
+  H.locked=false;await tapNext(vs);
   const dms=[...S.gone,...DATA.class_.filter(m=>m!=='老顏'&&!S.gone.includes(m)&&(S.hurt[m]||0)===1)];
   for(const m of dms){const r=DATA.reunion[rkey(m)];if(!r||!r.line[0])continue;const cold=S.gone.includes(m);const Q=['家豪','志豪'].includes(m)?U.q:(U.qf||U.q);
     const p=screen('','<div class="who"><img src="img/fb_'+DATA.slug[m]+'.webp" alt=""><b>'+tagOf(m)+'</b></div><div class="chat dmc" style="-webkit-mask:none;mask:none;justify-content:flex-start">'+bubHTML(m,r.line,cold)+'</div><div class="qs">'+Q.map((q,i)=>'<button data-i="'+i+'">'+tx(q)+'</button>').join('')+'</div>');
