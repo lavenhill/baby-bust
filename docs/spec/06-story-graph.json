@@ -54,7 +54,7 @@
    "ask": [
     {
      "zh": "準公共上路，家長月付不到 4,500。部長下週記者會，要家長的笑臉。",
-     "en": "Quasi-public starts, parents pay under 4,500/month. Minister's presser next week, need smiling parents."
+     "en": "Subsidized private preschools launch, parents pay under 4,500/month. Minister’s presser next week, need smiling parents."
     },
     {
      "zh": "宣傳圖畫付得起的家長，還是撐不住的私幼？",
@@ -109,7 +109,7 @@
      "id": "y2018.g1",
      "who": "阿芳",
      "zh": "中了！月付四千五，婆婆叫我快回去上班",
-     "en": "Got in! 4,500 a month, MIL says get back to work now",
+     "en": "Got in! 4,500 a month, mother-in-law says go back to work",
      "visible_if": {
       "present": [
        "阿芳"
@@ -146,7 +146,7 @@
      "id": "y2018.g4",
      "who": "家豪",
      "zh": "家長拿傳單問我憑什麼收一萬",
-     "en": "Parent waved the flyer at me: why charge 10k?",
+     "en": "Parent waved the flyer: why charge 10,000?",
      "visible_if": {
       "present": [
        "家豪"
@@ -158,7 +158,7 @@
      "id": "y2018.g5",
      "who": "宜君",
      "zh": "別吵啦，我兩萬六誰來幫我QQ",
-     "en": "Stop fighting, who's gonna help me on 26k QQ",
+     "en": "Stop fighting, who helps me on 26,000?",
      "visible_if": {
       "present": [
        "宜君"
@@ -170,7 +170,7 @@
      "id": "y2018.g6",
      "who": "志豪",
      "zh": "我還在加班，你們先別吵啦",
-     "en": "Still on OT, you guys stop fighting pls",
+     "en": "Still working overtime, stop fighting please",
      "visible_if": {
       "present": [
        "志豪"
@@ -239,7 +239,7 @@
    "ask": [
     {
      "zh": "今年要多兩百家掛準公共，數字不夠，上面會問。",
-     "en": "Need 200 more quasi-public centers this year. Numbers are short, higher-ups will ask."
+     "en": "Need 200 more private preschools on the subsidy plan this year. Numbers are short, higher-ups will ask."
     },
     {
      "zh": "畫私幼轉型成功，還是老師的薪水？",
@@ -255,7 +255,7 @@
     },
     "h1": {
      "zh": "準公共 好安心",
-     "en": "Quasi-Public, Total Peace of Mind"
+     "en": "Subsidized Preschool, Peace of Mind"
     },
     "sub": {
      "zh": "私幼加入 平價又優質",
@@ -265,14 +265,14 @@
      "zh": "表格填到半夜兩點",
      "en": "Filling out forms till 2am"
     },
-    "h1s": "Quasi-Public, No Worries"
+    "h1s": "Subsidized, No Worries"
    },
    "D": {
     "who": "宜君",
     "named": true,
     "tag": {
      "zh": "教保員",
-     "en": "preschool caregiver"
+     "en": "preschool teacher"
     },
     "h1": {
      "zh": "老師的薪水 國家顧",
@@ -280,7 +280,7 @@
     },
     "sub": {
      "zh": "教保員加薪 留住好老師",
-     "en": "Higher Pay for Educators, Keep Good Teachers"
+     "en": "Better Pay Keeps Preschool Teachers"
     },
     "aside": {
      "zh": "媽媽問我要不要轉行",
@@ -294,7 +294,7 @@
      "id": "y2019a.g1",
      "who": "家豪",
      "zh": "我家新招牌掛上了，超亮快來拍",
-     "en": "Our new sign is up, super bright come take pics",
+     "en": "Our new sign is up, super bright come shoot",
      "visible_if": {
       "present": [
        "家豪"
@@ -306,7 +306,7 @@
      "id": "y2019a.g2",
      "who": "宜君",
      "zh": "園長大人，說好的兩萬九呢？",
-     "en": "Mr. Director, where’s the 29k you promised?",
+     "en": "Director, where's the 29,000 you promised?",
      "visible_if": {
       "present": [
        "宜君",
@@ -332,7 +332,7 @@
      "id": "y2019a.g4",
      "who": "宜君",
      "zh": "笑死，我實拿兩萬六",
-     "en": "lol, I actually take home 26k",
+     "en": "Haha, I take home 26,000",
      "visible_if": {
       "present": [
        "宜君",
@@ -345,7 +345,7 @@
      "id": "y2019a.g5",
      "who": "阿芳",
      "zh": "私訊吵啦，我還在等公幼欸",
-     "en": "Take it to DMs, I'm still waiting on public preschool",
+     "en": "Talk in private, I'm still waiting for public preschool",
      "visible_if": {
       "present": [
        "阿芳",
@@ -359,7 +359,7 @@
      "id": "y2019a.g6",
      "who": "志豪",
      "zh": "家豪請吃飯啦，我加班先閃",
-     "en": "Jiahao's treating, I'm on OT gotta run",
+     "en": "Kevin's treat, still on overtime, bye",
      "visible_if": {
       "present": [
        "志豪",
@@ -396,7 +396,7 @@
       "who": "宜君",
       "time": "",
       "zh": "笑死，共體時艱，我實拿還是兩萬六QQ",
-      "en": "lol, share the hardship, my take-home is still 26,000 :(",
+      "en": "Haha, share the hardship, I still take home 26,000",
       "visible_if": {
        "present": []
       }
@@ -431,11 +431,11 @@
    "ask": [
     {
      "zh": "公幼抽籤的放榜日。政院說四年增 2,247 班，今年要拍抽中的笑臉。",
-     "en": "Public preschool lottery day. The Cabinet promised 2,247 new classes in four years. This year we shoot the winners’ smiles."
+     "en": "Lottery day for cheap public preschools. The Cabinet promised 2,247 new classes in four years. This year we shoot the winners’ smiles."
     },
     {
      "zh": "畫抽中的家長，還是沒抽到的？",
-     "en": "Draw the parents who got in, or the ones who didn't?"
+     "en": "Draw parents who won the lottery, or who didn't?"
     }
    ],
    "U": {
@@ -452,11 +452,11 @@
     },
     "aside": {
      "zh": "老二明年還要再抽",
-     "en": "Second one has to lottery again next year"
+     "en": "Second kid needs the lottery again next year"
     },
     "whoE": {
      "zh": "佩珊的姊姊",
-     "en": "Peishan's sister"
+     "en": "Penny's sister"
     },
     "h1s": "More Public Seats"
    },
@@ -551,7 +551,7 @@
      "id": "y2019b.g6",
      "who": "宜君",
      "zh": "阿芳抱一個🫂",
-     "en": "Hug for A-Fang 🫂",
+     "en": "Hug for Amy 🫂",
      "visible_if": {
       "present": [
        "宜君",
@@ -621,7 +621,7 @@
    "ask": [
     {
      "zh": "全國停課，照顧假准請但不給薪。現在要的是安心，不是問題。",
-     "en": "Schools closed nationwide, care leave approved but unpaid. We need calm right now, not problems."
+     "en": "Schools closed nationwide, pandemic childcare leave approved but unpaid. We need calm right now, not problems."
     },
     {
      "zh": "畫在家陪孩子的媽媽，還是幫忙代班的同事？",
@@ -641,7 +641,7 @@
     },
     "sub": {
      "zh": "防疫照顧假 安心陪伴",
-     "en": "Epidemic Care Leave, Peace-of-Mind Time Together"
+     "en": "Pandemic Childcare Leave, Time Together"
     },
     "aside": {
      "zh": "白天開視訊，晚上補工作",
@@ -765,7 +765,7 @@
       "who": "佩珊",
       "time": "",
       "zh": "志豪他們經理把海報貼茶水間啦",
-      "en": "Zhihao's manager stuck the poster in the pantry",
+      "en": "Jason's manager stuck the poster in the pantry",
       "visible_if": {
        "present": [
         "佩珊"
@@ -811,7 +811,7 @@
    "ask": [
     {
      "zh": "300 億租金補貼，育兒家庭最高 1.8 倍。年底前要看到有感。",
-     "en": "$30B rent subsidy, up to 1.8x for families with kids. Must feel real by year-end."
+     "en": "NT$30 billion rent subsidy, up to 1.8x for families. Must feel real by year-end."
     },
     {
      "zh": "畫領到補貼的家庭，還是被漲租的人？",
@@ -878,7 +878,7 @@
      "id": "y2022c.g2",
      "who": "志豪",
      "zh": "房東說大家都有領，下期漲五百剛好",
-     "en": "Landlord says everyone's getting it, +500 next term",
+     "en": "Landlord says everyone gets it, rent up 500 next time",
      "visible_if": {
       "present": [
        "志豪"
@@ -928,7 +928,7 @@
      "id": "y2022c.g6",
      "who": "佩珊",
      "zh": "志豪去抽社宅，我也想抽了啦",
-     "en": "Zhihao's applying for social housing, I wanna too",
+     "en": "Jason's in the public housing lottery, I want in too",
      "visible_if": {
       "present": [
        "佩珊",
@@ -956,7 +956,7 @@
       "who": "佩珊",
       "time": "",
       "zh": "志豪你房東那邊還好嗎啦",
-      "en": "Zhihao, how are things with your landlord?",
+      "en": "Jason, how are things with your landlord?",
       "visible_if": {
        "present": [
         "佩珊"
@@ -999,7 +999,7 @@
     },
     {
      "zh": "畫領津貼在家的媽媽，還是想回去上班的媽媽？",
-     "en": "Draw the mom home on allowance, or the mom who wants to go back to work?"
+     "en": "Draw the mom home on childcare allowance, or back to work?"
     }
    ],
    "U": {
@@ -1050,7 +1050,7 @@
      "id": "y2022d.g1",
      "who": "阿芳",
      "zh": "五千入帳了，在家帶也好",
-     "en": "5k received, staying home to raise them is fine",
+     "en": "5,000 received, staying home is fine",
      "visible_if": {
       "present": [
        "阿芳"
@@ -1075,7 +1075,7 @@
      "id": "y2022d.g3",
      "who": "阿芳",
      "zh": "留停快到了，公司在問了欸。孩子誰顧？",
-     "en": "Parental leave ending soon, company's asking. Who watches the kid?",
+     "en": "Unpaid parental leave ending soon, company's asking. Who watches the kid?",
      "visible_if": {
       "present": [
        "阿芳"
@@ -1087,7 +1087,7 @@
      "id": "y2022d.g4",
      "who": "志豪",
      "zh": "懂欸，我加班也不知道在拚什麼",
-     "en": "Feel you, I do OT and don't even know why",
+     "en": "Feel you, I work overtime and don't know why",
      "visible_if": {
       "present": [
        "志豪",
@@ -1149,7 +1149,7 @@
       "who": "阿芳",
       "time": "",
       "zh": "在家顧也有五千，空白兩年要我怎麼解釋經歷😝",
-      "en": "Staying home to watch them still gets 5,000, how do I explain two blank years on my resume 😝",
+      "en": "Staying home still gets 5,000 childcare allowance, how do I explain two blank years 😝",
       "visible_if": {
        "present": []
       }
@@ -1169,7 +1169,7 @@
       "who": "佩珊",
       "time": "",
       "zh": "阿芳好久沒傳訊息到群組了……",
-      "en": "A-Fang hasn't messaged the group in a long time...",
+      "en": "Amy hasn't messaged the group in a long time...",
       "visible_if": {
        "present": [
         "佩珊"
@@ -1180,7 +1180,7 @@
       "who": "阿芳",
       "time": "",
       "zh": "人資說在家顧也有五千，空白那兩年的事，我不想再對任何人解釋一遍",
-      "en": "HR said staying home to watch the kids still gets 5,000, I don't want to explain those two blank years to anyone again",
+      "en": "HR said staying home still gets 5,000 childcare allowance, I don't want to explain those blank years again",
       "visible_if": {
        "present": []
       }
@@ -1204,7 +1204,7 @@
    "ask": [
     {
      "zh": "國家一起養 2.0，公幼延托到傍晚。這是今年的主軸。",
-     "en": "National Childcare 2.0, public preschool care till evening. That's this year's theme."
+     "en": "National Childcare 2.0, public preschool after-hours care. This year's theme."
     },
     {
      "zh": "畫準時接孩子的家長，還是留到六點半的老師？",
@@ -1224,7 +1224,7 @@
     },
     "sub": {
      "zh": "延托到傍晚 下班不用趕",
-     "en": "Extended Care Till Evening, No Rush After Work"
+     "en": "After-Hours Care Till Evening, No Rush"
     },
     "aside": {
      "zh": "還是要先衝出公司",
@@ -1245,7 +1245,7 @@
     },
     "sub": {
      "zh": "延托增人力 老師不過勞",
-     "en": "More Staff for Extended Care, No Teacher Burnout"
+     "en": "More Staff for After-Hours Care, No Burnout"
     },
     "aside": {
      "zh": "水壺整天沒空去裝",
@@ -1259,7 +1259,7 @@
      "id": "y2024.g1",
      "who": "阿芳",
      "zh": "延托到六點，我終於接得到！謝謝宜君老師🙏",
-     "en": "Extended care til 6, I can finally pick up! Thanks Teacher Yijun 🙏",
+     "en": "After-hours care till 6, I can make pickup! Thanks Teacher Jessica 🙏",
      "visible_if": {
       "present": [
        "阿芳"
@@ -1348,7 +1348,7 @@
       "who": "宜君",
       "time": "",
       "zh": "家長傳延托到六點那張給我啦",
-      "en": "A parent sent me the “after-school care till 6” poster",
+      "en": "A parent sent me the after-hours care till 6 poster",
       "visible_if": {
        "present": []
       }
@@ -1357,7 +1357,7 @@
       "who": "宜君",
       "time": "",
       "zh": "笑死，說這本來就是老師該做的吧QQ",
-      "en": "lol, said this is just what teachers should do :(",
+      "en": "Haha, said this is just what teachers do",
       "visible_if": {
        "present": []
       }
@@ -1377,7 +1377,7 @@
       "who": "佩珊",
       "time": "",
       "zh": "宜君好久沒傳訊息到群組了……",
-      "en": "Yijun hasn't messaged the group in a long time...",
+      "en": "Jessica hasn't messaged the group in a long time...",
       "visible_if": {
        "present": [
         "佩珊"
@@ -1412,11 +1412,11 @@
    "ask": [
     {
      "zh": "台南教育局長在全國會議提案：公幼寒暑假，家長月付最多兩千。",
-     "en": "At the national meeting, Tainan’s education chief proposed it: public preschool over the breaks, NT$2,000 a month at most for parents."
+     "en": "At the national meeting, Tainan’s education chief proposed care during summer and winter break at public preschools, NT$2,000 a month at most."
     },
     {
-     "zh": "畫放心的家長，還是招不到暑期班的私幼？",
-     "en": "Draw relieved parents, or the private preschool that can’t fill its summer program?"
+     "zh": "畫放心的家長，還是沒有暑假的老師？",
+     "en": "Parents at ease, or teachers with no summer break?"
     }
    ],
    "U": {
@@ -1428,7 +1428,7 @@
     },
     "h1": {
      "zh": "寒暑假 照常收托",
-     "en": "Open as Usual Over School Breaks"
+     "en": "Break-Time Care as Usual"
     },
     "sub": {
      "zh": "全年不打烊 家長免煩惱",
@@ -1441,36 +1441,36 @@
     "h1s": "Open During Breaks"
    },
    "D": {
-    "who": "家豪",
+    "who": "宜君",
     "named": true,
     "tag": {
-     "zh": "私幼園長",
-     "en": "private preschool owner"
+     "zh": "公幼老師",
+     "en": "public preschool teacher"
     },
     "h1": {
-     "zh": "私幼一起顧",
-     "en": "Private Preschools Pitch In"
+     "zh": "老師也有寒暑假",
+     "en": "Teachers Need Breaks Too"
     },
     "sub": {
-     "zh": "暑假不打烊",
-     "en": "Open All Summer"
+     "zh": "休息充電 才能照顧更好",
+     "en": "Rest up to care better"
     },
     "aside": {
-     "zh": "暑期班傳單印一百張，報名三個",
-     "en": "Printed 100 summer program flyers. 3 sign-ups"
+     "zh": "桌上那張，是沖繩的退票單",
+     "en": "On the desk: a refund slip for Okinawa"
     },
-    "h1s": "Private Schools Help"
+    "h1s": "Teachers Need Breaks"
    },
-   "U_hurts": "家豪",
+   "U_hurts": "宜君",
    "group": [
     {
      "id": "y2025e.g1",
-     "who": "佩珊",
-     "zh": "剛看到公幼暑假也收托的消息欸",
-     "en": "Just saw the news: public preschools are staying open over the summer too",
+     "who": "阿芳",
+     "zh": "公幼暑假也有加托班了，老二有著落啦🙏",
+     "en": "Public preschool has break-time care now, my second is covered 🙏",
      "visible_if": {
       "present": [
-       "佩珊"
+       "阿芳"
       ],
       "absent": []
      }
@@ -1478,60 +1478,22 @@
     {
      "id": "y2025e.g2",
      "who": "阿芳",
-     "zh": "老二有著落了，我終於能喘一口氣🙏",
-     "en": "My youngest is sorted, I can finally breathe 🙏",
+     "zh": "群組裡好久沒有宜君的訊息了……",
+     "en": "Haven’t heard from Jessica here in ages...",
      "visible_if": {
       "present": [
-       "阿芳",
        "阿芳"
-      ],
-      "absent": []
-     }
-    },
-    {
-     "id": "y2025e.g3",
-     "who": "家豪",
-     "zh": "哈哈哈恭喜阿芳的老二，小太陽暑期班有好位置啦",
-     "en": "Hahaha congrats on your youngest, A-Fang! Little Sun’s summer program still has good spots",
-     "visible_if": {
-      "present": [
-       "家豪",
-       "阿芳"
-      ],
-      "absent": []
-     }
-    },
-    {
-     "id": "y2025e.g4",
-     "who": "家豪",
-     "zh": "哈哈哈好消息啊，小太陽暑期班還有好位置啦",
-     "en": "Hahaha good news! Little Sun’s summer program still has good spots",
-     "visible_if": {
-      "present": [
-       "家豪"
       ],
       "absent": [
-       "阿芳"
+       "宜君"
       ]
      }
     },
     {
-     "id": "y2025e.g5",
-     "who": "家豪",
-     "zh": "剛印好一百張傳單，兩個老師是最強陣容啦",
-     "en": "Just printed a hundred flyers, and my two teachers are a dream team",
-     "visible_if": {
-      "present": [
-       "家豪"
-      ],
-      "absent": []
-     }
-    },
-    {
-     "id": "y2025e.g6",
+     "id": "y2025e.g3",
      "who": "宜君",
-     "zh": "笑死又看到輪班表，我的沖繩又是白日夢QQ",
-     "en": "lol just saw the rotation schedule, Okinawa’s a daydream again QQ",
+     "zh": "笑死，我們園的加托班表排到八月底QQ",
+     "en": "LOL, our break-time care roster runs to late August QQ",
      "visible_if": {
       "present": [
        "宜君",
@@ -1541,10 +1503,49 @@
      }
     },
     {
+     "id": "y2025e.g4",
+     "who": "阿芳",
+     "zh": "欸……那妳的沖繩呢🙏",
+     "en": "Uh... what about your Okinawa trip then 🙏",
+     "visible_if": {
+      "present": [
+       "阿芳",
+       "宜君"
+      ],
+      "absent": []
+     }
+    },
+    {
+     "id": "y2025e.g5",
+     "who": "宜君",
+     "zh": "沖繩的機票，變成一張退票單啦",
+     "en": "My Okinawa tickets turned into a refund slip",
+     "visible_if": {
+      "present": [
+       "宜君",
+       "宜君"
+      ],
+      "absent": []
+     }
+    },
+    {
+     "id": "y2025e.g6",
+     "who": "佩珊",
+     "zh": "明年一起去沖繩，算我一份啦",
+     "en": "Count me in for Okinawa next year",
+     "visible_if": {
+      "present": [
+       "佩珊",
+       "宜君"
+      ],
+      "absent": []
+     }
+    },
+    {
      "id": "y2025e.g7",
      "who": "志豪",
-     "zh": "小太陽的暑期班一定超搶手啦",
-     "en": "Little Sun’s summer program must be packed",
+     "zh": "暑假？上班族沒有這兩個字啦",
+     "en": "Summer break? Office workers don’t get those words",
      "visible_if": {
       "present": [
        "志豪",
@@ -1552,26 +1553,12 @@
       ],
       "absent": []
      }
-    },
-    {
-     "id": "y2025e.g8",
-     "who": "佩珊",
-     "zh": "我幫家豪把傳單轉給同學們啦",
-     "en": "I’ll pass Jiahao’s flyers on to our classmates",
-     "visible_if": {
-      "present": [
-       "佩珊"
-      ],
-      "absent": [
-       "阿芳"
-      ]
-     }
     }
    ],
    "choices": {
     "U": {
      "promotes": "阿芳",
-     "harm": "家豪",
+     "harm": "宜君",
      "effect": "hurt[harm]+=1",
      "next": "y2026"
     },
@@ -1581,41 +1568,12 @@
     }
    },
    "group_after_U": {
-    "1": [
-     {
-      "who": "家豪",
-      "time": "",
-      "zh": "有家長拿公幼暑假也收那張來問暑期班的事啦",
-      "en": "A parent brought the “public preschools open all summer” poster to ask about my summer program",
-      "visible_if": {
-       "present": []
-      }
-     },
-     {
-      "who": "家豪",
-      "time": "",
-      "zh": "說那我暑期班幹嘛收那麼貴，哈哈哈",
-      "en": "Said then why does my summer program cost so much, hahaha",
-      "visible_if": {
-       "present": []
-      }
-     },
-     {
-      "who": "家豪",
-      "time": "",
-      "zh": "報名剩三個，兩個老師我先請她們回家休息到開學了",
-      "en": "Only three signed up. I’ve sent two teachers home until school starts",
-      "visible_if": {
-       "present": []
-      }
-     }
-    ],
     "2": [
      {
       "who": "阿芳",
       "time": "",
-      "zh": "暑假公幼也收，老二有地方可以去上課了🙏",
-      "en": "Public preschools take kids over the summer too, so my youngest has somewhere to go 🙏",
+      "zh": "公幼暑假有班，老二整個夏天都有著落🙏",
+      "en": "Public preschool is open all summer, my second is covered 🙏",
       "visible_if": {
        "present": [
         "阿芳"
@@ -1625,8 +1583,8 @@
      {
       "who": "佩珊",
       "time": "",
-      "zh": "家長拿那張問暑期班幹嘛那麼貴齁",
-      "en": "A parent used that poster to ask why the summer program costs so much, right?",
+      "zh": "宜君好久沒傳訊息到群組了……",
+      "en": "Jessica hasn't messaged the group in a long time...",
       "visible_if": {
        "present": [
         "佩珊"
@@ -1634,10 +1592,10 @@
       }
      },
      {
-      "who": "家豪",
-      "time": "",
-      "zh": "嗯，只剩三個，開不成，我先請兩個老師回家休息到開學了",
-      "en": "Yeah, only three left, so it can’t run. I’ve sent two teachers home until school starts",
+      "who": "宜君",
+      "time": "23:48",
+      "zh": "嗯，主任拿那張說暑假加托是今年的重點，沖繩只剩一張退票單",
+      "en": "Yeah. The director held up that poster: break-time care is this year's focus. Okinawa is down to a refund slip",
       "visible_if": {
        "present": []
       }
@@ -1646,8 +1604,8 @@
    },
    "news_after_U": null,
    "boss_D": {
-    "zh": "私幼的暑期班不是這次的主角。重做一張。",
-    "en": "A private preschool’s summer program isn’t the story this time. Make another one."
+    "zh": "老師休假不是亮點。重做一張。",
+    "en": "Teachers’ time off is not a highlight. Make another one."
    }
   },
   "y2025f": {
@@ -1661,7 +1619,7 @@
    "ask": [
     {
      "zh": "社宅婚育優先加碼。名單要見報。",
-     "en": "Extra priority for married parents in social housing. List goes public."
+     "en": "Extra priority for married parents in public housing. List goes public."
     },
     {
      "zh": "畫拿到鑰匙的夫妻，還是排在最後的人？",
@@ -1686,7 +1644,7 @@
     },
     "whoE": {
      "zh": "佩珊夫妻",
-     "en": "Peishan and her husband"
+     "en": "Penny and her husband"
     },
     "h1s": "We Back Families"
    },
@@ -1742,7 +1700,7 @@
      "id": "y2025f.g3",
      "who": "佩珊",
      "zh": "快求婚啦，有抽有希望嘛",
-     "en": "Propose already, gotta draw to have hope",
+     "en": "Propose soon, you need the lottery to have hope",
      "visible_if": {
       "present": [
        "佩珊",
@@ -1768,7 +1726,7 @@
      "id": "y2025f.g5",
      "who": "阿芳",
      "zh": "加油啦，小雯會等你的啦",
-     "en": "Jiayou, Xiaowen will wait for you",
+     "en": "You got this, Wendy will wait for you",
      "visible_if": {
       "present": [
        "阿芳",
@@ -1808,7 +1766,7 @@
       "who": "志豪",
       "time": "",
       "zh": "小雯媽媽拿有房子那張問我啦",
-      "en": "Xiaowen’s mom hit me with the own-a-home poster",
+      "en": "Wendy’s mom hit me with the own-a-home poster",
       "visible_if": {
        "present": []
       }
@@ -1817,7 +1775,7 @@
       "who": "志豪",
       "time": "",
       "zh": "說人家有房才敢生，你拿什麼娶小雯，哈哈",
-      "en": "She said people only dare to have kids once they own a home, so what are you marrying Xiaowen with, haha",
+      "en": "She said people only dare to have kids once they own a home, so what are you marrying Wendy with, haha",
       "visible_if": {
        "present": []
       }
@@ -1837,7 +1795,7 @@
       "who": "阿芳",
       "time": "",
       "zh": "志豪好久沒傳訊息到群組了……",
-      "en": "Zhihao hasn't messaged the group in a long time...",
+      "en": "Jason hasn't messaged the group in a long time...",
       "visible_if": {
        "present": [
         "阿芳"
@@ -1848,7 +1806,7 @@
       "who": "志豪",
       "time": "01:08",
       "zh": "小雯媽媽拿有房那張問我，人家有房才敢生，你拿什麼娶小雯。戒指我放回抽屜裡了。",
-      "en": "Xiaowen’s mom hit me with the own-a-home poster: people only dare to have kids once they own a home, so what are you marrying Xiaowen with. I put the ring back in the drawer.",
+      "en": "Wendy’s mom hit me with the own-a-home poster: people only dare to have kids once they own a home, so what are you marrying Wendy with. I put the ring back in the drawer.",
       "visible_if": {
        "present": []
       }
@@ -1869,11 +1827,11 @@
    "ask": [
     {
      "zh": "育嬰留停可以按日請了。",
-     "en": "Parental leave can now be taken by the day."
+     "en": "Unpaid parental leave can now be taken by the day."
     },
     {
      "zh": "這張妳自己裁：拍請假的佩珊，還是留下來的妳？",
-     "en": "You crop this one: Peishan taking leave, or you staying behind?"
+     "en": "You crop this one: Penny taking leave, or you staying behind?"
     }
    ],
    "U": {
@@ -1885,7 +1843,7 @@
     },
     "h1": {
      "zh": "按日請育嬰假",
-     "en": "Take parental leave by the day"
+     "en": "Unpaid parental leave by the day"
     },
     "sub": {
      "zh": "彈性陪伴 工作家庭兩相顧",
@@ -1910,7 +1868,7 @@
     },
     "sub": {
      "zh": "職務代理 一起撐",
-     "en": "Substitute Coverage, Holding the Line Together"
+     "en": "Covering for a Coworker, Together"
     },
     "aside": {
      "zh": "桌上有兩只戒指",
@@ -1928,7 +1886,7 @@
      "id": "y2026.g1",
      "who": "佩珊",
      "zh": "明天請育嬰留停一天，孩子打疫苗，不好意思",
-     "en": "Sorry, taking one day of parental leave tomorrow for my kid’s vaccination",
+     "en": "Sorry, taking one day of unpaid parental leave tomorrow for my kid's vaccination",
      "visible_if": {
       "present": [
        "佩珊"
@@ -1940,7 +1898,7 @@
      "id": "y2026.g2",
      "who": "佩珊",
      "zh": "顏座，我的案子先放妳那🙏",
-     "en": "Yan, holding my case with you pls 🙏",
+     "en": "Boss Vivian, please hold my case 🙏",
      "visible_if": {
       "present": [
        "佩珊"
@@ -1952,7 +1910,7 @@
      "id": "y2026.g3",
      "who": "阿芳",
      "zh": "真好，我當年只能一次請完",
-     "en": "Nice, back then I had to take it all at once",
+     "en": "Nice, I had to take all my parental leave at once",
      "visible_if": {
       "present": [
        "阿芳"
@@ -1964,7 +1922,7 @@
      "id": "y2026.g4",
      "who": "志豪",
      "zh": "老顏又要加班了吧",
-     "en": "Lao Yan's on OT again huh",
+     "en": "Vivian's on overtime again huh",
      "visible_if": {
       "present": [
        "志豪"
@@ -1976,7 +1934,7 @@
      "id": "y2026.g5",
      "who": "宜君",
      "zh": "老顏妳也要請假啊",
-     "en": "Lao Yan you should take leave too",
+     "en": "Vivian you should take leave too",
      "visible_if": {
       "present": [
        "宜君"
@@ -2008,7 +1966,7 @@
       "who": "佩珊",
       "time": "",
       "zh": "一天的育嬰留停被記在考績上了啦，真的不好意思",
-      "en": "That one day of parental leave got marked on my performance review, really sorry",
+      "en": "That one day of unpaid parental leave got marked on my performance review, really sorry",
       "visible_if": {
        "present": []
       }
@@ -2017,7 +1975,7 @@
       "who": "佩珊",
       "time": "",
       "zh": "老顏，我的案子先放在妳的桌上🙏",
-      "en": "Lao Yan, I’m leaving my case on your desk for now 🙏",
+      "en": "Vivian, I’m leaving my case on your desk for now 🙏",
       "visible_if": {
        "present": []
       }
@@ -2099,7 +2057,7 @@
     [
      "class",
      "阿芳|家豪|宜君|志豪|佩珊|大家|同學|群組|回來",
-     "a-?fang|jiahao|yijun|zhihao|peishan|everyone|classmate|group|come back",
+     "amy|kevin|jessica|jason|penny|a-?fang|jiahao|yijun|zhihao|peishan|everyone|classmate|group|come back",
      [
       "佩珊"
      ]
@@ -2123,11 +2081,11 @@
     ]
    ],
    "names_en": {
-    "阿芳": "a-?fang",
-    "家豪": "jiahao",
-    "宜君": "yijun",
-    "志豪": "zhihao",
-    "佩珊": "peishan"
+    "阿芳": "amy|a-?fang",
+    "家豪": "kevin|jiahao",
+    "宜君": "jessica|yijun",
+    "志豪": "jason|zhihao",
+    "佩珊": "penny|peishan"
    },
    "prof_zh": "幹|靠北|靠杯|白癡|白痴|去死|機掰|雞掰|智障|垃圾|廢物|操你|操他|腦殘|三小|淦|王八蛋|他媽的|媽的",
    "prof_en": "\\b(fuck\\w*|shit\\w*|damn\\w*|bitch\\w*|asshole\\w*|bastard\\w*|crap\\w*|wtf|dick\\w*|piss\\w*)\\b",
@@ -2154,7 +2112,7 @@
     ],
     "name_志豪": [
      "燈上有我的名字，照片我留給小雯。",
-     "My name's on the lantern. The photo goes to Xiaowen."
+     "My name's on the lantern. The photo goes to Wendy."
     ],
     "name_佩珊": [
      "燈上有我的名字，這次妳的案子放我這邊，不好意思",
@@ -2206,13 +2164,13 @@
     ],
     "other_佩珊": [
      "老顏的燈飛最高，不好意思",
-     "Lao Yan's lantern is flying the highest, sorry"
+     "Vivian's lantern is flying the highest, sorry"
     ]
    },
    "ui": {
     "ph": [
      "寫在老顏的燈上",
-     "Write on Lao Yan's lantern"
+     "Write on Vivian's lantern"
     ],
     "go": [
      "放！",
@@ -2256,11 +2214,11 @@
    "宜君": [
     [
      "三萬二。今年暑假帶媽去沖繩，只請到三天。",
-     "32k. Taking Mom to Okinawa this summer, only got 3 days off."
+     "32,000. Taking Mom to Okinawa this summer, only got 3 days off."
     ],
     [
      "三萬了。沖繩，明年一定。",
-     "30k. Okinawa, next year for sure."
+     "30,000. Okinawa, next year for sure."
     ]
    ],
    "志豪": [
@@ -2270,7 +2228,7 @@
     ],
     [
      "還在存。小雯說她不急，我急。",
-     "Still saving. Xiaowen says she's not rushed, I am."
+     "Still saving. Wendy says she's not rushed, I am."
     ]
    ],
    "佩珊": [
@@ -2287,7 +2245,7 @@
   "wish2018": {
    "阿芳": [
     "小芋頭明年抽到公幼。我回事務所上班，三十五歲升主任。",
-    "Little Taro wins a public preschool spot next year. I go back to the firm and make manager by 35."
+    "Little Taro wins the lottery for a cheap public preschool next year. I go back to the firm and make manager by 35."
    ],
    "家豪": [
     "「小太陽」招生滿 60 個。爸寫的招牌要撐過第 30 年。",
@@ -2299,7 +2257,7 @@
    ],
    "志豪": [
     "九點前下班。存到 80 萬頭期款，買得起才敢跟小雯求婚。",
-    "Off work before 9. Save an 800k down payment, then I can finally propose to Xiaowen."
+    "Off work before 9. Save an 800k down payment, then I can finally propose to Wendy."
    ],
    "佩珊": [
     "三十歲前生第一個。請假不用跟任何人道歉。",
@@ -2315,16 +2273,15 @@
    "宜君|y2019a,y2024",
    "志豪|y2021,y2022c",
    "志豪|y2021,y2025f",
-   "家豪|y2018,y2025e",
    "阿芳|y2019b",
    "阿芳|y2022d",
    "宜君|y2019a",
    "宜君|y2024",
    "家豪|y2018",
-   "家豪|y2025e",
    "志豪|y2021",
    "志豪|y2025f",
-   "佩珊|y2026"
+   "佩珊|y2026",
+   "宜君|y2024,y2025e"
   ],
   "reunion_unreachable": []
  },
@@ -2332,19 +2289,17 @@
   "paths": 128,
   "verdict": {
    "gone": 12,
-   "mix": 58,
-   "self": 58
+   "mix": 66,
+   "self": 50
   },
   "gone_count": {
-   "3": 2,
-   "2": 10,
-   "1": 54,
-   "0": 62
+   "2": 12,
+   "1": 64,
+   "0": 52
   },
   "lantern_responder": {
    "prof": {
-    "佩珊": 16,
-    "家豪": 112
+    "家豪": 128
    },
    "name": {
     "被點名者": 128
@@ -2353,24 +2308,21 @@
     "佩珊": 128
    },
    "doc": {
-    "佩珊": 16,
-    "宜君": 112
+    "佩珊": 40,
+    "宜君": 88
    },
    "sleep": {
-    "佩珊": 16,
-    "家豪": 112
+    "家豪": 128
    },
    "sorry": {
-    "佩珊": 4,
-    "家豪": 36,
+    "家豪": 40,
     "志豪": 88
    },
    "class": {
     "佩珊": 128
    },
    "work": {
-    "佩珊": 16,
-    "家豪": 112
+    "家豪": 128
    },
    "other": {
     "佩珊": 128
@@ -2378,24 +2330,22 @@
   },
   "leaves_group": {
    "志豪": 40,
-   "宜君": 16,
-   "家豪": 16,
+   "宜君": 40,
    "阿芳": 8
   },
   "reunion_reach": {
    "志豪|y2021,y2022c": 32,
    "宜君|y2019a,y2024": 16,
-   "家豪|y2018,y2025e": 16,
+   "家豪|y2018": 64,
    "佩珊|y2026": 64,
-   "家豪|y2018": 48,
    "宜君|y2019a": 16,
    "志豪|y2021": 24,
    "志豪|y2021,y2025f": 8,
    "阿芳|y2022d": 24,
    "志豪|y2025f": 16,
-   "宜君|y2024": 48,
+   "宜君|y2024,y2025e": 24,
+   "宜君|y2024": 24,
    "阿芳|y2019b": 24,
-   "家豪|y2025e": 16,
    "阿芳|y2019b,y2022d": 8
   }
  },
@@ -2413,20 +2363,19 @@
    ],
    "gone": [
     "志豪",
-    "宜君",
-    "家豪"
+    "宜君"
    ],
    "self": 0,
    "verdict": "gone",
    "lantern": {
-    "prof": "佩珊",
+    "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
     "doc": "佩珊",
-    "sleep": "佩珊",
-    "sorry": "佩珊",
+    "sleep": "家豪",
+    "sorry": "家豪",
     "class": "佩珊",
-    "work": "佩珊",
+    "work": "家豪",
     "other": "佩珊"
    }
   },
@@ -2443,20 +2392,19 @@
    ],
    "gone": [
     "志豪",
-    "宜君",
-    "家豪"
+    "宜君"
    ],
    "self": 0,
    "verdict": "gone",
    "lantern": {
-    "prof": "佩珊",
+    "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
     "doc": "佩珊",
-    "sleep": "佩珊",
-    "sorry": "佩珊",
+    "sleep": "家豪",
+    "sorry": "家豪",
     "class": "佩珊",
-    "work": "佩珊",
+    "work": "家豪",
     "other": "佩珊"
    }
   },
@@ -2642,20 +2590,19 @@
     "y2026"
    ],
    "gone": [
-    "宜君",
-    "家豪"
+    "宜君"
    ],
    "self": 1,
-   "verdict": "gone",
+   "verdict": "mix",
    "lantern": {
-    "prof": "佩珊",
+    "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
     "doc": "佩珊",
-    "sleep": "佩珊",
+    "sleep": "家豪",
     "sorry": "志豪",
     "class": "佩珊",
-    "work": "佩珊",
+    "work": "家豪",
     "other": "佩珊"
    }
   },
@@ -2671,20 +2618,19 @@
     "y2026"
    ],
    "gone": [
-    "宜君",
-    "家豪"
+    "宜君"
    ],
    "self": 1,
-   "verdict": "gone",
+   "verdict": "mix",
    "lantern": {
-    "prof": "佩珊",
+    "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
     "doc": "佩珊",
-    "sleep": "佩珊",
+    "sleep": "家豪",
     "sorry": "志豪",
     "class": "佩珊",
-    "work": "佩珊",
+    "work": "家豪",
     "other": "佩珊"
    }
   },
@@ -2864,20 +2810,19 @@
     "y2026"
    ],
    "gone": [
-    "宜君",
-    "家豪"
+    "宜君"
    ],
    "self": 1,
-   "verdict": "gone",
+   "verdict": "mix",
    "lantern": {
-    "prof": "佩珊",
+    "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
     "doc": "佩珊",
-    "sleep": "佩珊",
+    "sleep": "家豪",
     "sorry": "志豪",
     "class": "佩珊",
-    "work": "佩珊",
+    "work": "家豪",
     "other": "佩珊"
    }
   },
@@ -2893,20 +2838,19 @@
     "y2026"
    ],
    "gone": [
-    "宜君",
-    "家豪"
+    "宜君"
    ],
    "self": 1,
-   "verdict": "gone",
+   "verdict": "mix",
    "lantern": {
-    "prof": "佩珊",
+    "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
     "doc": "佩珊",
-    "sleep": "佩珊",
+    "sleep": "家豪",
     "sorry": "志豪",
     "class": "佩珊",
-    "work": "佩珊",
+    "work": "家豪",
     "other": "佩珊"
    }
   },
@@ -3082,20 +3026,19 @@
     "y2026"
    ],
    "gone": [
-    "宜君",
-    "家豪"
+    "宜君"
    ],
    "self": 2,
-   "verdict": "gone",
+   "verdict": "mix",
    "lantern": {
-    "prof": "佩珊",
+    "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
     "doc": "佩珊",
-    "sleep": "佩珊",
+    "sleep": "家豪",
     "sorry": "志豪",
     "class": "佩珊",
-    "work": "佩珊",
+    "work": "家豪",
     "other": "佩珊"
    }
   },
@@ -3111,20 +3054,19 @@
     "y2026"
    ],
    "gone": [
-    "宜君",
-    "家豪"
+    "宜君"
    ],
    "self": 2,
-   "verdict": "gone",
+   "verdict": "mix",
    "lantern": {
-    "prof": "佩珊",
+    "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
     "doc": "佩珊",
-    "sleep": "佩珊",
+    "sleep": "家豪",
     "sorry": "志豪",
     "class": "佩珊",
-    "work": "佩珊",
+    "work": "家豪",
     "other": "佩珊"
    }
   },
@@ -3301,19 +3243,19 @@
    ],
    "gone": [
     "志豪",
-    "家豪"
+    "宜君"
    ],
    "self": 1,
    "verdict": "gone",
    "lantern": {
-    "prof": "佩珊",
+    "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
-    "doc": "宜君",
-    "sleep": "佩珊",
-    "sorry": "佩珊",
+    "doc": "佩珊",
+    "sleep": "家豪",
+    "sorry": "家豪",
     "class": "佩珊",
-    "work": "佩珊",
+    "work": "家豪",
     "other": "佩珊"
    }
   },
@@ -3330,19 +3272,19 @@
    ],
    "gone": [
     "志豪",
-    "家豪"
+    "宜君"
    ],
    "self": 1,
    "verdict": "gone",
    "lantern": {
-    "prof": "佩珊",
+    "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
-    "doc": "宜君",
-    "sleep": "佩珊",
-    "sorry": "佩珊",
+    "doc": "佩珊",
+    "sleep": "家豪",
+    "sorry": "家豪",
     "class": "佩珊",
-    "work": "佩珊",
+    "work": "家豪",
     "other": "佩珊"
    }
   },
@@ -3526,19 +3468,19 @@
     "y2026"
    ],
    "gone": [
-    "家豪"
+    "宜君"
    ],
    "self": 2,
    "verdict": "mix",
    "lantern": {
-    "prof": "佩珊",
+    "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
-    "doc": "宜君",
-    "sleep": "佩珊",
+    "doc": "佩珊",
+    "sleep": "家豪",
     "sorry": "志豪",
     "class": "佩珊",
-    "work": "佩珊",
+    "work": "家豪",
     "other": "佩珊"
    }
   },
@@ -3554,19 +3496,19 @@
     "y2026"
    ],
    "gone": [
-    "家豪"
+    "宜君"
    ],
    "self": 2,
    "verdict": "mix",
    "lantern": {
-    "prof": "佩珊",
+    "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
-    "doc": "宜君",
-    "sleep": "佩珊",
+    "doc": "佩珊",
+    "sleep": "家豪",
     "sorry": "志豪",
     "class": "佩珊",
-    "work": "佩珊",
+    "work": "家豪",
     "other": "佩珊"
    }
   },
@@ -3742,19 +3684,19 @@
     "y2026"
    ],
    "gone": [
-    "家豪"
+    "宜君"
    ],
    "self": 2,
    "verdict": "mix",
    "lantern": {
-    "prof": "佩珊",
+    "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
-    "doc": "宜君",
-    "sleep": "佩珊",
+    "doc": "佩珊",
+    "sleep": "家豪",
     "sorry": "志豪",
     "class": "佩珊",
-    "work": "佩珊",
+    "work": "家豪",
     "other": "佩珊"
    }
   },
@@ -3770,19 +3712,19 @@
     "y2026"
    ],
    "gone": [
-    "家豪"
+    "宜君"
    ],
    "self": 2,
    "verdict": "mix",
    "lantern": {
-    "prof": "佩珊",
+    "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
-    "doc": "宜君",
-    "sleep": "佩珊",
+    "doc": "佩珊",
+    "sleep": "家豪",
     "sorry": "志豪",
     "class": "佩珊",
-    "work": "佩珊",
+    "work": "家豪",
     "other": "佩珊"
    }
   },
@@ -3954,19 +3896,19 @@
     "y2026"
    ],
    "gone": [
-    "家豪"
+    "宜君"
    ],
    "self": 3,
    "verdict": "mix",
    "lantern": {
-    "prof": "佩珊",
+    "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
-    "doc": "宜君",
-    "sleep": "佩珊",
+    "doc": "佩珊",
+    "sleep": "家豪",
     "sorry": "志豪",
     "class": "佩珊",
-    "work": "佩珊",
+    "work": "家豪",
     "other": "佩珊"
    }
   },
@@ -3982,19 +3924,19 @@
     "y2026"
    ],
    "gone": [
-    "家豪"
+    "宜君"
    ],
    "self": 3,
    "verdict": "mix",
    "lantern": {
-    "prof": "佩珊",
+    "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
-    "doc": "宜君",
-    "sleep": "佩珊",
+    "doc": "佩珊",
+    "sleep": "家豪",
     "sorry": "志豪",
     "class": "佩珊",
-    "work": "佩珊",
+    "work": "家豪",
     "other": "佩珊"
    }
   },
@@ -4166,15 +4108,16 @@
     "y2026"
    ],
    "gone": [
-    "志豪"
+    "志豪",
+    "宜君"
    ],
    "self": 1,
-   "verdict": "mix",
+   "verdict": "gone",
    "lantern": {
     "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
-    "doc": "宜君",
+    "doc": "佩珊",
     "sleep": "家豪",
     "sorry": "家豪",
     "class": "佩珊",
@@ -4194,15 +4137,16 @@
     "y2026"
    ],
    "gone": [
-    "志豪"
+    "志豪",
+    "宜君"
    ],
    "self": 1,
-   "verdict": "mix",
+   "verdict": "gone",
    "lantern": {
     "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
-    "doc": "宜君",
+    "doc": "佩珊",
     "sleep": "家豪",
     "sorry": "家豪",
     "class": "佩珊",
@@ -4389,14 +4333,16 @@
     "y2025e",
     "y2026"
    ],
-   "gone": [],
+   "gone": [
+    "宜君"
+   ],
    "self": 2,
    "verdict": "mix",
    "lantern": {
     "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
-    "doc": "宜君",
+    "doc": "佩珊",
     "sleep": "家豪",
     "sorry": "志豪",
     "class": "佩珊",
@@ -4415,14 +4361,16 @@
     "y2025e",
     "y2026"
    ],
-   "gone": [],
+   "gone": [
+    "宜君"
+   ],
    "self": 2,
    "verdict": "mix",
    "lantern": {
     "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
-    "doc": "宜君",
+    "doc": "佩珊",
     "sleep": "家豪",
     "sorry": "志豪",
     "class": "佩珊",
@@ -4602,15 +4550,16 @@
     "y2026"
    ],
    "gone": [
-    "阿芳"
+    "阿芳",
+    "宜君"
    ],
    "self": 2,
-   "verdict": "mix",
+   "verdict": "gone",
    "lantern": {
     "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
-    "doc": "宜君",
+    "doc": "佩珊",
     "sleep": "家豪",
     "sorry": "志豪",
     "class": "佩珊",
@@ -4630,15 +4579,16 @@
     "y2026"
    ],
    "gone": [
-    "阿芳"
+    "阿芳",
+    "宜君"
    ],
    "self": 2,
-   "verdict": "mix",
+   "verdict": "gone",
    "lantern": {
     "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
-    "doc": "宜君",
+    "doc": "佩珊",
     "sleep": "家豪",
     "sorry": "志豪",
     "class": "佩珊",
@@ -4825,14 +4775,16 @@
     "y2025e",
     "y2026"
    ],
-   "gone": [],
+   "gone": [
+    "宜君"
+   ],
    "self": 3,
-   "verdict": "self",
+   "verdict": "mix",
    "lantern": {
     "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
-    "doc": "宜君",
+    "doc": "佩珊",
     "sleep": "家豪",
     "sorry": "志豪",
     "class": "佩珊",
@@ -4851,14 +4803,16 @@
     "y2025e",
     "y2026"
    ],
-   "gone": [],
+   "gone": [
+    "宜君"
+   ],
    "self": 3,
-   "verdict": "self",
+   "verdict": "mix",
    "lantern": {
     "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
-    "doc": "宜君",
+    "doc": "佩珊",
     "sleep": "家豪",
     "sorry": "志豪",
     "class": "佩珊",
@@ -5034,15 +4988,16 @@
     "y2026"
    ],
    "gone": [
-    "志豪"
+    "志豪",
+    "宜君"
    ],
    "self": 2,
-   "verdict": "mix",
+   "verdict": "gone",
    "lantern": {
     "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
-    "doc": "宜君",
+    "doc": "佩珊",
     "sleep": "家豪",
     "sorry": "家豪",
     "class": "佩珊",
@@ -5062,15 +5017,16 @@
     "y2026"
    ],
    "gone": [
-    "志豪"
+    "志豪",
+    "宜君"
    ],
    "self": 2,
-   "verdict": "mix",
+   "verdict": "gone",
    "lantern": {
     "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
-    "doc": "宜君",
+    "doc": "佩珊",
     "sleep": "家豪",
     "sorry": "家豪",
     "class": "佩珊",
@@ -5257,14 +5213,16 @@
     "y2025e",
     "y2026"
    ],
-   "gone": [],
+   "gone": [
+    "宜君"
+   ],
    "self": 3,
-   "verdict": "self",
+   "verdict": "mix",
    "lantern": {
     "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
-    "doc": "宜君",
+    "doc": "佩珊",
     "sleep": "家豪",
     "sorry": "志豪",
     "class": "佩珊",
@@ -5283,14 +5241,16 @@
     "y2025e",
     "y2026"
    ],
-   "gone": [],
+   "gone": [
+    "宜君"
+   ],
    "self": 3,
-   "verdict": "self",
+   "verdict": "mix",
    "lantern": {
     "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
-    "doc": "宜君",
+    "doc": "佩珊",
     "sleep": "家豪",
     "sorry": "志豪",
     "class": "佩珊",
@@ -5469,14 +5429,16 @@
     "y2025e",
     "y2026"
    ],
-   "gone": [],
+   "gone": [
+    "宜君"
+   ],
    "self": 3,
-   "verdict": "self",
+   "verdict": "mix",
    "lantern": {
     "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
-    "doc": "宜君",
+    "doc": "佩珊",
     "sleep": "家豪",
     "sorry": "志豪",
     "class": "佩珊",
@@ -5495,14 +5457,16 @@
     "y2025e",
     "y2026"
    ],
-   "gone": [],
+   "gone": [
+    "宜君"
+   ],
    "self": 3,
-   "verdict": "self",
+   "verdict": "mix",
    "lantern": {
     "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
-    "doc": "宜君",
+    "doc": "佩珊",
     "sleep": "家豪",
     "sorry": "志豪",
     "class": "佩珊",
@@ -5677,14 +5641,16 @@
     "y2025e",
     "y2026"
    ],
-   "gone": [],
+   "gone": [
+    "宜君"
+   ],
    "self": 4,
-   "verdict": "self",
+   "verdict": "mix",
    "lantern": {
     "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
-    "doc": "宜君",
+    "doc": "佩珊",
     "sleep": "家豪",
     "sorry": "志豪",
     "class": "佩珊",
@@ -5703,14 +5669,16 @@
     "y2025e",
     "y2026"
    ],
-   "gone": [],
+   "gone": [
+    "宜君"
+   ],
    "self": 4,
-   "verdict": "self",
+   "verdict": "mix",
    "lantern": {
     "prof": "家豪",
     "name": "被點名者",
     "date": "佩珊",
-    "doc": "宜君",
+    "doc": "佩珊",
     "sleep": "家豪",
     "sorry": "志豪",
     "class": "佩珊",
