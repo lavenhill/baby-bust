@@ -53,5 +53,11 @@ All generation runs at build time through `tools/meta.py` (Meta Model API, `http
 - 結局私訊：退群者（受傷兩次）5 組冷調；受傷一次仍在群組者 9 組（含佩珊 2026）。
 - 標題字型 `poster.woff2`：Noto Sans TC Black 子集，SIL OFL 1.1。
 
+## L1 lantern (2026-10-28)
+- Ending: at the 2026 Pingxi reunion the player writes Lao Yan's own sky lantern (up to 12 characters, Chinese or English; blank allowed). A fixed 5-second release follows, Peishan posts a photo to the group chat, one classmate still in the group answers, and a last frame sets the lantern words beside the 2026 poster headline the player actually kept (labels only: "On the lantern / On the poster").
+- Runs entirely in the page: keyword rules + pre-written lines (`tools/content_zh.py` `LANTERN_*`, `data.js` `lantern`). No AI call, no key, no server. Profanity is masked as ▇.
+- Lines: drafted by Muse Spark 1.3 and reviewed by Hark; English by Muse Spark, reviewed.
+- 結局天燈拍：玩家替老顏寫燈（12 字內，可中英、可空白）→ 5 秒升空 → 佩珊傳照片到群組 → 一位在群同學回一句 → 對照「燈上／海報上」。全部本機運行，不接 AI、不放金鑰；髒話打碼成▇。規格：`docs/spec/01-game-spec.md` §10。
+
 ## 檔案狀態
 見 [docs/FILES.md](docs/FILES.md)：哪些是當前文件、參考、歷史。
