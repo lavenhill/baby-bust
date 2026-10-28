@@ -109,6 +109,10 @@ with sync_playwright() as p:
         if any(b in WISH.lower() for b in ['幹','靠北','白癡','去死','fuck','shit']):  # masked: lantern shows ▇, the raw words never appear
             if '▇' not in LS['lan']['w'] or WISH.strip() in LS['all']: prob.append('profanity not masked')
         if prob: report.append(('lantern',prob))
+    # FX（2026-10-28 20:45 使用者：情節要有依據）：遊戲正文（出處頁以外）不得再出現已查證不符的說法
+    BAN=['議員','考上中央','老顏考上','試用期','考績乙等','考績吃乙','請半天','半天假','凍卵回診','手術做凍卵','婆婆把','家族群組']
+    hit=pg.evaluate("(B)=>{const d=Object.assign({},DATA);delete d.sources;const s=JSON.stringify(d);return B.filter(b=>s.includes(b))}",BAN)
+    if hit: report.append(('banned phrases',hit))
     # ---------- S7 sources page ----------
     SPF=[]
     def spe(js): return pg.evaluate(js)
@@ -181,6 +185,10 @@ with sync_playwright() as p:
             return {{i,ct,nf:f.length,ok:JSON.stringify(f)===JSON.stringify(want),nl:ln.length,badl:ln.filter(([h,t,r])=>!h.startsWith('https://')||t!=='_blank'||!r.includes('noopener')).length,nn,other:ct[1]&&ct[1].includes(N[p.node][o].h1[{Lg}])}}}})""")
         badad=[x for x in ad if x.get('miss') or not x['ok'] or x['nf']<1 or x['nl']<x['nf'] or x['badl'] or len(x['ct'])!=2 or not x['other']]
         if badad: SPF.append(('advocates',badad))
+        # FX（2026-10-28 20:45）：每張留下的海報展開後要有「這一年的情節依據」卡（.spfact.basis），每張依據卡的連結數＝refs 數、https、新分頁
+        bs=spe("""()=>[...document.querySelectorAll('.scr.sp .spk')].map((k,i)=>{const p=S.path[i],ids=(DATA.sources.ncard[p.node]||[]).filter(id=>DATA.sources.cards[id].kind==='basis');const nf=k.querySelectorAll('.spkb .spfact.basis').length;const want=ids.reduce((a,id)=>a+DATA.sources.cards[id].f.length,0);const nr=ids.reduce((a,id)=>a+DATA.sources.cards[id].refs.length,0);return {i,node:p.node,ids,nf,want,nr}})""")
+        badbs=[x for x in bs if not x['ids'] or x['nf']!=x['want']]
+        if badbs: SPF.append(('basis',badbs))
         ov('kept');scr('.scr.sp .spk');shot('sp_kept')
         cov=spe("""()=>{const out=[];document.querySelectorAll('.scr.sp .spk a.splink').forEach(a=>{a.scrollIntoView({block:'center'});const r=a.getBoundingClientRect(),e=document.elementFromPoint(r.left+Math.min(8,r.width/2),r.top+r.height/2);if(!(e===a||a.contains(e)))out.push(a.textContent)});return out}""")
         if cov: SPF.append(('kept links covered',cov))
