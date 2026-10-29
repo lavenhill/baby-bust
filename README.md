@@ -2,7 +2,8 @@
 
 A short story game about who pays for Taiwan’s childcare and family policies, built for the Meta AI Developer Hackathon 2026.
 
-**Play:** https://raw.githack.com/lavenhill/baby-bust/main/index.html (mobile first; tap EN for English)
+**Play:** https://lavenhill.github.io/baby-bust/ (mobile first; tap EN for English)  
+Backup mirror: https://raw.githack.com/lavenhill/baby-bust/main/index.html
 
 **Built from scratch during the hackathon.** This repository was created on 2026-10-27 (Asia/Taipei), after the event opened (2026-10-26 12:00 PM ET). Every file here is new work made during the event period (Oct 27 – Nov 4, 2026). No earlier codebase is reused; earlier prototypes by the same author served only as inspiration.
 
@@ -21,10 +22,27 @@ Each source also has a local archive page in `sources/` (shipped with the game, 
 |---|---|
 | Muse Spark 1.3 (`muse-spark-1.3`) | Draft slogans, private asides, group-chat lines, a self-review pass for consistency, and all English translations (`tools/gen_copy.py`, `tools/fix_copy.py`) |
 | Muse Spark 1.3 | Reunion: one cost line + answers to 3 follow-up questions for every classmate × every path they could have been cut on (14 combinations) and Vivian's own line for 8 endings (`tools/gen_reunion.py`) |
-| Muse Spark 1.3 | Sources page “Anything else to check?”: Muse only **picks sentence IDs** from a 64-line library of verified source quotes (it never writes a fact); the screen shows those exact lines with links. The 8 suggested questions use answers **pre-recorded** with Muse and checked by hand, and are labelled “pre-recorded”. A live mode exists behind a switch (`ASK_URL` in `index.html`, Cloudflare Worker draft `tools/ask_worker.js`, no key in this repo) and is **off** (`tools/sources_muse.py`, `docs/ask-worker.md`) |
+| Muse Spark 1.3 | Sources page “Anything else to check?”: Muse only **picks sentence IDs** from a 134-line library of verified source quotes (it never writes a fact); the screen shows those exact lines with links. The 8 suggested questions use answers **pre-recorded** with Muse and checked by hand, and are labelled “pre-recorded”. A live mode exists behind a switch (`ASK_URL` in `index.html`; relay `relay/server.py`, see “Live ask relay” below; Cloudflare Worker draft `tools/ask_worker.js` as a fallback; no key in this repo) and is **off** (`tools/sources_muse.py`, `docs/ask-worker.md`) |
 | Muse Image 1.0 (`muse-image-1.0`) | 7 character reference sheets, then 20 scene halves and 5 objects generated with `images/edits` from those references, so characters stay consistent across years (`tools/gen_img.py`) |
 
 All generation runs at build time through `tools/meta.py` (Meta Model API, `https://api.meta.ai/v1`, key from `MODEL_API_KEY`, spend ledger). Total build cost on day 1: about US$0.60. The page itself is static and contains no key. Human review: the author edits the final copy; AI drafts are kept in `data.js`.
+
+## Live ask relay (`relay/`)
+Optional server for the sources page's free-text question box. **The game does not use it yet**: `ASK_URL` in `index.html` is empty, so the page shows only the pre-recorded answers.
+
+```
+browser (lavenhill.github.io) --POST {"q": "..."}--> relay/server.py --one fixed request--> api.meta.ai
+browser <------------- {"type": "...", "picks": ["F17-1", ...]} <------- sentence IDs only
+```
+
+- **Single allow-listed host, no arbitrary fetch.** The Meta endpoint is a constant in the code (`https://api.meta.ai/v1/chat/completions`); nothing in a request can change where the relay connects. It is not a forward proxy.
+- **Response restricted to sentence IDs.** Muse Spark 1.3 gets the whole verified library (the same system prompt as `tools/sources_muse.py`) and may only answer with sentence IDs. The relay keeps at most 3 IDs that exist in the current `data.js` (134 today; the list is read from `data.js` and `tools/sources_muse.py` at start-up and must match, never hard-coded). Anything else becomes `{"type": "offline"}`, and the page falls back to its offline mode. No model text ever reaches the player.
+- **Input.** Only `{"q": "..."}`, 1–40 characters; every other field is dropped.
+- **Limits** (checked and booked in one SQLite `BEGIN IMMEDIATE` transaction *before* Meta is called): 30 questions per IP block (IPv4 /24, IPv6 /48) per Taipei day; 20 per minute site-wide; **700 questions in total**, after which the relay stays offline for good; plus a US$10 total-spend cap as a second lock (about US$0.009 per question). Meta timeout 4 s. All limits are environment variables (`ASK_CAP_N`, `ASK_CAP_USD`, `ASK_PER_IP`, `ASK_PER_MIN`).
+- **Privacy.** Question text is never stored or logged. The counter file holds only counts, spend and salted hashes of IP blocks, and lives outside the repo folder (`DATA_DIR`).
+- **Browser access.** CORS allows only `https://lavenhill.github.io` (plus `ALLOW_ORIGIN`). CORS stops browsers, not scripts, so the limits above are the real guard.
+- **Run.** Python 3.13 standard library, no packages: `python relay/server.py` listens on `0.0.0.0:$SERVER_PORT`. `GET /health` reports `key: true/false` and the count used without calling Meta. The API key comes from `META_KEY` in the host's environment and is never in this repo. Tests: `python relay/test_relay.py` (a local fake replaces Meta).
+- **Limitations.** Answers depend on Meta's availability (any error → offline mode); the per-IP limit relies on the hosting platform's proxy header (`IP_HEADER`); judges sharing one campus IP share 30 questions a day; once 700 questions or US$10 are used, only the pre-recorded answers remain.
 
 ## Files
 - `index.html` — the game (no framework)
@@ -32,6 +50,7 @@ All generation runs at build time through `tools/meta.py` (Meta Model API, `http
 - `img/` — Muse Image illustrations
 - `poster.woff2` — poster headline font: a subset of Noto Sans TC Black (weight 900), SIL Open Font License 1.1 (license text: `poster-font-OFL.txt`)
 - `tools/` — generation scripts
+- `relay/` — optional live ask relay for the sources page (off by default)
 - `sources/` — local archive page for every reference (R01–R91): government public documents in full, all other sources as short supporting quotes only
 
 ## Status
@@ -41,6 +60,9 @@ All generation runs at build time through `tools/meta.py` (Meta Model API, `http
 ---
 
 ## 中文說明
+**遊玩：** https://lavenhill.github.io/baby-bust/ （手機優先；點 EN 切英文）  
+備用鏡像：https://raw.githack.com/lavenhill/baby-bust/main/index.html
+
 家庭照顧政策取捨敘事遊戲，為 Meta AI Developer Hackathon 2026 製作。你是少子女化對策辦公室的小編老顏，每年一張現場照，只能留一半：留受惠者，另一半的同學變黑白、在同學會走出合照；留買單的人，主管退件、你加班重做，自己的生活一格格褪色。文字初稿、英文翻譯、同學會台詞由 Meta Muse Spark 1.3 生成，插畫由 Muse Image 1.0 生成，作者審稿。
 
 遊戲裡每筆出處都在 sources/ 有本地存檔頁，跟遊戲一起上架：政府機關新聞稿、公告、問答與行政規則（著作權法第9條的公文，不得為著作權標的）存全文；新聞媒體、民間團體、醫院網頁，以及版權頁聲明保留著作權的政府調查報告，只存支持遊戲那句話的原文摘錄（第52條引用），附原文網址與網際網路檔案館存檔連結（有的話）。一切以原文為準。
