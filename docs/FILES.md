@@ -12,6 +12,7 @@
 | data.js | 當前 | 全部文案、英譯、群組、結局；由 tools/build_data.py 生成，勿手改 |
 | poster.woff2 | 當前 | 海報字型子集（Noto Sans TC Black；pyftsubset，舊字集＋chars.txt 聯集） |
 | img/ | 當前 | Muse Image 生成的插圖（tools/gen.py） |
+| sources/ | 當前 | 出處本地存檔頁 R01–R91.html（f29，2026-10-29）；Rxx＝tools/sources_zh.py REFS 順序。政府新聞稿、公告、問答、行政規則（著作權法第9條公文）存正文全文 15 筆；媒體、NGO、醫院與自聲明著作權的勞動部調查報告共 76 筆只存支持遊戲句子的原文摘錄（第52條）；附原文網址與 Wayback 存檔連結。由 qa/f29/mkpages.py 產生（不在 repo），build_data.py 檢查每筆都有、play.py 檢查連結 |
 | README.md | 當前 | 專案說明 |
 | docs/FILES.md | 當前 | 本索引 |
 | docs/spec/06-story-causality.md | 當前 | 敘事與因果（人讀版）：狀態規則、分支圖、角色線、逐年劇情、自動檢查 |
