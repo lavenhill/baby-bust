@@ -76,7 +76,7 @@ LIFE=['家裡桌上一碗蓋著保鮮膜的飯，紙條寫「微波三分鐘」�
 RING_OFF='鍵盤旁邊，兩只戒指，沒有人戴了。'
 WISH={'阿芳':'小芋頭明年抽到公幼。我回事務所上班，三十五歲升主任。','家豪':'小太陽幼兒園招生滿 60 個。爸寫的招牌要撐過第 30 年。','宜君':'月薪到 30,000。暑假帶我媽去富士山，機票我都先買好了啦。','志豪':'九點前下班。存到 80 萬頭期款，到時跟小雯求婚。','佩珊':'三十歲前生第一個。請假不用跟任何人道歉。','老顏':'明年 5/24 ♡'}
 CALL={'家豪':['海報上那間準公共，就開在我對面。','這學期少了十五個。','妳在平溪看過我寫什麼。'],'宜君':['妳又把老師畫成笑著的。','我媽昨天又問我要不要轉行。','下次畫我的時候，寫真的。'],'志豪':['你們每張圖都在叫我快生。','我連房租都快付不起。','妳自己覺得公平嗎？'],'阿芳':['海報上那個媽媽在笑。','我是在事務所廁所看到的。','妳知道我不是她。']}
-OPEN2=dict(title='平溪，2018 年元宵',lead='老顏要去中央當約聘小編了，我們來放天燈。',tapl='點每一盞燈，看上面寫什麼',fly='放！',promise='八年後，大家都要回來喔！',day1='上班第一天',boss1='一年一聘的約，續不續看年終考核。',boss2='妳做的每一張圖，都會出現在同學的手機裡，加油。',ledger='房租(禮拜五交)　選戒指(禮拜六)',calling='來電',left='{who} 已退出群組。',reu='2026，平溪')
+OPEN2=dict(title='平溪，2018 年元宵',lead='老顏要去中央當約聘小編了，我們來放天燈。',tapl='點每一盞燈，看上面寫什麼',fly='放！',promise='八年後，大家都要回來喔！',day1='上班第一天',boss1='一年一聘的約，續不續看年終考核。',boss2='妳做的每一張圖，都會出現在同學的手機裡，加油。',ledger='房租(禮拜五交)　訂喜宴(禮拜六)',calling='來電',left='{who} 已退出群組。',reu='2026，平溪')
 UI=dict(again_night='老顏又重做了一晚。',reu='2026　同學會',hint='點一張留下',
  start='上班',pub='發布',again='再拍一次',promise='約好八年後，再來這裡拍一張。',intro='2018，老顏 26 歲。少子女化對策辦公室，約聘小編。',
  obj19='5/24 被圈了起來。兩只一樣的戒指。',end='職務代理津貼，每日 800 元。',baby='本班第 {n} 位小朋友！恭喜{who}',
@@ -208,7 +208,6 @@ WISH26={'阿芳':('升主任了。小芋頭下午有人接，不是我。','回�
 '宜君':('薪水三萬二。暑假帶媽看富士山，假單只准三天啦。','三萬了。富士山，明年一定排進行程啦。'),
 '志豪':('還沒存到八十萬，下個月先求婚。戒指拿出抽屜了。','還在存。小雯說她不急，我急。'),
 '佩珊':('孩子會叫媽媽了。請假單還是先寫不好意思。','請假還是會道歉。孩子很好。')}
-LAO26=['5/24，這次不會再改期。','回診，下週一定去。','']
 V5UI=dict(reu26='2026 元宵・平溪',left26='已退出群組',lamp26='放！',redo='老顏重做了 {n} 晚',kids26='本班 {n} 位小朋友',grp='高中同學群',
  dm='傳訊息給{who}',boss_ok='很好，就這張。',blank='（燈上什麼都沒寫）',baby1='本班第 {n} 位小朋友！',baby2='恭喜{who}！')
 
@@ -314,45 +313,168 @@ POSTER_TEXT={'y2025f_U':{'avoid':[[0.458,0.617,0.135,0.172]],'note':'劇情道�
 # H1S_EN[node_side]: short English headline, used only when the half-screen is under 280px tall (Muse Spark draft, edited for naturalness).
 H1S_EN={"y2018_U": "We Help Raise Them", "y2018_D": "A Teacher per Class", "y2019a_U": "Subsidized, No Worries", "y2019a_D": "Secure Teacher Pay", "y2019b_U": "More Public Seats", "y2019b_D": "No Child Left Out", "y2021_U": "Parents' Teammate", "y2021_D": "Thanks for Stepping In", "y2022c_U": "Rent Help for Families", "y2022c_D": "Youth Rent Support", "y2022d_U": "NT$5,000 Childcare", "y2022d_D": "Kids and Career", "y2024_U": "0–6 Together 2.0", "y2024_D": "Teachers Off on Time", "y2025e_U": "Open During Breaks", "y2025e_D": "Teachers Need Breaks", "y2025f_U": "We Back Families", "y2025f_D": "A Home for All", "y2026_U": "Leave by the Day", "y2026_D": "Thanks for Stepping In"}
 
-# ---- L1 結局天燈拍 (2026-10-28 17:03 user-approved; replaces LAO26 auto lamp) ----
-# Player writes Lao Yan's lantern (<=12 width: CJK=1, other=0.5). Rules are tried in order; responder = first in `who` still in the group.
-# 'name' rule: the classmate named on the lantern (still in the group) answers with LANTERN_LINES['name_<who>'].
-# zh lines: lantern_lib.json (approved 10-28) + Muse r2 (named classmate / Peishan stand-ins when Jiahao left), Hark-reviewed. EN: Muse translation, Hark-edited.
-# {w} = the lantern text (profanity masked, never quoted).
-LANTERN_RULES=[
- ('prof',None,None,['家豪','佩珊']),
- ('name',None,None,[]),
- ('date','5/24|524|5月24|她|結婚|婚|戒指|登記|約會|改期|在一起|伴侶|求婚',r'5/24|may 24|marr|wedding|\bring|\bshe\b|\bher\b|\bdate|partner|together|propos',['佩珊']),
- ('doc','回診|醫生|醫院|身體|健康|看病|掛號|取卵|凍卵|打針|排卵',r'doctor|clinic|hospital|health|check-?up|appointment|\begg|ivf',['宜君','佩珊']),
- ('sleep','睡|休息|累|放假|假期|休假',r'sleep|\brest|tired|vacation|holiday|day off|\bnap',['家豪','佩珊']),
- ('sorry','對不起|原諒|抱歉|欠|道歉',r'sorry|forgive|apolog|\bowe',['志豪','家豪','佩珊']),
- ('class','阿芳|家豪|宜君|志豪|佩珊|大家|同學|群組|回來',r'amy|kevin|jessica|jason|penny|a-?fang|jiahao|yijun|zhihao|peishan|everyone|classmate|group|come back',['佩珊']),
- ('work','辭職|離職|不做|海報|換工作|升|科長|考績|上班|加班|主管',r'quit|resign|\bjob|poster|promot|\bboss|overtime|\bwork',['家豪','佩珊']),
- ('other','','',['佩珊']),
-]
-LANTERN_NAMES_EN={'阿芳':'amy|a-?fang','家豪':'kevin|jiahao','宜君':'jessica|yijun','志豪':'jason|zhihao','佩珊':'penny|peishan'}  # 英文版用英文名（2026-10-28 21:43）；舊拼音仍可觸發
-# profanity: masked to ▇ per character on the lantern and in the contrast. 幹 alone is skipped after 能/才/骨/主/樹 or before 嘛/部/活/練/勁/事/麼/線 (幹嘛、幹部…).
-LANTERN_PROF_ZH='幹|靠北|靠杯|白癡|白痴|去死|機掰|雞掰|智障|垃圾|廢物|操你|操他|腦殘|三小|淦|王八蛋|他媽的|媽的'
-LANTERN_PROF_EN=r'\b(fuck\w*|shit\w*|damn\w*|bitch\w*|asshole\w*|bastard\w*|crap\w*|wtf|dick\w*|piss\w*)\b'
-LANTERN_LINES={
- 'prof_家豪':('這盞燈寫得最真心，哈哈哈','This lantern\'s the most honest one, hahaha'),
- 'prof_佩珊':('這盞的照片先放我這裡，不好意思','I\'ll hold on to the photo of this one, sorry'),
- 'name_阿芳':('燈上有我的名字，照片留給小芋頭啦😝','My name\'s on the lantern! Saving the photo for Little Taro 😝'),
- 'name_家豪':('我的名字在燈上，比小太陽的招牌還亮，哈哈哈','My name\'s on the lantern, brighter than Little Sun\'s sign, hahaha'),
- 'name_宜君':('看到我的名字，這張留給我媽，QQ','Saw my name. Saving this one for my mom QQ'),
- 'name_志豪':('燈上有我的名字，照片我留給小雯。','My name\'s on the lantern. The photo goes to Wendy.'),
- 'name_佩珊':('燈上有我的名字，這次妳的案子放我這邊，不好意思','My name\'s on the lantern. This time your cases are on me, sorry'),
- 'date_佩珊':('「{w}」那天的案子放我這邊，不好意思','"{w}": that day, I\'ve got your cases, sorry'),
- 'doc_宜君':('「{w}」喔，那天換我盯妳的掛號單，QQ','"{w}", that day I\'m watching your appointment slip QQ'),
- 'doc_佩珊':('「{w}」那天，桌上的案子放我這邊，不好意思','"{w}": that day, I\'ve got the cases on your desk, sorry'),
- 'sleep_家豪':('「{w}」這個願，我也要一份，哈哈哈','"{w}", I want that wish too, hahaha'),
- 'sleep_佩珊':('多睡一點，請假單我幫妳放桌上，不好意思','Get some more sleep. I\'ll put your leave form on your desk, sorry'),
- 'sorry_志豪':('沒有誰欠誰。','No one owes anyone.'),
- 'sorry_家豪':('燈上那句，群組裡的人都還在這邊，哈哈哈','That line on the lantern: everyone in the chat is still here, hahaha'),
- 'sorry_佩珊':('這句心意在我這邊，往後的案子放我桌上就好，不好意思','Got your message. From now on, just leave the cases on my desk, sorry'),
- 'class_佩珊':('「{w}」這盞，我拍下來傳到群組，不好意思','"{w}": I took a photo of this one for the group chat, sorry'),
- 'work_家豪':('「{w}」喔，這盞燈飛得比招牌還高，哈哈哈','"{w}", this lantern\'s flying higher than my sign, hahaha'),
- 'work_佩珊':('工作的心願最大，妳的案子交給我，不好意思','Work wishes come first. Leave your cases to me, sorry'),
- 'other_佩珊':('老顏的燈飛最高，不好意思','Vivian\'s lantern is flying the highest, sorry'),
+# ---- 結局老顏的燈：限定選項「三盞」(d29，2026-10-29 14:28 使用者核可「想要一個寶寶，餘如擬」；取代 L1 自由輸入、髒話打碼、關鍵字比對、LAO26 自動燈) ----
+# 依據 notes/lantern-quiz-ring-r1.md §1（結構）＋ r2.md（直白燈上字）；s2 燈改「想要一個寶寶」，回覆 Muse r3a/r3b＋Hark 審（meta/r1029d/r3/）。
+# 按鈕字＝燈上字。順序：① 她自己 s0–s4（'s'+min(self,4)＝她最後看到的生活框）② 一位朋友（hurt 最多者，平手取最早被裁；退群者 gone 由佩珊回，受傷一次者 once 本人回；沒人受傷則不出）③ 八年後（沒人退群 p0／有人退群 p1）。
+# who＝回覆者候選，依序取第一位還在群組者（都不在則佩珊；佩珊永不退群）。{n}＝朋友名（英文版用英文名）。燈上中文 ≤12 字、英文 ≤20 字元且四尺寸實測燈框不溢出（「Wear our rings again」20 字元實測放得下）；回覆中文 ≤25 字、英文 ≤70 字元。
+LANTERN_OPT={
+ "s0": {
+  "lamp": [
+   "跟她辦喜酒",
+   "Have our wedding"
+  ],
+  "who": [
+   "家豪"
+  ],
+  "rep": {
+   "家豪": [
+    "喜酒那天，我要坐第一桌，哈哈哈",
+    "At your wedding, I get the first table, hahaha"
+   ]
+  }
+ },
+ "s1": {
+  "lamp": [
+   "回家陪她吃晚飯",
+   "Home for dinner"
+  ],
+  "who": [
+   "阿芳",
+   "佩珊"
+  ],
+  "rep": {
+   "阿芳": [
+    "七點前到家，飯還是熱的啦😝",
+    "Get home by seven, while it's still hot 😝"
+   ],
+   "佩珊": [
+    "七點以後的案子，交給我這邊，不好意思",
+    "Anything after seven, leave it with me, sorry"
+   ]
+  }
+ },
+ "s2": {
+  "lamp": [
+   "想要一個寶寶",
+   "I want a baby"
+  ],
+  "who": [
+   "宜君",
+   "佩珊"
+  ],
+  "rep": {
+   "宜君": [
+    "寶寶的乾媽，算我一個啦QQ",
+    "Count me in as the baby's godmom QQ"
+   ],
+   "佩珊": [
+    "我家孩子的舊衣服，全部留給寶寶，不好意思",
+    "All my kid's old clothes go to your baby, sorry"
+   ]
+  }
+ },
+ "s3": {
+  "lamp": [
+   "把戒指戴回去",
+   "Wear our rings again"
+  ],
+  "who": [
+   "阿芳",
+   "佩珊"
+  ],
+  "rep": {
+   "阿芳": [
+    "戴回去那天，記得傳照片到群組啦😝",
+    "When they're back on, send the group a photo 😝"
+   ],
+   "佩珊": [
+    "戴回去那天的照片，我要第一張，不好意思",
+    "When they're back on, I want the first photo, sorry"
+   ]
+  }
+ },
+ "s4": {
+  "lamp": [
+   "把手牽回來",
+   "Hold her hand again"
+  ],
+  "who": [
+   "佩珊"
+  ],
+  "rep": {
+   "佩珊": [
+    "牽回來那天，幫妳們拍合照的人是我，不好意思",
+    "When you hold hands again, I'm taking the photo, sorry"
+   ]
+  }
+ },
+ "gone": {
+  "lamp": [
+   "{n}，回來群組",
+   "{n}, come back"
+  ],
+  "rep": [
+   "這張我私訊傳給{n}了，不好意思",
+   "I sent this one to {n} directly, sorry"
+  ]
+ },
+ "once": {
+  "lamp": [
+   "{n}，對不起",
+   "Sorry, {n}"
+  ],
+  "rep": {
+   "志豪": [
+    "沒有誰欠誰。",
+    "No one owes anyone."
+   ],
+   "佩珊": [
+    "收到，以後妳的案子放我桌上，不好意思",
+    "Got it. From now on, your cases go on my desk, sorry"
+   ],
+   "家豪": [
+    "收到，下次補漆的刷子，有妳一支，哈哈哈",
+    "Got it. Next repaint, one brush is yours, hahaha"
+   ],
+   "阿芳": [
+    "收到啦，下次見面我帶小芋頭一起😝",
+    "Got it. Next time we meet, I'm bringing Little Taro 😝"
+   ],
+   "宜君": [
+    "收到啦，富士山那趟，妳也一起啦QQ",
+    "Got it. When I do Mt. Fuji, you're coming too QQ"
+   ]
+  }
+ },
+ "plamp": [
+  "八年後，大家都回來",
+  "All back in 8 years"
+ ],
+ "p0": {
+  "who": [
+   "家豪",
+   "佩珊"
+  ],
+  "rep": {
+   "家豪": [
+    "說好了，八年後誰都不能缺席，哈哈哈",
+    "Deal. In eight years, nobody skips, hahaha"
+   ],
+   "佩珊": [
+    "八年後，我們再來這裡拍一張，不好意思",
+    "In eight years, let's take another one here, sorry"
+   ]
+  }
+ },
+ "p1": {
+  "who": [
+   "佩珊"
+  ],
+  "rep": {
+   "佩珊": [
+    "八年後，我們再來這裡拍一張，不好意思",
+    "In eight years, let's take another one here, sorry"
+   ]
+  }
+ }
 }
-LANTERN_UI={'ph': ('寫在老顏的燈上', "Write on Vivian's lantern"), 'go': ('放！', 'Let go!')}
