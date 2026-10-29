@@ -252,9 +252,10 @@ button.spr:focus-visible{outline:2px solid #3d5ea8;border-radius:3px}
 <script>document.write('<script src="data.js?v=20261029d&t='+Date.now()+'"><\/script>')</script>
 <script>
 // Baby or Bust — 我們與孩子的距離. One screen per beat; written during the Meta hackathon (2026-10-27). Spec: docs/spec/.
-const V='20261029f';
-// S7: 「還想查什麼？」即時查詢開關。設成 Cloudflare Worker 網址（tools/ask_worker.js，見 docs/ask-worker.md）就切成即時 Muse；空字串＝只用錄好的答案（預設關）。
-const ASK_URL=window.BB_ASK_URL||'';if((typeof DATA==='undefined'||!(DATA.group&&DATA.lantern&&DATA.lantern.opt&&DATA.sources&&DATA.v===V))&&!/reload=/.test(location.search))location.replace(location.pathname+'?reload='+Date.now());
+const V='20261029g';
+// S7: 「還想查什麼？」即時查詢開關（中繼程式 relay/server.py，見 docs/ask-worker.md）；空字串＝只用錄好的答案。
+/* live29：即時提問預設接 Botkeep 中繼；window.BB_ASK_URL 可覆寫（設 '' ＝關閉） */
+const ASK_URL=window.BB_ASK_URL!==undefined?String(window.BB_ASK_URL||''):'https://between-us.bot-keep.xyz/api/ask';if((typeof DATA==='undefined'||!(DATA.group&&DATA.lantern&&DATA.lantern.opt&&DATA.sources&&DATA.v===V))&&!/reload=/.test(location.search))location.replace(location.pathname+'?reload='+Date.now());
 const bust=h=>h.replace(/(img\/\w+\.webp)/g,'$1?v='+V);
 const N=DATA.nodes,U=DATA.ui;let L=0;
 const tx=a=>Array.isArray(a)?(a[L]||a[0]):(a||'');
@@ -564,10 +565,15 @@ function sourcesPage(){
     const ask=async()=>{const q=inp.value.trim();if(!q)return;const my=++seq;z.querySelectorAll('.spchips button').forEach(x=>x.setAttribute('aria-pressed','false'));inp.blur();
       if(BAD.test(q)){show({type:'abuse',picks:[]},'local',0);return}
       think();const t0=performance.now();let r;
-      try{const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),4000);
-        const res=await fetch(ASK_URL,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({q}),signal:ctl.signal});clearTimeout(to);
-        r=await res.json();if(!r||!Array.isArray(r.picks))throw 0}catch(_){r={type:'offline',picks:[]}}
-      if(my===seq)show(r,'live',(performance.now()-t0)/1000)};
+      const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),4000);
+      try{const res=await fetch(ASK_URL,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({q}),signal:ctl.signal});
+        if(!res.ok)throw 0;r=await res.json();if(!r||!Array.isArray(r.picks))throw 0}catch(_){r={type:'offline',picks:[]}}finally{clearTimeout(to)}
+      if(my!==seq)return;
+      // live29：中繼連不上（非 200／4 秒逾時／網路錯誤）或中繼自己回 offline → 問句幾乎等於某個建議問題就給那題的預錄答案（標「預先錄製」），否則顯示離線說明（建議問題照常可點）
+      if(r.type==='offline'){const k=near(q);if(k>=0){z.querySelectorAll('.spchips button').forEach(x=>x.setAttribute('aria-pressed',String(+x.dataset.i===k)));show(SD.rec[k],'rec');return}}
+      show(r,'live',(performance.now()-t0)/1000)};
+    const nrm=t=>String(t).toLowerCase().replace(/[\s\p{P}\p{S}]+/gu,''),bg=t=>{const o=new Set;for(let i=0;i<t.length-1;i++)o.add(t.slice(i,i+2));return o};
+    const near=q=>{const A=bg(nrm(q));if(A.size<2)return -1;let best=-1,bs=0;SD.chips.forEach((c,i)=>{const B=bg(nrm(tx(c)));let n=0;A.forEach(x=>{if(B.has(x))n++});const j=n/(A.size+B.size-n);if(j>bs){bs=j;best=i}});return bs>=.6?best:-1};
     z.querySelector('.spgo').onclick=e=>{e.stopPropagation();ask()};inp.addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter'&&!e.isComposing&&e.keyCode!==229){e.preventDefault();ask()}})}
   z.querySelector('.spb>.btn').onclick=()=>location.reload();
   B.focus({preventScroll:true});S.ended=true;
