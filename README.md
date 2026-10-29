@@ -55,11 +55,11 @@ All generation runs at build time through `tools/meta.py` (Meta Model API, `http
 - 結局私訊：退群者（受傷兩次）5 組冷調；受傷一次仍在群組者 9 組（含佩珊 2026）。
 - 標題字型 `poster.woff2`：Noto Sans TC Black 子集，SIL OFL 1.1。
 
-## L1 lantern (2026-10-28)
-- Ending: at the 2026 Pingxi reunion the player writes Vivian's own sky lantern (up to 12 characters, Chinese or English; blank allowed). A fixed 5-second release follows, Penny posts a photo to the group chat, and one classmate still in the group answers.
-- Runs entirely in the page: keyword rules + pre-written lines (`tools/content_zh.py` `LANTERN_*`, `data.js` `lantern`). No AI call, no key, no server. Profanity is masked as ▇.
-- Lines: drafted by Muse Spark 1.3 and reviewed by Hark; English by Muse Spark, reviewed.
-- 結局天燈拍：玩家替老顏寫燈（12 字內，可中英、可空白）→ 5 秒升空 → 佩珊傳照片到群組 → 一位在群同學回一句。全部本機運行，不接 AI、不放金鑰；髒話打碼成▇。規格：`docs/spec/01-game-spec.md` §10。
+## Ending lantern (d29, 2026-10-29; replaced the L1 free-text lantern)
+- Ending: at the 2026 Pingxi reunion the player picks what Vivian writes on her own sky lantern from 2–3 options built from this run: her own life (the last life frame she saw), one friend (the one hurt most: "{Name}, come back" if they left the group, "Sorry, {Name}" if hurt once), and "All back in 8 years". A fixed 5-second release follows, Penny posts a photo to the group chat, and one classmate still in the group answers.
+- Runs entirely in the page from pre-written lines (`tools/content_zh.py` `LANTERN_OPT`, `data.js` `lantern.opt`). No AI call, no key, no server, no text input.
+- Lines: drafted with Muse Spark 1.3 and reviewed by Hark.
+- 結局天燈拍：老顏的燈改成 2–3 顆限定選項（她自己／一位朋友／八年後），按鈕字＝燈上字 → 5 秒升空 → 佩珊傳照片到群組 → 一位在群同學回一句。全部本機運行，不接 AI、不放金鑰、沒有輸入框。規格：`docs/spec/01-game-spec.md` §10。
 
 ## 檔案狀態
 見 [docs/FILES.md](docs/FILES.md)：哪些是當前文件、參考、歷史。
