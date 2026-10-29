@@ -14,6 +14,7 @@ You are Vivian, a contract worker who runs social media for a government office 
 - At the 2026 reunion, everyone you cropped out says what it cost them. Ask them three questions.
 
 Every policy, number and date in the game is real and sourced at the end of each run.
+Each source also has a local archive page in `sources/` (shipped with the game, linked from every reference): government press releases, notices, Q&As and administrative rules (public documents, Article 9 of Taiwan's Copyright Act) are kept in full text; everything else — news, NGOs, a hospital page, and a government survey report that reserves its copyright — keeps only the few sentences that support the game's line (quotation, Article 52), plus the original URL and a Wayback Machine link where one exists. The original page is always authoritative.
 
 ## How Meta AI is used
 | Model | Used for |
@@ -31,6 +32,7 @@ All generation runs at build time through `tools/meta.py` (Meta Model API, `http
 - `img/` — Muse Image illustrations
 - `poster.woff2` — poster headline font: a subset of Noto Sans TC Black (weight 900), SIL Open Font License 1.1 (license text: `poster-font-OFL.txt`)
 - `tools/` — generation scripts
+- `sources/` — local archive page for every reference (R01–R91): government public documents in full, all other sources as short supporting quotes only
 
 ## Status
 - 2026-10-27: repo created; minimal playable build; scrolling-desk layout; Meta AI copy, translations, reunion lines and illustrations wired in.
@@ -40,6 +42,8 @@ All generation runs at build time through `tools/meta.py` (Meta Model API, `http
 
 ## 中文說明
 家庭照顧政策取捨敘事遊戲，為 Meta AI Developer Hackathon 2026 製作。你是少子女化對策辦公室的小編老顏，每年一張現場照，只能留一半：留受惠者，另一半的同學變黑白、在同學會走出合照；留買單的人，主管退件、你加班重做，自己的生活一格格褪色。文字初稿、英文翻譯、同學會台詞由 Meta Muse Spark 1.3 生成，插畫由 Muse Image 1.0 生成，作者審稿。
+
+遊戲裡每筆出處都在 sources/ 有本地存檔頁，跟遊戲一起上架：政府機關新聞稿、公告、問答與行政規則（著作權法第9條的公文，不得為著作權標的）存全文；新聞媒體、民間團體、醫院網頁，以及版權頁聲明保留著作權的政府調查報告，只存支持遊戲那句話的原文摘錄（第52條引用），附原文網址與網際網路檔案館存檔連結（有的話）。一切以原文為準。
 
 本 repo 於 2026-10-27（台北時間）活動開始後新建，所有檔案皆為活動期間的新作，未沿用任何舊 codebase；作者先前的試作僅作為靈感參考。
 
