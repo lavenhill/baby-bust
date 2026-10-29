@@ -97,7 +97,7 @@ TITLE → OPENING → [YEAR ×7: NEWS → SETUP → WALL → (PUBLISH) → REACT
     - s1（冷飯）：回家陪她吃晚飯／Home for dinner → 阿芳：七點前到家，飯還是熱的啦😝／Get home by seven, while it's still hot 😝；阿芳已退群→佩珊：七點以後的案子，交給我這邊，不好意思／Anything after seven, leave it with me, sorry
     - s2（取卵改「再約」）：想要一個寶寶／I want a baby → 宜君：寶寶的乾媽，算我一個啦QQ／Count me in as the baby's godmom QQ；宜君已退群→佩珊：我家孩子的舊衣服，全部留給寶寶，不好意思／All my kid's old clothes go to your baby, sorry
     - s3（兩只戒指沒人戴）：把戒指戴回去／Wear our rings again → 阿芳：戴回去那天，記得傳照片到群組啦😝／When they're back on, send the group a photo 😝；阿芳已退群→佩珊：戴回去那天的照片，我要第一張，不好意思／When they're back on, I want the first photo, sorry
-    - s4（相框只剩一個人，之後都算）：把手牽回來／Hold her hand again → 佩珊：牽回來那天，幫妳們拍合照的人是我，不好意思／When you hold hands again, I'm taking the photo, sorry
+    - s4（相框只剩一個人，之後都算）：再牽起她的手／Hold her hand again → 佩珊：妳把人牽回來，這次換我幫妳拍照，不好意思啦！／Bring her back, and this time I'm taking the photo. Sorry!
   - ② 一位朋友：目標＝hurt 最多的人，平手取最早被裁者（S.cutIn[m][0] 在 S.path 的位置）。
     - 已退群（gone）：{名}，回來群組／{Name}, come back → 佩珊：這張我私訊傳給{名}了，不好意思／I sent this one to {Name} directly, sorry（退群者的燈與照片都維持暗，之後的冷私訊照常，不演成和好）
     - 受傷一次（once）：{名}，對不起／Sorry, {Name} → 本人：志豪「沒有誰欠誰。」／佩珊「收到，以後妳的案子放我桌上，不好意思」／家豪「收到，下次補漆的刷子，有妳一支，哈哈哈」／阿芳「收到啦，下次見面我帶小芋頭一起😝」／宜君「收到啦，富士山那趟，妳也一起啦QQ」（英文見 content_zh.py）
