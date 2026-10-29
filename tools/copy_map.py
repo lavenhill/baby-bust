@@ -24,8 +24,8 @@ _IDX=open(B+'index.html',encoding='utf8').read()
 for _en,_zh in dict.fromkeys(re.findall(r"L\?'([^']+)':'([^']*[\u4e00-\u9fff][^']*)'",_IDX)):
     rows.append((f'index.html:{_en}',_zh,_en))
 legacy=[r'^nodes\.\w+\.(setup|chat|boss\.U)',r'^call\.',r'^callN\.',r'^self\.',r'^open2\.(reu|calling)',r'^open\[',r'^ui\.(reu|promise|intro|obj19|end|kids|baby)$',r'^nodes\.\w+\.src$',r'^v5\.blank$']
-SEC={'wish':'2018 天燈願望','wish2':'新願望','wish26':'2026 願望','lantern':'結局天燈（玩家寫老顏的燈）','v5':'介面','ui':'介面','open2':'開場','life':'老顏生活框','ring_off':'老顏生活框','verdict':'結局判詞','tag':'標籤','names':'人名','call':'電話（舊）','callN':'電話（舊）','self':'老顏（舊）','open':'開場（舊）','class_':'人名','babies':'其他','slug':'其他','sources':'結局出處頁（S7＋誰在倡議）','index.html':'介面（程式內建）'}
-ORDER=['開場','2018 天燈願望','同學群組','逐年節點','選圖牆','群組後果（選上）','老顏生活框','新願望','2026 願望','結局天燈（玩家寫老顏的燈）','結局判詞','結局私訊','結局出處頁（S7＋誰在倡議）','介面','介面（程式內建）','標籤','人名']
+SEC={'wish':'2018 天燈願望','wish2':'新願望','wish26':'2026 願望','lantern':'結局天燈（玩家選老顏的燈）','v5':'介面','ui':'介面','open2':'開場','life':'老顏生活框','ring_off':'老顏生活框','verdict':'結局判詞','tag':'標籤','names':'人名','call':'電話（舊）','callN':'電話（舊）','self':'老顏（舊）','open':'開場（舊）','class_':'人名','babies':'其他','slug':'其他','sources':'結局出處頁（S7＋誰在倡議）','index.html':'介面（程式內建）'}
+ORDER=['開場','2018 天燈願望','同學群組','逐年節點','選圖牆','群組後果（選上）','老顏生活框','新願望','2026 願望','結局天燈（玩家選老顏的燈）','結局判詞','結局私訊','結局出處頁（S7＋誰在倡議）','介面','介面（程式內建）','標籤','人名']
 def classify(p):
     m=re.match(r'nodes\.y(\w+)\.(.*)',p)
     if m:
@@ -62,10 +62,14 @@ def classify(p):
     m=re.match(r'^([^.\[|]+)',rest)
     if k in('wish','wish2','wish26','call','self','names','tag') and m: spk=m.group(1)
     if k=='callN': spk=''
-    if k=='lantern':
-        ml=re.match(r'lines\.(\w+?)_(.+)',rest)
-        if ml: return SEC[k],'',{'prof':'髒話／空白','name':'點名在群的本人','date':'5/24・伴侶','doc':'回診','sleep':'睡・休息','sorry':'道歉','class':'點名退群者・大家','work':'工作','other':'其他'}.get(ml.group(1),ml.group(1))+'回應',ml.group(2)
-        return SEC[k],'','介面・'+rest,''
+    if k=='lantern':  # d29（2026-10-29）：老顏的燈限定選項 lantern.opt.<鍵>.(lamp|rep[.<回覆者>])，plamp＝八年後那盞
+        ml=re.match(r'opt\.(\w+)\.?(lamp|rep)?\.?(.*)$',rest)
+        if ml:
+            g,f,who=ml.groups();lab={'s0':'①她自己・沒看過生活框','s1':'①她自己・生活框第1晚（冷飯）','s2':'①她自己・生活框第2晚（取卵再約）','s3':'①她自己・生活框第3晚（戒指沒人戴）','s4':'①她自己・生活框第4晚起（相框一個人）',
+              'gone':'②朋友・已退群（{n}＝朋友名）','once':'②朋友・受傷一次','plamp':'③八年後','p0':'③八年後・沒人退群','p1':'③八年後・有人退群'}.get(g,g)
+            if g=='plamp' or f=='lamp': return SEC[k],'',lab+'・燈上字＝按鈕字','老顏'
+            return SEC[k],'',lab+'・回覆',(who or '佩珊')
+        return SEC[k],'',rest,''
     return SEC.get(k,k),'',rest,spk
 out=[]
 for p,zh,en in rows:
@@ -77,7 +81,7 @@ for p,zh,en in rows:
     if m: dep='、'.join(D['gcons']['y'+m.group(1)][m.group(2)][int(m.group(3))][3])
     if re.match(r'gcons\.[^\[]+\[\d+\]\[[013]',p): continue
     status='舊版未使用' if any(re.search(r,p) for r in legacy) else '使用中'
-    if re.match(r'lantern\.(rules|names_en|prof_)',p): continue
+    if re.match(r'lantern\.(rules|names_en|prof_)|lantern\.opt\.\w+\.who',p): continue  # d29: who＝回覆者候選名單，不是文案
     if p.startswith('class_') or p.startswith('slug') or p.startswith('babies'): continue
     out.append([sec,y,field,spk,zh,en,dep,status,p])
 yr=lambda y:(y or '0000')
