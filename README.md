@@ -55,14 +55,15 @@ flowchart LR
   end
   subgraph web["In the browser (GitHub Pages, static)"]
     page["index.html"] --> game["Story: 7 choices,<br/>reunion, lantern"]
-    page --> src["Sources page:<br/>pre-recorded answers,<br/>local archive sources/"]
+    page --> src["Sources page:<br/>live + pre-recorded answers,<br/>local archive sources/"]
   end
   data --> page
   img --> page
-  src -.->|off for now| relay["relay/server.py"]
-  relay -.->|sentence IDs only| meta["api.meta.ai"]
+  src -->|"question (HTTPS)"| relay["relay/server.py<br/>(Botkeep host)"]
+  relay -->|"sentence IDs only"| meta["api.meta.ai"]
+  relay -.->|"unreachable: pre-recorded fallback"| src
 ```
-- **One static page.** `index.html` + `data.js`, no framework, no build step to play, no server, no key. GitHub Pages serves it.
+- **One static page.** `index.html` + `data.js`, no framework, no build step to play, no key in the page. GitHub Pages serves it. The only server is the small relay for live questions; the game plays fully without it.
 - **Checked automatically.** `tools/play.py` (Playwright + Chromium) plays the game on phone-size screens and checks every screen for overflow and errors. It also checks all 128 paths in Chinese and English for empty or broken text, and checks every source link.
 - **Sources travel with the game.** Each reference has its own page in `sources/`, so the game still shows its evidence if an original site moves.
 
@@ -72,10 +73,11 @@ flowchart LR
 - 76 are news reports, NGO pages, a hospital page and a government survey that reserves its copyright. Only the few sentences that support the game are quoted (Article 52), with the original URL and a Wayback Machine link where one exists.
 - The original page is always authoritative.
 
-## Live questions (off for now)
-The sources page is built to answer a player's own question live with Muse Spark. **That mode is switched off today:** `ASK_URL` in `index.html` is empty, so there is no question box; the page offers 8 suggested questions with pre-recorded answers, labelled as pre-recorded. The relay that would power live questions is written and tested but not yet online over HTTPS.
+## Live questions
+The sources page answers a player's own question live with Muse Spark. `index.html` sends the question to the relay at `https://between-us.bot-keep.xyz/api/ask` (hosted on Botkeep); answers are labelled live with the time taken. The 8 suggested questions always use pre-recorded answers, labelled pre-recorded.
+- **Fallback.** If the relay does not answer with a normal reply (any error status, no reply within 4 seconds, network error), or the hosting platform's HTTPS is down, the page does not wait: a question that is nearly the same as a suggested question gets that question's pre-recorded answer (labelled pre-recorded); any other question gets an offline note, and the suggested questions still work. The hosting platform's HTTPS has been intermittent.
 - `relay/server.py` (Python 3.13 standard library) sends one fixed request to `api.meta.ai` and returns at most 3 sentence IDs. No model text reaches the player.
-- Limits are booked before Meta is called: 700 questions in total, US$10 in total, 30 per IP block per Taipei day, 20 per minute site-wide, 4-second timeout. When a limit is reached, or Meta does not answer, the page shows its offline mode with the pre-recorded answers.
+- Limits are booked before Meta is called: 700 questions in total, US$10 in total, 30 per IP block per Taipei day (the IP is read from the last entry of the platform proxy's `X-Forwarded-For` header), 20 per minute site-wide, 4-second timeout. Only requests from the game's own page are accepted. When a limit is reached, or Meta does not answer, the page falls back as above.
 - Question text is never stored. The API key lives only in the host's environment.
 - `relay/test_relay.py` runs 27 tests against a fake Meta server. Details: [docs/ask-worker.md](docs/ask-worker.md) and the header of [relay/server.py](relay/server.py).
 
@@ -95,8 +97,8 @@ python3 relay/test_relay.py                             # relay tests, no networ
 Rebuilding `data.js` or the images needs the author's working files and a Meta API key, so it is not one command from this repository.
 
 ## Limitations
-- Live questions on the sources page are off until the relay is online; only the 8 suggested questions are answered, from recordings.
-- When it is on, the relay has hard caps (700 questions, US$10). People sharing one network share 30 questions a day.
+- Live questions depend on the relay and its hosting platform; when they are unreachable, only the 8 suggested questions are answered, from recordings.
+- The relay has hard caps (700 questions, US$10). People sharing one network share 30 questions a day.
 - The game is written in Traditional Chinese first. The English version was translated with Muse Spark and then reviewed.
 - Facts are as of each source's publication date; the game does not update itself when a policy changes.
 - `img/` still holds 28 images from the first build that the game no longer uses.
