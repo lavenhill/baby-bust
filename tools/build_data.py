@@ -78,7 +78,7 @@ import os
 HP='/workspace/work/bb2/tools/heads.json'  # R4-4a: YuNet head boxes (tools/heads.py)
 if os.path.exists(HP): D['heads']=json.load(open(HP))
 if getattr(C,'POSTER_TEXT',None): D['posterText']={k:{kk:vv for kk,vv in v.items() if kk!='note'} for k,v in C.POSTER_TEXT.items()}
-open('/workspace/work/bb2/data.js','w').write('// Copy drafted with Meta Muse Spark 1.3 (translations, reunion lines); insider slogans are drafts for the author to replace. Illustrations: Meta Muse Image 1.0. Built 2026-10-29 (sheet r1: user copy edits).\nconst DATA='+json.dumps(D,ensure_ascii=False)+';\n')
+open('/workspace/work/bb2/data.js','w').write('// Copy drafted with Meta Muse Spark 1.3 (translations, reunion lines); insider slogans are drafts for the author to replace. Illustrations: Meta Muse Image 1.0. Built 2026-10-29 (sheet r1 + de-AI rewrite).\nconst DATA='+json.dumps(D,ensure_ascii=False)+';\n')
 chars=set(json.dumps(D,ensure_ascii=False))
 open('chars.txt','w').write(''.join(sorted(chars))+'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz–—…·・，。？！：「」（）')
 print('ok',len(chars))
