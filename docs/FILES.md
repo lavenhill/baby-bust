@@ -38,6 +38,8 @@
 | qa/adv/ | 當前 | 誰在倡議的研究與 QA：原文快取 pages.json、Muse 摘要初稿 muse_sum.json、英譯 en_muse.json、重錄與成本實測 jsonl、審稿 review_r1/r2＋review_disposition.md、試玩結果 run/、推版前備份 bak/*.apre.bak |
 | tools/sources_muse.py | 當前 | Muse 檢索：錄製（record）、成本實測（cost）、產生 Worker（worker） |
 | tools/ask_worker.tpl.js、tools/ask_worker.js | 當前（未部署） | 即時查詢 Cloudflare Worker 草稿；不含金鑰；ask_worker.js 由 sources_muse.py 產生 |
+| relay/server.py | 當前（未上線） | 出處頁即時查詢中繼（Python 3.13 標準庫；Botkeep 主案）：只打寫死的 api.meta.ai、只回 data.js 現有的句子編號最多 3 個；每 IP 段每日 30、全站每分鐘 20、總 700 次（ASK_CAP_N）＋US$10 雙上限，SQLite 先扣再打；計數檔在 DATA_DIR（預設 repo 外）；不記問句。index.html 的 ASK_URL 仍空字串 |
+| relay/test_relay.py | 當前 | 中繼測試（本機假 Meta，不花錢）：health、超長、多餘欄位、非法編號、700 次熔斷、每 IP 限額、每分鐘、US$ 上限、無金鑰、逾時、CORS、隱私、併發 |
 | docs/ask-worker.md | 當前 | 即時查詢開關與部署步驟（預設關） |
 | tools/test_lantern.js | 歷史（d29 起不適用） | L1 自由輸入的打碼與關鍵字回應規則單元測試；d29 改限定選項後由 tools/play.py 的選項靜態檢查（128 條路徑×中英）取代 |
 | tools/lantern_opts_128.json | 當前 | 老顏的燈 128 條路徑按鈕組合參考答案（鍵、目標、回覆者；d29 r2 試做產生），play.py 靜態檢查比對用 |
