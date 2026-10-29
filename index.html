@@ -170,8 +170,6 @@ body{color:var(--ink);font-family:"Huninn","Noto Sans CJK TC",system-ui,sans-ser
 .photo{width:calc(30*var(--u));aspect-ratio:4/3;border-radius:8px;background:linear-gradient(#1b2340,#4a3550 75%,#5a3f3a);position:relative;overflow:hidden;margin-top:4px}
 .photo u{position:absolute;width:8%;aspect-ratio:3/4;border-radius:40% 40% 18% 18%;background:#f5a457;box-shadow:0 0 6px 2px #ffaa5099}
 .photo u.me{width:13%}.photo u.off{background:#6d6670;box-shadow:none}
-.lcon{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;border-top:1px dashed #b9ad9c;padding-top:8px;font-size:clamp(14px,calc(2.37*var(--u)),18px);line-height:1.35;opacity:0;transition:opacity .6s}
-.lcon.on{opacity:1}.lcon i{font-style:normal;color:#8a8080;font-size:.8em;padding-top:.2em;white-space:nowrap}.lcon b{word-break:break-word}
 /* S7 出處頁新版 (2026-10-28)：可捲動的一屏；class 一律 sp 開頭，避免撞到牆面的 .tag/.sub */
 .scr.sp{padding:0;gap:0}
 .spb{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:calc(env(safe-area-inset-top) + 3*var(--u)) 5% calc(env(safe-area-inset-bottom) + 3*var(--u));outline:none;-webkit-user-select:text;user-select:text}
@@ -223,10 +221,10 @@ a.splink{display:inline-block;font-size:12.5px;line-height:1.5;color:#3d5ea8;tex
 <body>
 <div id="bd"></div>
 <div id="stage"><button id="lang" class="lang">EN</button><div id="deck"></div></div>
-<script>document.write('<script src="data.js?v=20261029b&t='+Date.now()+'"><\/script>')</script>
+<script>document.write('<script src="data.js?v=20261029c&t='+Date.now()+'"><\/script>')</script>
 <script>
 // Baby or Bust — 我們與孩子的距離. One screen per beat; written during the Meta hackathon (2026-10-27). Spec: docs/spec/.
-const V='20261029b';
+const V='20261029c';
 // S7: 「還想查什麼？」即時查詢開關。設成 Cloudflare Worker 網址（tools/ask_worker.js，見 docs/ask-worker.md）就切成即時 Muse；空字串＝只用錄好的答案（預設關）。
 const ASK_URL=window.BB_ASK_URL||'';if(!(DATA.group&&DATA.lantern&&DATA.sources)&&!/reload=/.test(location.search))location.replace(location.pathname+'?reload='+Date.now());
 const bust=h=>h.replace(/(img\/\w+\.webp)/g,'$1?v='+V);
@@ -429,7 +427,6 @@ function lreply(raw,w){const LT=DATA.lantern,t=raw.trim(),pres=m=>m!=='老顏'&&
     if(k!=='other'&&!(new RegExp(zh).test(t)||new RegExp(en,'i').test(t)))continue;
     const x=who.find(pres)||'佩珊';return [x,line(LT.lines[k+'_'+x]?k+'_'+x:k+'_佩珊')]}}
 async function lanternBeat(raw){const LT=DATA.lantern,LU=LT.ui,w=lmask(raw.trim()),mates=DATA.class_.filter(m=>m!=='老顏');
-  const fin=S.path.find(q=>N[q.node].final)||{node:'y2026',side:'D'},poster=tx(N[fin.node][fin.side].h1); // the 2026 poster the player actually kept
   const POS=[[6,14],[40,7],[74,15],[10,31],[72,33]],DOT=[[10,30],[30,14],[50,34],[68,16],[84,36]];
   const p=screen('lt','<img class="full" src="img/pingxi_2026.webp" alt=""><div class="lsky">'+mates.map((m,i)=>'<div class="sl'+(S.gone.includes(m)?' off':'')+'" style="left:'+POS[i][0]+'%;top:'+POS[i][1]+'%"><b></b><span>'+nm(m)+'</span></div>').join('')+
     '<div class="sl me"><b><div class="lw'+(/[\u2E80-\u9FFF\uF900-\uFAFF\uAC00-\uD7AF]/.test(w)?' v':'')+'"></div></b><span>'+nm('老顏')+'</span></div></div>'+
@@ -442,8 +439,7 @@ async function lanternBeat(raw){const LT=DATA.lantern,LU=LT.ui,w=lmask(raw.trim(
   await at(3600);p.querySelector('.lsky').classList.add('dim');p.querySelector('.lph').classList.add('on'); // 3.6 phone: Peishan posts the photo
   await at(5000);const [who,txt]=lreply(raw,w),ph=p.querySelector('.lph');
   ph.insertAdjacentHTML('beforeend','<div class="bub lrep" data-w="'+who+'"><i>'+tagOf(who)+'</i>'+txt+'</div>');await wait(900);
-  ph.insertAdjacentHTML('beforeend','<div class="lcon"><i>'+tx(LU.on)+'</i><b class="hand"></b><i>'+tx(LU.poster)+'</i><b class="lpo"></b></div>');
-  const lc=ph.querySelector('.lcon');lc.children[1].textContent=w||tx(LU.blank);lc.children[3].textContent=poster;await wait(30);lc.classList.add('on');
+  // c29 (2026-10-29 11:48): the 燈上／海報上 contrast box was removed (players could not read its point; the verdict and DMs carry the poster's cost)
   S.lantern={w,who,ms:Date.now()-t0};await wait(700);H.locked=false;await tapNext(p)}
 // ---------- reunion ----------
 function rkey(m){return m+'|'+S.cutIn[m].slice(0,2).sort().join(',')} // 志豪 etc: only the first two cuts have a key
@@ -490,14 +486,11 @@ function sourcesPage(){
   const links=c=>c.refs?c.refs.map(([l,h])=>link(h,tx(l))).join('<br>'):c.url2?link(c.url,tx(c.src).split(/[；;]/)[0])+'<br>'+link(c.url2,tx(c.src2)):link(c.url,tx(c.src));
   const factH=p=>{const f=fact(p);return f?'<div class="spfact '+f.c.kind+'">'+esc(f.t)+'</div>'+links(f.c):''};
   const yr=n=>N[n].year;
-  // 猜猜看：本局走過的年份挑 3 題，盡量真的／改編／虛構各一
-  const pool=S.path.map(p=>p.node).filter(n=>SD.quiz[n]),pick=[];
-  for(const k of ['real','adapt','fiction']){const n=pool.find(x=>SD.quiz[x].kind===k&&!pick.includes(x));if(n)pick.push(n)}
-  for(const n of pool){if(pick.length>=3)break;if(!pick.includes(n))pick.push(n)}
-  pick.sort((a,b)=>yr(a)-yr(b));
-  const quizH=pick.map(n=>{const z=SD.quiz[n];return '<div class="spbox spq" data-k="'+z.kind+'" data-n="'+n+'"><div class="spcl"><small>'+u('quizYr',{y:yr(n)})+'</small>'+(z.who?esc(nm(z.who))+(L?': ':'：'):'')+(L?'“':'「')+esc(tx(z.c))+(L?'”':'」')+'</div>'+
-    '<div class="spqb">'+['real','adapt','fiction'].map(k=>'<button type="button" data-k="'+k+'">'+u(k)+'</button>').join('')+'</div>'+
-    '<div class="sprev"><div class="spv">'+u(z.kind)+(L?'. ':'。')+esc(tx(z.note))+'</div>'+z.picks.map(factH).join('')+'</div></div>'}).join('');
+  // 猜猜看（c29）：本局走過的年份挑 3 題（頭、中、尾），選項只有「真實／虛構」，答案都是真實；選完顯示答案＋出處
+  const pool=S.path.map(p=>p.node).filter(n=>SD.quiz[n]&&(SD.quiz[n].picks||[]).some(fact)),pick=[...new Set(pool.length>3?[0,pool.length>>1,pool.length-1].map(i=>pool[i]):pool)];
+  const quizH=pick.map(n=>{const z=SD.quiz[n];return '<div class="spbox spq" data-k="'+z.kind+'" data-n="'+n+'"><div class="spcl"><small>'+u('quizYr',{y:yr(n)})+'</small>'+(L?'“':'「')+esc(tx(z.c))+(L?'”':'」')+'</div>'+
+    '<div class="spqb">'+['real','fiction'].map(k=>'<button type="button" data-k="'+k+'">'+u(k)+'</button>').join('')+'</div>'+
+    '<div class="sprev"><div class="spv">'+u('ans')+(tx(z.note)?(L?' ':'　')+esc(tx(z.note)):'')+'</div>'+z.picks.map(factH).join('')+'</div></div>'}).join('');
   // 這七年留下的海報（玩家實際留下的那一面）
   // L：誰在倡議這一張＋沒留下的另一張（中性陳列，只放具名＋原文摘要＋連結）
   const advL=(node,side)=>{const a=((SD.nadv||{})[node]||{})[side]||[];return a.length?a.map(id=>{const c=C[id];return c?'<div class="spfact adv">'+esc(tx(c.f[0]))+'</div>'+links(c):''}).join(''):'<div class="spnone">'+u('advNone')+'</div>'};
