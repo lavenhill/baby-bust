@@ -53,7 +53,7 @@
    "policy_src": "準公共化：ETtoday 2020-01-02；育兒津貼：全教總 2019-03-21",
    "ask": [
     {
-     "zh": "準公共上路，家長月付不到 4,500。部長下週記者會，要家長的笑臉。",
+     "zh": "準公共上路，家長月付不到 4,500。部長記者會要拍家長的笑臉。",
      "en": "Subsidized private preschools launch, parents pay under 4,500/month. Minister’s presser next week, need smiling parents."
     },
     {
@@ -238,7 +238,7 @@
    "policy_src": "全教總 2019-03-21（中央社、ETtoday）；準公共作業要點薪資下限 29,000",
    "ask": [
     {
-     "zh": "今年要多兩百家掛準公共，數字不夠，上面會問。",
+     "zh": "今年要多兩百家掛準公共，數字不夠上面會追喔！",
      "en": "Need 200 more private preschools on the subsidy plan this year. Numbers are short, higher-ups will ask."
     },
     {
@@ -358,7 +358,7 @@
     {
      "id": "y2019a.g6",
      "who": "志豪",
-     "zh": "家豪請吃飯啦，我加班先閃",
+     "zh": "家豪請吃飯！我加班先閃了",
      "en": "Kevin's treat, still on overtime, bye",
      "visible_if": {
       "present": [
@@ -416,7 +416,7 @@
    },
    "news_after_U": null,
    "boss_D": {
-    "zh": "薪水查核是別科的事，今年只拍掛牌。重做。",
+    "zh": "薪水查核是別人的事，我們只管掛牌。重做！",
     "en": "Salary checks are another division's job, this year we just shoot the sign. Redo."
    }
   },
@@ -430,8 +430,8 @@
    "policy_src": "TVBS 2019-05-26；台灣醒報 2019-10-15",
    "ask": [
     {
-     "zh": "公幼抽籤的放榜日。政院說四年增 2,247 班，今年要拍抽中的笑臉。",
-     "en": "Lottery day for cheap public preschools. The Cabinet promised 2,247 new classes in four years. This year we shoot the winners’ smiles."
+     "zh": "公幼抽籤放榜日，上頭說四年增 2,247 班，宣傳圖要拍抽中的笑臉！",
+     "en": "Lottery day for cheap public preschools. The Cabinet promised 2,247 new classes in four years. We shoot the winners’ smiles!"
     },
     {
      "zh": "畫抽中的家長，還是沒抽到的？",
@@ -443,7 +443,7 @@
     "named": false,
     "tag": "",
     "h1": {
-     "zh": "公幼擴大 好入學",
+     "zh": "公幼增班 好入學",
      "en": "More Public Preschools, Easier Enrollment"
     },
     "sub": {
@@ -468,7 +468,7 @@
      "en": "parent"
     },
     "h1": {
-     "zh": "每個孩子都有位子",
+     "zh": "私幼協力 孩子不漏接",
      "en": "A Seat for Every Child"
     },
     "sub": {
@@ -550,8 +550,8 @@
     {
      "id": "y2019b.g6",
      "who": "宜君",
-     "zh": "阿芳抱一個🫂",
-     "en": "Hug for Amy 🫂",
+     "zh": "阿芳抱一個~",
+     "en": "Hug for Amy~",
      "visible_if": {
       "present": [
        "宜君",
@@ -606,7 +606,7 @@
    },
    "news_after_U": null,
    "boss_D": {
-    "zh": "要的是增班的成果，備取不是重點。重做一張。",
+    "zh": "要的是增班成果，備取不是重點。重做一張！",
     "en": "We want the new classes, not the waitlist. Make another one."
    }
   },
@@ -620,7 +620,7 @@
    "policy_src": "勞動部 2021-05-17",
    "ask": [
     {
-     "zh": "全國停課，照顧假准請但不給薪。現在要的是安心，不是問題。",
+     "zh": "全國停課，給老師照顧假但不給薪。現在要的是安心，不要有問題！",
      "en": "Schools closed nationwide, pandemic childcare leave approved but unpaid. We need calm right now, not problems."
     },
     {
@@ -665,7 +665,7 @@
      "en": "In the Same Boat, We'll Get Through This Together"
     },
     "aside": {
-     "zh": "便當冰了，還沒吃完",
+     "zh": "便當涼了，永遠吃不完",
      "en": "My bento's gone cold, still unfinished"
     },
     "h1s": "Thanks for Stepping In"
@@ -796,7 +796,7 @@
    },
    "news_after_U": null,
    "boss_D": {
-    "zh": "現在不是講這個的時候。年底考核，關係到妳明年的約。",
+    "zh": "年底考核關係到妳明年續約，現在別搞有的沒的",
     "en": "Not the time for this. The year-end review decides your contract next year."
    }
   },
@@ -810,7 +810,7 @@
    "policy_src": "內政部 2022-03-31；行政院 2022-06-30；TVBS 2022-07-20、2022-09-28（房客申請租補，房東漲租）",
    "ask": [
     {
-     "zh": "300 億租金補貼，育兒家庭最高 1.8 倍。年底前要看到有感。",
+     "zh": "300 億租金補貼，育兒家庭最高 1.8 倍。要看到有感政績！",
      "en": "NT$30 billion rent subsidy, up to 1.8x for families. Must feel real by year-end."
     },
     {
@@ -902,7 +902,7 @@
     {
      "id": "y2022c.g4",
      "who": "志豪",
-     "zh": "對啊，所以我 80 萬又遠了",
+     "zh": "對啊，所以 80 萬頭期款更遠了",
      "en": "Yeah, so my 800k is even farther away",
      "visible_if": {
       "present": [
@@ -915,7 +915,7 @@
     {
      "id": "y2022c.g5",
      "who": "宜君",
-     "zh": "好啦，我沖繩基金也掰了",
+     "zh": "好啦，我富士山基金也整筆泡湯啦",
      "en": "Fine, bye bye my Okinawa fund",
      "visible_if": {
       "present": [
@@ -980,7 +980,7 @@
     "src": "TVBS 2022-07-20、2022-09-28"
    },
    "boss_D": {
-    "zh": "單身不是這次主打。重做。",
+    "zh": "單身不是這次主打。重做！",
     "en": "Singles aren't the focus this time. Redo it."
    }
   },
@@ -1074,7 +1074,7 @@
     {
      "id": "y2022d.g3",
      "who": "阿芳",
-     "zh": "留停快到了，公司在問了欸。孩子誰顧？",
+     "zh": "留停快到期，公司在問了欸。孩子誰顧？",
      "en": "Unpaid parental leave ending soon, company's asking. Who watches the kid?",
      "visible_if": {
       "present": [
@@ -1111,7 +1111,7 @@
     {
      "id": "y2022d.g6",
      "who": "宜君",
-     "zh": "都行啦，妳不欠誰",
+     "zh": "都行啦，妳沒欠他們",
      "en": "Either's fine, you don't owe anyone",
      "visible_if": {
       "present": [
@@ -1139,7 +1139,7 @@
      {
       "who": "阿芳",
       "time": "",
-      "zh": "今天去面試，人資拿那張堵我啦",
+      "zh": "今天去面試，人資拿那張嗆我啦",
       "en": "Went to a job interview today, HR used that poster to shut me down",
       "visible_if": {
        "present": []
@@ -1157,7 +1157,7 @@
      {
       "who": "阿芳",
       "time": "",
-      "zh": "留停到期，我就先提辭呈了，升主任又離我更遠一步啦",
+      "zh": "留停到期，我就先辭職了，升主任又離我更遠一步啦",
       "en": "My unpaid parental leave ended, so I just resigned first, getting to manager is one step farther again",
       "visible_if": {
        "present": []
@@ -1189,8 +1189,8 @@
    },
    "news_after_U": null,
    "boss_D": {
-    "zh": "她自己選的。重做。",
-    "en": "It was her own choice. Redo it."
+    "zh": "妳自己選的。重做。",
+    "en": "It was your own choice. Redo it."
    }
   },
   "y2024": {
@@ -1203,7 +1203,7 @@
    "policy_src": "行政院；全教產 2024-05-03（公幼延托到下午 6 時、有的到晚上 7 時；特教學生助理員時薪 183 元，常常找不到人）；聯合報 2024-07-08（偏鄉公幼教師一人顧全班，不敢喝水，「遲早得膀胱炎」）",
    "ask": [
     {
-     "zh": "國家一起養 2.0，公幼延托到傍晚。這是今年的主軸。",
+     "zh": "國家一起養 2.0，公幼延托到傍晚，這是今年的主軸！",
      "en": "National Childcare 2.0, public preschool after-hours care. This year's theme."
     },
     {
@@ -1227,7 +1227,7 @@
      "en": "After-Hours Care Till Evening, No Rush"
     },
     "aside": {
-     "zh": "還是要先衝出公司",
+     "zh": "還是要搶點衝出公司",
      "en": "Still have to dash out of the office first"
     },
     "h1s": "0–6 Together 2.0"
@@ -1270,7 +1270,7 @@
     {
      "id": "y2024.g2",
      "who": "宜君",
-     "zh": "嗚我顧到六點半，水都沒喝到",
+     "zh": "嗚我顧到六點半，都沒喝到水",
      "en": "Wuu I watched them til 6:30, didn't even get water",
      "visible_if": {
       "present": [
@@ -1365,7 +1365,7 @@
      {
       "who": "宜君",
       "time": "",
-      "zh": "考上公幼第一年，每天站十一小時啦",
+      "zh": "考上公幼第一年，每天沒時間喝水啦",
       "en": "First year at the public preschool, on my feet 11 hours a day",
       "visible_if": {
        "present": []
@@ -1387,7 +1387,7 @@
      {
       "who": "宜君",
       "time": "",
-      "zh": "嗯，顧到六點是應該的，站十一小時而已",
+      "zh": "嗯，顧到六點是應該的，沒事，站11小時而已",
       "en": "Yeah, staying till 6 is just part of the job. It’s only 11 hours on my feet",
       "visible_if": {
        "present": []
@@ -1397,7 +1397,7 @@
    },
    "news_after_U": null,
    "boss_D": {
-    "zh": "老師的事是另一案。年終考核就在下個月，別在這時候。",
+    "zh": "老師的事妳別管。下個月就年終考核，別在這時候搞鬼。",
     "en": "Teachers are a separate file. Your year-end review is next month. Not now."
    }
   },
@@ -1411,8 +1411,8 @@
    "policy_src": "中央社 2024-01-26，刊於聯合新聞網（公幼寒暑假加托改定額，每月最多 2,000 元）；國教署 2025-05-27（公幼寒暑期加托每月 2,000 元，開辦率 95%）",
    "ask": [
     {
-     "zh": "台南教育局長在全國會議提案：公幼寒暑假，家長月付最多兩千。",
-     "en": "At the national meeting, Tainan’s education chief proposed care during summer and winter break at public preschools, NT$2,000 a month at most."
+     "zh": "教育局長提案：公幼寒暑假繼續收托，家長月付最多兩千。",
+     "en": "education chief proposed care during summer and winter break at public preschools, NT$2,000 a month at most."
     },
     {
      "zh": "畫放心的家長，還是沒有暑假的老師？",
@@ -1456,8 +1456,8 @@
      "en": "Rest up to care better"
     },
     "aside": {
-     "zh": "桌上那張，是沖繩的退票單",
-     "en": "On the desk: a refund slip for Okinawa"
+     "zh": "桌上那張，是機票的退票單",
+     "en": "On the desk: a refund slip for airplane"
     },
     "h1s": "Teachers Need Breaks"
    },
@@ -1505,7 +1505,7 @@
     {
      "id": "y2025e.g4",
      "who": "阿芳",
-     "zh": "欸……那妳的沖繩呢🙏",
+     "zh": "欸……那妳的富士山呢🙏",
      "en": "Uh... what about your Okinawa trip then 🙏",
      "visible_if": {
       "present": [
@@ -1518,8 +1518,8 @@
     {
      "id": "y2025e.g5",
      "who": "宜君",
-     "zh": "沖繩的機票，變成一張退票單啦",
-     "en": "My Okinawa tickets turned into a refund slip",
+     "zh": "日本機票直接變空氣啦",
+     "en": "My airplane tickets turned into air",
      "visible_if": {
       "present": [
        "宜君",
@@ -1531,7 +1531,7 @@
     {
      "id": "y2025e.g6",
      "who": "佩珊",
-     "zh": "明年一起去沖繩，算我一份啦",
+     "zh": "明年一起去富士山，算我一份啦",
      "en": "Count me in for Okinawa next year",
      "visible_if": {
       "present": [
@@ -1594,7 +1594,7 @@
      {
       "who": "宜君",
       "time": "23:48",
-      "zh": "嗯，主任拿那張說暑假加托是今年的重點，沖繩只剩一張退票單",
+      "zh": "主任甩著那張說暑假加托是重點，我手裡的富士山只剩退票單了啦",
       "en": "Yeah. The director held up that poster: break-time care is this year's focus. Okinawa is down to a refund slip",
       "visible_if": {
        "present": []
@@ -1618,11 +1618,11 @@
    "policy_src": "內政部 2025-09-04",
    "ask": [
     {
-     "zh": "社宅婚育優先加碼。名單要見報。",
+     "zh": "社宅婚育優先加碼。名單要見報！",
      "en": "Extra priority for married parents in public housing. List goes public."
     },
     {
-     "zh": "畫拿到鑰匙的夫妻，還是排在最後的人？",
+     "zh": "畫抽到社宅的夫妻，還是排在最後的人？",
      "en": "Draw the couple who got the keys, or the ones stuck last?"
     }
    ],
@@ -1674,7 +1674,7 @@
     {
      "id": "y2025f.g1",
      "who": "佩珊",
-     "zh": "我們中了！三十三了，終於敢生",
+     "zh": "我們中了！三十三了，終於敢生啦",
      "en": "We got in! I'm 33, finally dare to have one",
      "visible_if": {
       "present": [
@@ -1686,8 +1686,8 @@
     {
      "id": "y2025f.g2",
      "who": "志豪",
-     "zh": "恭喜。單身排最後，戒指還在抽屜",
-     "en": "Congrats. Singles last in line, ring's still in the drawer",
+     "zh": "恭喜。單身排最後，還不敢挑戒指",
+     "en": "Congrats. Singles last in line, ring's still in air",
      "visible_if": {
       "present": [
        "志豪",
@@ -1738,7 +1738,7 @@
     {
      "id": "y2025f.g6",
      "who": "宜君",
-     "zh": "群組改名抽籤人生好了，我媽還在等我帶她飛",
+     "zh": "群組改名抽籤人生好了，我媽還在等我帶她玩",
      "en": "Let's rename this Lottery Life, my mom's still waiting for me to take her flying",
      "visible_if": {
       "present": [
@@ -1815,7 +1815,7 @@
    },
    "news_after_U": null,
    "boss_D": {
-    "zh": "要的是拿鑰匙的照片，單身不是對象。重做。",
+    "zh": "要的是拿鑰匙的照片，單身關妳什麼事。重做！",
     "en": "We want key-handover photos, singles aren't the target. Redo."
    }
   },
@@ -1826,7 +1826,7 @@
    "policy_src": "勞動部 2025-09-04；行政院 2025-12-11；中央社 2026-07-16",
    "ask": [
     {
-     "zh": "育嬰留停可以按日請了。",
+     "zh": "育嬰留停可以按日請了。趕快作圖！",
      "en": "Unpaid parental leave can now be taken by the day."
     },
     {
@@ -2213,11 +2213,11 @@
    ],
    "宜君": [
     [
-     "三萬二。今年暑假帶媽去沖繩，只請到三天。",
+     "薪水三萬二。暑假帶媽看富士山，假單只准三天啦。",
      "32,000. Taking Mom to Okinawa this summer, only got 3 days off."
     ],
     [
-     "三萬了。沖繩，明年一定。",
+     "三萬了。富士山，明年一定排進行程啦。",
      "30,000. Okinawa, next year for sure."
     ]
    ],
@@ -2248,15 +2248,15 @@
     "Little Taro wins the lottery for a cheap public preschool next year. I go back to the firm and make manager by 35."
    ],
    "家豪": [
-    "「小太陽」招生滿 60 個。爸寫的招牌要撐過第 30 年。",
+    "小太陽幼兒園招生滿 60 個。爸寫的招牌要撐過第 30 年。",
     "“Little Sun” fills all 60 places. Dad’s hand-painted sign makes it to year 30."
    ],
    "宜君": [
-    "月薪從 26,000 變成 30,000。暑假帶我媽去沖繩，機票先訂了。",
-    "Pay goes from 26,000 to 30,000 a month. Taking Mom to Okinawa this summer, tickets already booked."
+    "月薪到 30,000。暑假帶我媽去富士山，機票我都先買好了啦。",
+    "Pay goes to 30K a month. Taking Mom to Okinawa this summer, tickets already booked."
    ],
    "志豪": [
-    "九點前下班。存到 80 萬頭期款，買得起才敢跟小雯求婚。",
+    "九點前下班。存到 80 萬頭期款，到時跟小雯求婚。",
     "Off work before 9. Save an 800k down payment, then I can finally propose to Wendy."
    ],
    "佩珊": [
