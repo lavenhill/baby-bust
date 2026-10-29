@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
 <meta name="theme-color" content="#2F3B52">
-<title>Baby or Bust｜我們與孩子的距離｜Between Us and the Kids</title>
-<meta name="description" content="我們與孩子的距離：每年一張宣傳照，留下政府文宣還是同學的真實處境。Between Us and the Kids: a short story game about who pays for Taiwan’s childcare policies.">
-<meta property="og:title" content="Baby or Bust｜我們與孩子的距離｜Between Us and the Kids">
-<meta property="og:description" content="Between Us and the Kids: each year you keep one photo, the government poster or your classmate’s real life. A short game about who pays for Taiwan’s childcare policies.">
+<title>Baby Bust</title>
+<meta name="description" content="Baby Bust：每年一張宣傳照，留下政府文宣還是同學的真實處境。Baby Bust: a short story game about who pays for Taiwan’s childcare policies.">
+<meta property="og:title" content="Baby Bust">
+<meta property="og:description" content="Baby Bust: each year you keep one photo, the government poster or your classmate’s real life. A short game about who pays for Taiwan’s childcare policies.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Huninn&family=LXGW+WenKai+TC&display=swap" rel="stylesheet">
 <style>
@@ -244,6 +244,8 @@ button.spr:focus-visible{outline:2px solid #3d5ea8;border-radius:3px}
 @media (prefers-reduced-motion:reduce){.spadvt[aria-expanded=true]+.spadvb,.sppop.on{animation:none}}
 .spb .btn{display:block;margin:14px auto 4px}
 @media (prefers-reduced-motion:reduce){.spq.done .sprev,.spk.open .spkb,.spa{animation:none}.spthink i{animation:none}}
+/* tap30: ?fast=1 (dev) — all transitions and animations ~0 */
+.fast *,.fast *::before,.fast *::after{transition-duration:1ms!important;transition-delay:0s!important;animation-duration:1ms!important;animation-delay:0s!important}
 </style>
 </head>
 <body>
@@ -252,7 +254,7 @@ button.spr:focus-visible{outline:2px solid #3d5ea8;border-radius:3px}
 <script>document.write('<script src="data.js?v=20261029d&t='+Date.now()+'"><\/script>')</script>
 <script>
 // Baby or Bust — 我們與孩子的距離. One screen per beat; written during the Meta hackathon (2026-10-27). Spec: docs/spec/.
-const V='20261029g';
+const V='20261030a';
 // S7: 「還想查什麼？」即時查詢開關（中繼程式 relay/server.py，見 docs/ask-worker.md）；空字串＝只用錄好的答案。
 /* live29：即時提問預設接 Botkeep 中繼；window.BB_ASK_URL 可覆寫（設 '' ＝關閉） */
 const ASK_URL=window.BB_ASK_URL!==undefined?String(window.BB_ASK_URL||''):'https://between-us.bot-keep.xyz/api/ask';if((typeof DATA==='undefined'||!(DATA.group&&DATA.lantern&&DATA.lantern.opt&&DATA.sources&&DATA.v===V))&&!/reload=/.test(location.search))location.replace(location.pathname+'?reload='+Date.now());
@@ -263,7 +265,18 @@ const nm=w=>L?(DATA.names[w]||w):w;
 const S={node:'y2018',self:0,gone:[],hurt:{},peishanGray:false,cutIn:{},seenAside:[],laoyanGray:false,path:[],step:0,tags:{},babies:[],baby:1};
 const deck=document.getElementById('deck'),bd=document.getElementById('bd');
 const SAT=[1,.88,.76,.66,.58,.5,.44];
-const wait=ms=>new Promise(r=>setTimeout(r,ms));
+// tap30 (2026-10-30): ?fast=1 = dev mode, every line gap / timed beat / animation shrinks to ~0
+const FAST=/[?&]fast=1(&|$)/.test(location.search);if(FAST)document.documentElement.classList.add('fast');
+const fms=ms=>FAST?Math.min(ms,5):ms;
+const wait=ms=>new Promise(r=>setTimeout(r,fms(ms)));
+// tap30: line-by-line playback (group chat, classmate cards, boss card, phone call, lantern beat). A tap while it plays = show the rest of this
+// segment at once (the pending timer is cleared, later gaps resolve immediately); the next tap continues as before. P.at throttles taps (350 ms)
+// so a double tap cannot complete a segment and also leave the page, or leave two pages.
+const P={on:false,rush:false,t:null,res:null,at:0,n:0};
+function segOn(){P.on=true;P.rush=false;P.n++}
+function segOff(){P.on=false;P.rush=false;if(P.t){clearTimeout(P.t);P.t=null}P.res=null}
+const pwait=ms=>P.rush?Promise.resolve():new Promise(r=>{P.res=r;P.t=setTimeout(()=>{P.t=null;P.res=null;r()},fms(ms))});
+function rush(){P.rush=true;P.at=Date.now();if(P.t){clearTimeout(P.t);P.t=null}const r=P.res;P.res=null;r&&r()}
 const sat=()=>SAT[Math.min(S.step,SAT.length-1)];
 // ---------- deck: one screen at a time; back = review only ----------
 const H={list:[],i:-1,next:null,locked:false,skip:null};
@@ -276,9 +289,10 @@ function screen(cls,html,opt={}){
 function go(i){H.list.forEach((s,k)=>{s.classList.toggle('below',k>i);s.classList.toggle('above',k<i)});H.i=i}
 function tapNext(scr,label){const t=document.createElement('div');t.className='tapnext';t.textContent=label||(L?'tap to continue':'點一下繼續');scr.appendChild(t);
   return new Promise(r=>{H.next=()=>{t.remove();H.next=null;r()}})}
-function forward(){if(H.i<H.list.length-1)go(H.i+1);else if(H.next&&!H.locked)H.next();else if(H.skip)H.skip()}
+function forward(){if(H.i<H.list.length-1){go(H.i+1);return}const th=Date.now()-P.at<350;
+  if(H.next&&!H.locked){if(th)return;P.at=Date.now();H.next()}else if(P.on&&!P.rush){if(th)return;rush()}else if(H.skip)H.skip()}
 // 2026-10-28i: a timed beat that a tap can cut short (平溪 2026 reveal: taps used to do nothing for ~10 s)
-const swait=ms=>new Promise(r=>{let t;const done=()=>{clearTimeout(t);if(H.skip===done)H.skip=null;r()};t=setTimeout(done,ms);H.skip=done});
+const swait=ms=>new Promise(r=>{let t;const done=()=>{clearTimeout(t);if(H.skip===done)H.skip=null;r()};t=setTimeout(done,fms(ms));H.skip=done});
 function back(){if(H.i>0)go(H.i-1)}
 const cur=()=>H.list[H.i];
 deck.addEventListener('click',e=>{const wl=e.target.closest('.wall');if(e.target.closest('button,input,a,.spb')||(wl&&!wl.classList.contains('done')))return;forward()});
@@ -302,8 +316,8 @@ const fullH=b=>{const g=parseFloat(getComputedStyle(b).rowGap)||0;return [...b.c
 async function stream(box,items,gap){for(const [w,t] of items){box.insertAdjacentHTML('beforeend',bubHTML(w,t,S.gone.includes(w)));
   if(box.children.length>1&&fullH(box)>box.clientHeight){const carry=[box.lastElementChild];carry[0].remove();
     while(box.children.length>1&&box.lastElementChild.dataset.w===w){const pv=box.lastElementChild;pv.remove();carry.unshift(pv)}
-    H.locked=false;await tapNext(box.closest('.scr'),L?'tap for more':'點一下看後續');H.locked=true;box.innerHTML='';carry.forEach(c=>box.appendChild(c))}
-  await wait(gap)}}
+    P.rush=false;H.locked=false;await tapNext(box.closest('.scr'),L?'tap for more':'點一下看後續');H.locked=true;P.n++;box.innerHTML='';carry.forEach(c=>box.appendChild(c))} // tap30: a rush stops at the page break
+  await pwait(gap)}}
 // ---------- opening (C9) ----------
 async function opening(){
   const O=DATA.open2,seen=new Set();
@@ -323,8 +337,8 @@ async function opening(){
 async function phoneCall(m){
   const p=screen('call','<img src="img/fb_'+DATA.slug[m]+'.webp" alt=""><b style="font-size:calc(3.2*var(--u))">'+nm(m)+'</b><div class="ring">'+tx(DATA.open2.calling)+'</div><div class="lines" style="display:flex;flex-direction:column;gap:calc(1.2*var(--u));min-height:calc(18*var(--u))"></div>');
   await tapNext(p,L?'tap to answer':'點一下接聽');p.querySelector('.ring').remove();
-  H.locked=true;const box=p.querySelector('.lines');for(const l of ((DATA.callN&&DATA.callN[S.node])||DATA.call[m])){box.insertAdjacentHTML('beforeend','<div class="sub2 hand">'+tx(l)+'</div>');await wait(1500)}
-  H.locked=false;await tapNext(p);
+  H.locked=true;segOn();const box=p.querySelector('.lines');for(const l of ((DATA.callN&&DATA.callN[S.node])||DATA.call[m])){box.insertAdjacentHTML('beforeend','<div class="sub2 hand">'+tx(l)+'</div>');await pwait(1500)}
+  segOff();H.locked=false;await tapNext(p);
 }
 async function leftGroup(m){
   const p=screen('','<div class="spacer"></div><img src="img/fb_'+DATA.slug[m]+'.webp" alt="" style="align-self:center;height:calc(36*var(--u));filter:grayscale(1);opacity:.55;"><div class="sys">'+tx(DATA.open2.left).replace('{who}',nm(m))+'</div><div class="spacer"></div>');
@@ -338,10 +352,10 @@ async function year(){
   for(const h of 'UD'){if(n[h].named&&n[h].tag)S.tags[n[h].who]=n[h].tag}
   const a=screen('',row()+'<div class="yr">'+n.year+'</div><div class="gh">'+tx(DATA.v5.grp)+(L?' (':'（')+(6-S.gone.length)+(L?')':'）')+'</div>'+
     '<div class="chat grp"></div><div class="memo fmemo"><i>'+nm('主管')+'</i><p>'+tx(n.ask[0])+'</p></div>',{sat:s});
-  const box=a.querySelector('.chat');H.locked=true;
-  if(S.pendingBaby){const b=S.pendingBaby;S.pendingBaby=null;box.insertAdjacentHTML('beforeend','<div class="bub babyb"><i>'+nm(b.z)+'</i><img src="img/baby_'+b.bw+'.webp" alt="">'+tx(DATA.v5.baby1).replace('{n}',b.n)+'</div>');await wait(800);const cg=DATA.class_.find(q=>q!==b.z&&q!=='老顏'&&!S.gone.includes(q));if(cg){box.insertAdjacentHTML('beforeend',bubHTML(cg,DATA.v5.baby2).replace('{who}',nm(b.z)));await wait(700)}}
+  const box=a.querySelector('.chat');H.locked=true;segOn();
+  if(S.pendingBaby){const b=S.pendingBaby;S.pendingBaby=null;box.insertAdjacentHTML('beforeend','<div class="bub babyb"><i>'+nm(b.z)+'</i><img src="img/baby_'+b.bw+'.webp" alt="">'+tx(DATA.v5.baby1).replace('{n}',b.n)+'</div>');await pwait(800);const cg=DATA.class_.find(q=>q!==b.z&&q!=='老顏'&&!S.gone.includes(q));if(cg){box.insertAdjacentHTML('beforeend',bubHTML(cg,DATA.v5.baby2).replace('{who}',nm(b.z)));await pwait(700)}}
   const lines=(DATA.group[S.node]||[]).filter(([w,t,d])=>!S.gone.includes(w)&&d.every(x=>x[0]==='!'?S.gone.includes(x.slice(1)):!S.gone.includes(x))).map(([w,t])=>[w,t]);
-  await stream(box,lines,n.flood?380:700);await wait(400);a.querySelector('.fmemo').classList.add('in');await wait(600);H.locked=false;
+  await stream(box,lines,n.flood?380:700);await pwait(400);a.querySelector('.fmemo').classList.add('in');await pwait(600);segOff();H.locked=false;
   await tapNext(a);choice(n,s);
 }
 function fitH1(w){w.querySelectorAll('.half').forEach(h=>{const e=h.querySelector('.h1');const max=h.clientHeight*(L?.5:.42);
@@ -403,14 +417,14 @@ async function snip(w,o){const RM=matchMedia('(prefers-reduced-motion: reduce)')
 async function groupCons(node,who,k){
   const ls=(DATA.gcons[node]||{})[k]||[];
   const f=screen('fb','<img class="fbbg" src="img/'+node+'_U_poster.webp" alt="">'+row(who)+'<div class="spacer"></div><div class="phone"></div><div class="spacer"></div><div class="tail"></div>',{sat:sat()});
-  const ph=f.querySelector('.phone'),tail=f.querySelector('.tail');H.locked=true;
-  ph.innerHTML='<div class="ph">'+tx(DATA.v5.grp)+(L?' (':'（')+(6-S.gone.length+(k>=2?1:0))+(L?')':'）')+'</div>';await wait(500);
+  const ph=f.querySelector('.phone'),tail=f.querySelector('.tail');H.locked=true;segOn();
+  ph.innerHTML='<div class="ph">'+tx(DATA.v5.grp)+(L?' (':'（')+(6-S.gone.length+(k>=2?1:0))+(L?')':'）')+'</div>';await pwait(500);
   const nw=DATA.news&&DATA.news[node];
-  if(nw){ph.insertAdjacentHTML('beforeend','<div class="news"><span>'+(L?'NEWS':'新聞')+'</span><b>'+tx(nw[0])+'</b><small>'+tx(nw[1])+'</small></div>');await wait(1300)}
+  if(nw){ph.insertAdjacentHTML('beforeend','<div class="news"><span>'+(L?'NEWS':'新聞')+'</span><b>'+tx(nw[0])+'</b><small>'+tx(nw[1])+'</small></div>');await pwait(1300)}
   for(const [w,t,txt,d] of ls){if(w!==who&&S.gone.includes(w))continue;if(!d.every(x=>x===who||!S.gone.includes(x)))continue;
-    ph.insertAdjacentHTML('beforeend','<div class="bub"><i>'+tagOf(w)+(t?'　'+t:'')+'</i>'+tx(txt)+'</div>');await wait(1100)}
-  if(k>=2){ph.insertAdjacentHTML('beforeend','<div class="sysin">'+tx(DATA.open2.left).replace('{who}',nm(who))+'</div>');await wait(600)} // R4-2: LINE-style last line of the group card, not a bar over the tap pill
-  H.locked=false;await tapNext(f);
+    ph.insertAdjacentHTML('beforeend','<div class="bub"><i>'+tagOf(w)+(t?'　'+t:'')+'</i>'+tx(txt)+'</div>');await pwait(1100)}
+  if(k>=2){ph.insertAdjacentHTML('beforeend','<div class="sysin">'+tx(DATA.open2.left).replace('{who}',nm(who))+'</div>');await pwait(600)} // R4-2: LINE-style last line of the group card, not a bar over the tap pill
+  segOff();H.locked=false;await tapNext(f);
 }
 function hurt(id,node){S.hurt[id]=(S.hurt[id]||0)+1;(S.cutIn[id]=S.cutIn[id]||[]).push(node);if(S.hurt[id]===2)S.gone.push(id);return S.hurt[id]}
 async function publish(w,n,h,s){
@@ -424,11 +438,11 @@ async function publish(w,n,h,s){
   if(h==='U'){if(n.D.named&&!S.gone.includes(n.D.who)){who=n.D.who;k=hurt(who,S.node)}}else S.self++;
   if(h==='U'){if(who)await groupCons(S.node,who,k)}
   else{const f=screen('fb','<img class="fbbg" src="img/'+S.node+'_D_poster.webp" alt="">'+row('老顏')+'<div class="spacer"></div><div class="phone"></div><div class="spacer"></div><div class="tail"></div>',{sat:s});
-    const ph=f.querySelector('.phone'),tail=f.querySelector('.tail');H.locked=true;
-    ph.innerHTML='<div class="ph">'+nm('主管')+'</div>';await wait(500);
-    ph.insertAdjacentHTML('beforeend','<div class="bub">'+tx(n.boss.D)+'</div>');await wait(1100);
+    const ph=f.querySelector('.phone'),tail=f.querySelector('.tail');H.locked=true;segOn();
+    ph.innerHTML='<div class="ph">'+nm('主管')+'</div>';await pwait(500);
+    ph.insertAdjacentHTML('beforeend','<div class="bub">'+tx(n.boss.D)+'</div>');await pwait(1100);
     tail.innerHTML='<div class="life hand">'+(S.self===3?tx(DATA.ring_off):S.self<=4&&DATA.life[S.self-1][0]?tx(DATA.life[S.self-1]):tx(U.again_night))+'</div>';
-    H.locked=false;await tapNext(f)}
+    segOff();H.locked=false;await tapNext(f)}
   S.step++;
   if(S.babies.includes(S.step)){S.baby++;let j=S.baby-2,bw,z;for(let t=0;t<DATA.babies.length;t++){bw=DATA.babies[(j+t)%DATA.babies.length];z=Object.keys(DATA.slug).find(q=>DATA.slug[q]===bw);if(!S.gone.includes(z))break}S.pendingBaby={n:S.baby,bw,z}}
   S.node=n.next[h];year();
@@ -451,15 +465,15 @@ async function lanternBeat(opt){const w=opt.w,mates=DATA.class_.filter(m=>m!=='�
     '<div class="sl me"><b><div class="lw'+(/[\u2E80-\u9FFF\uF900-\uFAFF\uAC00-\uD7AF]/.test(w)?' v':'')+'"></div></b><span>'+nm('老顏')+'</span></div></div>'+
     '<div class="phone lph"><div class="ph">'+tx(DATA.v5.grp)+(L?' (':'（')+(6-S.gone.length)+(L?')':'）')+'</div><div class="bub" data-w="佩珊"><i>'+tagOf('佩珊')+'</i><div class="photo">'+
     mates.map((m,i)=>'<u class="'+(S.gone.includes(m)?'off':'')+'" style="left:'+DOT[i][0]+'%;top:'+DOT[i][1]+'%"></u>').join('')+'<u class="me" style="left:44%;top:56%"></u></div></div></div><div class="spacer"></div>',{bg:'img/pingxi_2026.webp'});
-  H.locked=true;const t0=Date.now(),at=ms=>wait(Math.max(0,ms-(Date.now()-t0)));
-  const lwd=p.querySelector('.lw');lwd.textContent=w;await wait(60);lwd.classList.add('on'); // 0–0.8 the words go on the lantern
+  H.locked=true;segOn();const t0=Date.now(),at=ms=>pwait(Math.max(0,ms-(Date.now()-t0)));
+  const lwd=p.querySelector('.lw');lwd.textContent=w;await pwait(60);lwd.classList.add('on'); // 0–0.8 the words go on the lantern
   await at(800);p.querySelector('.sl.me').classList.add('lit');             // 0.8 light
   await at(1400);p.querySelector('.lsky').classList.add('up');              // 1.4–3.6 rise with the others; gone classmates' lanterns stay dark
   await at(3600);p.querySelector('.lsky').classList.add('dim');p.querySelector('.lph').classList.add('on'); // 3.6 phone: Peishan posts the photo
   await at(5000);const who=opt.who,txt=esc(opt.rep),ph=p.querySelector('.lph');
-  ph.insertAdjacentHTML('beforeend','<div class="bub lrep" data-w="'+who+'"><i>'+tagOf(who)+'</i>'+txt+'</div>');await wait(900);
+  ph.insertAdjacentHTML('beforeend','<div class="bub lrep" data-w="'+who+'"><i>'+tagOf(who)+'</i>'+txt+'</div>');await pwait(900);
   // c29 (2026-10-29 11:48): the 燈上／海報上 contrast box was removed (players could not read its point; the verdict and DMs carry the poster's cost)
-  S.lantern={w,k:opt.k,t:opt.t||null,who,ms:Date.now()-t0};await wait(700);H.locked=false;await tapNext(p)}
+  S.lantern={w,k:opt.k,t:opt.t||null,who,ms:Date.now()-t0};await pwait(700);segOff();H.locked=false;await tapNext(p)}
 // ---------- reunion ----------
 function rkey(m){return m+'|'+S.cutIn[m].slice(0,2).sort().join(',')} // 志豪 etc: only the first two cuts have a key
 async function reunion(){
