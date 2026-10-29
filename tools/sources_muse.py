@@ -10,7 +10,9 @@ import sources_zh as S
 MODEL="muse-spark-1.3";PRICE=(1.25,4.25)  # US$ / 1M tokens（輸入、輸出）
 IDS=[f"{c['id']}-{i+1}" for c in S.CARDS for i in range(len(c['facts']))]
 def system_prompt():
-    lib="\n".join(f"{c['id']}｜{c['title']}｜{c['src']}\n"+"\n".join(f"  {c['id']}-{i+1} {f}" for i,f in enumerate(c['facts'])) for c in S.CARDS)
+    # S29：每句＝(句子, [網址])；出處欄＝參考資料的媒體＋日期
+    src=lambda c:"；".join(dict.fromkeys(f"{S.REFS[u][2]} {S.REFS[u][3]}" for _,us in c['facts'] for u in us)) or "本遊戲製作說明"
+    lib="\n".join(f"{c['id']}｜{c['title']}｜{src(c)}\n"+"\n".join(f"  {c['id']}-{i+1} {f}" for i,(f,_) in enumerate(c['facts'])) for c in S.CARDS)
     return f"""你是手機遊戲《我們與孩子的距離》結局「資料查證」頁的檢索器。玩家會問一句話，你只能從下面的出處庫挑出能回答的句子編號，不能自己寫任何事實。
 出處庫（每句都已查證）：
 {lib}
