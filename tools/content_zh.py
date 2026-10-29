@@ -395,7 +395,7 @@ LANTERN_OPT={
  },
  "s4": {
   "lamp": [
-   "把手牽回來",
+   "再牽起她的手",
    "Hold her hand again"
   ],
   "who": [
@@ -403,8 +403,8 @@ LANTERN_OPT={
   ],
   "rep": {
    "佩珊": [
-    "牽回來那天，幫妳們拍合照的人是我，不好意思",
-    "When you hold hands again, I'm taking the photo, sorry"
+    "妳把人牽回來，這次換我幫妳拍照，不好意思啦！",
+    "Bring her back, and this time I'm taking the photo. Sorry!"
    ]
   }
  },
