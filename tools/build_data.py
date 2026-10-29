@@ -54,13 +54,20 @@ import os,sources_zh as SZ
 _T=os.path.dirname(os.path.abspath(__file__));SEN=json.load(open(os.path.join(_T,'sources_en.json')));SREC=json.load(open(os.path.join(_T,'sources_rec.json')))
 def se(key,zh):
     v=SEN.get(key);assert v,('sources_en missing',key);return [zh,v]
+# S29（2026-10-29）：每句＝[中, 英]，出處另放 r（REFS 索引）；REFS＝[網址, [作者, 標題, 媒體, 日期]中, 同英]。引擎依頁面出現順序給 [n]。
+_RU=list(SZ.REFS);_RI={u:i for i,u in enumerate(_RU)};_RE=SEN['REFS']
+def _au(au,pub): return '' if (au in pub or pub in au) else au
+refs=[[u,[_au(SZ.REFS[u][0],SZ.REFS[u][2]),SZ.REFS[u][1],SZ.REFS[u][2],SZ.REFS[u][3]],[_au(_RE[u][0],_RE[u][2]),_RE[u][1],_RE[u][2],_RE[u][3]]] for u in _RU]
+for u in _RU: assert u.startswith('https://') and all(SZ.REFS[u][1:3]) and all(_RE[u][1:3]),('ref incomplete',u)
 cards={}
 for c in SZ.CARDS:
-    o=dict(t=se(c['id']+'.title',c['title']),src=se(c['id']+'.src',c['src']),url=c['url'],kind=c['kind'],f=[se(f"{c['id']}-{i+1}",f) for i,f in enumerate(c['facts'])])
-    if c.get('url2'): o['url2']=c['url2'];o['src2']=se(c['id']+'.src2',c['src2'])
-    if c.get('refs'): o['refs']=[[se(f"{c['id']}.ref{i}",lab),u] for i,(lab,u) in enumerate(c['refs'])];assert all(u.startswith('http') for _,u in c['refs'])
+    o=dict(t=se(c['id']+'.title',c['title']),kind=c['kind'],f=[se(f"{c['id']}-{i+1}",f) for i,(f,_) in enumerate(c['facts'])],r=[[_RI[u] for u in us] for _,us in c['facts']])
+    if c.get('game'): o['g']=se(c['id']+'.game',c['game'])
+    if c['kind']!='meta': assert all(o['r']),('fact without source',c['id'])
+    o['url']=_RU[o['r'][0][0]] if c['kind']!='meta' else ''
     cards[c['id']]=o
 ids={f"{k}-{i+1}" for k,c in cards.items() for i in range(len(c['f']))}
+assert len(SEN['REFS'])==len(SZ.REFS)
 for k,q in SZ.QUIZ.items(): assert all(p in ids for p in q['picks']),k
 quiz={k:dict(c=se('quiz.'+k+'.claim',q['claim']),who=q.get('who',''),kind=q['kind'],note=(se('quiz.'+k+'.note',q['note']) if q['note'] else ['','']),picks=q['picks']) for k,q in SZ.QUIZ.items()}
 # c29（2026-10-29）：猜猜看每題答案都是「真實」，題目必須是該年遊戲原句的一段（中英各自一字不差），且至少一句出處、出處卡要有 https 連結
@@ -77,10 +84,18 @@ for i,c in enumerate(SZ.CHIPS):
 for k,d in SZ.NODE_ADV.items():
     assert k in C.NODES and set(d)<={'U','D'},k
     for h,v in d.items(): assert 1<=len(v)<=3 and all(cards[a]['kind']=='adv' and cards[a]['url'].startswith('http') for a in v),(k,h)
-D['sources']=dict(N=len(ids),order=[c['id'] for c in SZ.CARDS],cards=cards,ncard=SZ.NODE_CARD,nadv=SZ.NODE_ADV,quiz=quiz,
+D['sources']=dict(N=len(ids),order=[c['id'] for c in SZ.CARDS],cards=cards,refs=refs,ncard=SZ.NODE_CARD,nadv=SZ.NODE_ADV,quiz=quiz,
   prog=[[p,se('prog.'+st,st)] for p,st in SZ.PROGRESS],chips=[se(f'chip.{i}',c) for i,c in enumerate(SZ.CHIPS)],rec=rec,
   ui={k:se('ui.'+k,v) for k,v in SZ.UI.items()})
 for p,_ in SZ.PROGRESS: assert p in ids,p
+# f29（2026-10-29）：每筆出處都有本地存檔頁 sources/Rxx.html（xx＝REFS 順序，從 01 起），頁內必須寫著原文網址；引擎的「存檔」與引用卡按鈕連到這頁
+import html as _h
+_SD=os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','sources')
+for i,u in enumerate(_RU):
+    _f=f'{_SD}/R{i+1:02d}.html';assert os.path.exists(_f),('missing local archive page',_f)
+    _t=open(_f).read();assert _h.escape(u,quote=True) in _t,('archive page does not name its URL',_f);assert not re.search(r'<(script|link|img|iframe|object|embed)\b|url\(|@import|@font-face',_t,re.I),('archive page loads external resources',_f)
+    assert ('<a href="'+_h.escape(u,quote=True)+'"') in _t and ('web.archive.org/web/' in _t or '未存檔' in _t),('archive page lacks clickable original or Wayback line',_f)
+D['sources']['arch']=dict(dir='sources/',d='2026-10-29')
 import os
 HP='/workspace/work/bb2/tools/heads.json'  # R4-4a: YuNet head boxes (tools/heads.py)
 if os.path.exists(HP): D['heads']=json.load(open(HP))
