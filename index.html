@@ -147,11 +147,11 @@ body{color:var(--ink);font-family:"Huninn","Noto Sans CJK TC",system-ui,sans-ser
 .reply img{width:calc(10*var(--u));aspect-ratio:1;border-radius:50%;object-fit:cover;object-position:top;background:#e2dedc;flex:none}
 .dmc .bub{font-size:clamp(14px,calc(2.37*var(--u)),18px);line-height:1.38;max-width:100%}.dmc .clamp{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .grp{gap:calc(.7*var(--u))}.grp{-webkit-mask:none;mask:none}.grp .bub{font-size:clamp(14px,calc(2.37*var(--u)),18px);padding:calc(.6*var(--u)) 10px;line-height:1.3}.l26{min-height:calc(12*var(--u))}
-/* L1 結局天燈拍 (2026-10-28) */
-.wish input{-webkit-user-select:text;user-select:text;font-family:"Huninn","Noto Sans CJK TC",system-ui,sans-serif;font-size:max(16px,1em);flex:1;min-width:0;border:2px solid #a0743a;border-radius:8px;padding:6px 10px;background:#fff;color:var(--ink)}
-.lin{display:flex;gap:8px;margin-top:4px}
-.lin button{border:0;border-radius:8px;padding:0 16px;background:var(--hot);color:#fff;font:inherit;font-weight:bold;font-size:16px;flex:none}
-.lcnt{display:block;text-align:right;font-size:12px;color:#a0743a;margin-top:2px;font-family:system-ui,sans-serif}
+/* 結局天燈拍：老顏的燈限定選項（d29 2026-10-29，取代 L1 輸入框） */
+.lopt{display:flex;flex-direction:column;gap:6px;margin-top:4px}
+.lopt button{border:2px solid #a0743a;border-radius:10px;background:#fffaf0;color:var(--ink);font:inherit;font-size:max(15px,.92em);padding:7px 10px;line-height:1.3;cursor:pointer;text-align:center}
+.lopt button.on{background:var(--hot);border-color:var(--hot);color:#fff}
+.lopt button.no{opacity:.35}
 .lsky{position:absolute;inset:0;transition:filter .5s}.lsky.dim{filter:brightness(.45)}
 .sl{position:absolute;width:13%;display:flex;flex-direction:column;align-items:center;transition:transform 2.2s cubic-bezier(.55,0,.75,.9)}
 .sl b{width:100%;aspect-ratio:3/4;border-radius:40% 40% 18% 18%;background:linear-gradient(#fffbe8,#ffcf6b);box-shadow:0 0 18px #ffd27a;display:flex;align-items:center;justify-content:center;overflow:hidden}
@@ -182,9 +182,10 @@ body{color:var(--ink);font-family:"Huninn","Noto Sans CJK TC",system-ui,sans-ser
 .spbox{background:var(--paper);border-radius:12px;margin-bottom:8px;overflow:hidden;box-shadow:0 2px 0 #0003}
 .spq{padding:10px 12px}
 .spq .spcl{font-size:clamp(15px,calc(2.4*var(--u)),17px);line-height:1.45;margin-bottom:8px;word-break:break-word}
+.spq .spcl .nw{white-space:nowrap}
 .spq .spcl small{display:block;color:#8a8080;font-size:12px}
-.spqb{display:flex;gap:6px}
-.spqb button{flex:1;min-width:0;border:0;border-radius:10px;padding:8px 2px;font:inherit;font-size:clamp(13px,calc(2.2*var(--u)),15px);background:#2F3B5214;color:var(--night);cursor:pointer}
+.spqb{display:flex;gap:8px;justify-content:center}
+.spqb button{flex:1 1 0;max-width:13em;min-width:0;border:0;border-radius:10px;padding:8px 2px;font:inherit;font-size:clamp(13px,calc(2.2*var(--u)),15px);background:#2F3B5214;color:var(--night);cursor:pointer}
 .spqb button.ok{background:#2e7d4f;color:#fff}.spqb button.no{background:#d5cfcc;color:#6f6767;text-decoration:line-through}
 .sprev{display:none;margin-top:8px}.spq.done .sprev{display:block;animation:in .3s both}
 .spv{font-weight:bold;font-size:14px;line-height:1.5;margin-bottom:2px}
@@ -221,12 +222,12 @@ a.splink{display:inline-block;font-size:12.5px;line-height:1.5;color:#3d5ea8;tex
 <body>
 <div id="bd"></div>
 <div id="stage"><button id="lang" class="lang">EN</button><div id="deck"></div></div>
-<script>document.write('<script src="data.js?v=20261029c&t='+Date.now()+'"><\/script>')</script>
+<script>document.write('<script src="data.js?v=20261029d&t='+Date.now()+'"><\/script>')</script>
 <script>
 // Baby or Bust — 我們與孩子的距離. One screen per beat; written during the Meta hackathon (2026-10-27). Spec: docs/spec/.
-const V='20261029c';
+const V='20261029d';
 // S7: 「還想查什麼？」即時查詢開關。設成 Cloudflare Worker 網址（tools/ask_worker.js，見 docs/ask-worker.md）就切成即時 Muse；空字串＝只用錄好的答案（預設關）。
-const ASK_URL=window.BB_ASK_URL||'';if(!(DATA.group&&DATA.lantern&&DATA.sources)&&!/reload=/.test(location.search))location.replace(location.pathname+'?reload='+Date.now());
+const ASK_URL=window.BB_ASK_URL||'';if((typeof DATA==='undefined'||!(DATA.group&&DATA.lantern&&DATA.lantern.opt&&DATA.sources&&DATA.v===V))&&!/reload=/.test(location.search))location.replace(location.pathname+'?reload='+Date.now());
 const bust=h=>h.replace(/(img\/\w+\.webp)/g,'$1?v='+V);
 const N=DATA.nodes,U=DATA.ui;let L=0;
 const tx=a=>Array.isArray(a)?(a[L]||a[0]):(a||'');
@@ -259,7 +260,9 @@ deck.addEventListener('pointerup',e=>{if(ty===null)return;const dy=e.clientY-ty;
 let wheelT=0;addEventListener('wheel',e=>{if(e.target.closest&&e.target.closest('.spb'))return;const now=Date.now();if(now-wheelT<600||Math.abs(e.deltaY)<20)return;wheelT=now;
   const c=cur();if(c&&c.classList.contains('wall')&&!c.classList.contains('done'))return;
   e.deltaY>0?forward():back()},{passive:true});
-addEventListener('keydown',e=>{if(e.target&&e.target.tagName==='INPUT')return;const c=cur();if(c&&c.classList.contains('sp'))return; // S7: native scrolling on the sources page
+addEventListener('keydown',e=>{if(e.target&&e.target.tagName==='INPUT')return;const c=cur();
+ if(c&&c.querySelector('.lopt')){const lo=c.querySelectorAll('.lopt button:not(:disabled)');if(/^[1-3]$/.test(e.key)&&lo[+e.key-1])lo[+e.key-1].click();return} /* d29: 1/2/3 pick Lao Yan's lantern */
+ if(c&&c.classList.contains('sp'))return; // S7: native scrolling on the sources page
  const live=c&&c.classList.contains('wall')&&!c.classList.contains('done');
   if(live){if(e.key==='ArrowUp'||e.key==='1')c.pick('U');else if(e.key==='ArrowDown'||e.key==='2')c.pick('D');else if(e.key==='Enter'||e.key===' '){e.preventDefault();c.commit&&c.commit()}return}
   if(['ArrowDown','PageDown',' ','Enter','ArrowRight'].includes(e.key)){e.preventDefault();forward()}else if(['ArrowUp','PageUp','ArrowLeft'].includes(e.key))back()});
@@ -402,31 +405,19 @@ async function publish(w,n,h,s){
   if(S.babies.includes(S.step)){S.baby++;let j=S.baby-2,bw,z;for(let t=0;t<DATA.babies.length;t++){bw=DATA.babies[(j+t)%DATA.babies.length];z=Object.keys(DATA.slug).find(q=>DATA.slug[q]===bw);if(!S.gone.includes(z))break}S.pendingBaby={n:S.baby,bw,z}}
   S.node=n.next[h];year();
 }
-// ---------- L1 lantern beat (2026-10-28): the player writes Lao Yan's lantern; local only, no AI ----------
-const CJK=/[\u2E80-\u9FFF\uF900-\uFAFF\uFF00-\uFFEF\u3000-\u303F\uAC00-\uD7AF]/;
-const lw=s=>[...s].reduce((n,c)=>n+(CJK.test(c)?1:.5),0);
-function lclip(s){let o='',n=0;for(const c of s){const d=CJK.test(c)?1:.5;if(n+d>12)break;o+=c;n+=d}return o}
+// ---------- lantern beat (d29 2026-10-29): Lao Yan's lantern = one of 2–3 fixed options built from this run's state (replaces L1 free text) ----------
 const esc=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function lmask(s){const LT=DATA.lantern,blk=m=>'▇'.repeat([...m].length);
-  return s.replace(new RegExp(LT.prof_zh,'g'),(m,o,str)=>m==='幹'&&('能才骨主樹'.includes(str[o-1]||'\0')||'嘛部活練勁事麼線'.includes(str[o+1]||'\0'))?m:blk(m)).replace(new RegExp(LT.prof_en,'gi'),blk)}
-function lanternInput(wb){const LU=DATA.lantern.ui;
-  wb.innerHTML='<i>'+nm('老顏')+'</i><div class="lin"><input type="text" enterkeyhint="done" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="'+esc(tx(LU.ph))+'"><button type="button">'+tx(LU.go)+'</button></div><small class="lcnt">0/12</small>';
-  const inp=wb.querySelector('input'),btn=wb.querySelector('button'),cnt=wb.querySelector('.lcnt');let comp=false;
-  const upd=()=>{if(!comp){const c=lclip(inp.value);if(c!==inp.value)inp.value=c}cnt.textContent=Math.ceil(lw(inp.value))+'/12'};
-  let pend=null;inp.addEventListener('compositionstart',()=>comp=true);inp.addEventListener('compositionend',()=>{comp=false;upd();if(pend){const f=pend;pend=null;setTimeout(f,0)}});inp.addEventListener('input',upd);
-  inp.addEventListener('blur',()=>{if(comp){comp=false;upd();if(pend){const f=pend;pend=null;setTimeout(f,0)}}}); // 2026-10-28i: iOS may drop compositionend
-  if(matchMedia('(pointer:fine)').matches)inp.focus({preventScroll:true});
-  return new Promise(r=>{let done=false;const go=()=>{if(done)return;if(comp){pend=go;inp.blur();setTimeout(()=>{if(!done){comp=false;pend=null;go()}},400);return}done=true;const v=lclip(inp.value.trim());inp.blur();inp.disabled=btn.disabled=true;r(v)};
-    btn.onclick=e=>{e.stopPropagation();go()};
-    inp.addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter'&&!e.isComposing&&e.keyCode!==229){e.preventDefault();go()}})})}
-function lreply(raw,w){const LT=DATA.lantern,t=raw.trim(),pres=m=>m!=='老顏'&&!S.gone.includes(m),line=k=>esc(tx(LT.lines[k])).split('{w}').join(esc(w));
-  for(const [k,zh,en,who] of LT.rules){
-    if(k==='prof'){if(!t||w!==t){const x=who.find(pres)||'佩珊';return [x,line(k+'_'+x)]}continue}
-    if(k==='name'){let best=null,bi=1e9;for(const m of DATA.class_){if(!pres(m))continue;const mm=t.match(new RegExp(m+'|'+LT.names_en[m],'i'));if(mm&&mm.index<bi){bi=mm.index;best=m}}
-      if(best)return [best,line('name_'+best)];continue}
-    if(k!=='other'&&!(new RegExp(zh).test(t)||new RegExp(en,'i').test(t)))continue;
-    const x=who.find(pres)||'佩珊';return [x,line(LT.lines[k+'_'+x]?k+'_'+x:k+'_佩珊')]}}
-async function lanternBeat(raw){const LT=DATA.lantern,LU=LT.ui,w=lmask(raw.trim()),mates=DATA.class_.filter(m=>m!=='老顏');
+// ① her own (life frame she saw last: s0–s4) ② one friend (most hurt, ties → cut earliest; gone → Peishan answers, once → that friend) ③ in eight years (p0 no one left / p1 someone left)
+function lopts(){const O=DATA.lantern.opt,pres=m=>m!=='老顏'&&!S.gone.includes(m),f=(a,n)=>tx(a).split('{n}').join(nm(n)),out=[];
+  const sk='s'+Math.min(S.self,4),so=O[sk],r1=so.who.find(pres)||'佩珊';out.push({k:sk,w:tx(so.lamp),who:r1,rep:tx(so.rep[r1])});
+  const first=m=>S.path.findIndex(p=>p.node===(S.cutIn[m]||[])[0]);
+  const c=DATA.class_.filter(m=>m!=='老顏'&&(S.hurt[m]||0)>0).sort((a,b)=>(S.hurt[b]-S.hurt[a])||(first(a)-first(b)));
+  if(c.length){const t=c[0],g=S.gone.includes(t),o=g?O.gone:O.once;out.push({k:g?'gone':'once',t,w:f(o.lamp,t),who:g?'佩珊':t,rep:f(g?o.rep:o.rep[t],t)})}
+  const p=S.gone.length?O.p1:O.p0,r3=p.who.find(pres)||'佩珊';out.push({k:'promise',w:tx(O.plamp),who:r3,rep:tx(p.rep[r3])});return out}
+function lanternPick(wb){const os=lopts();
+  wb.innerHTML='<i>'+nm('老顏')+'</i><div class="lopt">'+os.map((o,i)=>'<button type="button" data-i="'+i+'" data-k="'+o.k+'">'+esc(o.w)+'</button>').join('')+'</div>';
+  return new Promise(r=>wb.querySelectorAll('.lopt button').forEach(b=>{b.onclick=e=>{e.stopPropagation();if(b.disabled)return;wb.querySelectorAll('.lopt button').forEach(x=>{x.disabled=true;if(x!==b)x.classList.add('no')});b.classList.add('on');setTimeout(()=>r(os[+b.dataset.i]),350)};b.onkeydown=e=>e.stopPropagation()}))}
+async function lanternBeat(opt){const w=opt.w,mates=DATA.class_.filter(m=>m!=='老顏');
   const POS=[[6,14],[40,7],[74,15],[10,31],[72,33]],DOT=[[10,30],[30,14],[50,34],[68,16],[84,36]];
   const p=screen('lt','<img class="full" src="img/pingxi_2026.webp" alt=""><div class="lsky">'+mates.map((m,i)=>'<div class="sl'+(S.gone.includes(m)?' off':'')+'" style="left:'+POS[i][0]+'%;top:'+POS[i][1]+'%"><b></b><span>'+nm(m)+'</span></div>').join('')+
     '<div class="sl me"><b><div class="lw'+(/[\u2E80-\u9FFF\uF900-\uFAFF\uAC00-\uD7AF]/.test(w)?' v':'')+'"></div></b><span>'+nm('老顏')+'</span></div></div>'+
@@ -437,20 +428,20 @@ async function lanternBeat(raw){const LT=DATA.lantern,LU=LT.ui,w=lmask(raw.trim(
   await at(800);p.querySelector('.sl.me').classList.add('lit');             // 0.8 light
   await at(1400);p.querySelector('.lsky').classList.add('up');              // 1.4–3.6 rise with the others; gone classmates' lanterns stay dark
   await at(3600);p.querySelector('.lsky').classList.add('dim');p.querySelector('.lph').classList.add('on'); // 3.6 phone: Peishan posts the photo
-  await at(5000);const [who,txt]=lreply(raw,w),ph=p.querySelector('.lph');
+  await at(5000);const who=opt.who,txt=esc(opt.rep),ph=p.querySelector('.lph');
   ph.insertAdjacentHTML('beforeend','<div class="bub lrep" data-w="'+who+'"><i>'+tagOf(who)+'</i>'+txt+'</div>');await wait(900);
   // c29 (2026-10-29 11:48): the 燈上／海報上 contrast box was removed (players could not read its point; the verdict and DMs carry the poster's cost)
-  S.lantern={w,who,ms:Date.now()-t0};await wait(700);H.locked=false;await tapNext(p)}
+  S.lantern={w,k:opt.k,t:opt.t||null,who,ms:Date.now()-t0};await wait(700);H.locked=false;await tapNext(p)}
 // ---------- reunion ----------
 function rkey(m){return m+'|'+S.cutIn[m].slice(0,2).sort().join(',')} // 志豪 etc: only the first two cuts have a key
 async function reunion(){
   const V=DATA.v5,gray=m=>(m==='老顏'&&S.laoyanGray)||(m==='佩珊'&&S.peishanGray);
   const ph=screen('','<img class="full" src="img/pingxi_2026.webp" alt=""><div class="ttl hand">'+tx(V.reu26)+'</div><div class="wish hand l26"></div>'+
     '<div class="lan">'+DATA.class_.map(m=>'<div class="mate'+(S.gone.includes(m)?' empty':gray(m)?' g':'')+'" data-m="'+m+'"><div class="lamp"'+(S.gone.includes(m)?' style="opacity:.25;filter:grayscale(1);transform:translateY(40%)"':'')+'>'+nm(m)+'</div><img src="img/fb_'+DATA.slug[m]+'.webp" alt=""><span>'+nm(m)+'</span></div>').join('')+'</div>',{bg:'img/pingxi_2026.webp'});
-  const wb=ph.querySelector('.wish');H.locked=true;await swait(1200);let wish='';
+  const wb=ph.querySelector('.wish');H.locked=true;await swait(1200);let wish=null;
   for(const m of DATA.class_){const el=ph.querySelector('[data-m="'+m+'"]');let t;
     if(S.gone.includes(m)){wb.style.filter='grayscale(1)';wb.style.opacity=.7;wb.innerHTML='<i>'+nm(m)+'　'+tx(V.left26)+'</i>'+tx(DATA.wish[m]);await swait(1500);wb.style.filter='';wb.style.opacity='';continue}
-    if(m==='老顏'){el.classList.add('seen');wish=await lanternInput(wb);continue} // L1: the player writes Lao Yan's lantern
+    if(m==='老顏'){el.classList.add('seen');wish=await lanternPick(wb);continue} // d29: the player picks Lao Yan's lantern (2–3 options)
     t=tx(DATA.wish26[m][(m==='佩珊'?S.peishanGray:(S.hurt[m]||0)>0)?1:0]);
     el.classList.add('seen');wb.innerHTML='<i>'+nm(m)+'</i>'+t;await swait(2300)}
   H.skip=null;
@@ -486,10 +477,11 @@ function sourcesPage(){
   const links=c=>c.refs?c.refs.map(([l,h])=>link(h,tx(l))).join('<br>'):c.url2?link(c.url,tx(c.src).split(/[；;]/)[0])+'<br>'+link(c.url2,tx(c.src2)):link(c.url,tx(c.src));
   const factH=p=>{const f=fact(p);return f?'<div class="spfact '+f.c.kind+'">'+esc(f.t)+'</div>'+links(f.c):''};
   const yr=n=>N[n].year;
+  const nw=s=>{let o='',i=0;s.replace(/(?:NT\$)?\d[\d,.]*(?:\s?(?:x|%|[倍萬億元%％個年天歲月日人名成]+))?/g,(m,k)=>{o+=esc(s.slice(i,k))+'<span class="nw">'+esc(m)+'</span>';i=k+m.length;return m});return o+esc(s.slice(i))}; // d29: 「1.8 倍」不在 375 寬斷開（先切再 escape，不會切到 &#39;）
   // 猜猜看（c29）：本局走過的年份挑 3 題（頭、中、尾），選項只有「真實／虛構」，答案都是真實；選完顯示答案＋出處
   const pool=S.path.map(p=>p.node).filter(n=>SD.quiz[n]&&(SD.quiz[n].picks||[]).some(fact)),pick=[...new Set(pool.length>3?[0,pool.length>>1,pool.length-1].map(i=>pool[i]):pool)];
-  const quizH=pick.map(n=>{const z=SD.quiz[n];return '<div class="spbox spq" data-k="'+z.kind+'" data-n="'+n+'"><div class="spcl"><small>'+u('quizYr',{y:yr(n)})+'</small>'+(L?'“':'「')+esc(tx(z.c))+(L?'”':'」')+'</div>'+
-    '<div class="spqb">'+['real','fiction'].map(k=>'<button type="button" data-k="'+k+'">'+u(k)+'</button>').join('')+'</div>'+
+  const quizH=pick.map(n=>{const z=SD.quiz[n];return '<div class="spbox spq" data-k="'+z.kind+'" data-n="'+n+'"><div class="spcl"><small>'+u('quizYr',{y:yr(n)})+'</small>'+(L?'“':'「')+nw(tx(z.c))+(L?'”':'」')+'</div>'+
+    '<div class="spqb">'+['real','fiction'].filter(k=>tx(SU[k])).map(k=>'<button type="button" data-k="'+k+'">'+u(k)+'</button>').join('')+'</div>'+
     '<div class="sprev"><div class="spv">'+u('ans')+(tx(z.note)?(L?' ':'　')+esc(tx(z.note)):'')+'</div>'+z.picks.map(factH).join('')+'</div></div>'}).join('');
   // 這七年留下的海報（玩家實際留下的那一面）
   // L：誰在倡議這一張＋沒留下的另一張（中性陳列，只放具名＋原文摘要＋連結）
