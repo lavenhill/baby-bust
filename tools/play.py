@@ -1,9 +1,13 @@
 """Headless playtest for the one-screen-per-beat build.
-usage: python3 tools/play.py PATH(7 x U/D) OUTPREFIX [zh|en] [WxH] [shots] [kb] [rm] [spam] [wish=TEXT] [expect=同學]
- L1 (2026-10-28): types wish on Lao Yan's lantern (empty allowed: wish=), checks 5 s beat, one reply from a classmate still in the group,
- contrast 燈上/海報上 = masked wish / kept 2026 headline, dark lamps == gone, profanity never on screen.
+usage: python3 tools/play.py PATH(7 x U/D) OUTPREFIX [zh|en] [WxH] [shots] [kb] [rm] [spam] [pick=self|friend|promise|0-2] [expect=同學]
+ d29 (2026-10-29, replaces L1 free text): Lao Yan's lantern = 2–3 option buttons (her own s0–s4 / one friend / in eight years). Checks: 2–3 buttons,
+ button text == lopts() == text on the lantern == S.lantern.w, every option's lamp text fits inside the lantern frame (all names), pressing an option
+ starts the 5 s beat within 1.2 s (spam: 5 rapid taps incl. other options must start exactly one beat with the first pick; kb: key 1/2/3),
+ one reply == the picked option's line from a classmate still in the group, dark lamps == gone. Static: all 128 paths × zh/en must build options
+ with no empty/{n}/undefined text, lamp zh≤12/en≤20, reply zh≤25/en≤70, responder in the group, and match meta/r1029d/r2/opts_128.json (keys, targets, responders).
+ Quiz: exactly two non-empty, centred, equal-width buttons 真的/假的 (True/False); data.js version == index V.
  rm = prefers-reduced-motion. spam = 連點 (5 quick taps on the 平溪 reveal, 4 after 放！, double tap on every tap screen).
- 2026-10-28i (iPhone stuck at 平溪 before 老顏): a tap must advance the 2026 reveal; 放！ must work with a composition that never ends. kb = pick with keys (1/2 and ↑/↓ alternating) + Enter instead of mouse. Wall checks: tap-only (no ⇅), hint only in 2018, pick lands before 發布.
+ 2026-10-28i (iPhone stuck at 平溪 before 老顏): a tap must advance the 2026 reveal (the free-text box and its composition check were replaced by option buttons in d29: pressing an option must always start the beat, spam must not stick or double-fire). kb = pick with keys (1/2 and ↑/↓ alternating) + Enter instead of mouse. Wall checks: tap-only (no ⇅), hint only in 2018, pick lands before 發布.
 Checks every screen for overflow (content taller than the screen) and page errors.
 R4 (2026-10-28): "tap to continue" pill must not overlap other elements or leave the screen (incident: 退群提示蓋到點一下繼續);
 poster text over head boxes: cover >=0.05 WARN, >=0.15 fail; poster placement time per wall reported (ms); pages after paging must each fit.
@@ -21,7 +25,7 @@ seq=sys.argv[1];out=sys.argv[2];lang=sys.argv[3] if len(sys.argv)>3 else 'zh'
 W,Hh=map(int,(sys.argv[4] if len(sys.argv)>4 else '390x780').split('x'));extra=sys.argv[5:]
 opt={a.split('=',1)[0]:a.split('=',1)[1] for a in extra if '=' in a};extra=[a for a in extra if '=' not in a]
 kb='kb' in extra;rm='rm' in extra;spam='spam' in extra;shots=any(a not in('kb','rm','spam') for a in extra);rv_done=False
-WISH=opt.get('wish',{'zh':'想睡一整晚','en':'sleep all night'}[lang]);EXPECT=opt.get('expect')  # L1: text typed on Lao Yan's lantern; expect = responder
+PICK=opt.get('pick','self');EXPECT=opt.get('expect');PICKED=None;LFIT=[];T_PICK=None  # d29: which lantern option to press; expect = responder
 url="file://"+os.path.abspath(os.path.join(os.path.dirname(__file__),"..","index.html"))
 OVER="""()=>{const s=H.list[H.i];if(!s)return null;const bad=[];
  if(s.scrollHeight>s.clientHeight+2)bad.push('screen '+s.scrollHeight+'>'+s.clientHeight);
@@ -57,6 +61,36 @@ with sync_playwright() as p:
     if tt.get('miss') or tt['wide'] or tt['tall'] or (lang=='zh' and tt['lines']>1) or (lang=='en' and tt['lines']>3): report.append(('title',[tt]))
     elif tt['cov']>=.05: report.append(('title',['WARN head cover (blurred backdrop) '+str(tt['cov'])]))
     if shots: pg.screenshot(path=f"{out}_00_title.png")
+    # d29：版本一致＋128 條路徑 × 中英，每條都算得出老顏的燈選項（模擬引擎 publish/hurt，呼叫頁面的 lopts()）
+    vv=pg.evaluate("()=>[V,DATA.v]")
+    if vv[0]!=vv[1]: report.append(('data version',[f'index V={vv[0]} data.v={vv[1]}']))
+    ST=pg.evaluate(r"""()=>{const keep=JSON.stringify(S),L0=L,out={},bad=[];
+      for(let i=0;i<128;i++){const ch=[...i.toString(2).padStart(7,'0')].map(c=>c==='0'?'U':'D');
+        Object.assign(S,{node:'y2018',self:0,gone:[],hurt:{},cutIn:{},path:[]});
+        for(const h of ch){const n=N[S.node];S.path.push({node:S.node,side:h});
+          if(n.final){if(h==='U'){const v=n.U.who;if(DATA.gcons[S.node]&&!S.gone.includes(v))hurt(v,S.node)}break}
+          if(h==='U'){if(n.D.named&&!S.gone.includes(n.D.who))hurt(n.D.who,S.node)}else S.self++;S.node=n.next[h]}
+        const key=S.path.map(p=>p.side).join('');if(out[key])continue;
+        for(const l of [0,1]){L=l;let os;try{os=lopts()}catch(e){bad.push(key+' L'+l+' throws '+e);continue}
+          if(os.length<2||os.length>3)bad.push(key+' count '+os.length);
+          for(const o of os){const ok=s=>typeof s==='string'&&s.trim()&&!/\{n\}|undefined|null|NaN/.test(s);
+            if(!ok(o.w)||!ok(o.rep))bad.push(key+' L'+l+' empty '+o.k);
+            if(o.w.length>(l?20:12))bad.push(key+' L'+l+' lamp long '+o.w);if(o.rep.length>(l?70:25))bad.push(key+' L'+l+' reply long '+o.rep);
+            if(o.who==='老顏'||S.gone.includes(o.who))bad.push(key+' responder gone '+o.who)}
+          if(l===0)out[key]=[S.self,S.gone.slice(),os.map(o=>[o.k,o.t||'',o.who])]}}
+      L=L0;Object.assign(S,JSON.parse(keep));return {bad,out}}""")
+    ST_OUT=ST['out'];sb=ST['bad'][:20]
+    RP=os.path.join(os.path.dirname(os.path.abspath(__file__)),'lantern_opts_128.json')  # 參考答案：r2 試做時 128 條路徑的按鈕組合（鍵、目標、回覆者）
+    ref=json.load(open(RP)) if os.path.exists(RP) else {};sb+=[] if ref else ['reference tools/lantern_opts_128.json missing']
+    if len(ST['out'])!=128: sb.append(f"paths {len(ST['out'])} != 128")
+    for k_,v_ in ref.items():
+        g_=ST['out'].get(k_)
+        if not g_: sb.append('missing path '+k_);continue
+        want=[[o[0] if o[0][:1]!='p' else 'promise',(o[1] if o[0] in ('gone','once') else ''),o[2]] for o in v_[2]]
+        if g_[0]!=v_[0] or sorted(g_[1])!=sorted(v_[1]) or g_[2]!=want: sb.append(f'{k_} {g_} != ref {want}')
+        pk=[o[0] for o in v_[2] if o[0][:1]=='p']
+        if pk!=(['p1'] if g_[1] else ['p0']): sb.append(f'{k_} promise variant {pk} vs gone {g_[1]}')
+    report.append(('lantern options static (128 paths × zh/en)',sb[:20]))
     def shot(tag):
         if shots: pg.screenshot(path=f"{out}_{n:02d}_{tag}.png")
     for guard in range(500):
@@ -67,26 +101,49 @@ with sync_playwright() as p:
             for m in pg.locator('.scr:not(.below):not(.above) .lan .mate').all(): m.click();time.sleep(.25)
             bad=pg.evaluate(OVER);report.append(('lanterns',bad));shot('lan');continue
         # 2026-10-28i incident (iPhone): 平溪 2026 reveal ignored every tap for ~10 s; a tap must now cut the current beat short
-        rv=pg.evaluate("()=>{const s=H.list[H.i];const w=s.querySelector('.l26');return w&&!s.querySelector('.wish input')&&w.querySelector('i')&&!H.next?w.innerText:null}")
+        rv=pg.evaluate("()=>{const s=H.list[H.i];const w=s.querySelector('.l26');return w&&!s.querySelector('.wish .lopt')&&w.querySelector('i')&&!H.next?w.innerText:null}")
         if rv is not None and not rv_done:
             box=pg.locator('#stage').bounding_box();t_rv=time.time()
             for _ in range(5 if spam else 1): pg.mouse.click(box['x']+box['width']/2,box['y']+box['height']*.45);time.sleep(.04 if spam else 0)
             time.sleep(.25);rv2=pg.evaluate("()=>{const w=H.list[H.i].querySelector('.wish');return w?w.innerText:null}")
             if rv2==rv: report.append(('pingxi reveal',['tap did not advance the reveal']))
             rv_done=True;continue
-        if pg.evaluate("()=>!!H.list[H.i].querySelector('.wish input:not(:disabled)')"):
-            time.sleep(.3);bad=pg.evaluate(OVER);report.append(('lantern input',bad))
-            pg.locator('.scr:not(.below):not(.above) .wish input').click()
-            # 2026-10-28i incident: iOS 注音 can start a composition and never send compositionend; 放！ must still go through
-            pg.evaluate("()=>H.list[H.i].querySelector('.wish input').dispatchEvent(new CompositionEvent('compositionstart',{data:''}))")
-            if WISH: pg.keyboard.type(WISH,delay=20)
-            time.sleep(.2);shot('lin');lin_val=pg.evaluate("()=>H.list[H.i].querySelector('.wish input').value")
-            pg.locator('.scr:not(.below):not(.above) .wish button').click();t_sub=time.time();n+=1
-            if spam:
-                for _ in range(4): pg.mouse.click(pg.locator('#stage').bounding_box()['x']+20,60);time.sleep(.05)
-            time.sleep(1.2)
-            if not pg.evaluate("()=>H.list[H.i].classList.contains('lt')"): report.append(('lantern submit',['放！ did not start the lantern beat (stuck composition?)']));break
-            time.sleep(1.2);shot('lmid');time.sleep(.2);continue
+        if pg.evaluate("()=>!!H.list[H.i].querySelector('.wish .lopt button:not(:disabled)')"):
+            time.sleep(.3);bad=pg.evaluate(OVER);report.append(('lantern options',bad));shot('lopt')
+            BT=pg.evaluate("()=>[...H.list[H.i].querySelectorAll('.lopt button')].map(b=>[b.dataset.k,b.textContent,Math.round(b.getBoundingClientRect().width),b.scrollWidth>b.clientWidth+1])")
+            LOPTS=pg.evaluate("()=>lopts()");pb=[]
+            if not 2<=len(BT)<=3: pb.append('count '+str(len(BT)))
+            if [b[1] for b in BT]!=[o['w'] for o in LOPTS] or any(not b[1].strip() for b in BT): pb.append('button text != lopts '+str(BT))
+            if any(b[3] for b in BT): pb.append('button text overflows')
+            if BT and (BT[0][0][:1]!='s' or BT[-1][0]!='promise'): pb.append('order '+str([b[0] for b in BT]))
+            if ST_OUT.get(seq) and [[o['k'] if o['k'][:1]!='p' else 'promise',o.get('t') or '',o['who']] for o in LOPTS]!=ST_OUT[seq][2]: pb.append(f"in-game options {LOPTS} != static simulation {ST_OUT[seq][2]}")
+            report.append(('lantern option set',pb))
+            idx={'self':0,'friend':1 if len(BT)==3 else 0,'promise':len(BT)-1}.get(PICK,int(PICK) if PICK.isdigit() else 0);idx=min(idx,len(BT)-1)
+            PICKED=LOPTS[idx];t_sub=time.time()
+            pg.evaluate("()=>{window.__tc=null;window.__tl=null;document.addEventListener('click',e=>{if(!window.__tc&&e.target.closest&&e.target.closest('.lopt button'))window.__tc=Date.now()},true);new MutationObserver(ms=>{if(!window.__tl&&document.querySelector('#deck .scr.lt'))window.__tl=Date.now()}).observe(document.getElementById('deck'),{childList:true})}")
+            if kb: pg.keyboard.press(str(idx+1))
+            else: pg.locator('.scr:not(.below):not(.above) .lopt button').nth(idx).click()
+            n+=1
+            if spam:  # 連點：同一顆再按、其他顆也按，都不能改選或觸發第二次升空
+                for k_ in range(5):
+                    try: pg.locator('.scr .lopt button').nth((idx+k_)%len(BT)).click(timeout=300,force=True)
+                    except Exception: pass
+                    time.sleep(.04)
+            while time.time()-t_sub<3 and not pg.evaluate("()=>H.list[H.i].classList.contains('lt')"): time.sleep(.05)
+            tt_=pg.evaluate("()=>[window.__tc,window.__tl]");T_PICK=round((tt_[1]-tt_[0])/1000,2) if all(tt_) else round(time.time()-t_sub,2)  # 頁內：第一下點擊 → 升空頁出現
+            if not pg.evaluate("()=>H.list[H.i].classList.contains('lt')"): report.append(('lantern submit',['option did not start the lantern beat']));break
+            if T_PICK>1.2: report.append(('lantern submit',[f'beat started after {T_PICK}s (>1.2)']))
+            time.sleep(1.0);shot('lmid')
+            # 燈框檢查：本局選項之外，所有燈上字（含 5 個名字代入）都要放得進燈框
+            LFIT=pg.evaluate(r"""(L_)=>{const s=H.list[H.i],b=s.querySelector('.sl.me b'),lw=s.querySelector('.lw');if(!b||!lw)return ['no lantern'];const keep=[lw.textContent,lw.className];
+              const O=DATA.lantern.opt,ws=new Set([lw.textContent]);for(const k in O){const o=O[k];if(Array.isArray(o)){ws.add(o[L_]);continue}if(!o.lamp)continue;
+                if(o.lamp[L_].includes('{n}'))DATA.class_.filter(m=>m!=='老顏').forEach(m=>ws.add(o.lamp[L_].split('{n}').join(L_?DATA.names[m]:m)));else ws.add(o.lamp[L_])}
+              const bad=[];for(const w of ws){lw.className='lw on'+(/[⺀-鿿豈-﫿가-힯]/.test(w)?' v':'');lw.textContent=w;
+                const cs=getComputedStyle(b),br=b.getBoundingClientRect(),sc=br.width/b.offsetWidth,pl=parseFloat(cs.paddingLeft)*sc,pt=parseFloat(cs.paddingTop)*sc,rg=document.createRange();rg.selectNodeContents(lw); /* padding × 升空縮放 */
+                if([...rg.getClientRects()].some(r=>r.left<br.left+pl-1||r.right>br.right-pl+1||r.top<br.top+pt-1||r.bottom>br.bottom-pt+1)||lw.scrollHeight>lw.clientHeight+1||lw.scrollWidth>lw.clientWidth+1)bad.push('lantern text outside frame: '+w)}
+              lw.textContent=keep[0];lw.className=keep[1];return bad}""",1 if lang=='en' else 0)
+            report.append(('lantern text fit (all lamps)',LFIT))
+            time.sleep(4.4);shot('lend');continue  # lmid 約在升空頁出現後 1.05 秒，再 4.4 秒＝約 5.6 秒；回覆在第 5 秒插入
         if info['wall']:
             time.sleep(.7);bad=pg.evaluate(OVER);report.append((pg.evaluate("S.node")+' wall',bad));shot('wall')
             ms.append(pg.evaluate("()=>Math.max(0,...[...H.list[H.i].querySelectorAll('.half')].map(h=>+(h.dataset.ms||0)))"))
@@ -104,7 +161,7 @@ with sync_playwright() as p:
             else: pg.locator('.scr.wall:not(.done) .bar button').click()
             time.sleep(.3);shot('snip');i+=1;n+=1;time.sleep(.9);continue
         if info['btn']:
-            time.sleep(.4);pg.locator('.scr:not(.below):not(.above) .btn').last.click();n+=1;time.sleep(.9);continue
+            time.sleep(.4);shot('btn');pg.locator('.scr:not(.below):not(.above) .btn').last.click();n+=1;time.sleep(.9);continue
         if info['tap']:
             if info['qs'] and not pg.evaluate("()=>!!H.list[H.i].querySelector('.qs button:disabled')"): shot('dm')
             if info['qs']:  # R4: every follow-up answer must fit at the larger DM type, not just the first
@@ -131,7 +188,7 @@ with sync_playwright() as p:
     if blank: report.append(('blank bubbles',[blank]))
     if fw: report.append(('outsider forward screens',[fw]))
     if len(dm)!=len(exp['gone'])+len(exp['once']) or any(d['len']<20 for d in dm): report.append(('dm mismatch',[dm,exp]))
-    LS=pg.evaluate("""()=>{const s=H.list.find(x=>x.classList.contains('lt'));if(!s)return null;return {lan:S.lantern,reps:[...s.querySelectorAll('.lrep')].map(b=>b.dataset.w),
+    LS=pg.evaluate("""()=>{const s=H.list.find(x=>x.classList.contains('lt'));if(!s)return null;return {lan:S.lantern,nlt:H.list.filter(x=>x.classList.contains('lt')).length,reps:[...s.querySelectorAll('.lrep')].map(b=>b.dataset.w),rtxt:[...s.querySelectorAll('.lrep')].map(b=>{const c=b.cloneNode(true);c.querySelectorAll('i').forEach(i=>i.remove());return c.textContent.trim()}),
       con:s.querySelectorAll('.lcon').length,off:s.querySelectorAll('.sl.off').length,photoOff:s.querySelectorAll('.photo u.off').length,lw:s.querySelector('.lw').textContent,
       all:s.innerText}}""")
     if not LS or not LS['lan']: report.append(('lantern',['lantern beat missing']))
@@ -145,8 +202,12 @@ with sync_playwright() as p:
         L_=1 if lang=='en' else 0
         if LS['con']: prob.append('燈上/海報上 contrast box is back (removed in c29)')
         if LS['lw']!=LS['lan']['w']: prob.append(f"lantern text {LS['lw']!r} vs {LS['lan']['w']!r}")
-        if any(b in WISH.lower() for b in ['幹','靠北','白癡','去死','fuck','shit']):  # masked: lantern shows ▇, the raw words never appear
-            if '▇' not in LS['lan']['w'] or WISH.strip() in LS['all']: prob.append('profanity not masked')
+        if LS['nlt']!=1: prob.append(f"lantern beats {LS['nlt']} (spam started more than one)")
+        if not PICKED: prob.append('no option picked')
+        else:
+            if LS['lan']['w']!=PICKED['w'] or LS['lan'].get('k')!=PICKED['k']: prob.append(f"lantern {LS['lan']} != picked {PICKED}")
+            if LS['reps'] and (LS['reps'][0]!=PICKED['who'] or LS['rtxt'][0]!=PICKED['rep']): prob.append(f"reply {LS['reps']} {LS['rtxt']} != {PICKED['who']} {PICKED['rep']}")
+            if not PICKED['w'].strip() or not PICKED['rep'].strip() or '{n}' in PICKED['w']+PICKED['rep']: prob.append('empty/{n} in picked option')
         if prob: report.append(('lantern',prob))
     # FX（2026-10-28 20:45 使用者：情節要有依據）：遊戲正文（出處頁以外）不得再出現已查證不符的說法
     BAN=['議員','考上中央','老顏考上','試用期','考績乙等','考績吃乙','請半天','半天假','凍卵回診','手術做凍卵','婆婆把','家族群組',
@@ -192,7 +253,15 @@ with sync_playwright() as p:
             c=spe(f"DATA.sources.quiz['{qnode}'].c[{Lg}]")
             if c not in txt[qnode]: SPF.append(('quiz claim not in game text',[qnode,c]))
         if len(qn)!=3: SPF.append(('quiz count (want 3)',qn))
-        if spe("[...document.querySelectorAll('.scr.sp .spq')].some(q=>q.dataset.k!=='real'||q.querySelectorAll('.spqb button').length!==2)"): SPF.append(('quiz options',['want exactly 真實/虛構, answer 真實']))
+        if spe("[...document.querySelectorAll('.scr.sp .spq')].some(q=>q.dataset.k!=='real'||q.querySelectorAll('.spqb button').length!==2)"): SPF.append(('quiz options',['want exactly 真的/假的, answer 真的']))
+        qb=spe("""()=>[...document.querySelectorAll('.scr.sp .spq')].map(q=>{const bs=[...q.querySelectorAll('.spqb button')],r=q.querySelector('.spqb').getBoundingClientRect(),w=bs.map(b=>b.getBoundingClientRect());
+          return {t:bs.map(b=>b.textContent.trim()),k:bs.map(b=>b.dataset.k),eq:w.length===2&&Math.abs(w[0].width-w[1].width)<=1,ctr:w.length===2&&Math.abs((w[0].left-r.left)-(r.right-w[1].right))<=2}})""")
+        wantq={'zh':['真的','假的'],'en':['True','False']}[lang]
+        if any(x['t']!=wantq or x['k']!=['real','fiction'] or not x['eq'] or not x['ctr'] for x in qb): SPF.append(('quiz buttons (two, non-empty, equal, centred)',qb))
+        if spe("DATA.sources.ui.quizH[1]")!='Guess: is this line true?' or spe("DATA.sources.ui.ans[0]")!='答案：真的': SPF.append(('quiz labels',[spe("DATA.sources.ui.quizH"),spe("DATA.sources.ui.ans")]))
+        # 2022c「1.8 倍」不可斷行：數字與單位包在 .nw（white-space:nowrap）
+        nwb=spe("""()=>[...document.querySelectorAll('.scr.sp .spq .spcl')].flatMap(c=>[...c.querySelectorAll('.nw')].filter(e=>e.getClientRects().length>1||/^\\s?[倍萬億元%％個年天歲月日人名成x]/.test((e.nextSibling&&e.nextSibling.textContent)||'')).map(e=>e.textContent))""")
+        if nwb: SPF.append(('number split from unit',nwb))
         for qi in range(len(qn)):
             for k in ['real','fiction']:
                 spe(f"()=>{{const q=document.querySelectorAll('.scr.sp .spq')[{qi}];q.classList.remove('done');q.querySelectorAll('button').forEach(b=>{{b.disabled=false;b.className=''}})}}")
@@ -286,4 +355,4 @@ with sync_playwright() as p:
     elif pg.evaluate("S.ended===true"): report.append(('sources page',['missing (fallback page shown)']))
     isw=lambda r:all(str(x).startswith('WARN') for x in r[1])
     warns=[r for r in report if r[1] and isw(r)];fails=[r for r in report if r[1] and not isw(r)]
-    print(json.dumps({"vp":f"{W}x{Hh}","lang":lang,"path":seq,"screens":len(report),"ended":pg.evaluate("S.ended===true"),"errors":errs,"overflow":fails,"warn":warns,"place_ms":max(ms or [0]),"dms":dm,"dmkeys":dmkeys,"hurt":exp,"lantern":(LS or {}).get('lan'),"reply":(LS or {}).get('reps'),"sources":(SPF if 'SPF' in dir() else None),"chips":len(ans) if 'ans' in dir() else 0},ensure_ascii=False))
+    print(json.dumps({"vp":f"{W}x{Hh}","lang":lang,"path":seq,"screens":len(report),"ended":pg.evaluate("S.ended===true"),"errors":errs,"overflow":fails,"warn":warns,"place_ms":max(ms or [0]),"dms":dm,"dmkeys":dmkeys,"hurt":exp,"lantern":(LS or {}).get('lan'),"reply":(LS or {}).get('reps'),"reply_text":(LS or {}).get('rtxt'),"opts":[o['w'] for o in (LOPTS if 'LOPTS' in dir() else [])],"t_pick":T_PICK,"sources":(SPF if 'SPF' in dir() else None),"chips":len(ans) if 'ans' in dir() else 0},ensure_ascii=False))
