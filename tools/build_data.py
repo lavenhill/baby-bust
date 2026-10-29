@@ -28,10 +28,10 @@ ui['credit'][0]=C.UI['credit']
 ui['qf']=[E(x) for x in C.UI_QF]
 EN3={'家裡桌上一碗蓋著保鮮膜的飯，紙條寫「微波三分鐘」。':'At home, a bowl of rice under cling film. The note says “3 minutes in the microwave.”',
 '年終考核乙等。取卵那天的格子，改成「再約」兩個字。':'Year-end review: B. On the calendar, egg-retrieval day now says “reschedule.”',
-'桌上的相框，只剩一個人。':'In the frame on the desk, only one is left.','鍵盤旁邊，兩只戒指，沒有人戴了。':'Next to the keyboard, two rings, no one bring.',
+'桌上的相框，只剩一個人。':'In the frame on the desk, only one is left.','鍵盤旁邊，兩只戒指，沒有人戴了。':'Next to the keyboard, two rings. No one wears them now.',
 '小芋頭明年抽到公幼。我回事務所上班，三十五歲升主任。':'Little Taro wins the lottery for a cheap public preschool next year. I go back to the firm and make manager by 35.',
 '小太陽幼兒園招生滿 60 個。爸寫的招牌要撐過第 30 年。':'“Little Sun” fills all 60 places. Dad’s hand-painted sign makes it to year 30.',
-'月薪到 30,000。暑假帶我媽去富士山，機票我都先買好了啦。':'Pay goes to 30K a month. Taking Mom to Okinawa this summer, tickets already booked.',
+'月薪到 30,000。暑假帶我媽去富士山，機票我都先買好了啦。':'Pay goes to 30K a month. Taking Mom to Mt. Fuji this summer, tickets already booked.',
 '九點前下班。存到 80 萬頭期款，到時跟小雯求婚。':'Off work before 9. Save an 800k down payment, then I can finally propose to Wendy.',
 '三十歲前生第一個。請假不用跟任何人道歉。':'First baby before 30. Taking leave without apologizing to anyone.','明年 5/24 ♡':'Next year, 5/24 ♡',
 '海報上那間準公共，就開在我對面。':'That subsidized private preschool on your poster opened right across from mine.','這學期少了十五個。':'I lost fifteen kids this term.','妳在平溪看過我寫什麼。':'You saw what I wrote in Pingxi.',
@@ -39,7 +39,7 @@ EN3={'家裡桌上一碗蓋著保鮮膜的飯，紙條寫「微波三分鐘」�
 '你們每張圖都在叫我快生。':'Every one of your posters tells me to have kids.','我連房租都快付不起。':'I can barely pay rent.','妳自己覺得公平嗎？':'Do you think that’s fair?',
 '海報上那個媽媽在笑。':'The mom on your poster is smiling.','我是在事務所廁所看到的。':'I saw it in the office bathroom.','妳知道我不是她。':'You know that’s not me.',
 '平溪，2018 年元宵':'Pingxi, Lantern Festival 2018','老顏要去中央當約聘小編了，我們來放天燈。':'Vivian got a contract job running social media for the central government. Let’s fly sky lanterns.','點每一盞燈，看上面寫什麼':'Tap each lantern to read it','放！':'Let go!',
-'八年後，大家都要回來喔！':'In eight years, we will back here!','上班第一天':'First day at work','一年一聘的約，續不續看年終考核。':'One-year contract. Whether it’s renewed depends on your year-end review.',
+'八年後，大家都要回來喔！':'In eight years, we\'ll all be back here!','上班第一天':'First day at work','一年一聘的約，續不續看年終考核。':'One-year contract. Whether it’s renewed depends on your year-end review.',
 '妳做的每一張圖，都會出現在同學的手機裡，加油。':'Every picture we make ends up on your classmates’ phones.','房租(禮拜五交)　選戒指(禮拜六)':'Rent (Fri.) · Rings (Sat.)','來電':'Incoming call',
 '{who} 已退出群組。':'{who} left the group.','2026，平溪':'Pingxi, 2026','她在樓下等，車沒熄火':'She’s waiting downstairs, engine running'}
 E3=lambda s:[s,EN3.get(s) or en.get(s,s)]
@@ -63,9 +63,16 @@ for c in SZ.CARDS:
 ids={f"{k}-{i+1}" for k,c in cards.items() for i in range(len(c['f']))}
 for k,q in SZ.QUIZ.items(): assert all(p in ids for p in q['picks']),k
 quiz={k:dict(c=se('quiz.'+k+'.claim',q['claim']),who=q.get('who',''),kind=q['kind'],note=(se('quiz.'+k+'.note',q['note']) if q['note'] else ['','']),picks=q['picks']) for k,q in SZ.QUIZ.items()}
+# c29（2026-10-29）：猜猜看每題答案都是「真實」，題目必須是該年遊戲原句的一段（中英各自一字不差），且至少一句出處、出處卡要有 https 連結
+for k,q in quiz.items():
+    n=nodes[k];T=list(n['ask'])+[s[1] for s in n['setup']]+[n[h]['h1'] for h in 'UD']
+    assert q['kind']=='real' and q['picks'],('quiz must be real with picks',k)
+    for L in (0,1): assert q['c'][L] and any(q['c'][L] in x[L] for x in T),('quiz claim not in game text',k,L,q['c'][L])
+    for p_ in q['picks']: assert (cards[p_.split('-')[0]].get('url') or '').startswith('https://'),('quiz pick without https link',k,p_)
 rec=[]
 for i,c in enumerate(SZ.CHIPS):
-    r=SREC[c];assert all(p in ids for p in r['picks']),c;rec.append(dict(type=r['type'],picks=r['picks']))
+    r=SREC[c];assert all(p in ids for p in r['picks']),c;assert r['type'] in ('fact','fiction') and r['picks'],('suggested question has no recorded answer',c)  # c29: 日本那題 0 句出包
+    rec.append(dict(type=r['type'],picks=r['picks']))
 # L（2026-10-28 19:44）：nadv＝每個選項（牆的上下兩半）的倡議者卡（A01–A57），展開海報時列「誰在倡議這一張」與「沒留下的另一張」
 for k,d in SZ.NODE_ADV.items():
     assert k in C.NODES and set(d)<={'U','D'},k
@@ -78,7 +85,7 @@ import os
 HP='/workspace/work/bb2/tools/heads.json'  # R4-4a: YuNet head boxes (tools/heads.py)
 if os.path.exists(HP): D['heads']=json.load(open(HP))
 if getattr(C,'POSTER_TEXT',None): D['posterText']={k:{kk:vv for kk,vv in v.items() if kk!='note'} for k,v in C.POSTER_TEXT.items()}
-open('/workspace/work/bb2/data.js','w').write('// Copy drafted with Meta Muse Spark 1.3 (translations, reunion lines); insider slogans are drafts for the author to replace. Illustrations: Meta Muse Image 1.0. Built 2026-10-29 (sheet r1 + de-AI rewrite).\nconst DATA='+json.dumps(D,ensure_ascii=False)+';\n')
+open('/workspace/work/bb2/data.js','w').write('// Copy drafted with Meta Muse Spark 1.3 (translations, reunion lines); insider slogans are drafts for the author to replace. Illustrations: Meta Muse Image 1.0. Built 2026-10-29 (c29: review fixes, quiz true/made-up).\nconst DATA='+json.dumps(D,ensure_ascii=False)+';\n')
 chars=set(json.dumps(D,ensure_ascii=False))
 open('chars.txt','w').write(''.join(sorted(chars))+'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz–—…·・，。？！：「」（）')
 print('ok',len(chars))
