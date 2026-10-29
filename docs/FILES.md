@@ -17,7 +17,7 @@
 | docs/spec/06-story-causality.md | 當前 | 敘事與因果（人讀版）：狀態規則、分支圖、角色線、逐年劇情、自動檢查 |
 | docs/spec/06-story-graph.json | 當前 | 同上（機器版）：節點、規則、128 條路徑結果 |
 | docs/spec/00-requirements.md | 當前 | 需求書（v5 條目待補） |
-| docs/spec/01-game-spec.md | 當前（待同步 v5；§10 結局天燈拍為 L1 當前規格） | 狀態機、驗收測試 |
+| docs/spec/01-game-spec.md | 當前（待同步 v5；§10 結局天燈拍為 d29「三盞」限定選項當前規格） | 狀態機、驗收測試 |
 | docs/spec/03-ui-layout.md | 當前（待同步 v5） | 版面 |
 | docs/spec/05-design-principles.md | 當前 | 設計準則 |
 | docs/spec/02-narrative.md | 參考 | v2 逐節點腳本，已被 06 取代 |
@@ -38,7 +38,8 @@
 | tools/sources_muse.py | 當前 | Muse 檢索：錄製（record）、成本實測（cost）、產生 Worker（worker） |
 | tools/ask_worker.tpl.js、tools/ask_worker.js | 當前（未部署） | 即時查詢 Cloudflare Worker 草稿；不含金鑰；ask_worker.js 由 sources_muse.py 產生 |
 | docs/ask-worker.md | 當前 | 即時查詢開關與部署步驟（預設關） |
-| tools/test_lantern.js | 當前 | 結局天燈拍：打碼與回應規則單元測試（node tools/test_lantern.js） |
+| tools/test_lantern.js | 歷史（d29 起不適用） | L1 自由輸入的打碼與關鍵字回應規則單元測試；d29 改限定選項後由 tools/play.py 的選項靜態檢查（128 條路徑×中英）取代 |
+| tools/lantern_opts_128.json | 當前 | 老顏的燈 128 條路徑按鈕組合參考答案（鍵、目標、回覆者；d29 r2 試做產生），play.py 靜態檢查比對用 |
 | tools/setup_qa.sh | 當前 | 安裝試玩測試環境 |
 | tools/gen.py、tools/mkjobs.py | 當前 | 生圖工作與執行 |
 | tools/gen_text.py、tools/translate.py | 參考 | 初版文案／英譯生成用，之後改為手動與 Muse 審稿 |
