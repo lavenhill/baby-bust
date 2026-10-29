@@ -12,7 +12,7 @@ usage (run from /workspace/work/bb2, Google credentials for shingocho@gmail.com 
                                       #   Rows it cannot place safely (same sentence in several rows edited differently, English built by code,
                                       #   {placeholder} changed) are listed in qa/sheet_zh_diff_applied.json "unresolved" for manual handling.
                                       #   reunion rows are written by path; a .h1s row's Chinese is the poster title (.h1) itself.
-  python3 tools/sheet_sync.py push [新標題] [--ok-en] [--behind=qa/sheet-r1/diff.json]  # --behind: rows equal to that file's old text = sheet is behind, not edited  # pull first; refuses (exit 3) while unapplied 中文 or English edits or rows only
+  python3 tools/sheet_sync.py push [新標題] [--ok-en] [--behind=qa/sheet-r1/diff.json]  # --behind: rows equal to that file's old text = sheet is behind, not edited (also rows removed from the source)  # pull first; refuses (exit 3) while unapplied 中文 or English edits or rows only
                                       #   on the sheet exist (--ok-en = deliberately overwrite the sheet's English); then uploads, reads back
 copy_map.py only builds the local .xlsx; uploading goes through `push` so the guard always runs.
 """
@@ -203,6 +203,11 @@ def _behind(rep):
                 if m and n(m['zh'])==n(d['old']): continue
             keep.append(d)
         rep[k]=keep
+    # c29: a row we deliberately removed from the source (e.g. a dropped suggested question) stays on the sheet until the next push;
+    # it is "behind", not a user addition, when the sheet still shows exactly the --behind text for that path
+    if base and rep.get('rows_only_online'):
+        O=O or online_rows()
+        rep['rows_only_online']=[p for p in rep['rows_only_online'] if not (p in base and n(O[p]['zh'])==n(base[p][0]) and n(O[p]['en'])==n(base[p][1]))]
     return rep
 def push():
     rep=_behind(pull())
