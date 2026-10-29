@@ -1,8 +1,10 @@
 # 我們與孩子的距離 · Between Us and the Kids
 
+**English** | [繁體中文](README.zh-TW.md)
+
 A short story game about family policy in Taiwan: every policy helps someone, and someone else pays for it. You run the social media for a government office, and each year you can publish only half of the photo.
 
-**[▶ Play in your browser](https://lavenhill.github.io/baby-bust/)** — free, no install, no account. Made for phones; tap **EN** on the title screen for English.<br>
+**[▶ Play in your browser](https://lavenhill.github.io/baby-bust/)** — free, no install, no account. Made for phones. It opens in English if your browser is set to English; otherwise tap **EN** at the top right of the title screen.<br>
 Backup mirror: https://raw.githack.com/lavenhill/baby-bust/main/index.html
 
 <table>
@@ -119,16 +121,4 @@ Meta API spend recorded by the build scripts, as of 2026-10-29 (Taipei): about *
 ---
 
 ## 中文說明
-一款關於「家庭政策由誰買單」的短篇故事遊戲。你是政府辦公室的約聘小編老顏，每年只能發布照片的一半。
-
-**[▶ 直接在瀏覽器玩](https://lavenhill.github.io/baby-bust/)**（免安裝、免帳號，手機優先）｜備用：https://raw.githack.com/lavenhill/baby-bust/main/index.html
-
-- 2018 到 2026 年，每年一項真實政策上路。照片上半是受惠的人，下半是替它付代價的同學。
-- 留受惠者：同學變成黑白，最後走出同學會合照。留付代價的同學：主管退件、你加班重做，自己的生活一格格褪色。
-- 2026 年在平溪開同學會，你替老顏選天燈上的字。
-- Meta AI：文案初稿、英文翻譯、同學會與天燈台詞由 Muse Spark 1.3 起草、作者審改；64 張插圖由 Muse Image 1.0 生成。出處頁的 AI 只能挑「已查證句子」的編號，不會自己寫事實。
-- 出處：91 筆，每筆都有本地存檔頁；政府公文存全文（15 筆），其餘 76 筆只摘錄佐證遊戲內容的原文句子。
-- 出處頁的「自由提問」目前**關閉**，畫面上 8 題建議問題用的是預錄答案，並有標示。
-- 本 repo 於活動開始後（2026-10-27 台北時間）從空資料夾建立，所有檔案皆為活動期間新作。
-
-虛構的辦公室，真實的政策，不分黨派。
+完整繁體中文版說明請看 **[README.zh-TW.md](README.zh-TW.md)**。
