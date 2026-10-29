@@ -1,4 +1,4 @@
-import json, content_zh as C
+import json, re, content_zh as C
 en=json.load(open('en.json')); R=json.load(open('reunion_v3.json'))
 E=lambda s:[s,en.get(s,s)] if isinstance(s,str) and s else s
 nodes={}
@@ -40,14 +40,14 @@ EN3={'家裡桌上一碗蓋著保鮮膜的飯，紙條寫「微波三分鐘」�
 '海報上那個媽媽在笑。':'The mom on your poster is smiling.','我是在事務所廁所看到的。':'I saw it in the office bathroom.','妳知道我不是她。':'You know that’s not me.',
 '平溪，2018 年元宵':'Pingxi, Lantern Festival 2018','老顏要去中央當約聘小編了，我們來放天燈。':'Vivian got a contract job running social media for the central government. Let’s fly sky lanterns.','點每一盞燈，看上面寫什麼':'Tap each lantern to read it','放！':'Let go!',
 '八年後，大家都要回來喔！':'In eight years, we\'ll all be back here!','上班第一天':'First day at work','一年一聘的約，續不續看年終考核。':'One-year contract. Whether it’s renewed depends on your year-end review.',
-'妳做的每一張圖，都會出現在同學的手機裡，加油。':'Every picture we make ends up on your classmates’ phones.','房租(禮拜五交)　選戒指(禮拜六)':'Rent (Fri.) · Rings (Sat.)','來電':'Incoming call',
+'妳做的每一張圖，都會出現在同學的手機裡，加油。':'Every picture we make ends up on your classmates’ phones.','房租(禮拜五交)　訂喜宴(禮拜六)':'Rent (Fri.) · Banquet (Sat.)','來電':'Incoming call',
 '{who} 已退出群組。':'{who} left the group.','2026，平溪':'Pingxi, 2026','她在樓下等，車沒熄火':'She’s waiting downstairs, engine running'}
 E3=lambda s:[s,EN3.get(s) or en.get(s,s)]
 D=dict(nodes=nodes,wish={k:E3(v) for k,v in C.WISH.items()},call={k:[E3(x) for x in v] for k,v in C.CALL.items()},callN={k:[E(x) for x in v] for k,v in C.CALLN.items()},open2={k:E3(v) for k,v in C.OPEN2.items()},ring_off=E3(C.RING_OFF),open=[[w,E(t)] for w,t in C.OPEN],life=[E3(x) for x in C.LIFE],ui=ui,reunion=reu,self=SELF,verdict=VERDICT,
  tag={k:E(v) for k,v in C.TAG.items()},names={'老顏':'Vivian','阿芳':'Amy','家豪':'Kevin','宜君':'Jessica','志豪':'Jason','佩珊':'Penny','主管':'Boss'},
  slug={'老顏':'laoyan','阿芳':'afang','家豪':'jiahao','宜君':'yijun','志豪':'zhihao','佩珊':'peishan'},
  group={k:[[w,E(t),d] for w,t,d in v] for k,v in C.GROUP.items()},gcons={k:{str(n):[[w,t,E(x),d] for w,t,x,d in ls] for n,ls in v.items()} for k,v in C.GCONS.items()},news={k:[E(h),E(src)] for k,(h,src) in C.NEWS.items()},wish2={k:E(v) for k,v in C.WISH2.items()},wish26={k:[E(x) for x in v] for k,v in C.WISH26.items()},v5={k:E(v) for k,v in C.V5UI.items()},
- lantern=dict(rules=[[k,zh,en,who] for k,zh,en,who in C.LANTERN_RULES],names_en=C.LANTERN_NAMES_EN,prof_zh=C.LANTERN_PROF_ZH,prof_en=C.LANTERN_PROF_EN,lines={k:list(v) for k,v in C.LANTERN_LINES.items()},ui={k:list(v) for k,v in C.LANTERN_UI.items()}),
+ lantern=dict(opt=C.LANTERN_OPT),
  class_=['阿芳','家豪','宜君','志豪','佩珊','老顏'],babies=['afang','jiahao','yijun','peishan'])
 # S7 (2026-10-28): 出處頁新版——出處庫、猜猜看、建議問題（錄好的 Muse 答案）、公開進度。缺這塊時引擎退回舊出處頁。
 import os,sources_zh as SZ
@@ -85,7 +85,17 @@ import os
 HP='/workspace/work/bb2/tools/heads.json'  # R4-4a: YuNet head boxes (tools/heads.py)
 if os.path.exists(HP): D['heads']=json.load(open(HP))
 if getattr(C,'POSTER_TEXT',None): D['posterText']={k:{kk:vv for kk,vv in v.items() if kk!='note'} for k,v in C.POSTER_TEXT.items()}
-open('/workspace/work/bb2/data.js','w').write('// Copy drafted with Meta Muse Spark 1.3 (translations, reunion lines); insider slogans are drafts for the author to replace. Illustrations: Meta Muse Image 1.0. Built 2026-10-29 (c29: review fixes, quiz true/made-up).\nconst DATA='+json.dumps(D,ensure_ascii=False)+';\n')
+# d29：老顏的燈選項靜態檢查（字數上限；{n} 只出現在 gone/once）
+_LO=C.LANTERN_OPT;_cw=lambda s:len(s)
+for k,o in _LO.items():
+    lamps=[o] if k=='plamp' else ([o['lamp']] if 'lamp' in o else [])
+    for z,e in lamps: assert z and e and len(z.replace('{n}','阿芳'))<=12 and len(e.replace('{n}','Jessica'))<=20,('lantern lamp too long',k,z,e)
+    reps=o.get('rep') if isinstance(o,dict) else None;reps=[reps] if isinstance(reps,list) else list((reps or {}).values())
+    for z,e in reps: assert z and e and len(z.replace('{n}','阿芳'))<=25 and len(e.replace('{n}','Jessica'))<=70,('lantern reply too long',k,z,e)
+    if isinstance(o,dict) and 'who' in o: assert all(w in o['rep'] for w in o['who']),k
+# d29：資料版本＝index.html 的 V（頁面與資料不一致時 data.js 尾端自動重載一次，防 githack 快取空窗）
+_V=re.search(r"const V='([^']+)'",open('/workspace/work/bb2/index.html').read()).group(1);D['v']=_V
+open('/workspace/work/bb2/data.js','w').write('// Copy drafted with Meta Muse Spark 1.3 (translations, reunion lines); insider slogans are drafts for the author to replace. Illustrations: Meta Muse Image 1.0. Built 2026-10-29 (d29: lantern options, quiz true/false).\nconst DATA='+json.dumps(D,ensure_ascii=False)+';\n'+"typeof window!=='undefined'&&window.addEventListener('DOMContentLoaded',()=>{try{if(typeof V!=='undefined'&&V!==DATA.v&&!/reload=/.test(location.search))location.replace(location.pathname+'?reload='+Date.now())}catch(e){}});\n")
 chars=set(json.dumps(D,ensure_ascii=False))
 open('chars.txt','w').write(''.join(sorted(chars))+'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz–—…·・，。？！：「」（）')
 print('ok',len(chars))
