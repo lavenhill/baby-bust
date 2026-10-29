@@ -9,7 +9,12 @@ R4 (2026-10-28): "tap to continue" pill must not overlap other elements or leave
 poster text over head boxes: cover >=0.05 WARN, >=0.15 fail; poster placement time per wall reported (ms); pages after paging must each fit.
 S7 (2026-10-28) sources page: F00 on top, quiz (every option on every question, claim must be real game text), every suggested question
  (recorded Muse answer, label says pre-recorded, links https+_blank and clickable), kept posters == path, progress labels, no horizontal overflow,
- wheel/keys/swipe don't leave the page, offline (context offline) still answers. live=mock|down|slow tests the ASK_URL switch with a fake Worker."""
+ wheel/keys/swipe don't leave the page, offline (context offline) still answers. live=mock|down|slow tests the ASK_URL switch with a fake Worker.
+c29 (2026-10-29 使用者回報「日本的做法呢？」點了沒資料): NO EMPTY DATA anywhere — every quiz option (真實/虛構, answer always 真實) must reveal
+ the answer + >=1 source line + >=1 https link; every suggested question must answer with >=1 source line (never the 'nothing found' head);
+ every kept poster / basis / advocate block, every DM follow-up answer and the whole game text must be non-empty and free of undefined/null/NaN.
+ Static pass over ALL quiz items, chips, cards, nadv/ncard and reunion entries in this language too (not only what this path shows).
+ The 燈上／海報上 contrast box was removed in c29: it must not come back."""
 from playwright.sync_api import sync_playwright
 import time,sys,os,json
 seq=sys.argv[1];out=sys.argv[2];lang=sys.argv[3] if len(sys.argv)>3 else 'zh'
@@ -107,6 +112,8 @@ with sync_playwright() as p:
                 for qi in range(qb.count()-1,-1,-1):
                     qb.nth(qi).click();time.sleep(.3);bq=pg.evaluate(OVER)
                     if bq: report.append((f"screen {info['k']} q{qi}",bq))
+                    qa=pg.evaluate("()=>{const b=[...H.list[H.i].querySelectorAll('.chat .bub')].pop();if(!b)return '';const c=b.cloneNode(true);c.querySelectorAll('i').forEach(i=>i.remove());return c.textContent.trim()}")
+                    if len(qa)<4 or any(w in qa for w in ('undefined','null','NaN')): report.append((f"screen {info['k']} q{qi} empty answer",[qa]))
             bad=pg.evaluate(OVER);report.append((f"screen {info['k']}",bad));shot('s')
             pg.mouse.click(pg.locator('#stage').bounding_box()['x']+20,60)
             if spam: time.sleep(.05);pg.mouse.click(pg.locator('#stage').bounding_box()['x']+20,60)  # 連點
@@ -114,6 +121,10 @@ with sync_playwright() as p:
         time.sleep(.4)
     # lines-r3 checks: ending DMs (gone = cold, hurt once = warm), no blank bubbles, no outsider forward screens
     dm=pg.evaluate("""()=>H.list.filter(s=>s.querySelector('.who')).map(s=>{const b=s.querySelector('.chat .bub');return {who:s.querySelector('.who b').textContent,cold:!!(b&&b.classList.contains('gone')),len:b?b.textContent.length:0}})""")
+    dmkeys=pg.evaluate("()=>[...S.gone,...DATA.class_.filter(m=>m!=='老顏'&&!S.gone.includes(m)&&(S.hurt[m]||0)===1)].map(rkey).filter(k=>DATA.reunion[k])")
+    # c29: no undefined/null/NaN or {placeholder} anywhere the player saw
+    junk=pg.evaluate(r"()=>H.list.map((s,i)=>[i,s.innerText]).filter(([i,t])=>/\bundefined\b|\bnull\b|\bNaN\b|\{[a-zA-Z_]+\}/.test(t)).map(([i,t])=>i+': '+t.slice(0,60))")
+    if junk: report.append(('undefined/null on screen',junk))
     exp=pg.evaluate("()=>({gone:S.gone.slice(),once:Object.keys(S.hurt).filter(m=>S.hurt[m]===1&&!S.gone.includes(m))})")
     blank=pg.evaluate("()=>H.list.flatMap(s=>[...s.querySelectorAll('.bub,.sysin')]).filter(b=>{const c=b.cloneNode(true);c.querySelectorAll('i').forEach(i=>i.remove());return !c.textContent.trim()&&!b.querySelector('img,.photo')}).length")
     fw=pg.evaluate("()=>H.list.filter(s=>s.querySelector('.fw')).length")
@@ -121,8 +132,8 @@ with sync_playwright() as p:
     if fw: report.append(('outsider forward screens',[fw]))
     if len(dm)!=len(exp['gone'])+len(exp['once']) or any(d['len']<20 for d in dm): report.append(('dm mismatch',[dm,exp]))
     LS=pg.evaluate("""()=>{const s=H.list.find(x=>x.classList.contains('lt'));if(!s)return null;return {lan:S.lantern,reps:[...s.querySelectorAll('.lrep')].map(b=>b.dataset.w),
-      con:[...s.querySelectorAll('.lcon b')].map(b=>b.textContent),off:s.querySelectorAll('.sl.off').length,photoOff:s.querySelectorAll('.photo u.off').length,lw:s.querySelector('.lw').textContent,
-      kept:(()=>{const l=S.path[S.path.length-1];return N[l.node][l.side].h1})(),blank:DATA.lantern.ui.blank,all:s.innerText}}""")
+      con:s.querySelectorAll('.lcon').length,off:s.querySelectorAll('.sl.off').length,photoOff:s.querySelectorAll('.photo u.off').length,lw:s.querySelector('.lw').textContent,
+      all:s.innerText}}""")
     if not LS or not LS['lan']: report.append(('lantern',['lantern beat missing']))
     else:
         g=exp['gone'];prob=[]
@@ -132,8 +143,8 @@ with sync_playwright() as p:
         if not 4900<=LS['lan']['ms']<=7000: prob.append(f"beat {LS['lan']['ms']}ms")
         if LS['off']!=len(g) or LS['photoOff']!=len(g): prob.append(f"dark lamps {LS['off']}/{LS['photoOff']} != gone {len(g)}")
         L_=1 if lang=='en' else 0
-        if LS['con'][1]!=LS['kept'][L_]: prob.append(f"poster {LS['con'][1]!r} != kept {LS['kept'][L_]!r}")
-        if LS['con'][0]!=(LS['lan']['w'] or LS['blank'][L_]) or LS['lw']!=LS['lan']['w']: prob.append(f"lantern text {LS['con'][0]!r}/{LS['lw']!r} vs {LS['lan']['w']!r}")
+        if LS['con']: prob.append('燈上/海報上 contrast box is back (removed in c29)')
+        if LS['lw']!=LS['lan']['w']: prob.append(f"lantern text {LS['lw']!r} vs {LS['lan']['w']!r}")
         if any(b in WISH.lower() for b in ['幹','靠北','白癡','去死','fuck','shit']):  # masked: lantern shows ▇, the raw words never appear
             if '▇' not in LS['lan']['w'] or WISH.strip() in LS['all']: prob.append('profanity not masked')
         if prob: report.append(('lantern',prob))
@@ -161,7 +172,7 @@ with sync_playwright() as p:
         Lg=1 if lang=='en' else 0
         HOVER=r"""()=>{const b=document.querySelector('.scr.sp .spb'),r=b.getBoundingClientRect(),bad=[];if(b.scrollWidth>b.clientWidth+1)bad.push('spb scrollWidth '+b.scrollWidth+'>'+b.clientWidth);
           b.querySelectorAll('.spbox,.spask,.spchips button,a.splink,.spfact,.spqb button,.spf00,h2,h3,.spa,.btn').forEach(e=>{if(!e.getClientRects().length)return;const q=e.getBoundingClientRect();if(q.right>r.right+1||q.left<r.left-1)bad.push('wide '+e.className+' '+(e.textContent||'').slice(0,20))});
-          const t=b.innerText;if(/\{[a-zA-Z]\}|undefined|NaN|null/.test(t))bad.push('placeholder/undefined in text');return bad}"""
+          const t=b.innerText;if(/\{[a-zA-Z_]+\}|undefined|NaN|null/.test(t))bad.push('placeholder/undefined in text');return bad}"""
         def ov(tag):
             b=spe(HOVER)
             if b: SPF.append((tag+' overflow',b))
@@ -180,13 +191,17 @@ with sync_playwright() as p:
         for qnode in qn:
             c=spe(f"DATA.sources.quiz['{qnode}'].c[{Lg}]")
             if c not in txt[qnode]: SPF.append(('quiz claim not in game text',[qnode,c]))
+        if len(qn)!=3: SPF.append(('quiz count (want 3)',qn))
+        if spe("[...document.querySelectorAll('.scr.sp .spq')].some(q=>q.dataset.k!=='real'||q.querySelectorAll('.spqb button').length!==2)"): SPF.append(('quiz options',['want exactly 真實/虛構, answer 真實']))
         for qi in range(len(qn)):
-            for k in ['real','adapt','fiction']:
+            for k in ['real','fiction']:
                 spe(f"()=>{{const q=document.querySelectorAll('.scr.sp .spq')[{qi}];q.classList.remove('done');q.querySelectorAll('button').forEach(b=>{{b.disabled=false;b.className=''}})}}")
                 b=pg.locator('.scr.sp .spq').nth(qi).locator(f'button[data-k="{k}"]');b.scroll_into_view_if_needed();b.click();time.sleep(.35)
                 r=spe(f"""()=>{{const q=document.querySelectorAll('.scr.sp .spq')[{qi}],ok=q.querySelector('button.ok'),no=q.querySelector('button.no'),rv=q.querySelector('.sprev');
-                  return {{kind:q.dataset.k,ok:ok&&ok.dataset.k,no:no&&no.dataset.k,vis:rv.getClientRects().length>0,facts:rv.querySelectorAll('.spfact').length,links:rv.querySelectorAll('a.splink').length}}}}""")
-                if r['ok']!=r['kind'] or (k!=r['kind'] and r['no']!=k) or (k==r['kind'] and r['no']) or not r['vis'] or r['facts']<1 or r['links']<1: SPF.append(('quiz',[qi,k,r]))
+                  return {{kind:q.dataset.k,ok:ok&&ok.dataset.k,no:no&&no.dataset.k,vis:rv.getClientRects().length>0,facts:rv.querySelectorAll('.spfact').length,links:rv.querySelectorAll('a.splink').length,
+                    ans:(rv.querySelector('.spv')||{{}}).textContent||'',empty:[...rv.querySelectorAll('.spfact,a.splink')].filter(e=>!e.textContent.trim()).length,txt:rv.innerText}}}}""")
+                want_ans=spe(f"DATA.sources.ui.ans[{Lg}]")
+                if r['ok']!='real' or r['kind']!='real' or (k!='real' and r['no']!=k) or (k=='real' and r['no']) or not r['vis'] or r['facts']<1 or r['links']<1 or not r['ans'].startswith(want_ans) or r['empty'] or any(w in r['txt'] for w in ('undefined','null','NaN')): SPF.append(('quiz',[qi,k,{x:r[x] for x in r if x!='txt'}]))
         ov('quiz');scr('.scr.sp .spq');shot('sp_quiz')
         # suggested questions (recorded)
         nchip=spe("document.querySelectorAll('.scr.sp .spchips button').length")
@@ -203,6 +218,9 @@ with sync_playwright() as p:
                 else:
                     if lab not in r['meta']: bad.append('label '+r['meta'])
                     if len(r['facts'])!=len(rec['picks']): bad.append(f"facts {len(r['facts'])}!={len(rec['picks'])}")
+                    if len(r['facts'])<1 or not all(f.strip() for f in r['facts']): bad.append('EMPTY answer (no source line): '+r['head'])  # c29 incident: 日本的做法呢？
+                    if spe(f"DATA.sources.ui.head_none[{Lg}]") in r['head']: bad.append('nothing-found head shown')
+                    if any(w in (r['head']+' '.join(r['facts'])) for w in ('undefined','null','NaN')): bad.append('undefined in answer')
                     if any(spe(f"!!DATA.sources.cards['{x.split('-')[0]}'].url") for x in rec['picks']) and (not r['links'] or any(not h.startswith('https://') or t!='_blank' or 'noopener' not in rl for h,t,rl in r['links'])): bad.append('links '+str(r['links']))
                 if bad: SPF.append((tag+f' chip{ci}',bad))
                 if tag=='chip': ans.append(r)
@@ -255,8 +273,17 @@ with sync_playwright() as p:
         if lang=='en':  # 21:50「全文應該都要按照同樣的翻譯原則」：英文出處頁不得殘留中文
             cj=pg.evaluate("()=>{const t=document.querySelector('.scr.sp .spb').innerText;return (t.match(/[\\u4e00-\\u9fff]+/g)||[]).slice(0,8)}")
             if cj: SPF.append(('chinese left on English sources page',cj))
+        st=spe(f"""()=>{{const L={Lg},SD=DATA.sources,C=SD.cards,bad=[],ok=s=>typeof s==='string'&&s.trim()&&!/\\bundefined\\b|\\bnull\\b|NaN/.test(s);
+          const fx=p=>{{const m=/^([FA]\\d\\d)-(\\d+)$/.exec(p),c=m&&C[m[1]];return c&&c.f[+m[2]-1]}};
+          for(const [k,q] of Object.entries(SD.quiz)){{if(!ok(q.c[L]))bad.push('quiz claim '+k);if(q.kind!=='real')bad.push('quiz kind '+k);if(!q.picks.length)bad.push('quiz no picks '+k);q.picks.forEach(p=>{{const f=fx(p);if(!f||!ok(f[L]))bad.push('quiz pick '+k+' '+p);else if(!(C[p.split('-')[0]].url||'').startsWith('https://'))bad.push('quiz pick no link '+p)}})}}
+          SD.chips.forEach((c,i)=>{{const r=SD.rec[i];if(!ok(c[L]))bad.push('chip text '+i);if(!r||!r.picks.length||!['fact','fiction'].includes(r.type))bad.push('chip no answer '+c[L]);else r.picks.forEach(p=>{{const f=fx(p);if(!f||!ok(f[L]))bad.push('chip pick '+i+' '+p)}})}});
+          for(const [id,c] of Object.entries(C)){{if(!ok(c.t[L]))bad.push('card title '+id);c.f.forEach((f,i)=>{{if(!ok(f[L]))bad.push('card fact '+id+'-'+(i+1))}});if(id!=='F00'&&!(c.url||'').startsWith('http'))bad.push('card url '+id)}}
+          for(const k in N){{if(!(SD.ncard[k]||[]).length)bad.push('ncard '+k);for(const h of 'UD'){{const a=((SD.nadv||{{}})[k]||{{}})[h]||[];if(!a.length)bad.push('nadv '+k+h)}}}}
+          for(const [k,r] of Object.entries(DATA.reunion)){{if(!ok(r.line[L])||!ok(r.off[L]))bad.push('reunion line '+k);r.qa.forEach((a,i)=>{{if(!ok(a[L]))bad.push('reunion qa '+k+' '+i)}})}}
+          return bad}}""")
+        if st: SPF.append(('static data (all items, this language)',st))
         report.append(('sources page',[x for x in SPF]))
     elif pg.evaluate("S.ended===true"): report.append(('sources page',['missing (fallback page shown)']))
     isw=lambda r:all(str(x).startswith('WARN') for x in r[1])
     warns=[r for r in report if r[1] and isw(r)];fails=[r for r in report if r[1] and not isw(r)]
-    print(json.dumps({"vp":f"{W}x{Hh}","lang":lang,"path":seq,"screens":len(report),"ended":pg.evaluate("S.ended===true"),"errors":errs,"overflow":fails,"warn":warns,"place_ms":max(ms or [0]),"dms":dm,"hurt":exp,"lantern":(LS or {}).get('lan'),"reply":(LS or {}).get('reps'),"sources":(SPF if 'SPF' in dir() else None),"chips":len(ans) if 'ans' in dir() else 0},ensure_ascii=False))
+    print(json.dumps({"vp":f"{W}x{Hh}","lang":lang,"path":seq,"screens":len(report),"ended":pg.evaluate("S.ended===true"),"errors":errs,"overflow":fails,"warn":warns,"place_ms":max(ms or [0]),"dms":dm,"dmkeys":dmkeys,"hurt":exp,"lantern":(LS or {}).get('lan'),"reply":(LS or {}).get('reps'),"sources":(SPF if 'SPF' in dir() else None),"chips":len(ans) if 'ans' in dir() else 0},ensure_ascii=False))
