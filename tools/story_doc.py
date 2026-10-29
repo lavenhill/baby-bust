@@ -29,8 +29,15 @@ def run(choices):
         S['node']=n['next'][c]
     g=len(S['gone']);v='gone' if g>=2 else ('self' if S['self']>=3 and not g else 'mix')
     S['verdict']=v
-    pres=[m for m in CL if m!='老顏' and m not in S['gone']]  # L1 lantern: responder = first in rule order still in the group
-    S['lantern']={k:(next((x for x in who if x in pres),'佩珊') if who else '被點名者') for k,zh,en,who in D['lantern']['rules']}
+    # d29 lantern options (mirror of lopts() in index.html): ① her own s0–s4 ② one friend (most hurt, ties → cut earliest) ③ in eight years
+    pres=[m for m in CL if m!='老顏' and m not in S['gone']];O=D['lantern']['opt'];opts=[]
+    sk='s'+str(min(S['self'],4));r=next((x for x in O[sk]['who'] if x in pres),'佩珊');opts.append((sk,Z(O[sk]['lamp']),r,Z(O[sk]['rep'][r])))
+    order=[n for n,_ in S['path']];first=lambda m:order.index(S['cutIn'][m][0])
+    c=sorted([m for m in CL if m!='老顏' and S['hurt'].get(m,0)>0],key=lambda m:(-S['hurt'][m],first(m)))
+    if c:
+        t=c[0];g=t in S['gone'];o=O['gone' if g else 'once'];opts.append(('gone' if g else 'once',Z(o['lamp']).replace('{n}',t),'佩珊' if g else t,(Z(o['rep']) if g else Z(o['rep'][t])).replace('{n}',t)))
+    p=O['p1' if S['gone'] else 'p0'];r=next((x for x in p['who'] if x in pres),'佩珊');opts.append(('p1' if S['gone'] else 'p0',Z(O['plamp']),r,Z(p['rep'][r])))
+    S['lantern']=opts
     key=lambda m:m+'|'+','.join(sorted(S['cutIn'][m][:2]))
     S['reunion']=[key(m) for m in S['gone']]+[key(m) for m in CL if m!='老顏' and m not in S['gone'] and S['hurt'].get(m,0)==1]
     return S
@@ -40,7 +47,7 @@ for ch in itertools.product('UD',repeat=7):
     if key not in [p['key'] for p in paths]:paths.append(dict(key=key,S=s))
 P=len(paths)
 cnt=lambda f:collections.Counter(f(p['S']) for p in paths)
-verdicts=cnt(lambda s:s['verdict']);goneC=cnt(lambda s:len(s['gone']));lan={k:dict(collections.Counter(p['S']['lantern'][k] for p in paths)) for k,*_ in D['lantern']['rules']}
+verdicts=cnt(lambda s:s['verdict']);goneC=cnt(lambda s:len(s['gone']));lan=collections.Counter(' ／ '.join(f'{w}（{r}）' for _,w,r,_x in p['S']['lantern']) for p in paths)
 assert all('佩珊' not in p['S']['gone'] for p in paths),'佩珊 must never leave (lantern fallback)'
 reach=collections.Counter(k for p in paths for k in p['S']['reunion'])
 dead=[k for k in D['reunion'] if k not in reach]
@@ -51,7 +58,7 @@ for k,n in N.items():
 # ---------- machine graph ----------
 def side(n,h):
     x=n[h];return {k:(v if not isinstance(v,list) else {'zh':v[0],'en':v[1]}) for k,v in x.items()}
-graph={'version':'L advocates (V=20261028f)','generated_from':'data.js + engine rules in index.html',
+graph={'version':'d29 lantern options (V=20261029d)','generated_from':'data.js + engine rules in index.html',
  'state':{
   'hurt[m]':'同學 m 被犧牲次數；選上半（文宣）時 +1 給 D.who（下半照片上的人）',
   'gone':'hurt[m]==2 的同學：退群、之後群組不出現、2026 空燈、結局私訊',
@@ -75,8 +82,8 @@ graph={'version':'L advocates (V=20261028f)','generated_from':'data.js + engine 
    'boss_D':({'zh':n['boss']['D'][0],'en':n['boss']['D'][1]} if isinstance(n.get('boss',{}).get('D'),list) else None)} for k,n in N.items()},
  'endings':{'verdict':{k:{'zh':v[0],'en':v[1]} for k,v in D['verdict'].items()},'lantern':D['lantern'],'wish26':D['wish26'],'wish2018':D['wish'],
    'reunion_keys':list(D['reunion'].keys()),'reunion_unreachable':dead},
- 'path_stats':{'paths':P,'verdict':verdicts,'gone_count':goneC,'lantern_responder':lan,'leaves_group':leaveC,'reunion_reach':reach},
- 'paths':[{'key':p['key'],'nodes':[n for n,_ in p['S']['path']],'gone':p['S']['gone'],'self':p['S']['self'],'verdict':p['S']['verdict'],'lantern':p['S']['lantern']} for p in paths]}
+ 'path_stats':{'paths':P,'verdict':verdicts,'gone_count':goneC,'lantern_options':dict(lan),'leaves_group':leaveC,'reunion_reach':reach},
+ 'paths':[{'key':p['key'],'nodes':[n for n,_ in p['S']['path']],'gone':p['S']['gone'],'self':p['S']['self'],'verdict':p['S']['verdict'],'lantern':[{'k':k,'w':w,'who':r,'rep':x} for k,w,r,x in p['S']['lantern']]} for p in paths]}
 json.dump(graph,open(B+'docs/spec/06-story-graph.json','w'),ensure_ascii=False,indent=1)
 # ---------- human doc ----------
 L=[]
@@ -111,10 +118,15 @@ for i,l in enumerate(D['life']):
 a(f"- 第 5 晚以後：{Z(D['ui']['again_night'])}\n")
 a('**2026 結局判詞**（gone≥2 → gone；self≥3 且無人退群 → self；其餘 → mix）')
 for k,v in D['verdict'].items():a(f'- {k}：{v[0]}（{verdicts.get(k,0)}/{P} 條路徑）')
-a('\n**老顏的燈（L1 天燈拍，2026-10-28）**：玩家替老顏寫燈（12 字內，中文 1、英數 0.5；可空白；髒話打碼▇）→ 5 秒升空 → 佩珊傳照片 → 一位在群同學回一句（「燈上／海報上」對照格 c29 2026-10-29 拿掉）。回應規則依序：')
-for k,zh,en,who in D['lantern']['rules']:
-    ln=D['lantern']['lines'];ws=who or ['被點名者']
-    a(f"- {k}（{zh or ('髒話／空白' if k=='prof' else '燈上最先出現且仍在群組的同學名' if k=='name' else '其他')}）：{'→'.join(ws)}；各路徑回應者 {lan[k]}；台詞："+'／'.join(f"{x}「{ln[k+'_'+x][0]}」" for x in (who or [m for m in CL if 'name_'+m in ln]) if k+'_'+x in ln or 'name_'+x in ln and k=='name' and not ln.get(k+'_'+x) is None))
+a('\n**老顏的燈（d29 2026-10-29：2–3 顆限定選項，取代 L1 自由輸入）**：輪到老顏時顯示按鈕，按鈕字＝燈上字，順序 ①她自己（依最後看到的生活框 s0–s4）②一位朋友（hurt 最多者，平手取最早被裁；退群者由佩珊回、受傷一次者本人回；沒人受傷不出）③八年後（沒人退群 p0／有人退群 p1）→ 5 秒升空 → 佩珊傳照片 → 所選那格的同學回一句。')
+O=D['lantern']['opt']
+for k,o in O.items():
+    if k=='plamp': a(f"- plamp 燈上：{o[0]}／{o[1]}");continue
+    lamp=f"燈上：{o['lamp'][0]}／{o['lamp'][1]}；" if 'lamp' in o else ''
+    reps=o['rep'] if isinstance(o['rep'],dict) else {'佩珊':o['rep']}
+    a(f"- {k}：{lamp}回覆："+'；'.join(f"{w}「{v[0]}」" for w,v in reps.items()))
+a(f'\n128 條路徑的按鈕組合（燈上字（回覆者）），共 {len(lan)} 種：')
+for combo,nn in lan.most_common(): a(f'- {nn} 條：{combo}')
 a('')
 a('## 3. 分支圖\n```mermaid\nflowchart TD')
 for k,n in N.items():
