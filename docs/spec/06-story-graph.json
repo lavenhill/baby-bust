@@ -469,7 +469,7 @@
     },
     "h1": {
      "zh": "私幼協力 孩子不漏接",
-     "en": "A Seat for Every Child"
+     "en": "Private Preschools Pitch In"
     },
     "sub": {
      "zh": "備取不再等 托育一起顧",
@@ -479,7 +479,7 @@
      "zh": "私幼註冊單先放包包",
      "en": "Tucked the private preschool registration form into my bag"
     },
-    "h1s": "Every Child a Seat"
+    "h1s": "No Child Left Out"
    },
    "U_hurts": "阿芳",
    "group": [
@@ -620,8 +620,8 @@
    "policy_src": "勞動部 2021-05-17",
    "ask": [
     {
-     "zh": "全國停課，給老師照顧假但不給薪。現在要的是安心，不要有問題！",
-     "en": "Schools closed nationwide, pandemic childcare leave approved but unpaid. We need calm right now, not problems."
+     "zh": "全國停課，照顧假准請但不給薪。現在要的是安心，不要有問題！",
+     "en": "Schools closed nationwide. Parents can take childcare leave, but it's unpaid. We need calm right now, not problems."
     },
     {
      "zh": "畫在家陪孩子的媽媽，還是幫忙代班的同事？",
@@ -796,7 +796,7 @@
    },
    "news_after_U": null,
    "boss_D": {
-    "zh": "年底考核關係到妳明年續約，現在別搞有的沒的",
+    "zh": "年底考核關係到妳明年續約，現在別搞有的沒的。",
     "en": "Not the time for this. The year-end review decides your contract next year."
    }
   },
@@ -1189,8 +1189,8 @@
    },
    "news_after_U": null,
    "boss_D": {
-    "zh": "妳自己選的。重做。",
-    "en": "It was your own choice. Redo it."
+    "zh": "她自己選的。重做。",
+    "en": "It was her own choice. Redo it."
    }
   },
   "y2024": {
@@ -1387,7 +1387,7 @@
      {
       "who": "宜君",
       "time": "",
-      "zh": "嗯，顧到六點是應該的，沒事，站11小時而已",
+      "zh": "嗯，顧到六點是應該的，沒事，站十一小時而已",
       "en": "Yeah, staying till 6 is just part of the job. It’s only 11 hours on my feet",
       "visible_if": {
        "present": []
@@ -1412,7 +1412,7 @@
    "ask": [
     {
      "zh": "教育局長提案：公幼寒暑假繼續收托，家長月付最多兩千。",
-     "en": "education chief proposed care during summer and winter break at public preschools, NT$2,000 a month at most."
+     "en": "The education chief proposed care during summer and winter break at public preschools, NT$2,000 a month at most."
     },
     {
      "zh": "畫放心的家長，還是沒有暑假的老師？",
@@ -1457,7 +1457,7 @@
     },
     "aside": {
      "zh": "桌上那張，是機票的退票單",
-     "en": "On the desk: a refund slip for airplane"
+     "en": "On the desk: a refund slip for the plane tickets"
     },
     "h1s": "Teachers Need Breaks"
    },
@@ -1519,7 +1519,7 @@
      "id": "y2025e.g5",
      "who": "宜君",
      "zh": "日本機票直接變空氣啦",
-     "en": "My airplane tickets turned into air",
+     "en": "My plane tickets turned into a refund slip",
      "visible_if": {
       "present": [
        "宜君",
@@ -1686,8 +1686,8 @@
     {
      "id": "y2025f.g2",
      "who": "志豪",
-     "zh": "恭喜。單身排最後，還不敢挑戒指",
-     "en": "Congrats. Singles last in line, ring's still in air",
+     "zh": "恭喜。單身排最後，戒指還在抽屜啦",
+     "en": "Congrats. Singles last in line, the ring's still in the drawer",
      "visible_if": {
       "present": [
        "志豪",
@@ -2175,18 +2175,6 @@
     "go": [
      "放！",
      "Let go!"
-    ],
-    "on": [
-     "燈上",
-     "On the lantern"
-    ],
-    "poster": [
-     "海報上",
-     "On the poster"
-    ],
-    "blank": [
-     "（什麼都沒寫）",
-     "(nothing written)"
     ]
    }
   },
@@ -2253,7 +2241,7 @@
    ],
    "宜君": [
     "月薪到 30,000。暑假帶我媽去富士山，機票我都先買好了啦。",
-    "Pay goes to 30K a month. Taking Mom to Okinawa this summer, tickets already booked."
+    "Pay goes to 30K a month. Taking Mom to Mt. Fuji this summer, tickets already booked."
    ],
    "志豪": [
     "九點前下班。存到 80 萬頭期款，到時跟小雯求婚。",
