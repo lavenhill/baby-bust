@@ -40,6 +40,33 @@ TYPES = ("fact", "fiction", "none", "abuse")
 BUILTIN_ORIGINS = ("https://lavenhill.github.io",)
 
 
+def _load_dotenv():
+    """Botkeep writes panel Environment values to a .env file in the server root
+    instead of exporting them. Load KEY=VALUE lines (no override of real env)."""
+    for d in (os.getcwd(), os.path.join(REPO, ".."), REPO):
+        f = os.path.join(d, ".env")
+        try:
+            with open(f, encoding="utf-8") as fh:
+                for line in fh:
+                    line = line.strip()
+                    if not line or line.startswith("#") or "=" not in line:
+                        continue
+                    k, v = line.split("=", 1)
+                    k = k.strip()
+                    if k.startswith("export "):
+                        k = k[7:].strip()
+                    v = v.strip()
+                    if len(v) >= 2 and v[0] == v[-1] and v[0] in "\"'":
+                        v = v[1:-1]
+                    if re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", k) and k not in os.environ:
+                        os.environ[k] = v
+        except OSError:
+            continue
+
+
+_load_dotenv()
+
+
 def _env_int(name, default):
     try: return int(os.environ.get(name, default))
     except ValueError: return default
