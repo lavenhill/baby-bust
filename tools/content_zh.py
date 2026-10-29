@@ -81,7 +81,7 @@ UI=dict(again_night='老顏又重做了一晚。',reu='2026　同學會',hint='�
  start='上班',pub='發布',again='再拍一次',promise='約好八年後，再來這裡拍一張。',intro='2018，老顏 26 歲。少子女化對策辦公室，約聘小編。',
  obj19='5/24 被圈了起來。兩只一樣的戒指。',end='職務代理津貼，每日 800 元。',baby='本班第 {n} 位小朋友！恭喜{who}',
  q=['後來呢？','你怪我嗎？','那時候你需要的是什麼？'],kids='這八年來，本班一共 {n} 個小朋友。不管大家對妳的感想怎麼樣，妳都是我們的好同學。',
- src='出處',credit='文字初稿與翻譯：Meta Muse Spark 1.3　插畫：Meta Muse Image 1.0　政策與數字皆有出處',title='我們與孩子的距離')
+ src='出處',credit='文字初稿與翻譯：Meta Muse Spark 1.3　插畫：Meta Muse Image 1.0　政策與數字皆有出處',title='Baby Bust')
 
 # ---- v4.1 (2026-10-27, user-approved: notes/text-v4.1-r2.md) ----
 # ask[0]=boss memo (policy + pressure); setup=[upper person, lower person]; CALLN=first call per node (who used the poster on whom)
