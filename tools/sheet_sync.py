@@ -12,7 +12,7 @@ usage (run from /workspace/work/bb2, Google credentials for shingocho@gmail.com 
                                       #   Rows it cannot place safely (same sentence in several rows edited differently, English built by code,
                                       #   {placeholder} changed) are listed in qa/sheet_zh_diff_applied.json "unresolved" for manual handling.
                                       #   reunion rows are written by path; a .h1s row's Chinese is the poster title (.h1) itself.
-  python3 tools/sheet_sync.py push [新標題] [--ok-en]  # pull first; refuses (exit 3) while unapplied 中文 or English edits or rows only
+  python3 tools/sheet_sync.py push [新標題] [--ok-en] [--behind=qa/sheet-r1/diff.json]  # --behind: rows equal to that file's old text = sheet is behind, not edited  # pull first; refuses (exit 3) while unapplied 中文 or English edits or rows only
                                       #   on the sheet exist (--ok-en = deliberately overwrite the sheet's English); then uploads, reads back
 copy_map.py only builds the local .xlsx; uploading goes through `push` so the guard always runs.
 """
@@ -186,9 +186,27 @@ def apply():
     poster=[d for d in done if '.h1' in d['path']]
     print(f'已回寫中文 {len(done)} 句、英文 {len(en_done)} 句；待人工 {len(unres)} 句；備份 {bak}'+('；海報字有改，記得重做 poster.woff2 子集' if poster else ''))
     return 0 if not unres else 2
+def _behind(rep):
+    """drop diffs where the sheet simply shows the PREVIOUS source text (sheet is behind, not edited):
+    --behind=<diff.json from an earlier apply> lists old values per path; a .h1 row whose .h1s mirror on the sheet already shows the new title is behind too"""
+    base={}
+    for a in sys.argv:
+        if a.startswith('--behind='):
+            for r in json.load(open(a.split('=',1)[1])): base[r['path']]=(r.get('zh_old'),r.get('en_old'))
+    O=None;n=lambda s:(s or '').replace('\r','').strip()
+    for k,i in (('zh_diffs',0),('en_diffs',1)):
+        keep=[]
+        for d in rep[k]:
+            if d['path'] in base and n(base[d['path']][i])==n(d['new']): continue
+            if k=='zh_diffs' and d['path'].endswith('.h1'):
+                O=O or online_rows();m=O.get(d['path']+'s')
+                if m and n(m['zh'])==n(d['old']): continue
+            keep.append(d)
+        rep[k]=keep
+    return rep
 def push():
-    rep=pull()
-    if rep['zh_diffs']: print('表上有使用者的中文修改尚未回寫源碼：先跑 apply，不覆蓋');return 3
+    rep=_behind(pull())
+    if rep['zh_diffs']: print('表上有使用者的中文修改尚未回寫源碼：先跑 apply，不覆蓋',[d['path'] for d in rep['zh_diffs']][:10]);return 3
     if rep['rows_only_online']: print('表上有本機沒有的列（使用者新增？）：不覆蓋，請先人工處理',rep['rows_only_online'][:10]);return 3
     if rep['en_diffs'] and '--ok-en' not in sys.argv: print('表上有英文修改尚未回寫源碼：先跑 apply（使用者改的英文照收）；確定要用源碼英文蓋掉表上英文才加 --ok-en',[d['path'] for d in rep['en_diffs']][:10]);return 3
     args=[a for a in sys.argv[2:] if not a.startswith('--')];title=args[0] if args else None
