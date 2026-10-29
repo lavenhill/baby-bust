@@ -3,7 +3,7 @@
 # 英文在 tools/sources_en.json（Muse 初譯、Hark 審）；錄製答案在 tools/sources_rec.json（tools/sources_muse.py 產生）。
 CARDS=[
  dict(id="F00",title="哪些是真的、哪些是編的",src="本遊戲製作說明",url="",kind="meta",
-  facts=["老顏和五位同學是虛構人物；他們身上的情節，改編自真實的報導、調查或法規，列在每一年的「情節依據」。","每一年的政策、標語和金額，都取自官方或新聞出處。","出處記錄了各種政策，是代價落在誰身上。"]),
+  facts=["老顏和五位同學是虛構人物；他們身上的情節，改編自真實的報導、調查或法規，列在每一年的「情節依據」。","每一年的政策、標語和金額，都取自本頁的官方或新聞出處；「一萬」「備取 87」「漲五百」這類數字是遊戲設定。","出處記錄的是，代價落在誰身上。"]),
  dict(id="F01",title="準公共幼兒園上路",src="中央社 2019-03-21",url="https://www.cna.com.tw/news/ahel/201903210295.aspx",kind="policy",
   facts=["政府2018年8月起推動「準公共幼兒園」，與符合條件的私幼簽約補助。","家長每月繳費不超過4,500元。","政府要求教保人員每月薪資至少29,000元。"]),
  dict(id="F02",title="三成教保員沒拿到29,000",src="中央社 2019-03-21；公視 2019-03-21",url="https://www.cna.com.tw/news/ahel/201903210295.aspx",src2="公視 2019-03-21",url2="https://news.pts.org.tw/article/426305",kind="cost",
@@ -27,6 +27,8 @@ CARDS=[
   facts=["300億租補原訂補助50萬戶，到2022年8月底申請約27.8萬戶。","有租屋族說房東表示：要申請就至少漲5,000元，她只好放棄。","不少人怕申請後被漲租或不續約。"]),
  dict(id="F11",title="房東漲租：調查與政府說法不同",src="內政部 2024-12-23",url="https://www.moi.gov.tw/News_Content.aspx?n=8&s=324194",kind="cost",
   facts=["中研院調查：約24.3%受訪房東調漲房租。","內政部回應：比對申請資料，租金持平約93%、上漲約6%。"]),
+ dict(id="F34",title="租金補貼加碼倍數",src="內政部 2022-03-31",url="https://www.moi.gov.tw/News_Content.aspx?n=4&s=260145",kind="policy",
+  facts=["「300億元中央擴大租金補貼專案」：育有未成年子女（含胎兒）家庭，育有1人提高至補貼金額1.4倍、2人1.6倍、3人以上1.8倍。"]),
  dict(id="F12",title="育兒津貼加到5,000",src="教育部 2021-02-04",url="https://www.edu.tw/News_Content.aspx?n=9E7AC85F1954DDA8&s=9D475E9258B5B32B",kind="policy",
   facts=["育兒津貼2021年8月起每月3,500元。","2022年8月起每月5,000元，第2胎、第3胎再加發。"]),
  dict(id="F13",title="公幼延長照顧收費與開辦率",src="國教署 2025-05-27",url="https://www.k12ea.gov.tw/Tw/News/K12eaNewsDetail?filter=9F92BBB7-0251-4CB7-BF06-82385FD996A0&id=bd326ab1-9fe3-4a71-a1c1-4c9b9c0c7b67",kind="policy",
@@ -182,31 +184,31 @@ BASIS=[
 for _b in BASIS:
     CARDS.append(dict(id=_b["id"],title=_b["title"],src="；".join(r[0] for r in _b["refs"]),url=_b["refs"][0][1],kind="basis",refs=_b["refs"],facts=_b["facts"]))
 # 玩家留下某年某張海報 → 點開看哪幾張出處卡（2026 年的進度卡另列在「公開進度」，這裡不重複）
-NODE_CARD={"y2018":["F01","F03"],"y2019a":["F01","F02"],"y2019b":["F04","F05"],"y2021":["F06","F07","F08"],"y2022c":["F09","F10","F11"],"y2022d":["F12"],
+NODE_CARD={"y2018":["F01","F03"],"y2019a":["F01","F02"],"y2019b":["F04","F05"],"y2021":["F06","F07","F08"],"y2022c":["F09","F34","F10","F11"],"y2022d":["F12"],
  "y2024":["F13","F14","F22"],"y2025e":["F15","F13"],"y2025f":["F16","F11"],"y2026":["F17"]}
 # FX：每年的「這一年的情節依據」卡接在政策卡後面；老顏設定卡（F33）放在 2018（每一局都會經過）
 for _b in BASIS: NODE_CARD[_b["node"]].append(_b["id"])
 # 猜猜看：遊戲裡一定出現過的句子（主管便條 ask 或群組 setup 或海報），kind real/adapt/fiction；picks＝翻開後顯示的出處句。
 # claim 必須和 data.js 裡的原文一字不差（play.py 會檢查）；英文 claim 取 data.js 的英文。
-QUIZ={
- "y2018":dict(claim="準公共上路，家長月付不到 4,500。",kind="real",note="",picks=["F01-2","F03-2"]),
- "y2019a":dict(claim="說好月薪兩萬九。園長說年終跟考核獎金也算在裡面。",who="宜君",kind="adapt",note="宜君是遊戲角色；同一種說法的真實報導：",picks=["F02-2","F02-3"]),
- "y2019b":dict(claim="備取 87。小芋頭再等一年。",who="阿芳",kind="adapt",note="備取 87 是遊戲設定；真實的抽籤報導：",picks=["F04-2","F05-1"]),
- "y2021":dict(claim="全國停課，照顧假准請但不給薪。",kind="real",note="",picks=["F06-2","F06-3"]),
- "y2022c":dict(claim="房東說大家都有領，下期漲五百剛好。",who="志豪",kind="adapt",note="漲五百是遊戲設定；真實的漲租報導：",picks=["F09-2","F10-2"]),
+QUIZ={  # c29（2026-10-29 11:48 使用者）：選項只有「真實／虛構」，答案全部是真實；claim＝遊戲內原句的一段（中英都要一字不差，build_data 會檢查），內容必須有真實出處、不含遊戲設定數字。
+ "y2018":dict(claim="準公共上路，家長月付不到 4,500。",kind="real",note="",picks=["F01-1","F01-2"]),
+ "y2019a":dict(claim="說好月薪兩萬九。園長說年終跟考核獎金也算在裡面。",kind="real",note="",picks=["F01-3","F02-2","F02-3"]),
+ "y2019b":dict(claim="上頭說四年增 2,247 班",kind="real",note="",picks=["F25-1"]),
+ "y2021":dict(claim="全國停課，照顧假准請但不給薪。",kind="real",note="",picks=["F06-1","F06-2","F06-3"]),
+ "y2022c":dict(claim="300 億租金補貼，育兒家庭最高 1.8 倍。",kind="real",note="",picks=["F09-1","F34-1"]),
  "y2022d":dict(claim="育兒津貼加到每月 5,000。",kind="real",note="",picks=["F12-2"]),
- "y2024":dict(claim="考上公幼了。顧到六點半，一整天沒空喝水。",who="宜君",kind="adapt",note="宜君是遊戲角色；真實的延托報導：",picks=["F14-1","F22-2"]),
- "y2025e":dict(claim="台南教育局長在全國會議提案：公幼寒暑假，家長月付最多兩千。",kind="real",note="",picks=["F30-1","F15-1"]),
- "y2025f":dict(claim="敢婚敢生 政府全力支持",kind="real",note="海報標語縮寫自政府原句：",picks=["F16-3"]),
+ "y2024":dict(claim="顧到六點半，一整天沒空喝水。",kind="real",note="",picks=["F14-1","F22-2"]),
+ "y2025e":dict(claim="教育局長提案：公幼寒暑假繼續收托，家長月付最多兩千。",kind="real",note="",picks=["F30-1","F15-1"]),
+ "y2025f":dict(claim="敢婚敢生 政府全力支持",kind="real",note="",picks=["F16-3"]),
  "y2026":dict(claim="育嬰留停可以按日請了。",kind="real",note="",picks=["F17-1"]),
 }
 # 截至 2026 年 10 月的公開進度：只標程序狀態，標題中性
 PROGRESS=[("F17-1","已上路"),("F18-1","已提出"),("F19-2","規劃中"),("F21-2","審查中"),("F20-1","協商中")]
 # 還想查什麼？建議問題（答案＝Muse「只挑原句」模式預先錄製、人工核對）
-CHIPS=["代班的人後來有補償嗎？","老顏是真的嗎？","日本的做法呢？","老師真的有拿到兩萬九嗎？","公幼真的那麼難抽？","防疫照顧假有薪水嗎？","申請租屋補助，房東真的會漲房租？","延托的老師有加人嗎？","按日請育嬰假，誰支持、誰擔心？"]
+CHIPS=["代班的人後來有補償嗎？","老顏是真的嗎？","老師真的有拿到兩萬九嗎？","公幼真的那麼難抽？","防疫照顧假有薪水嗎？","申請租屋補助，房東真的會漲房租？","延托的老師有加人嗎？","按日請育嬰假，誰支持、誰擔心？"]
 UI=dict(
  title="出處",lead="這七年的每一張海報，在真實世界都有出處。",
- quizH="猜猜看：這句是真的嗎？",quizYr="{y} 年，遊戲裡的一句",real="真的",adapt="改編",fiction="虛構",
+ quizH="猜猜看：這句是真的嗎？",quizYr="{y} 年，遊戲裡的一句",real="真實",fiction="虛構",ans="答案：真實",
  askH="還想查什麼？",askSub="點一個問題，看 Meta Muse 從出處庫挑出的原句。",
  head_fact="出處庫找到 {n} 句：",head_fiction="這題問的是遊戲角色。出處庫的說明：",head_none="出處庫裡沒有這題的資料，所以沒有答案。",head_abuse="這題不在查證範圍。",
  meta_rec="Meta Muse 從 {N} 句已查證出處挑出 {n} 句（預先錄製）",meta_rec0="Meta Muse 比對 {N} 句已查證出處，沒有挑出任何一句（預先錄製）",
