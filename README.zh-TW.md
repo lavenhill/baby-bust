@@ -102,7 +102,7 @@ python3 relay/test_relay.py                             # 中繼程式測試，�
 - `img/` 裡還留著 28 張第一版的圖片，遊戲已經不再使用這些圖片。
 
 ## 花費
-開發腳本記錄的 Meta API 花費，截至 2026-10-29（台北時間）：總共約 **US$10.14**——Muse Spark 1.3 US$8.80（712 次呼叫）、Muse Image 1.0 US$1.03（103 張圖片），以及試用 Muse Wonder 1.0 的 3 次呼叫 US$0.31。這個數字包含初稿、翻譯、試玩、審查和中繼程式測試。
+開發腳本記錄的 Meta API 花費：總共約 **US$10**，大部分是 Muse Spark 1.3 的文字呼叫，另有約 100 張 Muse Image 1.0 圖片和幾次 Muse Wonder 1.0 試用呼叫。這個數字包含初稿、翻譯、試玩、審查和中繼程式測試。
 
 ## 致謝與授權
 - 由 [lavenhill](https://github.com/lavenhill) 為 Meta Global AI Developer Hackathon 2026 製作的參賽作品。
