@@ -108,8 +108,8 @@
     {
      "id": "y2018.g1",
      "who": "阿芳",
-     "zh": "中了！月付四千五，婆婆叫我快回去上班",
-     "en": "Got in! 4,500 a month, mother-in-law says go back to work",
+     "zh": "準公共排到了！婆婆叫我快回去上班",
+     "en": "Got a subsidized preschool spot! Mother-in-law says go back to work",
      "visible_if": {
       "present": [
        "阿芳"
@@ -205,8 +205,8 @@
      {
       "who": "家豪",
       "time": "",
-      "zh": "問我憑什麼還收一萬啦，哈哈哈",
-      "en": "Asked me why I still charge 10,000, haha",
+      "zh": "問我幹嘛收一萬，我乾笑兩聲",
+      "en": "Asked why I still charge 10,000. I just laughed it off",
       "visible_if": {
        "present": []
       }
@@ -214,8 +214,8 @@
      {
       "who": "家豪",
       "time": "",
-      "zh": "這學期少了十五個小朋友，招牌的漆也掉了一大片",
-      "en": "Fifteen fewer kids this semester, the paint on the sign is peeling off in a big patch too",
+      "zh": "這學期少了十五個，我爸還蹲在門口補漆",
+      "en": "Fifteen fewer kids this term. My dad's out front repainting the sign",
       "visible_if": {
        "present": []
       }
@@ -395,8 +395,8 @@
      {
       "who": "宜君",
       "time": "",
-      "zh": "笑死，共體時艱，我實拿還是兩萬六QQ",
-      "en": "Haha, share the hardship, I still take home 26,000",
+      "zh": "說要共體時艱，我實拿還是兩萬六QQ",
+      "en": "They said share the hardship. I still take home 26,000 :(",
       "visible_if": {
        "present": []
       }
@@ -587,8 +587,8 @@
      {
       "who": "阿芳",
       "time": "",
-      "zh": "大家互問抽籤結果，我只能回一個備取😝",
-      "en": "Everyone’s asking about the lottery results, all I can say is waitlist 😝",
+      "zh": "大家都在問抽籤，我只回了備取兩個字",
+      "en": "Everyone's asking about the lottery. I just typed: waitlist",
       "visible_if": {
        "present": []
       }
@@ -786,7 +786,7 @@
      {
       "who": "志豪",
       "time": "01:12",
-      "zh": "那一年，我沒有一天在天黑前回到家門口",
+      "zh": "那年我天天摸黑回家",
       "en": "That year, I never got back home before dark, not one day",
       "visible_if": {
        "present": []
@@ -916,7 +916,7 @@
      "id": "y2022c.g5",
      "who": "宜君",
      "zh": "好啦，我富士山基金也整筆泡湯啦",
-     "en": "Fine, bye bye my Okinawa fund",
+     "en": "Fine, bye bye my Mt. Fuji fund",
      "visible_if": {
       "present": [
        "宜君"
@@ -966,8 +966,8 @@
      {
       "who": "志豪",
       "time": "02:47",
-      "zh": "房東說要申請就漲租金，我就沒送申請表了。頭期款又少一個月。",
-      "en": "Landlord said if I apply he'll raise the rent, so I didn't send the form. That's one less month for the down payment.",
+      "zh": "房東說敢申請就漲租，我只好把申請表收回抽屜",
+      "en": "Landlord said if I apply he'll raise the rent, so the form went back in the drawer",
       "visible_if": {
        "present": []
       }
@@ -1148,8 +1148,8 @@
      {
       "who": "阿芳",
       "time": "",
-      "zh": "在家顧也有五千，空白兩年要我怎麼解釋經歷😝",
-      "en": "Staying home still gets 5,000 childcare allowance, how do I explain two blank years 😝",
+      "zh": "在家顧也有五千，空白兩年要我怎麼寫經歷",
+      "en": "Staying home still gets 5,000. How do I explain two blank years",
       "visible_if": {
        "present": []
       }
@@ -1168,8 +1168,8 @@
      {
       "who": "佩珊",
       "time": "",
-      "zh": "阿芳好久沒傳訊息到群組了……",
-      "en": "Amy hasn't messaged the group in a long time...",
+      "zh": "阿芳在群組都沒聲音了……",
+      "en": "Amy's gone quiet in the group...",
       "visible_if": {
        "present": [
         "佩珊"
@@ -1179,8 +1179,8 @@
      {
       "who": "阿芳",
       "time": "",
-      "zh": "人資說在家顧也有五千，空白那兩年的事，我不想再對任何人解釋一遍",
-      "en": "HR said staying home still gets 5,000 childcare allowance, I don't want to explain those blank years again",
+      "zh": "面試官把手機推到我面前，說在家顧也有五千，空白兩年要講清楚欸",
+      "en": "The interviewer pushed his phone at me: staying home gets 5,000, so explain the two blank years",
       "visible_if": {
        "present": []
       }
@@ -1356,8 +1356,8 @@
      {
       "who": "宜君",
       "time": "",
-      "zh": "笑死，說這本來就是老師該做的吧QQ",
-      "en": "Haha, said this is just what teachers do",
+      "zh": "還說這本來就是老師該做的吧",
+      "en": "And they said this is just what teachers do",
       "visible_if": {
        "present": []
       }
@@ -1376,8 +1376,8 @@
      {
       "who": "佩珊",
       "time": "",
-      "zh": "宜君好久沒傳訊息到群組了……",
-      "en": "Jessica hasn't messaged the group in a long time...",
+      "zh": "宜君都沒在群組講話了……",
+      "en": "Jessica hasn't said a word in here...",
       "visible_if": {
        "present": [
         "佩珊"
@@ -1506,7 +1506,7 @@
      "id": "y2025e.g4",
      "who": "阿芳",
      "zh": "欸……那妳的富士山呢🙏",
-     "en": "Uh... what about your Okinawa trip then 🙏",
+     "en": "Uh... what about your Mt. Fuji trip then 🙏",
      "visible_if": {
       "present": [
        "阿芳",
@@ -1532,7 +1532,7 @@
      "id": "y2025e.g6",
      "who": "佩珊",
      "zh": "明年一起去富士山，算我一份啦",
-     "en": "Count me in for Okinawa next year",
+     "en": "Count me in for Mt. Fuji next year",
      "visible_if": {
       "present": [
        "佩珊",
@@ -1583,8 +1583,8 @@
      {
       "who": "佩珊",
       "time": "",
-      "zh": "宜君好久沒傳訊息到群組了……",
-      "en": "Jessica hasn't messaged the group in a long time...",
+      "zh": "宜君都不冒泡了欸……",
+      "en": "Jessica hasn't popped up in ages...",
       "visible_if": {
        "present": [
         "佩珊"
@@ -1595,7 +1595,7 @@
       "who": "宜君",
       "time": "23:48",
       "zh": "主任甩著那張說暑假加托是重點，我手裡的富士山只剩退票單了啦",
-      "en": "Yeah. The director held up that poster: break-time care is this year's focus. Okinawa is down to a refund slip",
+      "en": "Yeah. The director held up that poster: break-time care is this year's focus. Mt. Fuji is down to a refund slip",
       "visible_if": {
        "present": []
       }
@@ -1774,8 +1774,8 @@
      {
       "who": "志豪",
       "time": "",
-      "zh": "說人家有房才敢生，你拿什麼娶小雯，哈哈",
-      "en": "She said people only dare to have kids once they own a home, so what are you marrying Wendy with, haha",
+      "zh": "說人家有房才敢生，你拿什麼娶小雯",
+      "en": "She said people only dare to have kids once they own a home, so what are you marrying Wendy with",
       "visible_if": {
        "present": []
       }
@@ -1794,8 +1794,8 @@
      {
       "who": "阿芳",
       "time": "",
-      "zh": "志豪好久沒傳訊息到群組了……",
-      "en": "Jason hasn't messaged the group in a long time...",
+      "zh": "志豪是不是很久沒出現了……",
+      "en": "Has anyone heard from Jason lately...",
       "visible_if": {
        "present": [
         "阿芳"
@@ -1805,8 +1805,8 @@
      {
       "who": "志豪",
       "time": "01:08",
-      "zh": "小雯媽媽拿有房那張問我，人家有房才敢生，你拿什麼娶小雯。戒指我放回抽屜裡了。",
-      "en": "Wendy’s mom hit me with the own-a-home poster: people only dare to have kids once they own a home, so what are you marrying Wendy with. I put the ring back in the drawer.",
+      "zh": "小雯媽媽拿有房那張問我，我一句都頂不回去，我就先把戒指塞在抽屜夾層裡欸",
+      "en": "Wendy's mom hit me with the own-a-home poster. I couldn't say a word. The ring's tucked in the drawer for now",
       "visible_if": {
        "present": []
       }
@@ -1956,8 +1956,8 @@
      {
       "who": "佩珊",
       "time": "",
-      "zh": "組長拿那張反問我，說不用抱歉，那案子要叫誰扛責任",
-      "en": "My team lead threw that poster back at me: no need to apologize, sure, but then who takes responsibility for the case?",
+      "zh": "組長拿那張堵我，問那案子要丟給誰",
+      "en": "My team lead held up that poster and asked who's going to handle the case",
       "visible_if": {
        "present": []
       }
@@ -1965,8 +1965,8 @@
      {
       "who": "佩珊",
       "time": "",
-      "zh": "一天的育嬰留停被記在考績上了啦，真的不好意思",
-      "en": "That one day of unpaid parental leave got marked on my performance review, really sorry",
+      "zh": "請一天育嬰留停，考績上就被記一筆了，不好意思",
+      "en": "One day of unpaid parental leave, and it's on my performance review. Sorry",
       "visible_if": {
        "present": []
       }
@@ -2214,11 +2214,11 @@
    "宜君": [
     [
      "薪水三萬二。暑假帶媽看富士山，假單只准三天啦。",
-     "32,000. Taking Mom to Okinawa this summer, only got 3 days off."
+     "32,000. Taking Mom to Mt. Fuji this summer, only got 3 days off."
     ],
     [
      "三萬了。富士山，明年一定排進行程啦。",
-     "30,000. Okinawa, next year for sure."
+     "30,000. Mt. Fuji, next year for sure."
     ]
    ],
    "志豪": [
