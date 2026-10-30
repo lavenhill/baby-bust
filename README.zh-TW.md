@@ -7,6 +7,8 @@
 **[▶ 直接在瀏覽器玩](https://lavenhill.github.io/baby-bust/)**——免費、免安裝、免帳號，為手機設計。遊戲預設顯示中文；手機或瀏覽器設成英文時會自動顯示英文，標題畫面右上角的按鈕可以切換中英文。<br>
 備用鏡像：https://raw.githack.com/lavenhill/baby-bust/main/index.html
 
+**[▶ 觀看 3 分鐘示範影片（繁體中文）](https://www.youtube.com/watch?v=DKzJTC6pexk)** · [英文字幕版](https://www.youtube.com/watch?v=BsaZO8jI170)
+
 <table>
 <tr>
 <td width="25%"><img src="docs/img/shot-en-pick.webp" width="200" alt="選擇要發布照片的哪一半"><br><sub>選擇要發布哪一半（英文畫面）</sub></td>
