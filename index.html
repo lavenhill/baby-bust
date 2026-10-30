@@ -198,6 +198,7 @@ a.splink{display:inline-block;font-size:12.5px;line-height:1.5;color:#3d5ea8;tex
 .spchips button[aria-pressed=true]{background:var(--paper);color:var(--ink)}
 .sprow{display:flex;gap:6px;margin-bottom:8px}
 .sprow input{flex:1;min-width:0;border:0;border-radius:10px;padding:9px 10px;font:inherit;font-size:16px;background:var(--paper);color:var(--ink);-webkit-user-select:text;user-select:text}
+.sprow input::placeholder{font-size:14px}
 .sprow button{border:0;border-radius:10px;padding:0 14px;font:inherit;font-weight:bold;background:var(--pink);color:var(--ink)}
 .spans{margin-top:10px}.spans:empty{display:none}
 .spa{background:var(--paper);border-radius:12px;padding:10px 12px;animation:in .3s both}
@@ -254,7 +255,7 @@ button.spr:focus-visible{outline:2px solid #3d5ea8;border-radius:3px}
 <script>document.write('<script src="data.js?v=20261029d&t='+Date.now()+'"><\/script>')</script>
 <script>
 // Baby or Bust — 我們與孩子的距離. One screen per beat; written during the Meta hackathon (2026-10-27). Spec: docs/spec/.
-const V='20261030b';
+const V='20261030c';
 // S7: 「還想查什麼？」即時查詢開關（中繼程式 relay/server.py，見 docs/ask-worker.md）；空字串＝只用錄好的答案。
 /* live29：即時提問預設接 Botkeep 中繼；window.BB_ASK_URL 可覆寫（設 '' ＝關閉） */
 const ASK_URL=window.BB_ASK_URL!==undefined?String(window.BB_ASK_URL||''):'https://between-us.bot-keep.xyz/api/ask';if((typeof DATA==='undefined'||!(DATA.group&&DATA.lantern&&DATA.lantern.opt&&DATA.sources&&DATA.v===V))&&!/reload=/.test(location.search))location.replace(location.pathname+'?reload='+Date.now());
@@ -575,7 +576,7 @@ function sourcesPage(){
     if(r.type==='offline')h='<div class="spa"><div class="spah">'+u('offline')+'</div></div>';
     else if(r.type==='abuse')h='<div class="spa"><div class="spah">'+u('head_abuse')+'</div>'+meta+'</div>';
     else if(!n)h='<div class="spa"><div class="spah">'+u('head_none')+'</div>'+meta+'</div>';
-    else h='<div class="spa"><div class="spah">'+(r.type==='fiction'?u('head_fiction'):u('head_fact',{n}))+'</div>'+(r.picks||[]).filter(fact).slice(0,3).map(factH).join('')+meta+'</div>';
+    else h='<div class="spa"><div class="spah">'+(r.type==='fiction'?u('head_fiction'):u(n===1?'head_fact1':'head_fact',{n}))+'</div>'+(r.picks||[]).filter(fact).slice(0,3).map(factH).join('')+meta+'</div>';
     A.innerHTML=h;syncRefs()};
   const think=()=>{A.innerHTML='<div class="spthink"><i></i><i></i><i></i>'+u('thinking',{N:SD.N})+'</div>'};
   let seq=0;
