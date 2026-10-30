@@ -254,7 +254,7 @@ button.spr:focus-visible{outline:2px solid #3d5ea8;border-radius:3px}
 <script>document.write('<script src="data.js?v=20261029d&t='+Date.now()+'"><\/script>')</script>
 <script>
 // Baby or Bust — 我們與孩子的距離. One screen per beat; written during the Meta hackathon (2026-10-27). Spec: docs/spec/.
-const V='20261030a';
+const V='20261030b';
 // S7: 「還想查什麼？」即時查詢開關（中繼程式 relay/server.py，見 docs/ask-worker.md）；空字串＝只用錄好的答案。
 /* live29：即時提問預設接 Botkeep 中繼；window.BB_ASK_URL 可覆寫（設 '' ＝關閉） */
 const ASK_URL=window.BB_ASK_URL!==undefined?String(window.BB_ASK_URL||''):'https://between-us.bot-keep.xyz/api/ask';if((typeof DATA==='undefined'||!(DATA.group&&DATA.lantern&&DATA.lantern.opt&&DATA.sources&&DATA.v===V))&&!/reload=/.test(location.search))location.replace(location.pathname+'?reload='+Date.now());
@@ -393,13 +393,19 @@ function placePoster(w,node){w.querySelectorAll('.half').forEach(h=>{const side=
   if(best){e.style.fontSize=best.fs+'px';e.style.wordBreak=best.wb;e.style.webkitTextStroke=Math.max(3,Math.round(best.fs/10))+'px var(--hot)';put(best);h.dataset.cover=best.raw.toFixed(3)}
   else{e.style.fontSize=fs0+'px';e.style.wordBreak=wb0;e.style.webkitTextStroke=Math.max(3,Math.round(fs0/10))+'px var(--hot)';e.style.top=sb.style.top=sb.style.left=''} // nothing fits: keep the plain layout
   h.dataset.ms=(performance.now()-t0).toFixed(1)})}
+// q30 (2026-10-30): the right-hand aside (max-width 60%) could cover a long name tag (2018 D: "Kevin (private preschool owner)").
+// If the two boxes overlap, stack the aside next to the tag (above it on the bottom half, below it on the top half). Offsets, not rects: immune to screen transforms.
+function fixAside(w){w.querySelectorAll('.half').forEach(h=>{const a=h.querySelector('.aside'),g=h.querySelector('.tag');if(!a||!g)return;a.style.top=a.style.bottom='';
+  const ax=a.offsetLeft,ay=a.offsetTop,gx=g.offsetLeft,gy=g.offsetTop,G=6;
+  if(ax<gx+g.offsetWidth+G&&ax+a.offsetWidth>gx-G&&ay<gy+g.offsetHeight+G&&ay+a.offsetHeight>gy-G){if(h.classList.contains('U'))a.style.top=(gy+g.offsetHeight+G)+'px';else a.style.bottom=(h.clientHeight-gy+G)+'px'}})}
+addEventListener('resize',()=>document.querySelectorAll('.wall').forEach(fixAside));
 function choice(n,s){
   const half=h=>{const x=n[h],who=x.named?tagOf(x.who):tx(x.whoE);const show=h==='U'||!S.seenAside.includes(x.who)||n.final;
     return '<div class="half '+h+'"><img class="re" src="img/'+S.node+'_'+h+'_real.webp" alt=""><img class="po" src="img/'+S.node+'_'+h+'_poster.webp" alt="">'+
      '<div class="h1"'+(x.h1s?' data-s="'+x.h1s.replace(/"/g,'&quot;')+'"':'')+'>'+tx(x.h1)+'</div><div class="sub">'+tx(x.sub)+'</div><div class="tag">'+who+'</div>'+(show?'<div class="aside hand">'+tx(x.aside_ring&&S.self<3?x.aside_ring:x.aside)+'</div>':'')+'</div>'};
   const askBar='<span class="cut">✂</span><span>'+tx(n.ask[1])+'</span>';
   const w=screen('wall',half('U')+half('D')+'<div class="bar">'+askBar+'</div>'+(S.node==='y2018'?'<div class="hint">'+tx(U.hint)+'</div>':''),{sat:s,bg:'img/'+S.node+'_U_poster.webp'});
-  const nd=S.node;S.seenAside.push(n.D.who);requestAnimationFrame(()=>{fitH1(w);placePoster(w,nd)});
+  const nd=S.node;S.seenAside.push(n.D.who);requestAnimationFrame(()=>{fitH1(w);placePoster(w,nd);fixAside(w)});
   let pick=null;
   w.pick=h=>{if(w.classList.contains('done'))return;pick=h;const o=h==='U'?'D':'U';
     w.querySelector('.half.'+h).className='half '+h+' on';w.querySelector('.half.'+o).className='half '+o+' off';
@@ -524,13 +530,13 @@ function sourcesPage(){
   const yr=n=>N[n].year;
   const nw=s=>{let o='',i=0;s.replace(/(?:NT\$)?\d[\d,.]*(?:\s?(?:x|%|[倍萬億元%％個年天歲月日人名成]+))?/g,(m,k)=>{o+=esc(s.slice(i,k))+'<span class="nw">'+esc(m)+'</span>';i=k+m.length;return m});return o+esc(s.slice(i))};
   const pool=S.path.map(p=>p.node).filter(n=>SD.quiz[n]&&(SD.quiz[n].picks||[]).some(fact)),pick=[...new Set(pool.length>3?[0,pool.length>>1,pool.length-1].map(i=>pool[i]):pool)];
-  const quizH=pick.map(n=>{const z=SD.quiz[n];return '<div class="spbox spq" data-k="'+z.kind+'" data-n="'+n+'"><div class="spcl"><small>'+u('quizYr',{y:yr(n)})+'</small>'+(L?'“':'「')+nw(tx(z.c))+(L?'”':'」')+'</div>'+
+  const quizH=pick.map(n=>{const z=SD.quiz[n];return '<div class="spbox spq" data-k="'+z.kind+'" data-n="'+n+'"><div class="spcl"><small>'+u('quizYr',{y:yr(n)})+'</small>'+(L?'"':'「')+nw(tx(z.c))+(L?'"':'」')+'</div>'+
     '<div class="spqb">'+['real','fiction'].filter(k=>tx(SU[k])).map(k=>'<button type="button" data-k="'+k+'">'+u(k)+'</button>').join('')+'</div>'+
     '<div class="sprev"><div class="spv">'+u('ans')+(tx(z.note)?(L?' ':'　')+esc(tx(z.note)):'')+'</div>'+z.picks.map(factH).join('')+'</div></div>'}).join('');
   SD.rec.forEach(r=>(r.picks||[]).map(fact).filter(Boolean).slice(0,3).forEach(f=>f.r.forEach(reg))); // 建議問題的答案是點了才出現：先排好號碼
   // 留下的海報：政策／代價卡 → 情節依據 → 誰在倡議（收合）
   const advL=(node,side)=>{const a=((SD.nadv||{})[node]||{})[side]||[];return a.length?a.map(id=>{const c=C[id];return c?line(tx(c.f[0]),c.r[0],'adv',1):''}).join(''):'<div class="spnone">'+u('advNone')+'</div>'};
-  const advH=(node,side)=>{if(!SD.nadv)return '';const o=side==='U'?'D':'U';return '<button type="button" class="spadvt" aria-expanded="false">'+u('advT')+'<i>›</i></button><div class="spadv spadvb"><div class="spct sub">'+u('advH')+'</div>'+advL(node,side)+'<div class="spct sub">'+u('advOther',{h:(L?'“':'「')+tx(N[node][o].h1)+(L?'”':'」')})+'</div>'+advL(node,o)+'</div>'};
+  const advH=(node,side)=>{if(!SD.nadv)return '';const o=side==='U'?'D':'U';return '<button type="button" class="spadvt" aria-expanded="false">'+u('advT')+'<i>›</i></button><div class="spadv spadvb"><div class="spct sub">'+u('advH')+'</div>'+advL(node,side)+'<div class="spct sub">'+u('advOther',{h:(L?'"':'「')+tx(N[node][o].h1)+(L?'"':'」')})+'</div>'+advL(node,o)+'</div>'};
   const cardH=(c,i,bs)=>{const t=c.kind==='basis'&&bs===0?u('basisH'):esc(tx(c.t));return '<div class="spct">'+t+'</div>'+c.f.map((f,j)=>line(tx(f),c.r[j]||[],c.kind,c.kind==='basis')).join('')+(c.g?'<div class="spgame">'+esc(tx(c.g))+'</div>':'')};
   const keptH=S.path.map(({node,side},i)=>{const n=N[node];let bs=0;return '<div class="spbox spk" data-i="'+i+'"><button type="button" aria-expanded="false"><span class="spy">'+n.year+'</span><span class="spt">'+esc(tx(n[side].h1))+'</span><span class="splab '+side+'">'+u(side)+'</span><span class="spch">›</span></button>'+
     '<div class="spkb">'+(SD.ncard[node]||[]).map(id=>{const c=C[id];const h=cardH(c,i,c.kind==='basis'?bs:-1);if(c.kind==='basis')bs++;return h}).join('')+advH(node,side)+'</div></div>'}).join('');
@@ -539,7 +545,7 @@ function sourcesPage(){
   // f29：每筆出處有本地存檔頁 sources/Rxx.html（同站、隨遊戲上架）；清單維基式「（原始內容存檔於…）」，引用卡按鈕先開存檔頁
   const AR=SD.arch||{dir:'sources/',d:''},aurl=ri=>AR.dir+'R'+String(ri+1).padStart(2,'0')+'.html';
   const archH=ri=>esc(tx(SU.refArch)).split('{a}').join(link(aurl(ri),u('refArchW'),'splink sparch')).split('{d}').join(esc(AR.d));
-  const cite=ri=>{const [h,zh,en]=R[ri],[au,t,pub,d]=L?en:zh;return L?(au?esc(au)+', ':'')+link(h,'“'+esc(t)+'”')+(tx(SU.refLang)?' '+u('refLang'):'')+', '+esc(pub)+(d?', '+esc(d):'')+'.'+archH(ri):(au?esc(au)+'，':'')+link(h,'〈'+esc(t)+'〉')+'，'+esc(pub)+(d?'，'+esc(d):'')+'。'+archH(ri)};
+  const cite=ri=>{const [h,zh,en]=R[ri],[au,t,pub,d]=L?en:zh;return L?(au?esc(au)+', ':'')+link(h,'"'+esc(t)+'"')+(tx(SU.refLang)?' '+u('refLang'):'')+', '+esc(pub)+(d?', '+esc(d):'')+'.'+archH(ri):(au?esc(au)+'，':'')+link(h,'〈'+esc(t)+'〉')+'，'+esc(pub)+(d?'，'+esc(d):'')+'。'+archH(ri)};
   const refsH=()=>'<button type="button" class="spreft" aria-expanded="false">'+u('refH')+(L?' (':'（')+ORD.length+(L?')':'）')+'<i>›</i></button><ol class="spref">'+ORD.map((ri,k)=>'<li id="spr-'+(k+1)+'" data-ri="'+ri+'">'+cite(ri)+'</li>').join('')+'</ol>';
   const live=!!ASK_URL;
   const body='<div class="spb'+(L?' en':'')+'" tabindex="-1"><h2>'+u('title')+'</h2><div class="splead">'+u('lead')+'</div>'+
