@@ -7,6 +7,8 @@ A short story game about family policy in Taiwan: every policy helps someone, an
 **[▶ Play in your browser](https://lavenhill.github.io/baby-bust/)** — free, no install, no account. Made for phones. It opens in English if your browser is set to English; otherwise tap **EN** at the top right of the title screen.<br>
 Backup mirror: https://raw.githack.com/lavenhill/baby-bust/main/index.html
 
+**[▶ Watch the 3-minute demo video](https://www.youtube.com/watch?v=BsaZO8jI170)** (English subtitles) · [Traditional Chinese version](https://www.youtube.com/watch?v=DKzJTC6pexk)
+
 <table>
 <tr>
 <td width="25%"><img src="docs/img/shot-en-pick.webp" width="200" alt="Choosing which half of the photo to publish"><br><sub>Pick which half to publish</sub></td>
