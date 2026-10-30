@@ -104,7 +104,7 @@ Rebuilding `data.js` or the images needs the author's working files and a Meta A
 - `img/` still holds 28 images from the first build that the game no longer uses.
 
 ## Cost
-Meta API spend recorded by the build scripts: about **US$10** in total, mostly Muse Spark 1.3 text calls, plus about 100 Muse Image 1.0 images and a few Muse Wonder 1.0 test calls. This includes drafts, translation, playtests, reviews and relay tests.
+Meta API spend recorded by the build scripts: under **US$20** in total, mostly Muse Spark 1.3 text calls, plus about 100 Muse Image 1.0 images and a few Muse Wonder 1.0 test calls. This includes drafts, translation, playtests, reviews and relay tests.
 
 ## Credits and licenses
 - Made by [lavenhill](https://github.com/lavenhill) for the Meta Global AI Developer Hackathon 2026.
