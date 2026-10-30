@@ -29,7 +29,10 @@ S29 (2026-10-29, sources page rewrite, Wikipedia-style citations): every source 
  Every reference ends with （原始內容存檔於…）/ Archived…: the 存檔 link is the same-site page sources/Rxx.html (xx = REFS order), new tab, and the file must exist;
  the citation card's button opens that local page.
 q30 (2026-10-30, demo-video frames): wall name tag must not be covered by the aside or the 2018 hint (2018 D "Kevin (private preschool owner)");
- English screens must not contain curly quotes U+2018/2019/201C/201D (CJK fonts draw them full-width: "Let’ s")."""
+ English screens must not contain curly quotes U+2018/2019/201C/201D (CJK fonts draw them full-width: "Let’ s").
+u30 (2026-10-30, demo-video frames): English screens: no "1 lines"-style plural after 1; money always NT$ + full digits (no 800k / 30K / x/month,
+ no bare 1,000+ number unless the next word is a count word); every suggested-question head == head_fact1 when 1 line, head_fact {n} otherwise;
+ sources input: placeholder text fits inside the input (canvas width of its ::placeholder font <= content box) and the Ask button does not overlap the input."""
 from playwright.sync_api import sync_playwright
 import time,sys,os,json
 seq=sys.argv[1];out=sys.argv[2];lang=sys.argv[3] if len(sys.argv)>3 else 'zh'
@@ -47,6 +50,10 @@ OVER="""()=>{const s=H.list[H.i];if(!s)return null;const bad=[];
   s.querySelectorAll('.sys,.sysin,.phone,.life,.note,.cap,.btn,.wish,.qs,.bub,.memo:not(.fmemo)').forEach(e=>{if(e.contains(tp)||!e.getClientRects().length)return;const b=e.getBoundingClientRect();if(Math.min(a.right,b.right)-Math.max(a.left,b.left)>2&&Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)>2)bad.push('tapnext overlaps '+e.className)})}
  if(s.classList.contains('wall'))s.querySelectorAll('.half').forEach(h=>{const g=h.querySelector('.tag');if(!g||!g.getClientRects().length)return;const r=g.getBoundingClientRect();[...h.querySelectorAll('.aside')].concat([...s.querySelectorAll('.hint')]).forEach(e=>{if(!e.getClientRects().length||getComputedStyle(e).opacity==='0')return;const q=e.getBoundingClientRect();if(Math.min(r.right,q.right)-Math.max(r.left,q.left)>1&&Math.min(r.bottom,q.bottom)-Math.max(r.top,q.top)>1)bad.push(e.className+' covers name tag '+h.className)})});
  if(L&&/[\u2018\u2019\u201c\u201d]/.test(s.innerText))bad.push('curly quote in English text: '+(s.innerText.match(/.{0,12}[\u2018\u2019\u201c\u201d].{0,12}/)||[''])[0]);
+ if(L){const it=s.innerText,CW=/^(new|more|classes|subsidized|places|homes|households|applied|had|public|private|affordable|kids|children|preschools|teachers|people|survey|job|plus)$/i;
+  const one=it.match(/(^|[^\\d.,])1 (lines|sources|questions|items|kids|years|days|nights|months|classes|places)\\b/);if(one)bad.push('plural after 1: '+one[0].trim());
+  const kk=it.match(/.{0,12}((^|[^\\w$])\\d+[kK]\\b|\\d\\/\\s?month).{0,8}/);if(kk)bad.push('money style (use NT$ + full digits, a month): '+kk[0]);
+  for(const m of it.matchAll(/(^|[^\\w$.,\\/\u2013-])(\\d{1,3}(?:,\\d{3})+)(?![\\d,])(?:[-\\s]+([\\w-]+))?/g)){if(!CW.test(m[3]||''))bad.push('English amount without NT$: '+m[0].trim());}}
  if(s.classList.contains('wall'))s.querySelectorAll('.half').forEach(h=>{const c=+(h.dataset.cover||0);if(c>=.15)bad.push('poster text on head '+h.className+' '+c);else if(c>=.05)bad.push('WARN poster '+h.className+' '+c)});
  return bad}"""
 with sync_playwright() as p:
@@ -334,6 +341,9 @@ with sync_playwright() as p:
                     if len(r['facts'])!=len(rec['picks']): bad.append(f"facts {len(r['facts'])}!={len(rec['picks'])}")
                     if len(r['facts'])<1 or not all(f.strip() for f in r['facts']): bad.append('EMPTY answer (no source line): '+r['head'])  # c29 incident: 日本的做法呢？
                     if spe(f"DATA.sources.ui.head_none[{Lg}]") in r['head']: bad.append('nothing-found head shown')
+                    if rec['type']=='fact':  # u30: "1 lines" (demo video 2:13)
+                        nf=len(r['facts']);wh=spe(f"(DATA.sources.ui.head_fact1||[])[{Lg}]||'(missing head_fact1)'") if nf==1 else spe(f"DATA.sources.ui.head_fact[{Lg}]").replace('{n}',str(nf))
+                        if r['head'].strip()!=wh: bad.append(f'head "{r["head"]}" != "{wh}"')
                     if any(w in (r['head']+' '.join(r['facts'])) for w in ('undefined','null','NaN')): bad.append('undefined in answer')
                     if r['nosup'] or (not r['allmeta'] and not r['links']) or (r['links'] and any(not h.startswith('https://') or t!='_blank' or 'noopener' not in rl for h,t,rl in r['links'])): bad.append('links '+str(r['links']))
                 if bad: SPF.append((tag+f' chip{ci}',bad))
@@ -343,6 +353,12 @@ with sync_playwright() as p:
         pm=spe("()=>document.querySelector('.scr.sp').innerText");pmw=[w for w in ('預先錄製','預錄','預生成','即時','pre-recorded','prerecorded','pre-generated','(live') if w in pm]
         if pmw: SPF.append(('mode words on sources page',pmw))
         b=pg.locator('.scr.sp .spchips button').nth(0);b.scroll_into_view_if_needed();b.click();time.sleep(.8);scr('#spask');shot('sp_ask')
+        # u30: placeholder clipped by the Ask button (demo video): placeholder must fit the input's content box; button must not overlap the input
+        phc=spe("""()=>{const i=document.querySelector('.scr.sp .sprow input'),bt=document.querySelector('.scr.sp .spgo');if(!i)return null;if(!bt)return {ph:i.placeholder,tw:0,av:0,ov:true,nobtn:1};
+          const cs=getComputedStyle(i,'::placeholder'),ci=getComputedStyle(i),c=document.createElement('canvas').getContext('2d');c.font=cs.fontStyle+' '+cs.fontWeight+' '+cs.fontSize+' '+cs.fontFamily;
+          const tw=c.measureText(i.placeholder).width,av=i.clientWidth-parseFloat(ci.paddingLeft)-parseFloat(ci.paddingRight),a=i.getBoundingClientRect(),q=bt.getBoundingClientRect();
+          return {ph:i.placeholder,tw:Math.round(tw),av:Math.round(av),ov:Math.min(a.right,q.right)-Math.max(a.left,q.left)>0&&Math.min(a.bottom,q.bottom)-Math.max(a.top,q.top)>0}}""")
+        if phc and (not phc['ph'] or phc['tw']>phc['av'] or phc['ov']): SPF.append(('placeholder clipped / overlapped',[phc]))
         # every link on the page clickable (not covered)
         spe("()=>{const t=document.querySelector('.scr.sp .spreft');t&&t.getAttribute('aria-expanded')!=='true'&&t.click()}")
         cov=spe("""()=>{const out=[];document.querySelectorAll('.scr.sp a.splink, .scr.sp button.spr').forEach(a=>{if(!a.getClientRects().length)return;a.scrollIntoView({block:'center'});const r=a.getBoundingClientRect(),e=document.elementFromPoint(r.left+Math.min(8,r.width/2),r.top+r.height/2);if(!(e===a||a.contains(e)))out.push(a.textContent)});return out}""")
