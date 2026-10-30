@@ -31,8 +31,8 @@ EN3={'家裡桌上一碗蓋著保鮮膜的飯，紙條寫「微波三分鐘」�
 '桌上的相框，只剩一個人。':'In the frame on the desk, only one is left.','鍵盤旁邊，兩只戒指，沒有人戴了。':'Next to the keyboard, two rings. No one wears them now.',
 '小芋頭明年抽到公幼。我回事務所上班，三十五歲升主任。':'Little Taro wins the lottery for a cheap public preschool next year. I go back to the firm and make manager by 35.',
 '小太陽幼兒園招生滿 60 個。爸寫的招牌要撐過第 30 年。':'"Little Sun" fills all 60 places. Dad\'s hand-painted sign makes it to year 30.',
-'月薪到 30,000。暑假帶我媽去富士山，機票我都先買好了啦。':'Pay goes to 30K a month. Taking Mom to Mt. Fuji this summer, tickets already booked.',
-'九點前下班。存到 80 萬頭期款，到時跟小雯求婚。':'Off work before 9. Save an 800k down payment, then I can finally propose to Wendy.',
+'月薪到 30,000。暑假帶我媽去富士山，機票我都先買好了啦。':'Pay goes to NT$30,000 a month. Taking Mom to Mt. Fuji this summer, tickets already booked.',
+'九點前下班。存到 80 萬頭期款，到時跟小雯求婚。':'Off work before 9. Save NT$800,000 for a down payment, then I can finally propose to Wendy.',
 '三十歲前生第一個。請假不用跟任何人道歉。':'First baby before 30. Taking leave without apologizing to anyone.','明年 5/24 ♡':'Next year, 5/24 ♡',
 '海報上那間準公共，就開在我對面。':'That subsidized private preschool on your poster opened right across from mine.','這學期少了十五個。':'I lost fifteen kids this term.','妳在平溪看過我寫什麼。':'You saw what I wrote in Pingxi.',
 '妳又把老師畫成笑著的。':'You drew the teachers smiling again.','我媽昨天又問我要不要轉行。':'Mom asked me again yesterday if I should quit.','下次畫我的時候，寫真的。':'Next time you draw me, tell the truth.',
@@ -117,6 +117,21 @@ def _q30(x,p=''):
     elif isinstance(x,list): [_q30(v,p+'/'+str(i)) for i,v in enumerate(x)]
     elif isinstance(x,dict): [_q30(v,p+'/'+str(k)) for k,v in x.items()]
 _q30(D)
+# u30 (2026-10-30, demo video): English money amounts all carry NT$ in one style (NT$ + full digits, "a month"): no "800k", "30K", "4,500/month",
+# and no bare 1,000+ number unless the next word says it is a count (classes, places, households, ...). URLs and 4-digit years are skipped.
+_U30_COUNT={'new','more','classes','subsidized','places','homes','households','applied','had','public','private','affordable','kids','children','preschools','teachers','people','survey','job','3-year-olds'}
+def _u30(x,p=''):
+    if isinstance(x,str):
+        if re.search('[\u3400-\u9fff]',x) or x.startswith('http'): return
+        assert not re.search(r'(?<![\w$])\d+[kK]\b',x),('money as "k" (use NT$ + full digits):',p,x)
+        assert not re.search(r'\d/\s?month',x),('"/month" (use "NT$x a month"):',p,x)
+        for m in re.finditer(r'(?<![\w$.,/\u2013-])(\d{1,3}(?:,\d{3})+)(?:[-\s]+([\w-]+))?',x):
+            if x[max(0,m.start()-3):m.start()]=='NT$': continue
+            nxt=(m.group(2) or '').lower()
+            assert nxt in _U30_COUNT or nxt=='plus' and x[m.end():m.end()+12].lstrip().startswith('3-year'),('English amount without NT$ (or add the count word to _U30_COUNT):',p,x)
+    elif isinstance(x,list): [_u30(v,p+'/'+str(i)) for i,v in enumerate(x)]
+    elif isinstance(x,dict): [_u30(v,p+'/'+str(k)) for k,v in x.items()]
+_u30(D)
 _V=re.search(r"const V='([^']+)'",open('/workspace/work/bb2/index.html').read()).group(1);D['v']=_V
 open('/workspace/work/bb2/data.js','w').write('// Copy drafted with Meta Muse Spark 1.3 (translations, reunion lines); insider slogans are drafts for the author to replace. Illustrations: Meta Muse Image 1.0. Built 2026-10-29 (d29: lantern options, quiz true/false).\nconst DATA='+json.dumps(D,ensure_ascii=False)+';\n'+"typeof window!=='undefined'&&window.addEventListener('DOMContentLoaded',()=>{try{if(typeof V!=='undefined'&&V!==DATA.v&&!/reload=/.test(location.search))location.replace(location.pathname+'?reload='+Date.now())}catch(e){}});\n")
 chars=set(json.dumps(D,ensure_ascii=False))
