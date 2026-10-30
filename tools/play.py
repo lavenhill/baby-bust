@@ -27,7 +27,9 @@ S29 (2026-10-29, sources page rewrite, Wikipedia-style citations): every source 
  advocates sit behind a 誰在倡議 toggle; no hedging words (可能／恐／據報導／約略…) and no unsourced line in the source library.
  f29 (2026-10-29 17:28): 8 lines keep the source's own estimate (約／about: F02-1 F10-1 F11-1 F11-2 F23-1 F28-2 F33-4 A10-1) and are exempt from that word only.
  Every reference ends with （原始內容存檔於…）/ Archived…: the 存檔 link is the same-site page sources/Rxx.html (xx = REFS order), new tab, and the file must exist;
- the citation card's button opens that local page."""
+ the citation card's button opens that local page.
+q30 (2026-10-30, demo-video frames): wall name tag must not be covered by the aside or the 2018 hint (2018 D "Kevin (private preschool owner)");
+ English screens must not contain curly quotes U+2018/2019/201C/201D (CJK fonts draw them full-width: "Let’ s")."""
 from playwright.sync_api import sync_playwright
 import time,sys,os,json
 seq=sys.argv[1];out=sys.argv[2];lang=sys.argv[3] if len(sys.argv)>3 else 'zh'
@@ -43,6 +45,8 @@ OVER="""()=>{const s=H.list[H.i];if(!s)return null;const bad=[];
  s.querySelectorAll('.h1,.sub,.tag,.aside,.bar,.hint').forEach(e=>{if(!e.getClientRects().length)return;const r=e.getBoundingClientRect(),p=s.getBoundingClientRect();if(r.right>p.right+1||r.left<p.left-1)bad.push(e.className+' wide')});
  const tp=s.querySelector('.tapnext');if(tp&&tp.getClientRects().length){const a=tp.getBoundingClientRect(),p=s.getBoundingClientRect();if(a.bottom>p.bottom+1||a.top<p.top-1)bad.push('tapnext offscreen');
   s.querySelectorAll('.sys,.sysin,.phone,.life,.note,.cap,.btn,.wish,.qs,.bub,.memo:not(.fmemo)').forEach(e=>{if(e.contains(tp)||!e.getClientRects().length)return;const b=e.getBoundingClientRect();if(Math.min(a.right,b.right)-Math.max(a.left,b.left)>2&&Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)>2)bad.push('tapnext overlaps '+e.className)})}
+ if(s.classList.contains('wall'))s.querySelectorAll('.half').forEach(h=>{const g=h.querySelector('.tag');if(!g||!g.getClientRects().length)return;const r=g.getBoundingClientRect();[...h.querySelectorAll('.aside')].concat([...s.querySelectorAll('.hint')]).forEach(e=>{if(!e.getClientRects().length||getComputedStyle(e).opacity==='0')return;const q=e.getBoundingClientRect();if(Math.min(r.right,q.right)-Math.max(r.left,q.left)>1&&Math.min(r.bottom,q.bottom)-Math.max(r.top,q.top)>1)bad.push(e.className+' covers name tag '+h.className)})});
+ if(L&&/[\u2018\u2019\u201c\u201d]/.test(s.innerText))bad.push('curly quote in English text: '+(s.innerText.match(/.{0,12}[\u2018\u2019\u201c\u201d].{0,12}/)||[''])[0]);
  if(s.classList.contains('wall'))s.querySelectorAll('.half').forEach(h=>{const c=+(h.dataset.cover||0);if(c>=.15)bad.push('poster text on head '+h.className+' '+c);else if(c>=.05)bad.push('WARN poster '+h.className+' '+c)});
  return bad}"""
 with sync_playwright() as p:
